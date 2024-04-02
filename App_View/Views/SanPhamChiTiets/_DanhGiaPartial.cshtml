@@ -1,0 +1,1605 @@
+﻿@using App_Data.Models;
+@using App_View.IServices;
+@using App_View.Services;
+@using Microsoft.AspNetCore.Identity
+@using Newtonsoft.Json;
+@using System.Net.Http;
+@inject IDanhGiaservice _DanhGiaservice
+@{
+    _DanhGiaservice = new DanhGiaservice();
+    var lst = await _DanhGiaservice.GetListAsyncViewModel(@Model.IdChiTietSp);
+    var SaoTb = await _DanhGiaservice.GetSoSaoTB(@Model.IdChiTietSp);
+    var TongSoDanhGia = await _DanhGiaservice.GetTongSoDanhGia(@Model.IdChiTietSp);
+    var lstby1sao = await _DanhGiaservice.GetListAsyncViewModelWithSao(@Model.IdChiTietSp, 1);
+    var lstby2sao = await _DanhGiaservice.GetListAsyncViewModelWithSao(@Model.IdChiTietSp, 2);
+    var lstby3sao = await _DanhGiaservice.GetListAsyncViewModelWithSao(@Model.IdChiTietSp, 3);
+    var lstby4sao = await _DanhGiaservice.GetListAsyncViewModelWithSao(@Model.IdChiTietSp, 4);
+    var lstby5sao = await _DanhGiaservice.GetListAsyncViewModelWithSao(@Model.IdChiTietSp, 5);
+    var lstbybinhLuan = await _DanhGiaservice.GetListAsyncViewModelbyBl(@Model.IdChiTietSp);
+
+}
+<link href="~/css/hoadon.css" rel="stylesheet" />
+<!--====== Tab 3 ======-->
+<style>
+    .dropbtn {
+        background-color: #3498DB;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+        /* Dropdown button on hover & focus */
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #2980B9;
+        }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+
+
+
+    .show {
+        display: block;
+    }
+
+
+    /* CSS cho modal */
+    .modal {
+        display: none;
+        position: fixed;
+        top: -70px;
+        width: 100%;
+        height: 130%;
+        background-color: rgba(0, 0, 0, 0.7);
+        /* z-index: 1;*/
+        text-align: center;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+    }
+
+    /* CSS cho nút đóng modal */
+    .close {
+        color: #888;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .report-options {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .report-option {
+        margin-bottom: 10px;
+        text-align: left;
+    }
+
+        .report-option input[type="radio"] {
+            margin-right: 10px;
+        }
+    /* CSS cho nút "Gửi" và "Hủy" */
+    .button-container {
+        text-align: right;
+        margin-top: 20px;
+    }
+
+        .button-container button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            background-color: orangered;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+            .button-container button:disabled {
+                background-color: gray;
+                cursor: not-allowed;
+            }
+
+    .btn--e-transparent-brand-b-2.active {
+        background-color: coral; /* Màu sắc khi nút được nhấn */
+        color: #333; /* Màu chữ khi nút được nhấn */
+    }
+</style>
+<div class="container" style="background-color:#FDF5E6">
+    <div class="row">
+        <div class="col-lg-4 col-md-12">
+            <div class="pd-tab__rev-score " style="background-color:#FDF5E6">
+                <div class="u-s-m-b-8">
+                    <h2> Đánh giá - <span style="font-size: 30px;">@SaoTb</span> trên 5</h2>
+                </div>
+                @if (SaoTb < 0.3)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                }
+                else if (SaoTb < 0.8)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                }
+                else if (SaoTb < 1.3)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                }
+                else if (SaoTb < 1.8)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                }
+                else if (SaoTb < 2.3)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                }
+                else if (SaoTb < 2.8)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                }
+                else if (SaoTb < 3.3)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                }
+                else if (SaoTb < 3.8)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                }
+                else if (SaoTb < 4.3)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                }
+
+                else if (SaoTb < 4.8)
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                }
+                else
+                {
+                    <div class="gl-rating-style-2 u-s-m-b-8">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                }
+
+                <div class="u-s-m-b-8">
+                    <h4>Chúng tôi muốn lắng nghe ý kiến của bạn!</h4>
+                </div>
+
+                <span class="gl-text">Hãy cho chúng tôi những gì bạn nghĩ về sản phẩm này</span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-12">
+            <div class="pd-tab__rev-score" style="background-color:#FDF5E6">
+                <ul class="nav pd-tab">
+                    <li class="col-lg-3 u-s-m-b-30">
+                        <a class="btn btn--e-transparent-brand-b-2 order active" style="width: 150px;text-align:center" data-toggle="tab" href="#pd-tatca">Tất cả</a>
+                    </li>
+                    <li class="col-lg-3 u-s-m-b-30">
+                        <a class="btn btn--e-transparent-brand-b-2 order " style="width: 150px;text-align:center" data-toggle="tab" href="#pd-5sao">5 Sao (@lstby5sao.Count)</a>
+                    </li>
+                    <li class="col-lg-3 u-s-m-b-30">
+                        <a class="btn btn--e-transparent-brand-b-2 order " style="width: 150px;text-align:center" data-toggle="tab" href="#pd-4sao">4 Sao (@lstby4sao.Count)</a>
+                    </li>
+                    <li class="col-lg-3 u-s-m-b-30">
+                        <a class="btn btn--e-transparent-brand-b-2 order " style="width: 150px;text-align:center" data-toggle="tab" href="#pd-3sao">3 Sao (@lstby3sao.Count)</a>
+                    </li>
+                    <li class="col-lg-3 u-s-m-b-30">
+                        <a class="btn btn--e-transparent-brand-b-2 order " style="width: 150px;text-align:center" data-toggle="tab" href="#pd-2sao">2 Sao (@lstby2sao.Count)</a>
+                    </li>
+                    <li class="col-lg-3 u-s-m-b-30">
+                        <a class="btn btn--e-transparent-brand-b-2 order " style="width: 150px;text-align:center" data-toggle="tab" href="#pd-1sao">1 Sao (@lstby1sao.Count)</a>
+                    </li>
+                    <li class="col-lg-3 u-s-m-b-30">
+                        <a class="btn btn--e-transparent-brand-b-2 order " style="width: 150px;text-align:center" data-toggle="tab" href="#pd-cobinhluan">Có bình luận (@lstbybinhLuan.Count)</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tab-content">
+
+    <!--====== Tab 1 ======-->
+    <div class="tab-pane" id="pd-1sao">
+        <div class="pd-tab__rev">
+
+            <div class="u-s-m-b-30">
+                @if (lstby1sao.Count > 0)
+                {
+                    <form class="pd-tab__rev-f1">
+                        <div class="rev-f1__review">
+                            @foreach (var item in lstby1sao)
+                            {
+                                if (item.ParentId == null)
+                                {
+
+                                    <div class="review-o u-s-m-b-15">
+                                        <div class="review-o__info u-s-m-b-8">
+
+
+                                            <img style="margin-bottom:-35px;width:50px;height:50px; object-fit:cover; border-radius:30px" src="@item.AnhDaiDien">
+
+
+                                            <span class="review-o__name" style="margin-left:10px">@item.TenNguoiDung</span>
+                                            <span class="review-o__name">
+                                                <div class="review-o__rating gl-rating-style u-s-m-b-8" style="margin-left:60px">
+                                                    @if (item.SaoSp == 1)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 2)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 3)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 4)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 5)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+
+
+
+
+                                                    }
+
+                                                </div>
+                                            </span>
+                                            <span class="review-o__name" style="margin-left:60px">@item.NgayDanhGia | Phân loại hàng: @item.SanPhamTongQuat</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(item.ChatLuongSanPham?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Chất lượng sản phẩm: <span class="review-o__name"> @item.ChatLuongSanPham</span></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.MoTa?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Đúng với mô tả: <span class="review-o__name">@item.MoTa</span></p>
+                                        }
+
+                                        <p class="review-o__name" style="margin-left:60px">@item.BinhLuan</p>
+                                        <br />
+
+
+                                        @foreach (var item1 in lstby1sao)
+                                        {
+                                            if (item1.ParentId == item.IdDanhGia)
+                                            {
+                                                <div style="width:91%;margin-left:60px;background:#d5d5d5;">
+                                                    <br />
+                                                    <span style="margin-left:10px;" class="review-o__name">Phản Hồi Của Shop</span>
+                                                    <br />
+                                                    <p class="review-o__text" style="margin-left:10px;">@item1.BinhLuan</p>
+                                                    <br />
+                                                </div>
+                                                <br />
+
+                                            }
+
+                                        }
+                                      @*  <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 60px;">
+                                            <div>
+                                                <button type="button" id="likeButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="likeIcon" class="fas fa-thumbs-up" style="color: #d5d5d5;"></i>
+                                                </button>
+                                                <span class="review-o__name">Hữu ích?</span>
+                                            </div>
+                                            <div class="dropdown">
+                                                <button onclick="myFunction()" class="dropbtn" id="ellipsisButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="ellipsisIcon" style="color: #d5d5d5;" class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div id="myDropdown" style="width:102px; height: 30px;" class="dropdown-content">
+
+                                                    <button onclick="openModal()" style="width:102px; height: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"> <span class="review-o__name">Báo cáo</span></button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>*@
+                                    </div>
+
+
+
+                                }
+                            }
+
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div style="text-align: center;  display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;">
+                        <img src="/images/imageedit_danhgia.png" style="width: 200px;" alt="Ảnh đánh giá">
+                        <div class="u-s-m-b-15" style="text-align: center;">
+                            <h1 class="dash__h1 u-s-m-b-14" style="display: inline-block; margin-top: 10px;">Chưa có đánh giá</h1>
+                        </div>
+                    </div>
+
+
+
+                }
+            </div>
+        </div>
+    </div>
+    <!--====== End - Tab 1 ======-->
+    <!--====== Tab 2 ======-->
+    <div class="tab-pane" id="pd-2sao">
+        <div class="pd-tab__2sao">
+            <div class="u-s-m-b-30">
+                @if (lstby2sao.Count > 0)
+                {
+                    <form class="pd-tab__rev-f1">
+                        <div class="rev-f1__review">
+                            @foreach (var item in lstby2sao)
+                            {
+                                if (item.ParentId == null)
+                                {
+
+                                    <div class="review-o u-s-m-b-15">
+                                        <div class="review-o__info u-s-m-b-8">
+
+
+                                            <img style="margin-bottom:-35px;width:50px;height:50px; object-fit:cover; border-radius:30px" src="@item.AnhDaiDien">
+
+
+                                            <span class="review-o__name" style="margin-left:10px">@item.TenNguoiDung</span>
+                                            <span class="review-o__name">
+                                                <div class="review-o__rating gl-rating-style u-s-m-b-8" style="margin-left:60px">
+                                                    @if (item.SaoSp == 1)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 2)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 3)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 4)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 5)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+
+
+
+
+                                                    }
+
+                                                </div>
+                                            </span>
+                                            <span class="review-o__name" style="margin-left:60px">@item.NgayDanhGia | Phân loại hàng: @item.SanPhamTongQuat</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(item.ChatLuongSanPham?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Chất lượng sản phẩm: <span class="review-o__name"> @item.ChatLuongSanPham</span></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.MoTa?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Đúng với mô tả: <span class="review-o__name">@item.MoTa</span></p>
+                                        }
+
+                                        <p class="review-o__name" style="margin-left:60px">@item.BinhLuan</p>
+                                        <br />
+
+
+                                        @foreach (var item1 in lstby2sao)
+                                        {
+                                            if (item1.ParentId == item.IdDanhGia)
+                                            {
+                                                <div style="width:91%;margin-left:60px;background:#d5d5d5;">
+                                                    <br />
+                                                    <span style="margin-left:10px;" class="review-o__name">Phản Hồi Của Shop</span>
+                                                    <br />
+                                                    <p class="review-o__text" style="margin-left:10px;">@item1.BinhLuan</p>
+                                                    <br />
+                                                </div>
+                                                <br />
+
+                                            }
+
+                                        }
+                                       @* <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 60px;">
+                                            <div>
+                                                <button type="button" id="likeButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="likeIcon" class="fas fa-thumbs-up" style="color: #d5d5d5;"></i>
+                                                </button>
+                                                <span class="review-o__name">Hữu ích?</span>
+                                            </div>
+                                            <div class="dropdown">
+                                                <button onclick="myFunction()" class="dropbtn" id="ellipsisButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="ellipsisIcon" style="color: #d5d5d5;" class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div id="myDropdown" style="width:102px; height: 30px;" class="dropdown-content">
+
+                                                    <button onclick="openModal()" style="width:102px; height: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"> <span class="review-o__name">Báo cáo</span></button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>*@
+                                    </div>
+
+
+
+                                }
+                            }
+
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div style="text-align: center;  display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;">
+                        <img src="/images/imageedit_danhgia.png" style="width: 200px;" alt="Ảnh đánh giá">
+                        <div class="u-s-m-b-15" style="text-align: center;">
+                            <h1 class="dash__h1 u-s-m-b-14" style="display: inline-block; margin-top: 10px;">Chưa có đánh giá</h1>
+                        </div>
+                    </div>
+
+
+
+                }
+            </div>
+
+        </div>
+    </div>
+    <!--====== End - Tab 2 ======-->
+    <div class="tab-pane" id="pd-3sao">
+        <div class="pd-tab__3sao">
+            <div class="u-s-m-b-30">
+                @if (lstby3sao.Count > 0)
+                {
+                    <form class="pd-tab__rev-f1">
+                        <div class="rev-f1__review">
+                            @foreach (var item in lstby3sao)
+                            {
+                                if (item.ParentId == null)
+                                {
+
+                                    <div class="review-o u-s-m-b-15">
+                                        <div class="review-o__info u-s-m-b-8">
+
+
+                                            <img style="margin-bottom:-35px;width:50px;height:50px; object-fit:cover; border-radius:30px" src="@item.AnhDaiDien">
+
+
+                                            <span class="review-o__name" style="margin-left:10px">@item.TenNguoiDung</span>
+                                            <span class="review-o__name">
+                                                <div class="review-o__rating gl-rating-style u-s-m-b-8" style="margin-left:60px">
+                                                    @if (item.SaoSp == 1)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 2)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 3)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 4)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 5)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+
+
+
+
+                                                    }
+
+                                                </div>
+                                            </span>
+                                            <span class="review-o__name" style="margin-left:60px">@item.NgayDanhGia | Phân loại hàng: @item.SanPhamTongQuat</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(item.ChatLuongSanPham?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Chất lượng sản phẩm: <span class="review-o__name"> @item.ChatLuongSanPham</span></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.MoTa?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Đúng với mô tả: <span class="review-o__name">@item.MoTa</span></p>
+                                        }
+
+                                        <p class="review-o__name" style="margin-left:60px">@item.BinhLuan</p>
+                                        <br />
+
+
+                                        @foreach (var item1 in lstby3sao)
+                                        {
+                                            if (item1.ParentId == item.IdDanhGia)
+                                            {
+                                                <div style="width:91%;margin-left:60px;background:#d5d5d5;">
+                                                    <br />
+                                                    <span style="margin-left:10px;" class="review-o__name">Phản Hồi Của Shop</span>
+                                                    <br />
+                                                    <p class="review-o__text" style="margin-left:10px;">@item1.BinhLuan</p>
+                                                    <br />
+                                                </div>
+                                                <br />
+
+                                            }
+
+                                        }
+                                       @* <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 60px;">
+                                            <div>
+                                                <button type="button" id="likeButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="likeIcon" class="fas fa-thumbs-up" style="color: #d5d5d5;"></i>
+                                                </button>
+                                                <span class="review-o__name">Hữu ích?</span>
+                                            </div>
+                                            <div class="dropdown">
+                                                <button onclick="myFunction()" class="dropbtn" id="ellipsisButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="ellipsisIcon" style="color: #d5d5d5;" class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div id="myDropdown" style="width:102px; height: 30px;" class="dropdown-content">
+
+                                                    <button onclick="openModal()" style="width:102px; height: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"> <span class="review-o__name">Báo cáo</span></button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>*@
+                                    </div>
+
+
+
+                                }
+                            }
+
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div style="text-align: center;  display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;">
+                        <img src="/images/imageedit_danhgia.png" style="width: 200px;" alt="Ảnh đánh giá">
+                        <div class="u-s-m-b-15" style="text-align: center;">
+                            <h1 class="dash__h1 u-s-m-b-14" style="display: inline-block; margin-top: 10px;">Chưa có đánh giá</h1>
+                        </div>
+                    </div>
+
+
+
+                }
+            </div>
+
+        </div>
+    </div>
+    <div class="tab-pane" id="pd-4sao">
+        <div class="pd-tab__4sao">
+            <div class="u-s-m-b-30">
+                @if (lstby4sao.Count > 0)
+                {
+                    <form class="pd-tab__rev-f1">
+                        <div class="rev-f1__review">
+                            @foreach (var item in lstby4sao)
+                            {
+                                if (item.ParentId == null)
+                                {
+
+                                    <div class="review-o u-s-m-b-15">
+                                        <div class="review-o__info u-s-m-b-8">
+
+
+                                            <img style="margin-bottom:-35px;width:50px;height:50px; object-fit:cover; border-radius:30px" src="@item.AnhDaiDien">
+
+
+                                            <span class="review-o__name" style="margin-left:10px">@item.TenNguoiDung</span>
+                                            <span class="review-o__name">
+                                                <div class="review-o__rating gl-rating-style u-s-m-b-8" style="margin-left:60px">
+                                                    @if (item.SaoSp == 1)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 2)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 3)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 4)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 5)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+
+
+
+
+                                                    }
+
+                                                </div>
+                                            </span>
+                                            <span class="review-o__name" style="margin-left:60px">@item.NgayDanhGia | Phân loại hàng: @item.SanPhamTongQuat</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(item.ChatLuongSanPham?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Chất lượng sản phẩm: <span class="review-o__name"> @item.ChatLuongSanPham</span></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.MoTa?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Đúng với mô tả: <span class="review-o__name">@item.MoTa</span></p>
+                                        }
+
+                                        <p class="review-o__name" style="margin-left:60px">@item.BinhLuan</p>
+                                        <br />
+
+
+                                        @foreach (var item1 in lstby4sao)
+                                        {
+                                            if (item1.ParentId == item.IdDanhGia)
+                                            {
+                                                <div style="width:91%;margin-left:60px;background:#d5d5d5;">
+                                                    <br />
+                                                    <span style="margin-left:10px;" class="review-o__name">Phản Hồi Của Shop</span>
+                                                    <br />
+                                                    <p class="review-o__text" style="margin-left:10px;">@item1.BinhLuan</p>
+                                                    <br />
+                                                </div>
+                                                <br />
+
+                                            }
+
+                                        }
+                                      @*  <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 60px;">
+                                            <div>
+                                                <button type="button" id="likeButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="likeIcon" class="fas fa-thumbs-up" style="color: #d5d5d5;"></i>
+                                                </button>
+                                                <span class="review-o__name">Hữu ích?</span>
+                                            </div>
+                                            <div class="dropdown">
+                                                <button onclick="myFunction()" class="dropbtn" id="ellipsisButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="ellipsisIcon" style="color: #d5d5d5;" class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div id="myDropdown" style="width:102px; height: 30px;" class="dropdown-content">
+
+                                                    <button onclick="openModal()" style="width:102px; height: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"> <span class="review-o__name">Báo cáo</span></button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>*@
+                                    </div>
+
+
+
+                                }
+                            }
+
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div style="text-align: center;  display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;">
+                        <img src="/images/imageedit_danhgia.png" style="width: 200px;" alt="Ảnh đánh giá">
+                        <div class="u-s-m-b-15" style="text-align: center;">
+                            <h1 class="dash__h1 u-s-m-b-14" style="display: inline-block; margin-top: 10px;">Chưa có đánh giá</h1>
+                        </div>
+                    </div>
+
+
+
+                }
+            </div>
+
+        </div>
+    </div>
+    <div class="tab-pane" id="pd-5sao">
+        <div class="pd-tab__5sao">
+            <div class="u-s-m-b-30">
+                @if (lstby5sao.Count > 0)
+                {
+                    <form class="pd-tab__rev-f1">
+                        <div class="rev-f1__review">
+                            @foreach (var item in lstby5sao)
+                            {
+                                if (item.ParentId == null)
+                                {
+
+                                    <div class="review-o u-s-m-b-15">
+                                        <div class="review-o__info u-s-m-b-8">
+
+
+                                            <img style="margin-bottom:-35px;width:50px;height:50px; object-fit:cover; border-radius:30px" src="@item.AnhDaiDien">
+
+
+                                            <span class="review-o__name" style="margin-left:10px">@item.TenNguoiDung</span>
+                                            <span class="review-o__name">
+                                                <div class="review-o__rating gl-rating-style u-s-m-b-8" style="margin-left:60px">
+                                                    @if (item.SaoSp == 1)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 2)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 3)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 4)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 5)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+
+
+
+
+                                                    }
+
+                                                </div>
+                                            </span>
+                                            <span class="review-o__name" style="margin-left:60px">@item.NgayDanhGia | Phân loại hàng: @item.SanPhamTongQuat</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(item.ChatLuongSanPham?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Chất lượng sản phẩm: <span class="review-o__name"> @item.ChatLuongSanPham</span></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.MoTa?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Đúng với mô tả: <span class="review-o__name">@item.MoTa</span></p>
+                                        }
+
+                                        <p class="review-o__name" style="margin-left:60px">@item.BinhLuan</p>
+                                        <br />
+
+
+                                        @foreach (var item1 in lstby5sao)
+                                        {
+                                            if (item1.ParentId == item.IdDanhGia)
+                                            {
+                                                <div style="width:91%;margin-left:60px;background:#d5d5d5;">
+                                                    <br />
+                                                    <span style="margin-left:10px;" class="review-o__name">Phản Hồi Của Shop</span>
+                                                    <br />
+                                                    <p class="review-o__text" style="margin-left:10px;">@item1.BinhLuan</p>
+                                                    <br />
+                                                </div>
+                                                <br />
+
+                                            }
+
+                                        }
+                                     @*   <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 60px;">
+                                            <div>
+                                                <button type="button" id="likeButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="likeIcon" class="fas fa-thumbs-up" style="color: #d5d5d5;"></i>
+                                                </button>
+                                                <span class="review-o__name">Hữu ích?</span>
+                                            </div>
+                                            <div class="dropdown">
+                                                <button onclick="myFunction()" class="dropbtn" id="ellipsisButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="ellipsisIcon" style="color: #d5d5d5;" class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div id="myDropdown" style="width:102px; height: 30px;" class="dropdown-content">
+
+                                                    <button onclick="openModal()" style="width:102px; height: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"> <span class="review-o__name">Báo cáo</span></button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>*@
+                                    </div>
+
+
+
+                                }
+                            }
+
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div style="text-align: center;  display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;">
+                        <img src="/images/imageedit_danhgia.png" style="width: 200px;" alt="Ảnh đánh giá">
+                        <div class="u-s-m-b-15" style="text-align: center;">
+                            <h1 class="dash__h1 u-s-m-b-14" style="display: inline-block; margin-top: 10px;">Chưa có đánh giá</h1>
+                        </div>
+                    </div>
+
+
+
+                }
+            </div>
+
+        </div>
+    </div>
+    <div class="tab-pane" id="pd-cobinhluan">
+        <div class="pd-tab__cobinhluan">
+            <div class="u-s-m-b-30">
+                @if (lstbybinhLuan.Count > 0)
+                {
+                    <form class="pd-tab__rev-f1">
+                        <div class="rev-f1__review">
+                            @foreach (var item in lstbybinhLuan)
+                            {
+                                if (item.ParentId == null)
+                                {
+
+                                    <div class="review-o u-s-m-b-15">
+                                        <div class="review-o__info u-s-m-b-8">
+
+
+                                            <img style="margin-bottom:-35px;width:50px;height:50px; object-fit:cover; border-radius:30px" src="@item.AnhDaiDien">
+
+
+                                            <span class="review-o__name" style="margin-left:10px">@item.TenNguoiDung</span>
+                                            <span class="review-o__name">
+                                                <div class="review-o__rating gl-rating-style u-s-m-b-8" style="margin-left:60px">
+                                                    @if (item.SaoSp == 1)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 2)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 3)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 4)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 5)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+
+
+
+
+                                                    }
+
+                                                </div>
+                                            </span>
+                                            <span class="review-o__name" style="margin-left:60px">@item.NgayDanhGia | Phân loại hàng: @item.SanPhamTongQuat</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(item.ChatLuongSanPham?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Chất lượng sản phẩm: <span class="review-o__name"> @item.ChatLuongSanPham</span></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.MoTa?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Đúng với mô tả: <span class="review-o__name">@item.MoTa</span></p>
+                                        }
+
+                                        <p class="review-o__name" style="margin-left:60px">@item.BinhLuan</p>
+                                        <br />
+
+
+                                        @foreach (var item1 in lstbybinhLuan)
+                                        {
+                                            if (item1.ParentId == item.IdDanhGia)
+                                            {
+                                                <div style="width:91%;margin-left:60px;background:#d5d5d5;">
+                                                    <br />
+                                                    <span style="margin-left:10px;" class="review-o__name">Phản Hồi Của Shop</span>
+                                                    <br />
+                                                    <p class="review-o__text" style="margin-left:10px;">@item1.BinhLuan</p>
+                                                    <br />
+                                                </div>
+                                                <br />
+
+                                            }
+
+                                        }
+                                   @*     <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 60px;">
+                                            <div>
+                                                <button type="button" id="likeButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="likeIcon" class="fas fa-thumbs-up" style="color: #d5d5d5;"></i>
+                                                </button>
+                                                <span class="review-o__name">Hữu ích?</span>
+                                            </div>
+                                            <div class="dropdown">
+                                                <button onclick="myFunction()" class="dropbtn" id="ellipsisButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="ellipsisIcon" style="color: #d5d5d5;" class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div id="myDropdown" style="width:102px; height: 30px;" class="dropdown-content">
+
+                                                    <button onclick="openModal()" style="width:102px; height: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"> <span class="review-o__name">Báo cáo</span></button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>*@
+                                    </div>
+
+
+
+                                }
+                            }
+
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div style="text-align: center;  display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;">
+                        <img src="/images/imageedit_danhgia.png" style="width: 200px;" alt="Ảnh đánh giá">
+                        <div class="u-s-m-b-15" style="text-align: center;">
+                            <h1 class="dash__h1 u-s-m-b-14" style="display: inline-block; margin-top: 10px;">Chưa có đánh giá</h1>
+                        </div>
+                    </div>
+
+
+
+                }
+            </div>
+
+        </div>
+    </div>
+    <div class="tab-pane fade show active" id="pd-tatca">
+        <div class="pd-tab__tatca">
+            <div class="u-s-m-b-30">
+                @if (lst.Count > 0)
+                {
+                    <form class="pd-tab__rev-f1">
+                        <div class="rev-f1__review">
+                            @foreach (var item in lst)
+                            {
+                                if (item.ParentId == null)
+                                {
+
+                                    <div class="review-o u-s-m-b-15">
+                                        <div class="review-o__info u-s-m-b-8">
+
+
+                                            <img style="margin-bottom:-35px;width:50px;height:50px; object-fit:cover; border-radius:30px" src="@item.AnhDaiDien">
+
+
+                                            <span class="review-o__name" style="margin-left:10px">@item.TenNguoiDung</span>
+                                            <span class="review-o__name">
+                                                <div class="review-o__rating gl-rating-style u-s-m-b-8" style="margin-left:60px">
+                                                    @if (item.SaoSp == 1)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 2)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+                                                    }
+                                                    else if (item.SaoSp == 3)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 4)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+
+
+
+                                                    }
+                                                    else if (item.SaoSp == 5)
+                                                    {
+
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+
+
+
+
+                                                    }
+
+                                                </div>
+                                            </span>
+                                            <span class="review-o__name" style="margin-left:60px">@item.NgayDanhGia | Phân loại hàng: @item.SanPhamTongQuat</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(item.ChatLuongSanPham?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Chất lượng sản phẩm: <span class="review-o__name"> @item.ChatLuongSanPham</span></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.MoTa?.ToString()))
+                                        {
+                                            <p class="review-o__text" style="margin-left:60px">Đúng với mô tả: <span class="review-o__name">@item.MoTa</span></p>
+                                        }
+
+                                        <p class="review-o__name" style="margin-left:60px">@item.BinhLuan</p>
+                                        <br />
+
+
+                                        @foreach (var item1 in lst)
+                                        {
+                                            if (item1.ParentId == item.IdDanhGia)
+                                            {
+                                                <div style="width:91%;margin-left:60px;background:#d5d5d5;">
+                                                    <br />
+                                                    <span style="margin-left:10px;" class="review-o__name">Phản Hồi Của Shop</span>
+                                                    <br />
+                                                    <p class="review-o__text" style="margin-left:10px;">@item1.BinhLuan</p>
+                                                    <br />
+                                                </div>
+                                                <br />
+
+                                            }
+
+                                        }
+                                     @*   <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 60px;">
+                                            <div>
+                                                <button type="button" id="likeButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="likeIcon" class="fas fa-thumbs-up" style="color: #d5d5d5;"></i>
+                                                </button>
+                                                <span class="review-o__name">Hữu ích?</span>
+                                            </div>
+                                            <div class="dropdown">
+                                                <button onclick="myFunction()" class="dropbtn" id="ellipsisButton" style="background-color: white; cursor: pointer; border: none;">
+                                                    <i id="ellipsisIcon" style="color: #d5d5d5;" class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div id="myDropdown" style="width:102px; height: 30px;" class="dropdown-content">
+
+                                                    <button onclick="openModal()" style="width:102px; height: 30px;" data-bs-toggle="modal" data-bs-target="#myModal"> <span class="review-o__name">Báo cáo</span></button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>*@
+                                    </div>
+
+
+
+                                }
+                            }
+
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div style="text-align: center;  display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;">
+                        <img src="/images/imageedit_danhgia.png" style="width: 200px;" alt="Ảnh đánh giá">
+                        <div class="u-s-m-b-15" style="text-align: center;">
+                            <h1 class="dash__h1 u-s-m-b-14" style="display: inline-block; margin-top: 10px;">Chưa có đánh giá</h1>
+                        </div>
+                    </div>
+
+
+
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+
+        <span class="pd-detail__price">Báo cáo đánh giá này</span>
+        <p class="review-o__name" style=" text-align: left; ">Vui lòng chọn lí do báo cáo</p>
+        <ul class="report-options">
+            <li class="report-option">
+                <input type="radio" id="reason1" name="reportReason" value="Danh gia tho tuc phan cam" onchange="updateSubmitButtonState()">
+                <label for="reason1" class="review-o__name">Đánh giá thô tục phản cảm</label>
+            </li>
+            <li class="report-option">
+                <input type="radio" id="reason2" name="reportReason" value="Chua hinh anh phan cam, khoa than, khieu dam" onchange="updateSubmitButtonState()">
+                <label for="reason2" class="review-o__name">Chứa hình ảnh phản cảm, khỏa thân, khiêu dâm</label>
+            </li>
+            <li class="report-option">
+                <input type="radio" id="reason3" name="reportReason" value="Danh gia trung lap (thong tin rac)" onchange="updateSubmitButtonState()">
+                <label for="reason3" class="review-o__name">Đánh giá trùng lặp (thông tin rác)</label>
+            </li>
+            <li class="report-option">
+                <input type="radio" id="reason4" name="reportReason" value="Chua thong tin ca nhan" onchange="updateSubmitButtonState()">
+                <label for="reason4" class="review-o__name">Chứa thông tin cá nhân</label>
+            </li>
+            <li class="report-option">
+                <input type="radio" id="reason5" name="reportReason" value="Quang cao trai phep" onchange="updateSubmitButtonState()">
+                <label for="reason5" class="review-o__name">Quảng cáo trái phép</label>
+            </li>
+            <li class="report-option">
+                <input type="radio" id="reason6" name="reportReason" value="Danh gia khong chinh xac / gay hieu lam" onchange="updateSubmitButtonState()">
+                <label for="reason6" class="review-o__name">Đánh giá không chính xác / gây hiểu lầm (ví dụ như: đánh giá và sản phẩm không khớp, ...)</label>
+            </li>
+            <li class="report-option">
+                <input type="radio" id="reason7" name="reportReason" value="Vi pham khac" onchange="updateSubmitButtonState()">
+                <label for="reason7" class="review-o__name">Vi phạm khác</label>
+            </li>
+        </ul>
+        <div id="additional" style="display: none;">
+            <input class="review-o__name" style=" width: 100%; height: 30px;" id="additionalInput" type="text" placeholder="Vui lòng mô tả chi tiết vi phạm (bắt buộc)" onchange="updateSubmitButtonState()" />
+
+        </div>
+        <div class="button-container">
+            <button id="cancelButton" style="background-color: white; color: black;" onclick="closeModal()">Hủy</button>
+            <button id="submitButton" disabled>Gửi</button>
+        </div>
+    </div>
+</div>
+<script>
+    function preventDefaultAndShowModal() {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+        myModal.show();
+    }
+</script>
+<script>
+
+    function myFunction() {
+        event.preventDefault();
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdown = document.getElementById("myDropdown");
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        }
+    }
+</script>
+<script>
+    var likeButton = document.getElementById('likeButton');
+    var likeIcon = document.getElementById('likeIcon');
+
+    let isLiked = false;
+
+    likeButton.addEventListener('click', function () {
+        if (isLiked) {
+            likeIcon.style.color = '#d5d5d5'; // Đổi màu icon về màu cũ
+        } else {
+            likeIcon.style.color = 'red'; // Đổi màu icon sang màu đỏ
+        }
+
+        isLiked = !isLiked; // Đảo ngược trạng thái "đã thích"
+    });
+</script>
+<script>
+    function openModal() {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdown = document.getElementById("myDropdown");
+
+            dropdown.classList.remove('show');
+
+        }
+        event.preventDefault();
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "block"; // Không làm gì nếu ấn bên ngoài modal
+            }
+        });
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        var modal = document.getElementById("myModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    function updateSubmitButtonState() {
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        const submitButton = document.getElementById("submitButton");
+        const isAnyRadioButtonChecked = Array.from(radioButtons).some(radio => radio.checked);
+        submitButton.disabled = !isAnyRadioButtonChecked;
+
+        const lastRadioButton = document.getElementById("reason7");
+        const additional = document.getElementById("additional");
+        const additionalInput = document.getElementById("additionalInput");
+        const inputValue = additionalInput.value.trim();
+
+        if (lastRadioButton.checked) {
+            additional.style.display = "block";
+            if (inputValue === "") {
+                submitButton.disabled = true;
+            }
+            additionalInput.addEventListener("input", function () {
+                const inputValue = additionalInput.value.trim();
+                submitButton.disabled = inputValue === "";
+            });
+        } else {
+            additional.style.display = "none";
+            additionalInput.removeEventListener("input", null); // Ngừng lắng nghe sự kiện khi ẩn ô input
+        }
+    }
+
+
+
+</script>
+
+<!--====== End - Tab 3 ======-->
+@*<script>
+    function highlightButton(button) {
+        // Loại bỏ lớp 'active' từ tất cả các nút
+        var buttons = document.querySelectorAll('.btn--e-transparent-brand-b-2');
+        buttons.forEach(function (btn) {
+            btn.classList.remove('active');
+        });
+
+        // Thêm lớp 'active' vào nút được nhấn
+        button.classList.add('active');
+
+    }
+
+</script>
+*@

@@ -10,7 +10,7 @@ namespace App_View.Controllers
 
     public class VoucherController : Controller
     {
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         private readonly IVoucherservices _VouchersV;
         private readonly SignInManager<NguoiDung> _signInManager;
         private readonly UserManager<NguoiDung> _userManager;
@@ -18,7 +18,7 @@ namespace App_View.Controllers
         public VoucherController(IVoucherservices Voucherservices, SignInManager<NguoiDung> signInManager, UserManager<NguoiDung> userManager)
         {
             _VouchersV = Voucherservices;
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
             _signInManager = signInManager;
             _userManager = userManager;
         }

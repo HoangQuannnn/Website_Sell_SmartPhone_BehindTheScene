@@ -23,7 +23,7 @@ namespace App_Api.Controllers
         private readonly IAllRepo<VoucherNguoiDung> VcNguoiDungRepos;
         private readonly IAllRepo<Voucher> allRepo;
         private readonly IMapper _mapper;
-        BazaizaiContext DbContextModel = new BazaizaiContext();
+        AppDbContext DbContextModel = new AppDbContext();
         DbSet<Voucher> Vouchers;
         DbSet<VoucherNguoiDung> voucherNguoiDung;
         public VoucherController(IMapper mapper)

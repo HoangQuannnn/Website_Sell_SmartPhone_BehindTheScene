@@ -12,8 +12,8 @@ namespace App_Data.Repositories
 {
     public class PhieuGiamGiaRepo : IPhieuGiamGiaRepo
     {
-        private readonly BazaizaiContext _context;
-        public PhieuGiamGiaRepo(BazaizaiContext context)
+        private readonly AppDbContext _context;
+        public PhieuGiamGiaRepo(AppDbContext context)
         {
             _context = context;
         }

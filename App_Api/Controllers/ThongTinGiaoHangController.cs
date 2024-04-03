@@ -17,7 +17,7 @@ namespace App_Api.Controllers
     public class ThongTinGiaoHangController : ControllerBase
     {
         private readonly IAllRepo<GioHangChiTiet> allRepo;
-        BazaizaiContext DbContextModel = new BazaizaiContext();
+        AppDbContext DbContextModel = new AppDbContext();
         private readonly IThongTinGHRepos thongTinGHRepos;
         private readonly IMapper _mapper;
         public ThongTinGiaoHangController(IMapper mapper, IAllRepo<GioHangChiTiet> allRepo)

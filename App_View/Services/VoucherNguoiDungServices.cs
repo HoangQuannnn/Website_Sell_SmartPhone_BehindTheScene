@@ -17,7 +17,7 @@ namespace App_View.Services
     public class VoucherNguoiDungservices : IVoucherNguoiDungservices
     {
         private readonly HttpClient _httpClient;
-        BazaizaiContext DbContextModel = new BazaizaiContext();
+        AppDbContext DbContextModel = new AppDbContext();
         DbSet<VoucherNguoiDung> voucherNguoiDung;
         DbSet<Voucher> voucher;
         public VoucherNguoiDungservices(HttpClient httpClient)

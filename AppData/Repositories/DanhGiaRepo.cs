@@ -15,10 +15,10 @@ namespace App_Data.Repositories
 {
     public class DanhGiaRepo : IDanhGiaRepo
     {
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         public DanhGiaRepo()
         {
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
         }
         public async Task<bool> AddAsync(DanhGia danhGia)
         {

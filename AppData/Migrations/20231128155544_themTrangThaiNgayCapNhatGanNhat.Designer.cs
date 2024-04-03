@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace App_Data.Migrations
 {
-    [DbContext(typeof(BazaizaiContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20231128155544_themTrangThaiNgayCapNhatGanNhat")]
     partial class themTrangThaiNgayCapNhatGanNhat
     {

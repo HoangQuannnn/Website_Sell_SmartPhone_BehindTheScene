@@ -17,7 +17,7 @@ namespace App_Api.Controllers
     public class LoaiGiayController : ControllerBase
     {
         private readonly IAllRepo<LoaiGiay> allRepo;
-        BazaizaiContext DbContextModel = new BazaizaiContext();
+        AppDbContext DbContextModel = new AppDbContext();
         DbSet<LoaiGiay> loaiGiays;
         private readonly IMapper _mapper;
         public LoaiGiayController(IMapper mapper)

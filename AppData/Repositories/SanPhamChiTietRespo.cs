@@ -27,7 +27,7 @@ namespace App_Data.Repositories
     public class SanPhamChiTietRespo : ISanPhamChiTietRespo
     {
 
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         private readonly IDanhGiaRepo _danhGiaRespo;
         private readonly IMapper _mapper;
 
@@ -35,7 +35,7 @@ namespace App_Data.Repositories
         {
             _mapper = mapper;
             _danhGiaRespo = new DanhGiaRepo();
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
         }
         public async Task<bool> AddAsync(SanPhamChiTiet entity)
         {
@@ -89,7 +89,7 @@ namespace App_Data.Repositories
 
         public async Task<DanhSachGiayViewModel> GetDanhSachGiayViewModelAsync()
         {
-            using (var dbContext = new BazaizaiContext())
+            using (var dbContext = new AppDbContext())
             {
                 var dateTimeNow = DateTime.Now;
                 var query = dbContext.SanPhamChiTiets.AsQueryable();
@@ -292,7 +292,7 @@ namespace App_Data.Repositories
 
         public SanPhamDanhSachViewModel CreateSanPhamDanhSachViewModel(SanPhamChiTiet sanPham)
         {
-            using (var context = new BazaizaiContext())
+            using (var context = new AppDbContext())
             {
                 return new SanPhamDanhSachViewModel()
                 {
@@ -341,7 +341,7 @@ namespace App_Data.Repositories
         }
         public async Task<List<ItemShopViewModel>> GetDanhSachItemShopViewModelAsync()
         {
-            using (var dbContext = new BazaizaiContext())
+            using (var dbContext = new AppDbContext())
             {
                 var listSanPham = await dbContext.SanPhamChiTiets
                 .Include(it => it.SanPham)
@@ -369,7 +369,7 @@ namespace App_Data.Repositories
 
         public async Task<List<ItemShopViewModel>> GetDanhSachBienTheItemShopViewModelAsync()
         {
-            using (var dbContext = new BazaizaiContext())
+            using (var dbContext = new AppDbContext())
             {
                 var listSanPham = await dbContext.SanPhamChiTiets
            .Where(sp => sp.TrangThai == 0)
@@ -1096,7 +1096,7 @@ namespace App_Data.Repositories
 
         public IQueryable<SanPhamChiTiet> GetQuerySanPhamChiTiet()
         {
-            using (var context = new BazaizaiContext())
+            using (var context = new AppDbContext())
             {
                 return _context.SanPhamChiTiets.AsNoTracking();
             }

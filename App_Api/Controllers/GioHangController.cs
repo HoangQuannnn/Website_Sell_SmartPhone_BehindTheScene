@@ -14,7 +14,7 @@ namespace App_Api.Controllers
     public class GioHangController : ControllerBase
     {
         private readonly IAllRepo<GioHang> allRepo;
-        BazaizaiContext dbContext = new BazaizaiContext();
+        AppDbContext dbContext = new AppDbContext();
         DbSet<GioHang> GioHang;
         public GioHangController()
         {

@@ -19,7 +19,7 @@ namespace App_Api.Controllers
     public class NguoiDungController : ControllerBase
     {      
         private readonly IAllRepo<NguoiDung> repos;
-        BazaizaiContext context = new BazaizaiContext();
+        AppDbContext context = new AppDbContext();
         DbSet<NguoiDung> nguoiDungs;
         public NguoiDungController()
         {

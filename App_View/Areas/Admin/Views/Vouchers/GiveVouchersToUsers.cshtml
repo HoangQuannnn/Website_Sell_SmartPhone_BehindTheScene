@@ -9,7 +9,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-    BazaizaiContext context = new BazaizaiContext();
+    AppDbContext context = new AppDbContext();
     var lstUser = await UserManager.GetUsersInRoleAsync(ChucVuMacDinh.KhachHang.ToString());
 }
 <head>

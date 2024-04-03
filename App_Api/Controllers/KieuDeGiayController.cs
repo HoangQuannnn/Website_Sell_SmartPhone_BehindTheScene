@@ -17,7 +17,7 @@ namespace App_Api.Controllers
     public class KieuDeGiayController : ControllerBase
     {
         private readonly IAllRepo<KieuDeGiay> allRepo;
-        BazaizaiContext dbContext = new BazaizaiContext();
+        AppDbContext dbContext = new AppDbContext();
         DbSet<KieuDeGiay> KieuDeGiay;
         private readonly IMapper _mapper;
         public KieuDeGiayController(IMapper mapper)

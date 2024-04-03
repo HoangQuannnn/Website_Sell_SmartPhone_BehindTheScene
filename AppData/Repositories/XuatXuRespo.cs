@@ -13,10 +13,10 @@ namespace App_Data.Repositories
     public class XuatXuRespo : IXuatXuRespo
     {
 
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         public XuatXuRespo()
         {
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
         }
         public async Task<bool> AddAsync(XuatXu entity)
         {

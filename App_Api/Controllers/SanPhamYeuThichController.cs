@@ -14,13 +14,13 @@ namespace App_Api.Controllers
     public class SanPhamYeuThichController : ControllerBase
     {
         private readonly IAllRepo<SanPhamYeuThich> _allRepoSanPhamYeuThich;
-        private readonly BazaizaiContext _bazaizaiContext;
+        private readonly AppDbContext _bazaizaiContext;
         private readonly IMapper _mapper;
 
         public SanPhamYeuThichController(IAllRepo<SanPhamYeuThich> allRepoSanPhamYeuThich, IMapper mapper)
         {
             _allRepoSanPhamYeuThich = allRepoSanPhamYeuThich;
-            _bazaizaiContext = new BazaizaiContext();
+            _bazaizaiContext = new AppDbContext();
             _mapper = mapper;
         }
 

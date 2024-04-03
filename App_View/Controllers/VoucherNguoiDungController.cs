@@ -14,7 +14,7 @@ namespace App_View.Controllers
     public class VoucherNguoiDungController : Controller
     {
 
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         private readonly IVoucherNguoiDungservices _voucherND;
         private readonly SignInManager<NguoiDung> _signInManager;
         private readonly UserManager<NguoiDung> _userManager;
@@ -22,7 +22,7 @@ namespace App_View.Controllers
         public VoucherNguoiDungController(IVoucherNguoiDungservices voucherNDServices, SignInManager<NguoiDung> signInManager, UserManager<NguoiDung> userManager, IVoucherservices Voucherservices)
         {
             _voucherND = voucherNDServices;
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
             _signInManager = signInManager;
             _userManager = userManager;
             _VouchersV = Voucherservices;

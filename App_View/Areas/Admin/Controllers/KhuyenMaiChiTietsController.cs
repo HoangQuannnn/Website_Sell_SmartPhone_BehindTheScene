@@ -36,7 +36,7 @@ namespace App_View.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class KhuyenMaiChiTietsController : Controller
     {
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
 
         private readonly IKhuyenMaiChiTietservices KhuyenMaiChiTietservices;
         private readonly IKhuyenMaiservices _KhuyenMaiservices;
@@ -47,7 +47,7 @@ namespace App_View.Areas.Admin.Controllers
 
         public KhuyenMaiChiTietsController(IKhuyenMaiChiTietservices KhuyenMaiChiTietservices, ISanPhamChiTietservice SanPhamChiTietservice, IMapper mapper, IKhuyenMaiservices KhuyenMaiservices)
         {
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
 
             httpClient = new HttpClient();
             allRepo = new AllRepo<KhuyenMaiChiTiet>();

@@ -21,7 +21,7 @@ namespace App_View.Areas.Admin.Controllers
     public class ThongKeController : Controller
     {
         private IQueryable<ThongKeDoanhThuOnline> baseQuery;
-        private BazaizaiContext db = new BazaizaiContext();
+        private AppDbContext db = new AppDbContext();
         private IThongKeService _thongKeService;
         private readonly HttpClient _httpClient;
         public ThongKeController(IThongKeService thongKeService)

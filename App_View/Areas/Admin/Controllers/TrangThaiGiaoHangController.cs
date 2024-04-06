@@ -28,11 +28,11 @@ namespace App_View.Areas.Admin.Controllers
         private readonly UserManager<NguoiDung> _userManager;
         private readonly IHoaDonServices _hoaDonServices;
         private readonly ISanPhamChiTietservice SanPhamChiTietservice;
-        BazaizaiContext context;
+        AppDbContext context;
         public TrangThaiGiaoHangController(ISanPhamChiTietservice SanPhamChiTietservice, IVoucherNguoiDungservices VoucherNguoiDungservices, IVoucherservices Voucherservices, SignInManager<NguoiDung> signInManager, UserManager<NguoiDung> userManager)
         {
             _hoaDonServices = new HoaDonServices();
-            context = new BazaizaiContext();
+            context = new AppDbContext();
             this.SanPhamChiTietservice = SanPhamChiTietservice;
             _VoucherNguoiDungservices = VoucherNguoiDungservices;
             _Voucherservices = Voucherservices;

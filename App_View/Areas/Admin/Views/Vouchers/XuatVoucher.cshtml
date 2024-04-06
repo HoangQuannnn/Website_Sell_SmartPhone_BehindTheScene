@@ -3,7 +3,7 @@
 @model IEnumerable<App_Data.ViewModels.VoucherNguoiDung.VoucherNguoiDungDTO>
 
 @{
-    BazaizaiContext context = new BazaizaiContext();
+    AppDbContext context = new AppDbContext();
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 <link href="~/css//cssVoucherIn.css" rel="stylesheet" />

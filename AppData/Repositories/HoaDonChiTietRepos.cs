@@ -17,11 +17,11 @@ namespace App_Data.Repositories
 {
     public class HoaDonChiTietRepos : IHoaDonChiTietRepos
     {
-        BazaizaiContext context;
+        AppDbContext context;
         private readonly IMapper _mapper;
         public HoaDonChiTietRepos(IMapper mapper)
         {
-            context = new BazaizaiContext();
+            context = new AppDbContext();
             _mapper = mapper;
         }
         public bool AddBillDetail(HoaDonChiTiet item)

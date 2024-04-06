@@ -17,7 +17,7 @@ namespace App_Api.Controllers
     public class ChatLieuController : ControllerBase
     {
         private readonly IAllRepo<ChatLieu> allRepo;
-        BazaizaiContext dbContext = new BazaizaiContext();
+        AppDbContext dbContext = new AppDbContext();
         private readonly IMapper _mapper;
         DbSet<ChatLieu> ChatLieu;
         public ChatLieuController(IMapper mapper)

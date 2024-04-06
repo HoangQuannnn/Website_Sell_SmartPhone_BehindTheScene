@@ -16,7 +16,7 @@ namespace App_Api.Controllers
     public class ThuongHieuController : ControllerBase
     {
         private readonly IAllRepo<ThuongHieu> repos;
-        BazaizaiContext context = new BazaizaiContext();
+        AppDbContext context = new AppDbContext();
         DbSet<ThuongHieu> ThuongHieus;
         private readonly IMapper _mapper;
         public ThuongHieuController(IMapper mapper)

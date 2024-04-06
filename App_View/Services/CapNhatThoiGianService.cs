@@ -4,12 +4,12 @@ namespace App_View.Services
 {
     public class CapNhatThoiGianService
     {
-        BazaizaiContext _dbContext = new BazaizaiContext();
+        AppDbContext _dbContext = new AppDbContext();
         private readonly HttpClient _httpClient;
         bool loading = false;
         public CapNhatThoiGianService()
         {
-            _dbContext = new BazaizaiContext();
+            _dbContext = new AppDbContext();
             _httpClient = new HttpClient();
         }
         public async Task<bool> CapNhatThongTinKhuyenMai()

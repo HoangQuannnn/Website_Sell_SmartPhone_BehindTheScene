@@ -20,7 +20,7 @@ namespace App_Api.Controllers
     {
         private readonly IDanhGiaRepo _danhGiaRepo;
         private readonly IAllRepo<DanhGia> repos;
-        BazaizaiContext context = new BazaizaiContext();
+        AppDbContext context = new AppDbContext();
         DbSet<DanhGia> DanhGias;
         public DanhGiaController()
         {

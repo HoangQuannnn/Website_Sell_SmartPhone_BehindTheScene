@@ -19,11 +19,11 @@ namespace App_View.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class ThuocTinhSanPhamController : Controller
     {
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         private readonly HttpClient _httpClient;
         public ThuocTinhSanPhamController(HttpClient httpClient)
         {
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
             _httpClient = httpClient;
         }
 

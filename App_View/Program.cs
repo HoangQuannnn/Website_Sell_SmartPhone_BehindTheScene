@@ -34,7 +34,7 @@ builder.Services.AddHangfire(x => x.UseSqlServerStorage(@"Data Source=(localdb)\
 
 builder.Services.AddHangfireServer();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<BazaizaiContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddOptions();
@@ -58,7 +58,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https:/
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://bazaizaiapi.azurewebsites.net/") });
 //Thêm
 builder.Services.AddIdentity<NguoiDung, ChucVu>()
-.AddEntityFrameworkStores<BazaizaiContext>()
+.AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
 var mailsetting = builder.Configuration.GetSection("MailSettings");
@@ -200,7 +200,7 @@ using (var scope = app.Services.CreateScope())
     var loggerFactory = services.GetRequiredService<ILoggerFactory>();
     try
     {
-        var context = services.GetRequiredService<BazaizaiContext>();
+        var context = services.GetRequiredService<AppDbContext>();
         var userManager = services.GetRequiredService<UserManager<NguoiDung>>();
         var roleManager = services.GetRequiredService<RoleManager<ChucVu>>();
         await ContextdDefault.SeedRolesAsync(userManager, roleManager);

@@ -16,13 +16,13 @@ namespace App_Api.Controllers
     {
         private readonly IAllRepo<XuatXu> _xuaXuRespo;
         private readonly IMapper _mapper;
-        private readonly BazaizaiContext _bazaizaiContext;
+        private readonly AppDbContext _bazaizaiContext;
 
         public XuatXuController(IAllRepo<XuatXu> xuaXuRespo, IMapper mapper)
         {
             _xuaXuRespo = xuaXuRespo;
             _mapper = mapper;
-            _bazaizaiContext = new BazaizaiContext();
+            _bazaizaiContext = new AppDbContext();
         }
 
 

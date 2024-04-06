@@ -12,23 +12,23 @@ namespace App_Data.Repositories
 {
     public class AllRepo<T> : IAllRepo<T> where T : class
     {
-        private BazaizaiContext context;
+        private AppDbContext context;
 
         private DbSet<T> dbset;
 
         public AllRepo()
         {
-            context = new BazaizaiContext();
+            context = new AppDbContext();
             dbset = context.Set<T>();
         }
 
-        public AllRepo(BazaizaiContext context, DbSet<T> dbset)
+        public AllRepo(AppDbContext context, DbSet<T> dbset)
         {
             this.context = context;
             this.dbset = dbset;
         }
 
-        public BazaizaiContext Context => context;
+        public AppDbContext Context => context;
 
         public DbSet<T> Dbset => dbset;
         public bool AddItem(T item)

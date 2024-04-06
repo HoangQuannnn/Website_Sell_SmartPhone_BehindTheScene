@@ -20,7 +20,7 @@ namespace App_Api.Controllers
     public class GioHangChiTietController : ControllerBase
     {
         private readonly IAllRepo<GioHangChiTiet> allRepo;
-        BazaizaiContext DbContextModel = new BazaizaiContext();
+        AppDbContext DbContextModel = new AppDbContext();
         private readonly IGioHangChiTietRepos _gioHangChiTiet;
         private readonly IAllRepo<KichCo> _kickcoRes;
         private readonly IAllRepo<SanPham> _sanPhamRes;

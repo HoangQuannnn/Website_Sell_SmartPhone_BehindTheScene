@@ -15,7 +15,9 @@ namespace App_Data.Configurations
         {
             builder.ToTable("Camera");
             builder.HasKey(x => x.IdCamera);
-            
+            builder.Property(e => e.MaCamera).HasColumnType("varchar(50)");
+            builder.Property(c => c.TrangThai).HasColumnType("int");
+
         }
     }
 }

@@ -10,7 +10,7 @@ namespace App_Data.Models
     {
         public string? IdImeiDaBan { get; set; }
         public string? IdHoaDonChiTiet { get; set; }
-        public string? MaImeiDaBan { get; set; }
+        public string? SoImei { get; set; }
         public int? TrangThai { get; set; }
         public virtual HoaDonChiTiet HoaDonChiTiet { get; set; }
     }

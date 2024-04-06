@@ -15,9 +15,10 @@ namespace App_Data.Configurations
         {
             builder.ToTable("Imei");
             builder.HasKey(x => x.IdImei);
-            builder.Property(c => c.MaImei).HasColumnType("varchar(50)");
+            builder.Property(c => c.SoImei).HasColumnType("varchar(50)");
             builder.Property(c => c.MaVach).HasColumnType("nvarchar(1000)");
             builder.Property(c => c.TrangThai).HasColumnType("int");
+            builder.HasOne(c => c.SanPhamChiTiet).WithMany(c => c.Imeis).HasForeignKey(c => c.IdSanPhamChiTiet);
         }
     }
 }

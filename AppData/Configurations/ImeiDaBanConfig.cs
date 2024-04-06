@@ -15,7 +15,7 @@ namespace App_Data.Configurations
         {
             builder.ToTable("ImeiDaBan");
             builder.HasKey(x => x.IdImeiDaBan);
-            builder.Property(c => c.MaImeiDaBan).HasColumnType("varchar(50)");
+            builder.Property(c => c.SoImei).HasColumnType("varchar(50)");
             builder.Property(c => c.TrangThai).HasColumnType("int");
             builder.HasOne(c => c.HoaDonChiTiet).WithMany(c => c.ImeiDaBans).HasForeignKey(c => c.IdHoaDonChiTiet);
         }

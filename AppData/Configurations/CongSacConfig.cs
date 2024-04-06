@@ -15,6 +15,7 @@ namespace App_Data.Configurations
         {
             builder.ToTable("CongSac");
             builder.HasKey(x => x.IdCongSac);
+            builder.Property(e => e.MaCongSac).HasColumnType("varchar(50)");
             builder.Property(x => x.LoaiCongSac).HasColumnType("varchar(100)");
             builder.Property(x => x.TrangThai).HasColumnType("varchar(50)");
         }

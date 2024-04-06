@@ -11,6 +11,7 @@ namespace App_Data.Models
     {
         [Key]
         public string? IdCameraTruoc { get; set; }
+        public string? MaCameraTruoc { get; set; }
         public string? DoPhanGiai { get; set; }
         public string? LoaiCamera { get; set; }
         public int? TrangThai { get; set; }

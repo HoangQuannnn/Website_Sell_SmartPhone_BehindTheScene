@@ -10,7 +10,8 @@ namespace App_Data.Models
     public class Ram
     {
         [Key]
-        public Guid IdRam { get; set; }
+        public string? IdRam { get; set; }
+        public string? MaRam { get; set; }
         public string? DungLuong { get; set; }
         public string? TrangThai { get; set; }
         public virtual List<SanPhamChiTiet>? SanPhamChiTiets { get; set; }

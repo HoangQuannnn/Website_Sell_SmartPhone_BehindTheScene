@@ -19,7 +19,6 @@ namespace App_Data.DbContext
 
 
         public DbSet<Anh> Anh { get; set; }
-        public DbSet<ChatLieu> ChatLieus { get; set; }
         public DbSet<ChucVu> ChucVus { get; set; }
         public DbSet<GioHang> GioHangs { get; set; }
         public DbSet<GioHangChiTiet> GioHangChiTiets { get; set; }
@@ -28,10 +27,22 @@ namespace App_Data.DbContext
         public DbSet<KhuyenMai> KhuyenMais { get; set; }
         public DbSet<KhachHang> KhachHangs { get; set; }
         public DbSet<KhuyenMaiChiTiet> KhuyenMaiChiTiets { get; set; }
-        public DbSet<KichCo> KichCos { get; set; }
-        public DbSet<KieuDeGiay> KieuDeGiays { get; set; }
-        public DbSet<LoaiGiay> LoaiGiays { get; set; }
+        public DbSet<Ram> Rams { get; set; }
+        public DbSet<Rom> Roms { get; set; }
+        public DbSet<CongSac> CongSacs { get; set; }
+        public DbSet<Hang> Hangs { get; set; }
+        public DbSet<Chip> Chips { get; set; }
+        public DbSet<ManHinh> ManHinhs { get; set; }
+        public DbSet<Pin> Pins { get; set; }
+        public DbSet<TheNho> TheNhos { get; set; }
         public DbSet<MauSac> MauSacs { get; set; }
+        public DbSet<Camera> Cameras { get; set; }
+        public DbSet<ChiTietCamera> ChiTietCameras { get; set; }
+        public DbSet<CameraSau> CameraSaus { get; set; }
+        public DbSet<CameraTruoc> CameraTruocs { get; set; }
+        public DbSet<Imei> Imeis { get; set; }
+        public DbSet<ImeiChuaBan> ImeiChuaBans { get; set; }
+        public DbSet<ImeiDaBan> ImeiDaBans { get; set; }
         public DbSet<NguoiDung> NguoiDungs { get; set; }
         public DbSet<PhuongThucThanhToan> PhuongThucThanhToans { get; set; }
         public DbSet<PhuongThucThanhToanChiTiet> PhuongThucThanhToanChiTiets { get; set; }
@@ -39,10 +50,8 @@ namespace App_Data.DbContext
         public DbSet<SanPhamChiTiet> SanPhamChiTiets { get; set; }
         public DbSet<SanPhamYeuThich> SanPhamYeuThichs { get; set; }
         public DbSet<ThongTinGiaoHang> ThongTinGiaoHangs { get; set; }
-        public DbSet<ThuongHieu> ThuongHieus { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<VoucherNguoiDung> VoucherNguoiDungs { get; set; }
-        public DbSet<XuatXu> XuatXus { get; set; }
         public DbSet<DanhGia> DanhGias { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -66,7 +75,7 @@ namespace App_Data.DbContext
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=QUOC\\SQLEXPRESS;Initial Catalog=Website_Sell_SmartPhone _BehindTheScene;Integrated Security=True;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=Website_Sell_SmartPhone _BehindTheScene;Integrated Security=True;TrustServerCertificate=true;");
 
             //cái này là db online
             //optionsBuilder.UseSqlServer("Server = tcp:bazaizaidb.database.windows.net,1433; Initial Catalog = bazaizaidb; Persist Security Info = False; User ID = bazaizai; Password = Trinhanh0311; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;");

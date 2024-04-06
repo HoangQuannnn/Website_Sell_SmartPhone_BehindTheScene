@@ -15,6 +15,8 @@ namespace App_Data.Configurations
         {
             builder.ToTable("CameraTruoc");
             builder.HasKey(x => x.IdCameraTruoc);
+            builder.Property(e => e.MaCameraTruoc).HasColumnType("varchar(50)");
+            builder.Property(c => c.TrangThai).HasColumnType("int");
             builder.HasOne(x => x.SanPhamChiTiet).WithMany(y => y.CameraTruocs).HasForeignKey(g => g.IdSanPhamChiTiet);
 
         }

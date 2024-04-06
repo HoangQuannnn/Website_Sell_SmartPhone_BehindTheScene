@@ -11,6 +11,7 @@ namespace App_Data.Models
     {
         [Key]
         public string? IdCamera { get; set; }
+        public string? MaCamera { get; set; }
         public string? DoPhanGiai { get; set; }
         public int? TrangThai { get; set; }
         public virtual ICollection<ChiTietCamera> ChiTietCameras { get; set; }

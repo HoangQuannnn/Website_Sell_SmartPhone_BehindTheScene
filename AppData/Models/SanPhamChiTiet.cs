@@ -25,21 +25,25 @@ namespace App_Data.Models
         public int? TrangThai { get; set; }
         public int? TrangThaiSale { get; set; }
         public string IdSanPham { get; set; }
-        public string IdKieuDeGiay { get; set; }
-        public string IdXuatXu { get; set; }
-        public string IdChatLieu { get; set; }
         public string IdMauSac { get; set; }
-        public string IdKichCo { get; set; }
-        public string IdLoaiGiay { get; set; }
-        public string IdThuongHieu { get; set; }
+        public string IdRam { get; set; }
+        public string IdRom { get; set; }
+        public string IdCongSac { get; set; }
+        public string IdHang { get; set; }
+        public string IdChip { get; set; }
+        public string IdManHinh { get; set; }
+        public string IdTheNho { get; set; }
+        public string IdPin { get; set; }
+        public virtual Ram Ram { get; set; }
+        public virtual Rom Rom { get; set; }
+        public virtual CongSac CongSac { get; set; }
+        public virtual Hang Hang { get; set; }
+        public virtual Chip Chip { get; set; }
+        public virtual ManHinh ManHinh { get; set; }
+        public virtual TheNho TheNho { get; set; }
+        public virtual Pin Pin { get; set; }
         public virtual SanPham SanPham { get; set; }
-        public virtual KieuDeGiay KieuDeGiay { get; set; }
-        public virtual XuatXu XuatXu { get; set; }
-        public virtual ChatLieu ChatLieu { get; set; }
         public virtual MauSac MauSac { get; set; }
-        public virtual KichCo KichCo { get; set; }
-        public virtual LoaiGiay LoaiGiay { get; set; }
-        public virtual ThuongHieu ThuongHieu { get; set; }
         public virtual IEnumerable<Anh> Anh { get; set; }
         public virtual IEnumerable<HoaDonChiTiet> HoaDonChiTiet { get; set; }
         public virtual IEnumerable<SanPhamYeuThich> SanPhamYeuThichs { get; set; }
@@ -48,6 +52,7 @@ namespace App_Data.Models
         public virtual IEnumerable<ChiTietCamera> ChiTietCameras { get; set; }
         public virtual IEnumerable<CameraSau> CameraSaus { get; set; }
         public virtual IEnumerable<CameraTruoc> CameraTruocs { get; set; }
+        public virtual IEnumerable<Imei> Imeis { get; set; }
         public virtual List<DanhGia> DanhGias { get; set; }
     }
 }

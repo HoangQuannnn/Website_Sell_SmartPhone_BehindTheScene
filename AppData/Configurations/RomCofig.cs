@@ -15,6 +15,7 @@ namespace App_Data.Configurations
         {
             builder.ToTable("Rom");
             builder.HasKey(x => x.IdRom);
+            builder.Property(e => e.MaRom).HasColumnType("varchar(50)");
             builder.Property(x => x.DungLuong).HasColumnType("varchar(50)");
             builder.Property(x => x.TrangThai).HasColumnType("varchar(50)");
         }

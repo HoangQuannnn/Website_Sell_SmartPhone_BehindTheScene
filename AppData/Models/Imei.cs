@@ -9,9 +9,10 @@ namespace App_Data.Models
     public class Imei
     {
         public string? IdImei { get; set; }
-        public string? MaImei { get; set; }
+        public string? IdSanPhamChiTiet { get; set; }
+        public string? SoImei { get; set; }
         public string? MaVach { get; set; }
         public int? TrangThai { get; set; }
-        public virtual List<SanPhamChiTiet> SanPhamChiTiets { get; set; }
+        public virtual SanPhamChiTiet SanPhamChiTiet { get; set; }
     }
 }

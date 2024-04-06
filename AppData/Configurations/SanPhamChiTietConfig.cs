@@ -16,36 +16,36 @@ namespace App_Data.Configurations
             builder.ToTable("SanPhamChiTiet");
             builder.HasKey(x => x.IdChiTietSp);
 
-            builder.HasOne(x => x.ThuongHieu).WithMany(y => y.SanPhamChiTiets).
-            HasForeignKey(c => c.IdThuongHieu);
-
+            builder.HasOne(x => x.Ram).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdRam);
 
             builder.HasOne(x => x.SanPham).WithMany(y => y.SanPhamChiTiets).
             HasForeignKey(c => c.IdSanPham);
 
+            builder.HasOne(x => x.Rom).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdRom);
 
-            builder.HasOne(x => x.KieuDeGiay).WithMany(y => y.SanPhamChiTiets).
-            HasForeignKey(c => c.IdKieuDeGiay);
+            builder.HasOne(x => x.CongSac).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdCongSac);
 
-
-            builder.HasOne(x => x.XuatXu).WithMany(y => y.SanPhamChiTiets).
-            HasForeignKey(c => c.IdXuatXu);
-
-
-            builder.HasOne(x => x.ChatLieu).WithMany(y => y.SanPhamChiTiets).
-            HasForeignKey(c => c.IdChatLieu);
-
+            builder.HasOne(x => x.Hang).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdHang);
 
             builder.HasOne(x => x.MauSac).WithMany(y => y.SanPhamChiTiets).
             HasForeignKey(c => c.IdMauSac);
 
+            builder.HasOne(x => x.Chip).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdChip);
 
-            builder.HasOne(x => x.KichCo).WithMany(y => y.SanPhamChiTiets).
-            HasForeignKey(c => c.IdKichCo);
+            builder.HasOne(x => x.ManHinh).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdManHinh); 
+            
+            builder.HasOne(x => x.TheNho).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdTheNho);
+            
+            builder.HasOne(x => x.Pin).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdPin);
 
-
-            builder.HasOne(x => x.LoaiGiay).WithMany(y => y.SanPhamChiTiets).
-            HasForeignKey(c => c.IdLoaiGiay);
             builder.Property(x => x.Ma).HasColumnType("varchar(50)");
             builder.Property(x => x.Day).HasColumnType("bit");
             builder.Property(x => x.NoiBat).HasColumnType("bit");

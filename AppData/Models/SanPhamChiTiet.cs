@@ -45,6 +45,9 @@ namespace App_Data.Models
         public virtual IEnumerable<SanPhamYeuThich> SanPhamYeuThichs { get; set; }
         public virtual IEnumerable<GioHangChiTiet> GioHangChiTiet { get; set; }
         public virtual IEnumerable<KhuyenMaiChiTiet> KhuyenMaiChiTiet { get; set; }
+        public virtual IEnumerable<ChiTietCamera> ChiTietCameras { get; set; }
+        public virtual IEnumerable<CameraSau> CameraSaus { get; set; }
+        public virtual IEnumerable<CameraTruoc> CameraTruocs { get; set; }
         public virtual List<DanhGia> DanhGias { get; set; }
     }
 }

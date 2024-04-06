@@ -17,7 +17,7 @@ namespace App_Api.Controllers
     [ApiController]
     public class HoaDonChiTietController : ControllerBase
     {
-        BazaizaiContext DbContextModel = new BazaizaiContext();
+        AppDbContext DbContextModel = new AppDbContext();
         private readonly IHoaDonChiTietRepos _hoaDonChiTiet;
         private readonly IMapper _mapper;
         public HoaDonChiTietController(IMapper mapper)

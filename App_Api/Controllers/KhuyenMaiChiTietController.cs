@@ -16,7 +16,7 @@ namespace App_Api.Controllers
     public class KhuyenMaiChiTietController : ControllerBase
     {
         private readonly IAllRepo<KhuyenMaiChiTiet> repos;
-        BazaizaiContext context = new BazaizaiContext();
+        AppDbContext context = new AppDbContext();
         DbSet<KhuyenMaiChiTiet> KhuyenMaiChiTiets;
         private readonly IMapper _mapper;
         public KhuyenMaiChiTietController(IMapper mapper)

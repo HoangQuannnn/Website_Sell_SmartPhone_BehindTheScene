@@ -6,7 +6,7 @@
 @using static App_Data.Repositories.TrangThai;
 @model IEnumerable<App_Data.ViewModels.HoaDon.HoaDonChoDTO>
 @{
-    BazaizaiContext context = new BazaizaiContext();
+    AppDbContext context = new AppDbContext();
     IHoaDonServices hoaDonServices = new HoaDonServices();
 }
 @{

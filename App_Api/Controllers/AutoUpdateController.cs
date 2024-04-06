@@ -25,7 +25,7 @@ namespace App_Api.Controllers
         private readonly IMapper _mapper;
         DbSet<Voucher> Vouchers;
         DbSet<VoucherNguoiDung> voucherNguoiDung;
-        BazaizaiContext _dbContext = new BazaizaiContext();
+        AppDbContext _dbContext = new AppDbContext();
         bool loading = false;
         public AutoUpdateController(IMapper mapper, IAllRepo<KhuyenMai> kMRepos, IAllRepo<KhuyenMaiChiTiet> kmctRepos, IAllRepo<SanPhamChiTiet> spctRepos, ISanPhamChiTietRespo sanPhamChiTietRes)
         {
@@ -36,7 +36,7 @@ namespace App_Api.Controllers
             AllRepo<Voucher> all = new AllRepo<Voucher>(_dbContext, Vouchers);
             VoucherRepo = all;
             _mapper = mapper;
-            _dbContext = new BazaizaiContext();
+            _dbContext = new AppDbContext();
             KMRepos = kMRepos;
             KmctRepos = kmctRepos;
             SpctRepos = spctRepos;

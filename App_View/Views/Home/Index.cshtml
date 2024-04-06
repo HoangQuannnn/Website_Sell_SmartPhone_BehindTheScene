@@ -9,7 +9,7 @@
 @inject IDanhGiaservice _DanhGiaservice
 @inject IKhuyenMaiChiTietservices khuyenMaiChiTiet;
 @{
-    BazaizaiContext context = new BazaizaiContext();
+    AppDbContext context = new AppDbContext();
     _DanhGiaservice = new DanhGiaservice();
     var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachGiayViewModel();
     model = SanPhamChiTietservice.GetDanhSachGiayViewModelAynsc().Result;

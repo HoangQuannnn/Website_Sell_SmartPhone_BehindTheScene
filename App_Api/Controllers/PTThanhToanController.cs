@@ -15,7 +15,7 @@ namespace App_Api.Controllers
     {
         // GET: api/<PTThanhToanController>
         private readonly IAllRepo<PhuongThucThanhToan> allRepo;
-        BazaizaiContext dbContext = new BazaizaiContext();
+        AppDbContext dbContext = new AppDbContext();
         DbSet<PhuongThucThanhToan> PhuongThucThanhToan;
         public PTThanhToanController()
         {

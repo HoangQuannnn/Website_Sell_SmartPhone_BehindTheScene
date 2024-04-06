@@ -16,7 +16,7 @@ namespace App_Api.Controllers
     public class SanPhamController : ControllerBase
     {
         private readonly IAllRepo<SanPham> allRepo;
-        BazaizaiContext dbContext = new BazaizaiContext();
+        AppDbContext dbContext = new AppDbContext();
         DbSet<SanPham> SanPham;
         private readonly IMapper _mapper;
         public SanPhamController(IMapper mapper)

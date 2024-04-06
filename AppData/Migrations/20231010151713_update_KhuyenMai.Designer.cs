@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace App_Data.Migrations
 {
-    [DbContext(typeof(BazaizaiContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20231010151713_update_KhuyenMai")]
     partial class update_KhuyenMai
     {

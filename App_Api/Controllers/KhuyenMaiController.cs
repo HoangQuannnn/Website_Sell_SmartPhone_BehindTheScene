@@ -18,7 +18,7 @@ namespace App_Api.Controllers
     public class KhuyenMaiController : ControllerBase
     {
         private readonly IAllRepo<KhuyenMai> repos;
-        BazaizaiContext context = new BazaizaiContext();
+        AppDbContext context = new AppDbContext();
         DbSet<KhuyenMai> KhuyenMais;
         public KhuyenMaiController()
         {

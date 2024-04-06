@@ -5,9 +5,9 @@ namespace App_View.Models.Components
 {
     public class Category : ViewComponent
     {
-        private readonly BazaizaiContext bazaizaiContext;
+        private readonly AppDbContext bazaizaiContext;
 
-        public Category(BazaizaiContext bazaizaiContext)
+        public Category(AppDbContext bazaizaiContext)
         {
             this.bazaizaiContext = bazaizaiContext;
         }

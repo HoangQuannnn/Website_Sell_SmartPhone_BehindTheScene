@@ -16,7 +16,7 @@ namespace App_Api.Controllers
     public class ThongKeController : Controller
     {
         private readonly IAllRepo<HoaDon> repos;
-        BazaizaiContext context = new BazaizaiContext();
+        AppDbContext context = new AppDbContext();
         DbSet<HoaDon> DanhGias;
         private IQueryable<ThongKeDoanhThuOnline> baseQuery;
 

@@ -34,7 +34,7 @@ namespace App_Api.Helpers.Mapping
 {
     public class MappingProfiles : Profile
     {
-        private readonly BazaizaiContext bazaizaiContext = new BazaizaiContext();
+        private readonly AppDbContext bazaizaiContext = new AppDbContext();
         private readonly DanhGiaRepo _danhGiaRepo = new DanhGiaRepo();
         public MappingProfiles()
         {

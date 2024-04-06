@@ -14,7 +14,7 @@ namespace App_Api.Controllers
     public class PTThanhToanChiTietController : ControllerBase
     {
         private readonly IAllRepo<PhuongThucThanhToanChiTiet> allRepo;
-        BazaizaiContext dbContext = new BazaizaiContext();
+        AppDbContext dbContext = new AppDbContext();
         DbSet<PhuongThucThanhToanChiTiet> PhuongThucThanhToanChiTiets;
         public PTThanhToanChiTietController()
         {

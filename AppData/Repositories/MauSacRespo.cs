@@ -12,10 +12,10 @@ namespace App_Data.Repositories
 {
     public class MauSacRespo:IMauSacRespo
     {
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         public MauSacRespo()
         {
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
         }
         public async Task<bool> AddAsync(MauSac entity)
         {

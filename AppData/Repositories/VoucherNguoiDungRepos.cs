@@ -17,10 +17,10 @@ namespace App_Data.Repositories
 {
     public class VoucherNguoiDungRepos : IVoucherNguoiDungRepos
     {
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         public VoucherNguoiDungRepos()
         {
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
         }
 
         public async Task<List<NguoiDung>> GetLstNguoiDungMoi()

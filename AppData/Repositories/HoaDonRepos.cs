@@ -20,11 +20,11 @@ namespace App_Data.Repositories
 {
     public class HoaDonRepos : IHoaDonRepos
     {
-        private readonly BazaizaiContext context;
+        private readonly AppDbContext context;
         private readonly IMapper _mapper;
         public HoaDonRepos(IMapper mapper)
         {
-            context = new BazaizaiContext();
+            context = new AppDbContext();
             //_mapper = new MapperConfiguration(cfg =>
             //{
             //    cfg.CreateMap<HoaDon, HoaDonDTO>();

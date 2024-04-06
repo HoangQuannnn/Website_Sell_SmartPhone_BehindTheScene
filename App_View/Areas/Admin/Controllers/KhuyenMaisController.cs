@@ -31,13 +31,13 @@ namespace App_View.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class KhuyenMaisController : Controller
     {
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         private readonly HttpClient _httpClient;
         private readonly IEmailSender _emailSender;
         private readonly SignInManager<NguoiDung> _signInManager;
         private readonly UserManager<NguoiDung> _userManager;
         private readonly IViewRenderService _viewRenderService;
-        public KhuyenMaisController(BazaizaiContext context, IEmailSender emailSender, SignInManager<NguoiDung> signInManager, UserManager<NguoiDung> userManager, IViewRenderService viewRenderService)
+        public KhuyenMaisController(AppDbContext context, IEmailSender emailSender, SignInManager<NguoiDung> signInManager, UserManager<NguoiDung> userManager, IViewRenderService viewRenderService)
         {
             _context = context;
             _httpClient = new HttpClient();

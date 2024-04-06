@@ -15,14 +15,14 @@ namespace App_Data.Repositories
 {
     public class GioHangChiTietRepos : IGioHangChiTietRepos
     {
-        BazaizaiContext context;
+        AppDbContext context;
         private readonly IMapper _mapper;
         private readonly SignInManager<NguoiDung> _signInManager;
         private readonly UserManager<NguoiDung> _userManager;
         public GioHangChiTietRepos(IMapper mapper)
         {
             _mapper = mapper;
-            context = new BazaizaiContext();
+            context = new AppDbContext();
         }
 
         public bool AddCartDetail(GioHangChiTiet item)

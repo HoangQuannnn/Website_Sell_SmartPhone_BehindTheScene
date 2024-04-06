@@ -15,13 +15,13 @@ namespace App_Api.Controllers
     {
         private readonly IAllRepo<MauSac> _mauSacRespo;
         private readonly IMapper _mapper;
-        private readonly BazaizaiContext _bazaizaiContext;
+        private readonly AppDbContext _bazaizaiContext;
 
         public MauSacController(IAllRepo<MauSac> mauSacRespo, IMapper mapper)
         {
             _mauSacRespo = mauSacRespo;
             _mapper = mapper;
-            _bazaizaiContext = new BazaizaiContext();
+            _bazaizaiContext = new AppDbContext();
         }
 
 

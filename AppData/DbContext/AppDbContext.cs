@@ -5,14 +5,14 @@ using System.Reflection;
 
 namespace App_Data.DbContext
 {
-    public class BazaizaiContext : IdentityDbContext<NguoiDung, ChucVu, string>
+    public class AppDbContext : IdentityDbContext<NguoiDung, ChucVu, string>
     {
-        public BazaizaiContext()
+        public AppDbContext()
         {
             
         }
 
-        public BazaizaiContext(DbContextOptions options) : base(options)
+        public AppDbContext(DbContextOptions options) : base(options)
         {
         }
 

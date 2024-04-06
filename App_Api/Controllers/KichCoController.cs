@@ -16,7 +16,7 @@ namespace App_Api.Controllers
     public class KichCoController : ControllerBase
     {
         private readonly IAllRepo<KichCo> repos;
-        BazaizaiContext context = new BazaizaiContext();
+        AppDbContext context = new AppDbContext();
         DbSet<KichCo> KichCos;
         private readonly IMapper _mapper;
         public KichCoController(IMapper mapper)

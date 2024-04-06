@@ -15,7 +15,7 @@ namespace App_View.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class VouchersController : Controller
     {
-        private readonly BazaizaiContext _context;
+        private readonly AppDbContext _context;
         private readonly IVoucherservices _VouchersV;
         private readonly IVoucherNguoiDungservices _voucherND;
         private readonly SignInManager<NguoiDung> _signInManager;
@@ -30,7 +30,7 @@ namespace App_View.Areas.Admin.Controllers
             _userManager = userManager;
             _emailSender = emailSender;
             _viewRenderService = viewRenderService;
-            _context = new BazaizaiContext();
+            _context = new AppDbContext();
         }
 
         #region Online

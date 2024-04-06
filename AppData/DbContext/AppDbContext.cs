@@ -44,6 +44,9 @@ namespace App_Data.DbContext
         public DbSet<VoucherNguoiDung> VoucherNguoiDungs { get; set; }
         public DbSet<XuatXu> XuatXus { get; set; }
         public DbSet<DanhGia> DanhGias { get; set; }
+        public DbSet<Ram> Rams { get; set; }
+        public DbSet<Rom> Roms { get; set; }
+        public DbSet<CongSac> CongSacs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -66,12 +69,11 @@ namespace App_Data.DbContext
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=TestDuAn;Integrated Security=True;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer("Data Source=LAPTOP-8QJQGJTD;Initial Catalog=BTS;Integrated Security=True;");
 
             //cái này là db online
             //optionsBuilder.UseSqlServer("Server = tcp:bazaizaidb.database.windows.net,1433; Initial Catalog = bazaizaidb; Persist Security Info = False; User ID = bazaizai; Password = Trinhanh0311; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;");
         }
-
 
     }
 }

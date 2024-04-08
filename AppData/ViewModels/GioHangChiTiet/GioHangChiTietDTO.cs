@@ -19,8 +19,10 @@ namespace App_Data.ViewModels.GioHangChiTiet
         public string IdSanPhamCT { get; set; }
         public string? TenSanPham { get; set; }
         public string? TenMauSac { get; set; }
-        public int? TenKichCo { get; set; }
-        public string? TenThuongHieu { get; set; }
+        public string? DungLuongRam { get; set; }
+        public string? DungLuongRom { get; set; }
+        public string? SoImei { get; set; }
+        public string? TenHang { get; set; }
         public int? SoLuong { get; set; }
         public double? GiaGoc { get; set; }
         public double? GiaBan { get; set; }

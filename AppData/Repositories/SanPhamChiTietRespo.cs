@@ -981,53 +981,62 @@ namespace App_Data.Repositories
                         .GroupBy(
                           gr => new
                           {
-                              gr.IdChatLieu,
+                              gr.IdRam,
                               gr.IdSanPham,
-                              gr.IdLoaiGiay,
-                              gr.IdKieuDeGiay,
-                              gr.IdThuongHieu,
-                              gr.IdXuatXu,
+                              gr.IdRom,
+                              gr.IdChip,
+                              gr.IdCongSac,
+                              gr.IdManHinh,
+                              gr.IdPin,
+                              gr.IdHang,
+                              gr.IdTheNho,
                           })
                         .Count()
                     })
                     .ToList(),
-                    LstItemFilterKichCo = GetListItemFilter(data, sp => sp.KichCo.SoKichCo.ToString()!).OrderBy(x => x.Ten).ToList(),
-                    LstItemFilterTheLoai = data
-                    .GroupBy(sp => sp.LoaiGiay.TenLoaiGiay)
+                    LstItemFilterRom = GetListItemFilter(data, sp => sp.Rom.DungLuong.ToString()!).OrderBy(x => x.Ten).ToList(),
+                    LstItemFilterRam = data
+                    .GroupBy(sp => sp.Ram.DungLuong)
                     .Select(gr => new ItemFilter()
                     {
                         Ten = gr.Key,
                         SoLuong = data
-                        .Where(sp => sp.LoaiGiay.TenLoaiGiay == gr.Key)
+                        .Where(sp => sp.Ram.DungLuong == gr.Key)
                         .GroupBy(
                           gr => new
                           {
-                              gr.IdChatLieu,
+                              gr.IdMauSac,
                               gr.IdSanPham,
-                              gr.IdLoaiGiay,
-                              gr.IdKieuDeGiay,
-                              gr.IdThuongHieu,
-                              gr.IdXuatXu,
+                              gr.IdRom,
+                              gr.IdChip,
+                              gr.IdCongSac,
+                              gr.IdManHinh,
+                              gr.IdPin,
+                              gr.IdHang,
+                              gr.IdTheNho,
                           })
                         .Count()
                     })
                     .ToList(),
-                    LstItemFilterThuongHieu = data
-                    .GroupBy(sp => sp.ThuongHieu.TenThuongHieu)
+                    LstItemFilterHang = data
+                    .GroupBy(sp => sp.Hang.TenHang)
                     .Select(gr => new ItemFilter()
                     {
                         Ten = gr.Key,
                         SoLuong = data
-                        .Where(sp => sp.ThuongHieu.TenThuongHieu == gr.Key)
+                        .Where(sp => sp.Hang.TenHang == gr.Key)
                         .GroupBy(
                           gr => new
                           {
-                              gr.IdChatLieu,
+                              gr.IdRam,
                               gr.IdSanPham,
-                              gr.IdLoaiGiay,
-                              gr.IdKieuDeGiay,
-                              gr.IdThuongHieu,
-                              gr.IdXuatXu,
+                              gr.IdRom,
+                              gr.IdChip,
+                              gr.IdCongSac,
+                              gr.IdManHinh,
+                              gr.IdPin,
+                              gr.IdMauSac,
+                              gr.IdTheNho,
                           })
                         .Count()
                     })
@@ -1059,13 +1068,15 @@ namespace App_Data.Repositories
             var sanPhamChiTiet = await _context.SanPhamChiTiets
                 .FirstOrDefaultAsync(x =>
                 x.IdSanPham == sanPhamChiTietCopyDTO.SanPhamChiTietData!.IdSanPham &&
-                x.IdChatLieu == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdChatLieu &&
-                x.IdKichCo == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdKichCo &&
                 x.IdMauSac == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdMauSac &&
-                x.IdKieuDeGiay == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdKieuDeGiay &&
-                x.IdLoaiGiay == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdLoaiGiay &&
-                x.IdThuongHieu == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdThuongHieu &&
-                x.IdXuatXu == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdXuatXu
+                x.IdTheNho == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdTheNho &&
+                x.IdMauSac == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdMauSac &&
+                x.IdPin == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdPin &&
+                x.IdCongSac == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdCongSac &&
+                x.IdChip == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdChip &&
+                x.IdRam == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdRam &&
+                x.IdRom == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdRom &&
+                x.IdManHinh == sanPhamChiTietCopyDTO.SanPhamChiTietData.IdManHinh
                 );
             return sanPhamChiTiet != null ? false : true;
         }
@@ -1095,29 +1106,38 @@ namespace App_Data.Repositories
             {
                 var listGuid = sumGuid.Split('/');
                 var idSanPham = listGuid[0];
-                var idThuongHieu = listGuid[1];
-                var idKieuDeGiay = listGuid[2];
-                var idLoaiGiay = listGuid[3];
-                var idXuatXu = listGuid[4];
-                var idChatLieu = listGuid[5];
+                var idHang = listGuid[1];
+                var idRam = listGuid[2];
+                var idRom = listGuid[3];
+                var idMauSac = listGuid[4];
+                var idTheNho = listGuid[5];
+                var idPin = listGuid[6];
+                var idManHinh = listGuid[7];
+                var idCongSac = listGuid[8];
+                var idChip = listGuid[9];
                 return _context
                         .SanPhamChiTiets
                         .Where(sp =>
                         sp.IdSanPham == idSanPham &&
-                        sp.IdThuongHieu == idThuongHieu &&
-                        sp.IdKieuDeGiay == idKieuDeGiay &&
-                        sp.IdLoaiGiay == idLoaiGiay &&
-                        sp.IdXuatXu == idXuatXu &&
-                        sp.IdChatLieu == idChatLieu
+                        sp.IdHang == idHang &&
+                        sp.IdRam == idRam &&
+                        sp.IdRom == idRom &&
+                        sp.IdMauSac == idMauSac &&
+                        sp.IdTheNho == idTheNho &&
+                        sp.IdPin == idPin &&
+                        sp.IdManHinh == idManHinh &&
+                        sp.IdCongSac == idCongSac &&
+                        sp.IdChip == idChip
                         ).
                         Include(sp => sp.SanPham).
                         Include(sp => sp.MauSac).
-                        Include(sp => sp.KichCo).
+                        Include(sp => sp.Ram).
+                        Include(sp => sp.Rom).
                         Include(sp => sp.Anh).
                         AsEnumerable().
                         GroupBy(sp => sp.IdMauSac).
                         OrderBy(gr => gr.Key).
-                        SelectMany(gr => gr.OrderBy(sp => sp.KichCo.SoKichCo.GetValueOrDefault())).
+                        SelectMany(gr => gr.OrderBy(sp => sp.Ram.DungLuong).
                         Select(sp => new RelatedProductViewModel()
                         {
                             IdSanPham = sp.IdChiTietSp,
@@ -1126,14 +1146,14 @@ namespace App_Data.Repositories
                             Anh = sp.Anh.Where(a => a.TrangThai == 0).OrderBy(a => a.NgayTao).FirstOrDefault()!.Url,
                             MauSac = sp.MauSac.TenMauSac,
                             GiaBan = sp.GiaBan.GetValueOrDefault(),
-                            KichCo = sp.KichCo.SoKichCo.GetValueOrDefault(),
+                            Ram = sp.Ram.DungLuong,
+                            Rom = sp.Rom.DungLuong,
                             SanPham = sp.SanPham.TenSanPham,
                             SoLuong = sp.SoLuongTon.GetValueOrDefault(),
                             SoLuongDaBan = sp.SoLuongDaBan.GetValueOrDefault(),
                             KhoiLuong = sp.KhoiLuong.GetValueOrDefault(),
                             TrangThai = sp.TrangThai.GetValueOrDefault()
-                        })
-                        .ToList();
+                        })).ToList();
             }
             catch (Exception)
             {
@@ -1152,60 +1172,68 @@ namespace App_Data.Repositories
                 query = query.Where(it => it.IdSanPham == parametersTongQuanDanhSach.IdSanPham);
             }
 
-            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdThuongHieu))
+            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdHang))
             {
-                query = query.Where(it => it.IdThuongHieu == parametersTongQuanDanhSach.IdThuongHieu);
+                query = query.Where(it => it.IdHang == parametersTongQuanDanhSach.IdHang);
             }
 
-            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdKieuDeGiay))
+            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdChip))
             {
-                query = query.Where(it => it.IdKieuDeGiay == parametersTongQuanDanhSach.IdKieuDeGiay);
+                query = query.Where(it => it.IdChip == parametersTongQuanDanhSach.IdChip);
             }
 
-            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdChatLieu))
+            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdManHinh))
             {
-                query = query.Where(it => it.IdChatLieu == parametersTongQuanDanhSach.IdChatLieu);
+                query = query.Where(it => it.IdManHinh == parametersTongQuanDanhSach.IdManHinh);
             }
 
-            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdLoaiGiay))
+            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdCongSac))
             {
-                query = query.Where(it => it.IdLoaiGiay == parametersTongQuanDanhSach.IdLoaiGiay);
+                query = query.Where(it => it.IdCongSac == parametersTongQuanDanhSach.IdCongSac);
             }
 
-            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdXuatXu))
+            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdPin))
             {
-                query = query.Where(it => it.IdXuatXu == parametersTongQuanDanhSach.IdXuatXu);
+                query = query.Where(it => it.IdPin == parametersTongQuanDanhSach.IdPin);
+            }
+            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdTheNho))
+            {
+                query = query.Where(it => it.IdTheNho == parametersTongQuanDanhSach.IdTheNho);
             }
 
             var result = query
                 .Include(sp => sp.SanPham)
-                .Include(sp => sp.ThuongHieu)
-                .Include(sp => sp.KieuDeGiay)
-                .Include(sp => sp.LoaiGiay)
-                .Include(sp => sp.XuatXu)
-                .Include(sp => sp.ChatLieu);
+                .Include(sp => sp.Hang)
+                .Include(sp => sp.Chip)
+                .Include(sp => sp.ManHinh)
+                .Include(sp => sp.CongSac)
+                .Include(sp => sp.TheNho)
+                .Include(sp => sp.Pin);
 
             var viewModelResult = result
                 .GroupBy(gr => new
                 {
-                    gr.IdChatLieu,
+                    gr.IdHang,
                     gr.IdSanPham,
-                    gr.IdThuongHieu,
-                    gr.IdXuatXu,
-                    gr.IdLoaiGiay,
-                    gr.IdKieuDeGiay,
+                    gr.IdChip,
+                    gr.IdManHinh,
+                    gr.IdCongSac,
+                    gr.IdPin,
+                    gr.IdTheNho,
                 })
                 .Select(gr => new SPDanhSachViewModel
                 {
-                    SumGuild = $"{gr.Key.IdSanPham}/{gr.Key.IdThuongHieu}/{gr.Key.IdKieuDeGiay}/{gr.Key.IdLoaiGiay}/{gr.Key.IdXuatXu}/{gr.Key.IdChatLieu}",
+                    SumGuild = $"{gr.Key.IdSanPham}/{gr.Key.IdHang}/{gr.Key.IdChip}/{gr.Key.IdManHinh}/{gr.Key.IdCongSac}/{gr.Key.IdPin}/{gr.Key.IdTheNho}",
                     SanPham = gr.First().SanPham.TenSanPham,
-                    ChatLieu = gr.First().ChatLieu.TenChatLieu,
-                    KieuDeGiay = gr.First().KieuDeGiay.TenKieuDeGiay,
-                    LoaiGiay = gr.First().LoaiGiay.TenLoaiGiay,
-                    ThuongHieu = gr.First().ThuongHieu.TenThuongHieu,
-                    XuatXu = gr.First().XuatXu.Ten,
+                    Chip = gr.First().Chip.TenChip,
+                    ManHinh = gr.First().ManHinh.LoaiManHinh,
+                    CongSac = gr.First().CongSac.LoaiCongSac,
+                    Hang = gr.First().Hang.TenHang,
+                    Pin = gr.First().Pin.DungLuong,
+                    TheNho = gr.First().TheNho.LoaiTheNho,
                     SoMau = gr.Select(it => it.IdMauSac).Distinct().Count(),
-                    SoSize = gr.Select(it => it.IdKichCo).Distinct().Count(),
+                    SoRam = gr.Select(it => it.IdRam).Distinct().Count(),
+                    SoRom = gr.Select(it => it.IdRom).Distinct().Count(),
                     TongSoLuongTon = gr.Sum(it => it.SoLuongTon.GetValueOrDefault()),
                     TongSoLuongDaBan = gr.Sum(it => it.SoLuongDaBan.GetValueOrDefault())
                 });
@@ -1216,9 +1244,12 @@ namespace App_Data.Repositories
                 viewModelResult = viewModelResult
                     .Where(x =>
                         x.SanPham!.ToLower().Contains(searchValueLower) ||
-                        x.LoaiGiay!.ToLower().Contains(searchValueLower) ||
-                        x.ChatLieu!.ToLower().Contains(searchValueLower) ||
-                        x.KieuDeGiay!.ToLower().Contains(searchValueLower));
+                        x.Hang!.ToLower().Contains(searchValueLower) ||
+                        x.Chip!.ToLower().Contains(searchValueLower) ||
+                        x.CongSac!.ToLower().Contains(searchValueLower) ||
+                        x.Pin!.ToLower().Contains(searchValueLower) ||
+                        x.TheNho!.ToLower().Contains(searchValueLower) ||
+                        x.ManHinh!.ToLower().Contains(searchValueLower));
             }
 
             return await viewModelResult.ToListAsync();

@@ -43,13 +43,15 @@ namespace App_Data.ViewModels.SanPhamChiTietDTO
         public double? GiaNhap { get; set; }
 
         public string? IdSanPham { get; set; }
-        public string? IdKieuDeGiay { get; set; }
-        public string? IdXuatXu { get; set; }
-        public string? IdChatLieu { get; set; }
         public string? IdMauSac { get; set; }
-        public string? IdKichCo { get; set; }
-        public string? IdLoaiGiay { get; set; }
-        public string? IdThuongHieu { get; set; }
+        public string? IdRam { get; set; }
+        public string? IdRom { get; set; }
+        public string? IdCongSac { get; set; }
+        public string? IdHang { get; set; }
+        public string? IdChip { get; set; }
+        public string? IdManHinh { get; set; }
+        public string? IdTheNho { get; set; }
+        public string? IdPin { get; set; }
         public List<string>? DanhSachAnh { get; set; }
     }
 }

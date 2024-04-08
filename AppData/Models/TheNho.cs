@@ -11,6 +11,7 @@ namespace App_Data.Models
     {
         [Key]
         public string? IdTheNho { get; set; }
+        public string? MaTheNho { get; set; }
         public string? LoaiTheNho { get; set; }
         public string? DungLuong { get; set; }
         public int? TrangThai { get; set; }

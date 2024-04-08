@@ -11,10 +11,15 @@ namespace App_Data.ViewModels.SanPhamChiTietViewModel
     {
         public string? IdChiTietSp { get; set; }
         public string? MaSanPham { get; set; }
-        public string? ThuongHieu { get; set; }
+        public string? Hang { get; set; }
         public string? MauSac { get; set; }
-        public int? KichCo { get; set; }
-        public string? TheLoai { get; set; }
+        public string? Ram { get; set; }
+        public string? Rom { get; set; }
+        public string? ManHinh { get; set; }
+        public string? CongSac { get; set; }
+        public string? Chip { get; set; }
+        public string? Pin { get; set; }
+        public string? TheNho { get; set; }
         public string? TenSanPham { get; set;}
         public double? GiaMin { get; set; }
         public double? GiaThucTe { get; set; }

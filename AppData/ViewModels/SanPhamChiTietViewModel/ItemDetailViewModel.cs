@@ -11,7 +11,9 @@ namespace App_Data.ViewModels.SanPhamChiTietViewModel
         public int? SoLuongDaBan { get; set; }
         public int? SoLuotYeuThich { get; set; }
         public List<string>? LstMauSac { get; set; }
-        public List<int>? LstKichThuoc { get; set; }
+        public List<string>? LstRam { get; set; }
+        public List<string>? LstRom { get; set; }
+        public List<string>? lstRamRom { get; set; }
         public List<string>? DanhSachAnh { get; set; }
         public bool IsYeuThich { get; set; }
         public string? XuatXu { get; set; }

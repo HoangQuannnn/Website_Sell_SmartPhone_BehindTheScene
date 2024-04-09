@@ -12,7 +12,8 @@ namespace App_Data.ViewModels.SanPhamChiTietViewModel
         public string? MaSanPham { get; set; }
         public string? SanPham { get; set; }
         public string? MauSac { get; set; }
-        public int KichCo { get; set; }
+        public string? Ram { get; set; }
+        public string? Rom { get; set; }
         public double GiaBan { get; set; }
         public double GiaNhap { get; set; }
         public double KhoiLuong { get; set; }

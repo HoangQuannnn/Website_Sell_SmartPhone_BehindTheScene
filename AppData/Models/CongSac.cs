@@ -13,7 +13,7 @@ namespace App_Data.Models
         public string? IdCongSac { get; set; }
         public string? MaCongSac { get; set; }
         public string? LoaiCongSac { get; set; }
-        public string? TrangThai { get; set; }
+        public int? TrangThai { get; set; }
         public virtual List<SanPhamChiTiet> SanPhamChiTiets { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace App_Data.Models
         public int? KichThuoc { get; set; }
         public string? LoaiManHinh { get; set; }
         public int? TanSoQuet { get; set; }
+        public int? TrangThai { get; set; }
         public virtual List<SanPhamChiTiet> SanPhamChiTiets { get; set; }
     }
 }

@@ -10,18 +10,18 @@ namespace App_Data.IRepositories
 {
     public interface IDanhGiaRepo
     {
-        //public Task<List<DanhGia>> GetAllAsync();
-        //public Task<DanhGia?> GetByKeyAsync(string id);
-        //public Task<bool> DeleteAsync(string id);
-        //public Task<List<DanhGiaViewModel>> GetListAsyncViewModel(string IdProductChiTiet);
-        //public Task<bool> UpdateAsync(DanhGia danhGia);
-        //public Task<bool> AddAsync(DanhGia danhGia);
+        public Task<List<DanhGia>> GetAllAsync();
+        public Task<DanhGia?> GetByKeyAsync(string id);
+        public Task<bool> DeleteAsync(string id);
+        public Task<List<DanhGiaViewModel>> GetListAsyncViewModel(string IdProductChiTiet);
+        public Task<bool> UpdateAsync(DanhGia danhGia);
+        public Task<bool> AddAsync(DanhGia danhGia);
 
-        //public Task<float> SoSaoTB(string IdProductChiTiet);
-        //public Task<int> GetTongSoDanhGia(string IdProductChiTiet);
-        //public Task<DanhGiaViewModel?> GetViewModelByKeyAsync(string id);
-        //public Task<List<Tuple<string, int,string,string>>> TongSoDanhGiaCuaMoiSpChuaDuyet();
-        //public Task<List<DanhGiaViewModel>> LstChiTietDanhGiaCuaMoiSpChuaDuyet(string idSanPham);
-        //public Task<List<DanhGiaViewModel>> LstDanhGia();
+        public Task<float> SoSaoTB(string IdProductChiTiet);
+        public Task<int> GetTongSoDanhGia(string IdProductChiTiet);
+        public Task<DanhGiaViewModel?> GetViewModelByKeyAsync(string id);
+        public Task<List<Tuple<string, int, string, string>>> TongSoDanhGiaCuaMoiSpChuaDuyet();
+        public Task<List<DanhGiaViewModel>> LstChiTietDanhGiaCuaMoiSpChuaDuyet(string idSanPham);
+        public Task<List<DanhGiaViewModel>> LstDanhGia();
     }
 }

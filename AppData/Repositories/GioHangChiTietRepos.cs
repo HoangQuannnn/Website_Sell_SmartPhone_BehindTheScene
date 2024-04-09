@@ -66,7 +66,6 @@ namespace App_Data.Repositories
                 .Include(x => x.SanPhamChiTiet).ThenInclude(spct => spct.MauSac)
                 .Include(x => x.SanPhamChiTiet).ThenInclude(spct => spct.Ram)
                 .Include(x => x.SanPhamChiTiet).ThenInclude(spct => spct.Rom)
-                .Include(x => x.SanPhamChiTiet).ThenInclude(spct => spct.Hang)
                 .Include(x => x.SanPhamChiTiet).ThenInclude(spct => spct.Anh)
                 .Include(x => x.ImeiChuaBans).ThenInclude(icb => icb.SoImei)
                 .ToList();
@@ -97,7 +96,6 @@ namespace App_Data.Repositories
                 .Include(it => it.SanPhamChiTiet).ThenInclude(it => it.MauSac)
                 .Include(x => x.SanPhamChiTiet).ThenInclude(it => it.Ram)
                 .Include(x => x.SanPhamChiTiet).ThenInclude(it => it.Rom)
-                .Include(it => it.SanPhamChiTiet).ThenInclude(it => it.Hang)
                 .Include(x => x.ImeiChuaBans).ThenInclude(icb => icb.SoImei)
                 .ToListAsync();
             var lstSanPhamGioHangVM = _mapper.Map<List<GioHangChiTiet>, List<SanPhamGioHangViewModel>>(data);

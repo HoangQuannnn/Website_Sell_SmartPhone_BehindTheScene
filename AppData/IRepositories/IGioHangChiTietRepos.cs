@@ -10,11 +10,11 @@ namespace App_Data.IRepositories
 {
     public interface IGioHangChiTietRepos
     {
-        //public IEnumerable<GioHangChiTiet> GetAll();
-        //public bool AddCartDetail(GioHangChiTiet item);
-        //public bool RemoveCartDetail(GioHangChiTiet item);
-        //public bool EditCartDetail(GioHangChiTiet item);
-        //public IEnumerable<GioHangChiTietDTO> GetAllGioHangDTO();
-        //public Task<List<SanPhamGioHangViewModel>> GetAllSanPhamGioHangWhenLoginAynsc(string idNguoiDung);
+        public IEnumerable<GioHangChiTiet> GetAll();
+        public bool AddCartDetail(GioHangChiTiet item);
+        public bool RemoveCartDetail(GioHangChiTiet item);
+        public bool EditCartDetail(GioHangChiTiet item);
+        public IEnumerable<GioHangChiTietDTO> GetAllGioHangDTO();
+        public Task<List<SanPhamGioHangViewModel>> GetAllSanPhamGioHangWhenLoginAynsc(string idNguoiDung);
     }
 }

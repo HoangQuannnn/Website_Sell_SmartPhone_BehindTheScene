@@ -15,17 +15,17 @@ namespace App_Data.ViewModels.SanPhamChiTietViewModel
         public double? GiaBan { get; set; }
         public double? GiaNhap { get; set; }
         public string? SanPham { get; set; }
-        public string? KieuDeGiay { get; set; }
-        public string? XuatXu { get; set; }
-        public string? ChatLieu { get; set; }
         public bool? NoiBat { get; set; }
         public bool? TrangThaiKhuyenMai { get; set; }
-        public bool? Day { get; set; }
         public string? MauSac { get; set; }
-        public int? KichCo { get; set; }
-        public double? KhoiLuong { get; set; }
-        public string? LoaiGiay { get; set; }
-        public string? ThuongHieu { get; set; }
+        public string? Ram { get; set; }
+        public string? Rom { get; set; }
+        public string? CongSac { get; set; }
+        public string? Hang { get; set; }
+        public string? Chip { get; set; }
+        public string? ManHinh { get; set; }
+        public string? TheNho { get; set; }
+        public string? Pin { get; set; }
         public int? SoLuongDaBan { get; set; }
         public string? NgayTao { get; set; }
         public string? DanhSachAnh { get; set; }

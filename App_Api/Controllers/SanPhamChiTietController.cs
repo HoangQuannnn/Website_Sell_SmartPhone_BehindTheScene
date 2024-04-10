@@ -436,7 +436,7 @@ namespace App_Api.Controllers
 
         //ThuongHieu
         [HttpPost("Create-ThuongHieu")]
-        public ThuongHieuDTO? CreateThuongHieu(ThuongHieuDTO thuongHieuDTO)
+        public HangDTO? CreateThuongHieu(HangDTO thuongHieuDTO)
         {
             var nameBrand = thuongHieuDTO.TenThuongHieu!.Trim();
             if (!_thuongHieuRes.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.TenThuongHieu).Contains(nameBrand, StringComparer.OrdinalIgnoreCase))

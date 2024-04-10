@@ -54,7 +54,7 @@ namespace App_Api.Controllers
         }
 
         [HttpPut("sua-thuong-hieu")]
-        public bool EditThuongHieu(ThuongHieuDTO thuongHieuDTO)
+        public bool EditThuongHieu(HangDTO thuongHieuDTO)
         {
             try
             {

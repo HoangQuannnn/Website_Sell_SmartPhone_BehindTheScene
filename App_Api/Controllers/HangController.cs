@@ -2,7 +2,6 @@
 using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
-using App_Data.ViewModels.ChatLieuDTO;
 using App_Data.ViewModels.HangDTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +15,7 @@ namespace App_Api.Controllers
     public class HangController : ControllerBase
     {
         private readonly IAllRepo<Hang> allRepo;
-        BazaizaiContext dbContext = new BazaizaiContext();
+        AppDbContext dbContext = new AppDbContext();
         private readonly IMapper _mapper;
         DbSet<Hang> Hang;
         public HangController(IMapper mapper)

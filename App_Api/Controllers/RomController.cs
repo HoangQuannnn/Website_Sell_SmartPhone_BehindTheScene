@@ -16,7 +16,7 @@ namespace App_Api.Controllers
     public class RomController : ControllerBase
     {
         private readonly IAllRepo<Rom> allRepo;
-        BazaizaiContext dbContext = new BazaizaiContext();
+        AppDbContext dbContext = new AppDbContext();
         private readonly IMapper _mapper;
         DbSet<Rom> Rom;
         public RomController(IMapper mapper)
@@ -54,7 +54,6 @@ namespace App_Api.Controllers
             {
                 IdRom = Guid.NewGuid().ToString(),
                 MaRom = ma,
-                TenRom = ten,
                 TrangThai = trangthai,
                 DungLuong = dungluong
             };
@@ -66,13 +65,11 @@ namespace App_Api.Controllers
         {
             try
             {
-                var tenRom = RomDTO.TenRom!.Trim().ToLower();
                 var dungLuongRom = RomDTO.DungLuong!.Trim().ToLower();
-                if (!dbContext.Roms.Where(x => x.TenRom!.Trim().ToLower() == tenRom && x.DungLuong!.Trim().ToLower() == dungLuongRom).Any())
+                if (!dbContext.Roms.Where(x => x.DungLuong!.Trim().ToLower() == dungLuongRom).Any())
                 {
                     var Rom = _mapper.Map<Rom>(RomDTO);
                     dbContext.Attach(Rom);
-                    dbContext.Entry(Rom).Property(sp => sp.TenRom).IsModified = true;
                     dbContext.Entry(Rom).Property(sp => sp.DungLuong).IsModified = true;
                     dbContext.SaveChanges();
                     return true;

@@ -12,6 +12,7 @@ namespace App_Data.Models
         [Key]
         public string? IdRam { get; set; }
         public string? MaRam { get; set; }
+        public string? TenRam { get; set; }
         public string? DungLuong { get; set; }
         public int? TrangThai { get; set; }
         public virtual List<SanPhamChiTiet>? SanPhamChiTiets { get; set; }

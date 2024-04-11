@@ -16,7 +16,7 @@ namespace App_Api.Controllers
     public class RamController : ControllerBase
     {
         private readonly IAllRepo<Ram> allRepo;
-        BazaizaiContext dbContext = new BazaizaiContext();
+        AppDbContext dbContext = new AppDbContext();
         private readonly IMapper _mapper;
         DbSet<Ram> Ram;
         public RamController(IMapper mapper)

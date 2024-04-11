@@ -9,6 +9,7 @@ namespace App_Data.ViewModels.RamDTO
     public class RamDTO
     {
         public string? IdRam { get; set; }
+        public string? TenRam { get; set; }
         public string? DungLuong { get; set; }
     }
 }

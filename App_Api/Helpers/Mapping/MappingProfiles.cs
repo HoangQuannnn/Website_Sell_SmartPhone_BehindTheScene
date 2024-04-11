@@ -13,6 +13,7 @@ using App_Data.ViewModels.VoucherNguoiDung;
 using App_Data.ViewModels.KhuyenMaiChiTietDTO;
 
 using App_Data.ViewModels.HoaDonChiTietDTO;
+using App_Data.ViewModels.ChiTietCameraDTO;
 
 using static Peg.Base.PegBaseParser;
 
@@ -32,6 +33,7 @@ using App_Data.ViewModels.CongSacDTO;
 using App_Data.ViewModels.PinDTO;
 using App_Data.ViewModels.ChipDTO;
 using App_Data.ViewModels.TheNhoDTO;
+using App_Data.ViewModels.ChiTietCameraDTO;
 
 namespace App_Api.Helpers.Mapping
 {
@@ -531,6 +533,16 @@ namespace App_Api.Helpers.Mapping
                 )
                 .ForMember(
                         dest => dest.SanPham,
+                        opt => opt.MapFrom(src => src.SanPhamChiTiet.SanPham.TenSanPham)
+                )
+                .ReverseMap();
+            CreateMap<ChiTietCamera, ChiTietCameraDTO>()
+                .ForMember(
+                        dest => dest.Camera,
+                        opt => opt.MapFrom(src => src.Camera.DoPhanGiai)
+                )
+                .ForMember(
+                        dest => dest.SanPhamChiTiet,
                         opt => opt.MapFrom(src => src.SanPhamChiTiet.SanPham.TenSanPham)
                 )
                 .ReverseMap();

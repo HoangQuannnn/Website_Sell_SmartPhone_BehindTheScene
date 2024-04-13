@@ -14,25 +14,25 @@ namespace App_Api.Controllers
     public class SanPhamYeuThichController : ControllerBase
     {
         private readonly IAllRepo<SanPhamYeuThich> _allRepoSanPhamYeuThich;
-        private readonly AppDbContext _bazaizaiContext;
+        private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
 
         public SanPhamYeuThichController(IAllRepo<SanPhamYeuThich> allRepoSanPhamYeuThich, IMapper mapper)
         {
             _allRepoSanPhamYeuThich = allRepoSanPhamYeuThich;
-            _bazaizaiContext = new AppDbContext();
+            _dbContext = new AppDbContext();
             _mapper = mapper;
         }
 
         [HttpGet("Get-Danh-Sach-SanPhamYeuThich")]
         public List<SanPhamYeuThichViewModel> GetDanhSachSanPhamYeuThich(string idNguoiDung)
         {
-            var lstSanPhamYeuThich = _bazaizaiContext
+            var lstSanPhamYeuThich = _dbContext
              .SanPhamYeuThichs
              .Where(spyt => spyt.IdNguoiDung == idNguoiDung)
              .Include(yt => yt.SanPhamChiTiet).ThenInclude(sp => sp.SanPham)
-             .Include(yt => yt.SanPhamChiTiet).ThenInclude(sp => sp.LoaiGiay)
-             .Include(yt => yt.SanPhamChiTiet).ThenInclude(sp => sp.KichCo)
+             .Include(yt => yt.SanPhamChiTiet).ThenInclude(sp => sp.Ram)
+             .Include(yt => yt.SanPhamChiTiet).ThenInclude(sp => sp.MauSac)
              .Include(yt => yt.SanPhamChiTiet).ThenInclude(sp => sp.Anh)
              .ToList();
             var lstSanPhamYeuThichViewModel = _mapper.Map<List<SanPhamYeuThich>, List<SanPhamYeuThichViewModel>>(lstSanPhamYeuThich);
@@ -42,7 +42,7 @@ namespace App_Api.Controllers
         [HttpPost("add-sanphamyeuthich")]
         public void AddSanPhamYeuThich(SanPhamYeuThichDTO sanPhamYeuThichDTO)
         {
-            var exists = _bazaizaiContext.SanPhamYeuThichs
+            var exists = _dbContext.SanPhamYeuThichs
                  .Any(spyt =>
                  spyt.IdNguoiDung == sanPhamYeuThichDTO.IdNguoiDung &&
                  spyt.IdSanPhamChiTiet == sanPhamYeuThichDTO.IdSanPhamChiTiet
@@ -58,7 +58,7 @@ namespace App_Api.Controllers
         [HttpDelete("Remove-sanphamyeuthich")]
         public void RemoveSanPhamYeuThich(SanPhamYeuThichDTO sanPhamYeuThichDTO)
         {
-            var sanPhamYeuThich = _bazaizaiContext
+            var sanPhamYeuThich = _dbContext
                 .SanPhamYeuThichs
                 .Where(yt => yt.IdNguoiDung == sanPhamYeuThichDTO.IdNguoiDung && yt.IdSanPhamChiTiet == sanPhamYeuThichDTO.IdSanPhamChiTiet).FirstOrDefault();
             _allRepoSanPhamYeuThich.RemoveItem(sanPhamYeuThich!);

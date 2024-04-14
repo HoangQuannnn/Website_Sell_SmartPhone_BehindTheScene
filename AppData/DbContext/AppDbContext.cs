@@ -36,8 +36,10 @@ namespace App_Data.DbContext
         public DbSet<Pin> Pins { get; set; }
         public DbSet<TheNho> TheNhos { get; set; }
         public DbSet<MauSac> MauSacs { get; set; }
+        public DbSet<TheSim> TheSims { get; set; }
         public DbSet<Camera> Cameras { get; set; }
         public DbSet<ChiTietCamera> ChiTietCameras { get; set; }
+        public DbSet<TheSimDienThoai> TheSimDienThoais { get; set; }
         public DbSet<CameraSau> CameraSaus { get; set; }
         public DbSet<CameraTruoc> CameraTruocs { get; set; }
         public DbSet<Imei> Imeis { get; set; }

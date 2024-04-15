@@ -1,0 +1,1671 @@
+﻿@model App_Data.ViewModels.SanPhamChiTietDTO.SanPhamChiTietDTO
+
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .tab-content {
+        width: 100%;
+    }
+
+    .note-editing-area {
+        height: 400px;
+    }
+
+    .cursor-image {
+        cursor: pointer;
+    }
+
+    .note-editing-area {
+        height: 400px;
+    }
+
+    .main-content {
+        /*        background: #eeeeee*/
+    }
+
+    .main_danh_sach {
+        /*        background: #A0C5E8;*/
+    }
+
+    .card-body {
+        /*        background: #a0c5e85e !important;*/
+    }
+
+    .checkbox input[type="checkbox"] {
+        display: none;
+    }
+
+    /* Thiết lập kiểu checkbox tùy chỉnh sử dụng giả lập (pseudo-elements) */
+    .checkbox label::before {
+        content: "\2714"; /* Unicode ký tự checkmark */
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #000;
+        text-align: center;
+        vertical-align: middle;
+        margin-right: 5px;
+        font-size: 18px;
+        line-height: 18px;
+        cursor: pointer;
+    }
+
+    /* Định dạng khi checkbox được chọn */
+    .checkbox input[type="checkbox"]:checked + label::before {
+        background-color: #00FF00; /* Màu nền khi đã chọn */
+    }
+
+    /* Định dạng khi checkbox chưa được chọn */
+    .checkbox input[type="checkbox"]:not(:checked) + label::before {
+        background-color: #c4d0d9; /* Màu nền khi chưa chọn */
+    }
+
+    .checkbox input[type=checkbox] + label {
+        padding-left: 0px;
+        margin-top: 11px;
+        margin-left: 18px;
+    }
+
+    .swal2-title {
+        font-family: 'Arial', sans-serif; /* Chọn font bạn muốn sử dụng cho alert */
+    }
+</style>
+
+<div class="modal fade" id="cauHinh" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header align-items-center" style=" background: #00090b; color: white">
+                <i class="far fa-bell m-r-5" style="font-size: 33px"></i>
+                <h5 style="color: white" class="modal-title" id="exampleModalLabel">CẤU HÌNH GIÁ TRỊ CHO CÁC BIẾN THỂ</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body" style="background: #d3f6ff;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-3">
+                            <label class="font-weight-semibold">Giá Nhập</label>
+                            <div class="d-flex align-items-center">
+                                <i class="far fa-money-bill-alt mr-1"></i>
+                                <input id="giaNhap" class="form-control formatPrice" value="10000" name="GiaNhap" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group col-3">
+                            <label class="font-weight-semibold">Giá Bán</label>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-money-bill-wave mr-1"></i>
+                                <input min="1" id="giaBan" class="form-control formatPrice" value="10000" name="GiaBan" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group col-3">
+                            <label class="font-weight-semibold">Số lượng</label>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-database mr-1"></i>
+                                <input id="soLuongTon" class="form-control formatNumber" value="10" name="SoLuongTon">
+                            </div>
+                        </div>
+                        <div class="form-group col-3">
+                            <label class="font-weight-semibold">Khối lượng</label>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-weight mr-1"></i>
+                                <input id="khoiLuong" class="form-control formatNumber" value="250" name="KhoiLuong">(g)
+                            </div>
+                        </div>
+                        <div class="form-group d-flex align-items-center col-3">
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1-day" class="switch-2-day" checked>
+                                <label class="font-weight-semibold" for="switch-1-day"></label>
+                            </div>
+                            <label class="font-weight-semibold">Dây(Có/Không)</label>
+                        </div>
+                        <div class="form-group d-flex align-items-center col-4">
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1-noibat" class="switch-2-noibat">
+                                <label class="font-weight-semibold" for="switch-1-noibat"></label>
+                            </div>
+                            <label class="font-weight-semibold">Hiển thị ở danh dách nổi bật</label>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <div class="m-b-5" style="margin-top: 10px;">
+                                <label class="font-weight-semibold" style="display: block; margin-bottom: 5px;">
+                                    Mô tả sản phẩm
+                                </label>
+                                <div class="moTa" style="width: 100%; " id="MoTaCauHinh"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="background: #d0dae3">
+                <button type="button" class="btn btn-kio" onclick="generate()">
+                    <i class="far fa-calendar-check"></i>
+                    <span>Áp dụng</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="notification-toast top-right" id="notification-toast"></div>
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>QUẢN LÝ SẢN PHẨM</a>
+            <a class="breadcrumb-item" href="#">THÊM MỚI & CHỈNH SỬA SẢN PHẨM</a>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body" id="formGen">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h5 style="margin: 0;">QUẢN LÝ SẢN PHẨM</h5>
+            <div class="d-flex">
+                <button onclick="generate_confirm()" class="btn btn-kio">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Tạo các biến thể</span>
+                </button>
+            </div>
+        </div>
+        <div class="m-b-15" style="margin-bottom: 30px">
+            <div class="row">
+                <div class="col-4" style="margin-top: 10px" id="sanpham">
+                    <label class="font-weight-semibold">Tên sản phẩm</label>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select class="w-100 select2-active" asp-for="IdSanPham">
+                            @foreach (var item in (SelectList)ViewData["IdSanPham"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4" style="margin-top: 10px" id="thuonghieu">
+                    <label class="font-weight-semibold">
+                        <span> Thương hiệu</span>
+                    </label>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select class="select2-active w-100" asp-for="IdThuongHieu">
+                            @foreach (var item in (SelectList)ViewData["IdThuongHieu"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4" style="margin-top: 10px" id="xuatxu">
+                    <label class="font-weight-semibold">Xuất xứ</label>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select class="select2-active w-100" asp-for="IdXuatXu">
+                            @foreach (var item in (SelectList)ViewData["IdXuatXu"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4" style="margin-top: 10px" id="chatlieu">
+                    <label class="font-weight-semibold">Chất liệu</label>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select class="select2-active w-100" asp-for="IdChatLieu">
+                            @foreach (var item in (SelectList)ViewData["IdChatLieu"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4" style="margin-top: 10px" id="loaigiay">
+                    <label class="font-weight-semibold">Loại giầy</label>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select class="select2-active w-100" asp-for="IdLoaiGiay">
+                            @foreach (var item in (SelectList)ViewData["IdLoaiGiay"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4" style="margin-top: 10px" id="kieudegiay">
+                    <label class="font-weight-semibold">Kiểu đế giầy</label>
+                    <div class="d-flex align-items-center mr-1">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select class="select2-active w-100" asp-for="IdKieuDeGiay">
+                            @foreach (var item in (SelectList)ViewData["IdKieuDeGiay"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6" style="margin-top: 10px" id="mausac">
+                    <label class="font-weight-semibold">Màu Sắc</label>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select id="IdColor" class="select2-active w-100"
+                                multiple="multiple">
+                            @foreach (var item in (SelectList)ViewData["IdMauSac"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-6" style="margin-top: 10px" id="kichco">
+                    <label class="font-weight-semibold">Kích cỡ</label>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select id="IdSize" class="select2-active w-100"
+                                multiple="multiple">
+                            @foreach (var item in (SelectList)ViewData["IdKichCo"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="confirm" class="mt-2 mb-2" style="display: none">
+    <div class="d-flex justify-content-end">
+        <input type="file" multiple hidden id="ChonAnh" accept="image/*" />
+        <button onclick="ChonAnh()" class="btn btn-kio mr-2" id="ChoseImage" style="display: none">
+            <i class="far fa-file-image m-r-5"></i>
+            Chọn Ảnh
+        </button>
+        <button onclick="CapNhat(this)" class="btn btn-kio mr-2">
+            <i class="anticon anticon-sync m-r-5"></i>
+            <i class="anticon anticon-loading m-r-5"></i>
+            Cập nhật
+        </button>
+        <button onclick="Huy()" class="btn btn-warning mr-2">
+            <i class="far fa-window-close m-r-5"></i>
+            Hủy
+        </button>
+    </div>
+</div>
+
+<div class="accordion borderless" id="accordion-borderless">
+</div>
+
+<script>
+    function generate_confirm() {
+        const lstColor = Array.from($('#IdColor option:checked')).map(option => ({ text: option.text, value: option.value }))
+
+        const lstSize = Array.from($('#IdSize option:checked')).map(option => ({ text: option.text, value: option.value }))
+
+        console.log("IdXuatXu:", $('[name="IdXuatXu"]').val());
+        console.log("IdChatLieu:", $('[name="IdChatLieu"]').val());
+        console.log("IdLoaiGiay:", $('[name="IdLoaiGiay"]').val());
+        console.log("IdKieuDeGiay:", $('[name="IdKieuDeGiay"]').val());
+
+
+        if (!lstSize.length || !lstColor.length || $('[name="IdSanPham"]').val() === null || $('[name="IdThuongHieu"]').val() === null || $('[name="IdXuatXu"]').val() === null || $('[name="IdChatLieu"]').val() === null || $('[name="IdLoaiGiay"]').val() === null || $('[name="IdKieuDeGiay"]').val() === null) {
+            var toastHTML = `<div class="toast fade hide" data-delay="3000">
+              <div class="toast-header">
+                  <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                  <strong class="mr-auto">Thông báo</strong>
+                  <small>1 second ago</small>
+                  <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="toast-body">
+                  Một vài trường dữ liệu chưa được nhập/chọn.
+                  Vui lòng nhập/chọn các trường cần thiết để tiếp tục!
+              </div>
+          </div>`
+            $('#notification-toast').append(toastHTML)
+            $('#notification-toast .toast').toast('show');
+            setTimeout(function () {
+                $('#notification-toast .toast:first-child').remove();
+            }, 3000);
+            return;
+        }
+
+        Swal.fire({
+            title: 'Thông báo?',
+            text: 'Bạn có muốn cấu hình giá trị cho các biến thể không?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Bỏ qua cấu hình',
+            customClass: {
+                confirmButton: 'custom-alert',
+                cancelButton: 'custom-alert',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#cauHinh').modal('show');
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                generate();
+                Swal.close();
+            }
+        });
+    }
+
+
+    function ChonAnh() {
+        $('#ChonAnh').trigger('click');
+    }
+
+    function CheckConfirm() {
+        $('.item_checkbox:checked').length > 0 ? $('#ChoseImage').show() : $('#ChoseImage').hide()
+    }
+
+    function CheckboxChange() {
+        CheckConfirm();
+    }
+
+    function showToastTonTai(name) {
+        var toastHTML = `<div class="toast fade hide" data-delay="3000">
+     <div class="toast-header">
+         <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+         <strong class="mr-auto">Thông báo</strong>
+         <small>1 seconds ago</small>
+         <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+         </button>
+     </div>
+     <div class="toast-body">
+         <span>${name} đã tồn tại!</span>
+     </div>
+ </div>`
+
+        $('#notification-toast').append(toastHTML)
+        $('#notification-toast .toast').toast('show');
+        setTimeout(function () {
+            $('#notification-toast .toast:first-child').remove();
+        }, 3000);
+    }
+
+    function showDauVaoKhongHopLe() {
+        var toastHTML = `<div class="toast fade hide" data-delay="3000">
+    <div class="toast-header">
+        <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+        <strong class="mr-auto">Thông báo</strong>
+        <small>1 seconds ago</small>
+        <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        <span>Đầu vào không hợp lệ</span>
+    </div>
+</div>`
+
+        $('#notification-toast').append(toastHTML)
+        $('#notification-toast .toast').toast('show');
+        setTimeout(function () {
+            $('#notification-toast .toast:first-child').remove();
+        }, 3000);
+    }
+
+    function showErrKhoangTrang() {
+        var toastHTML = `<div class="toast fade hide" data-delay="3000">
+                <div class="toast-header">
+                    <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                    <strong class="mr-auto">Thông báo</strong>
+                    <small>1 seconds ago</small>
+                    <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    <span>Vui lòng không để khoảng trắng!</span>
+                </div>
+            </div>`
+
+        $('#notification-toast').append(toastHTML)
+        $('#notification-toast .toast').toast('show');
+        setTimeout(function () {
+            $('#notification-toast .toast:first-child').remove();
+        }, 3000);
+    }
+
+    $(document).on('change', '#ChonAnh', function () {
+        if (this.files.length > 6) {
+            var toastHTML = `<div class="toast fade hide" data-delay="3000">
+                    <div class="toast-header">
+                        <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                        <strong class="mr-auto">Thông báo</strong>
+                        <small>1 second ago</small>
+                        <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        Chỉ được chọn tối đa 6 ảnh!
+                    </div>
+                </div>`
+            $('#notification-toast').append(toastHTML)
+            $('#notification-toast .toast').toast('show');
+            setTimeout(function () {
+                $('#notification-toast .toast:first-child').remove();
+            }, 3000);
+            return
+        }
+
+        $('.item_checkbox:checked').closest('.item-accordion').each((index, item) => {
+
+            const imageList = $(item).find('.container-file');
+
+            imageList.empty();
+
+            var fileInputs = $(item).find('.fileInput');
+
+            fileInputs.val('');
+
+            fileInputs.prop("files", null);
+
+            $(item).find('.fileInput').prop("files", $(this).prop("files"));
+
+            const key = imageList.closest('.collapse').attr('id');
+
+            selectedFiles[key] = []
+
+            Array.from(this.files).map((file) => {
+                if (file.type.startsWith("image")) {
+                    const wrapper = $('<div>').addClass('wrapper-file');
+                    const image = $('<div>').addClass('image');
+                    const imageElement = $('<img>').addClass('file-image').attr('src', URL.createObjectURL(file));
+
+                    if (!selectedFiles[key]) {
+                        selectedFiles[key] = []
+                    }
+                    selectedFiles[key].push({ key: file.name, data: file });
+
+                    imageElement.on('click', () =>
+                        changeImage(imageElement, file, key)
+                    );
+
+                    const closeIcon = $('<i>').addClass('fas fa-times close-icon');
+
+
+                    image.append(imageElement);
+                    image.append(closeIcon);
+
+                    const content = $('<div>').addClass('content');
+                    const icon = $('<div>').addClass('icon');
+                    icon.html('<i class="fas fa-cloud-upload-alt"></i>');
+                    content.append(icon);
+
+                    var cancelBtn = $('<div>').addClass('cancel-btn');
+                    cancelBtn.html('<i class="fas fa-times"></i>');
+
+                    wrapper.append(image);
+                    wrapper.append(content);
+                    wrapper.append(cancelBtn);
+                    imageList.append(wrapper);
+
+                    closeIcon.on('click', function () {
+                        const fileInput = wrapper.find('input');
+                        if (fileInput.length == 0) {
+                            const indexDelete = selectedFiles[key].findIndex(item => item.data.name === file.name);
+                            selectedFiles[key].splice(indexDelete, 1);
+                        } else {
+                            const indexDelete = selectedFiles[key].findIndex(item => item.data.name === fileInput.name);
+                            selectedFiles[key].splice(indexDelete, 1);
+                        }
+                        wrapper.remove();
+                    });
+
+                    return;
+                }
+                this.files = "";
+            });
+        });
+
+        $('.item_checkbox').prop('checked', false);
+        CheckConfirm();
+        var toastHTML = `<div class="toast fade hide" data-delay="3000">
+             <div class="toast-header">
+                 <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                 <strong class="mr-auto">Bootstrap</strong>
+                 <small>1 second ago</small>
+                 <button type="button" class="ml-2 btn btn-tone close" data-dismiss="toast" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <div class="toast-body">
+                  Đã chọn ảnh cho phần tử đã chọn!
+             </div>
+     </div>`
+
+        $('#notification-toast').append(toastHTML)
+        $('#notification-toast .toast').toast('show');
+        setTimeout(function () {
+            $('#notification-toast .toast:first-child').remove();
+        }, 3000);
+
+    })
+
+    $(() => {
+        $(".select2-active").select2();
+        $('#thuonghieu').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    var data = {
+                        TenThuongHieu: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateTenThuongHieu',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("[name='IdThuongHieu']");
+                                var selectedValue = $select2.val();
+                                if (selectedValue && selectedValue.length > 0) {
+                                    $select2.val(null).trigger('change');
+                                }
+                                var newOption = new Option(result.tenThuongHieu, result.idThuongHieu, true, true);
+                                $select2.append(newOption).trigger('change');
+
+                                $(this).val('');
+
+                            } else {
+                                showToastTonTai('Thương hiệu');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
+                }
+                else {
+                    showErrKhoangTrang()
+                }
+            }
+        });
+        $('#xuatxu').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    var data = {
+                        Ten: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateTenXuatXu',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("[name='IdXuatXu']");
+                                var selectedValue = $select2.val();
+                                if (selectedValue && selectedValue.length > 0) {
+                                    $select2.val(null).trigger('change');
+                                }
+
+                                var newOption = new Option(result.ten, result.idXuatXu, true, true);
+                                $select2.append(newOption).trigger('change');
+
+                                $(this).val('');
+                            } else {
+                                showToastTonTai('Xuất xứ');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
+                }
+                else {
+                    showErrKhoangTrang()
+                }
+            }
+        });
+        $('#sanpham').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    var data = {
+                        TenSanPham: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateTenSanPham',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("[name='IdSanPham']");
+                                var selectedValue = $select2.val();
+                                if (selectedValue && selectedValue.length > 0) {
+                                    $select2.val(null).trigger('change');
+                                }
+                                var newOption = new Option(result.tenSanPham, result.idSanPham, true, true);
+                                $select2.append(newOption).trigger('change');
+
+                                $(this).val('');
+                            } else {
+                                showToastTonTai('Tên sản phẩm')
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
+                }
+                else {
+                    showErrKhoangTrang();
+                }
+            }
+        });
+        $('#loaigiay').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    var data = {
+                        TenLoaiGiay: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateTenLoaiGiay',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("[name='IdLoaiGiay']");
+                                var selectedValue = $select2.val();
+                                if (selectedValue && selectedValue.length > 0) {
+                                    $select2.val(null).trigger('change');
+                                }
+                                var newOption = new Option(result.tenLoaiGiay, result.idLoaiGiay, true, true);
+                                $select2.append(newOption).trigger('change');
+
+                                $(this).val('');
+                            } else {
+                                showToastTonTai('Loại giày')
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
+                }
+                else {
+                    showErrKhoangTrang();
+                }
+            }
+        });
+        $('#chatlieu').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    var data = {
+                        TenChatLieu: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateTenChatLieu',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("[name='IdChatLieu']");
+                                var selectedValue = $select2.val();
+                                if (selectedValue && selectedValue.length > 0) {
+                                    $select2.val(null).trigger('change');
+                                }
+                                var newOption = new Option(result.tenChatLieu, result.idChatLieu, true, true);
+                                $select2.append(newOption).trigger('change');
+
+                                $(this).val('');
+                            } else {
+                                showToastTonTai('Chất liệu')
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
+                }
+                else {
+                    showErrKhoangTrang();
+                }
+            }
+        });
+        $('#kieudegiay').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    var data = {
+                        TenKieuDeGiay: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateTenKieuDeGiay',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("[name='IdKieuDeGiay']");
+                                var selectedValue = $select2.val();
+                                if (selectedValue && selectedValue.length > 0) {
+                                    $select2.val(null).trigger('change');
+                                }
+                                var newOption = new Option(result.tenKieuDeGiay, result.idKieuDeGiay, true, true);
+                                $select2.append(newOption).trigger('change');
+
+                                $(this).val('');
+                            } else {
+                                showToastTonTai("Kiểu đế giày")
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
+                }
+                else {
+                    showErrKhoangTrang();
+                }
+            }
+        });
+        $('#mausac').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    var data = {
+                        TenMauSac: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateTenMauSac',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("#IdColor");
+
+                                var newOption = new Option(result.tenMauSac, result.idMauSac, true, true);
+                                $select2.append(newOption).trigger('change');
+
+                                $(this).val('');
+                            } else {
+                                showToastTonTai("Màu sắc")
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
+                }
+                else {
+                    showErrKhoangTrang();
+                }
+            }
+        });
+        $('#kichco').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    if (Number.isInteger(parseFloat(inputValue.trim())) && parseInt(inputValue) < 0) {
+                        var toastHTML = `<div class="toast fade hide" data-delay="3000">
+                            <div class="toast-header">
+                                <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                <strong class="mr-auto">Thông báo</strong>
+                                <small>1 seconds ago</small>
+                                <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="toast-body">
+                                <span>Kích cỡ phải là số nguyên dương</span>
+                            </div>
+                        </div>`
+
+                        $('#notification-toast').append(toastHTML)
+                        $('#notification-toast .toast').toast('show');
+                        setTimeout(function () {
+                            $('#notification-toast .toast:first-child').remove();
+                        }, 3000);
+                    } else {
+                        var data = {
+                            soKichCo: inputValue.trim(),
+                        };
+                        $.ajax({
+                            url: 'CreateTenKichCo',
+                            type: 'POST',
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            success: function (result) {
+                                if (result) {
+                                    console.log(result);
+                                    var $select2 = $("#IdSize");
+
+                                    var newOption = new Option(result.soKichCo, result.idKichCo, true, true);
+                                    $select2.append(newOption).trigger('change');
+
+                                    $(this).val('');
+                                } else {
+                                    showToastTonTai("Kích cỡ")
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                showDauVaoKhongHopLe();
+                            }
+                        });
+                    }
+                }
+                else {
+                    showErrKhoangTrang()
+                }
+            }
+        });
+    })
+</script>
+
+<script>
+    $(() => {
+        $('#MoTaCauHinh').summernote();
+        $('#cauHinh').find(".formatPrice").each(function () {
+            var autoNumeric = new AutoNumeric(this, {
+                decimalCharacter: ".",
+                digitGroupSeparator: ",",
+                decimalPlaces: 0,
+                currencySymbol: " ₫",
+                currencySymbolPlacement: "s",
+                minimumValue: 0,
+                maximumValue: 99999999
+            });
+        });
+        $('#cauHinh').find(".formatNumber").each(function () {
+            var autoNumeric = new AutoNumeric(this, {
+                decimalCharacter: ".",
+                digitGroupSeparator: ",",
+                decimalPlaces: 0,
+                minimumValue: 0,
+                maximumValue: 9999
+            });
+        });
+    })
+</script>
+
+<script>
+    const URL_CHECK_UPDATE_OR_ADD = 'CheckSanPhamAddOrUpdate';
+    const URL_CREATE_PRODUCT = 'Create';
+    const URL_CREATE_IMAGE = 'CreateAnh';
+    const URL_DELETE_LIST_IMAGE = 'DeleteAnh';
+    const URL_UPDATE_PRODUCT_DETAIL = 'UpdateSanPham'
+    const selectedFiles = {};
+    const lstAnhRemove = {};
+
+    const AddEditor = () => {
+        var lstThucThe = $('.accordion').find('.moTa');
+        lstThucThe.each(function (index, item) {
+            $(item).summernote();
+        });
+    }
+
+
+    const disabledFormMain = () => $('#formGen').find('*').prop("disabled", true);
+    const unDisabledFormMain = () => $('#formGen').find('*').prop("disabled", false);
+    //Huy
+    async function Huy() {
+        await window.location.reload();
+    }
+
+    //itemTemplate
+    const ItemTemplate = (index, isUpdate, idProduct, idcolor, idsize, Title, giaNhap, giaBan, soLuong, moTa, khoiLuong, message) => {
+        const isUpdateClass = isUpdate ? 'disabled' : '';
+        return `
+<div class="card item-accordion" data-update="${isUpdate}" data-idproductdetail="${idProduct}">
+        <div class="card-header border-bottom">
+            <h5 class="card-title d-flex">
+                <div class="checkbox" data-id="${index}"><input id="check-item-${index}" onchange="CheckboxChange()" type="checkbox" ${isUpdateClass} class="item_checkbox"><label for="check-item-${index}" class="m-b-0"></label></div>
+                <a data-toggle="collapse" class="w-100 collapsed" data-IdMauSac="${idcolor}" data-IdKichCo="${idsize}"
+                   href="#collapseOneBorderless${index}">
+                    <span>${Title} ${message}</span>
+                </a>
+                <button class="btn btnn-close border-0">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </h5>
+        </div>
+        <div id="collapseOneBorderless${index}" class="collapse" data-parent="#accordion-borderless">
+
+            <div class="d-flex">
+                <ul class="nav nav-tabs flex-column" id="myTabVertical" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center active" id="home-tab-vertical" data-toggle="tab" href="#home-vertical${index}"
+                           role="tab" aria-controls="home-vertical${index}" aria-selected="true"><i class="fas fa-info-circle mr-1"></i><span>Information</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" id="profile-tab-vertical" data-toggle="tab" href="#profile-vertical${index}"
+                           role="tab" aria-controls="profile-${index}" aria-selected="false"><i class="far fa-file-image mr-1"></i><span>Image</span></a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContentVertical">
+                    <div class="tab-pane fade show active" style="height: 650px" id="home-vertical${index}" role="tabpanel"
+                         aria-labelledby="home-tab-vertical${index}">
+                        <div class="card-body">
+                            <div class="row mt-2">
+                                <div class="form-group col-3">
+                                    <label class="font-weight-semibold">Giá Nhập(*)</label>
+                                    <div class="d-flex align-items-center">
+                                        <i class="far fa-money-bill-alt mr-1"></i>
+                                        <input min="1" class="form-control formatPrice" name="GiaNhap" value="${giaNhap}"
+                                        placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="font-weight-semibold">Giá Bán(*)</label>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-money-bill-wave mr-1"></i>
+                                        <input min="1" class="form-control formatPrice" name="GiaBan" value="${giaBan}"
+                                        placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="font-weight-semibold">Số lượng(*)</label>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-database mr-1"></i>
+                                        <input class="form-control formatNumber" name="SoLuongTon" value="${soLuong}">
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="font-weight-semibold">Khối lượng(*)</label>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-weight mr-1"></i>
+                                        <input class="form-control formatKhoiLuong" name="KhoiLuong" value="${khoiLuong}">(g)
+                                    </div>
+                                </div>
+                                <div class="form-group d-flex align-items-center col-2">
+                                    <div class="switch m-r-10">
+                                        <input type="checkbox" id="switch-${index}" class="switch-2-day">
+                                        <label class="font-weight-semibold" for="switch-${index}"></label>
+                                    </div>
+                                    <label class="font-weight-semibold">Dây(Có/Không)</label>
+                                </div>
+                                <div class="form-group d-flex align-items-center col-3">
+                                    <div class="switch m-r-10">
+                                        <input type="checkbox" id="switch-${index}-1" class="switch-2-noibat">
+                                        <label class="font-weight-semibold" for="switch-${index}-1"></label>
+                                    </div>
+                                    <label class="font-weight-semibold">Hiển thị ở danh sách nổi bật</label>
+                                </div>
+                                 <div class="form-group d-flex align-items-center col-4">
+                                     <div class="switch m-r-10">
+                                         <input type="checkbox" id="switch-${index}-2" class="switch-2-trangthaikhuyenmai" name="TrangThaiKhuyenMai" checked>
+                                         <label class="font-weight-semibold" for="switch-${index}-2"></label>
+                                     </div>
+                                     <label class="font-weight-semibold">Cho phép áp dụng khuyến mại</label>
+                                 </div>
+                                <div class="form-group col-12">
+                                    <div class="m-b-5" style="margin-top: 10px;">
+                                        <label class="font-weight-semibold" style="display: block; margin-bottom: 5px;">
+                                            Mô tả sản phẩm
+                                        </label>
+                                        <div class="moTa" style="width: 100%; " name="MoTa">${moTa}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" style="height: 650px" id="profile-vertical${index}" role="tabpanel"
+                         aria-labelledby="profile-tab-vertical${index}">
+                        <div class="card-body">
+                            <div class="upload mt-2">
+                                <button name="choseFile" class="btn btn-kio mb-2">
+                                    <i class="far fa-file-image m-r-5"></i>
+                                    Chọn Ảnh
+                                </button>
+                                <input type="file" accept="image/*" class="fileInput default-btn 1" multiple hidden>
+                                <div class="container-file" style="display: flex;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+            `;
+    }
+
+
+    //getDataMain
+    const GetDataMain = () => {
+
+        const dataMain = {};
+        $('#formGen').find("input, select, textarea").each(function () {
+
+            var fieldType = $(this).attr("type");
+            var fieldName = $(this).attr("name");
+            var fieldValue;
+
+            if (fieldType === "checkbox" || fieldType === "radio") {
+                fieldValue = $(this).is(":checked");
+            } else {
+                fieldValue = $(this).prop('value');
+            }
+            if (fieldName) {
+                dataMain[fieldName] = fieldValue;
+            }
+
+        });
+        return dataMain
+    }
+
+    //getProduct
+    const getProductDetail = data => new Promise((resolve, reject) => {
+        $.ajax({
+            url: URL_CHECK_UPDATE_OR_ADD,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (result) {
+                resolve(result)
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+                reject(error);
+            }
+        });
+    })
+
+    //Check Update or Add to gen Item template
+    async function generate() {
+        $('#cauHinh').modal('hide');
+
+        const lstColor = Array.from($('#IdColor option:checked')).map(option => ({ text: option.text, value: option.value }))
+
+        const lstSize = Array.from($('#IdSize option:checked')).map(option => ({ text: option.text, value: option.value }))
+
+        disabledFormMain();
+        $('#preloader').show();
+        $('#confirm').show();
+
+        const ajaxPromises = [];
+        const maxPromise = 5;
+        const container = $('#accordion-borderless');
+
+        for (let i = 0; i < lstColor.length; i++) {
+            for (let j = 0; j < lstSize.length; j++) {
+                const index = i * lstSize.length + j;
+                const data = { ...GetDataMain(), ...{ 'IdKichCo': lstSize[j].value, 'IdMauSac': lstColor[i].value } }
+                const promise = getProductDetail(data);
+                promise.then((respose) => {
+                    if (respose.success) {
+                        const itemAppend = $(ItemTemplate(index, true, respose.data.idChiTietSp, lstColor[i].value, lstSize[j].value, lstColor[i].text + ' - ' + lstSize[j].text, respose.data.giaNhap, respose.data.giaBan, respose.data.soLuongTon, respose.data.moTa, respose.data.khoiLuong, "           <<---BIẾN THỂ ĐÃ TỒN TẠI. MỌI THAY ĐỔI SẼ ĐƯỢC LƯU KHI CẬP NHẬT!!!--->>"))
+                        container.append(itemAppend)
+                        if (respose.data.day = "true") {
+                            itemAppend.find('.switch-2-day').prop('checked', true);
+                        }
+                        if (respose.data.noiBat) {
+                            itemAppend.find('.switch-2-noibat').prop('checked', true);
+                        }
+                        const key = itemAppend.find('.collapse').attr('id');
+                        const containerFile = itemAppend.find('.upload').find('.container-file');
+                        lstAnhRemove[key] = []
+                        Array.from(respose.data.danhSachAnh).map((nameFile) => {
+                            const wrapper = $('<div>').addClass('wrapper-file');
+                            const image = $('<div>').addClass('image');
+                            const imageElement = $('<img>').addClass('file-image').attr('src', '/AnhSanPham/' + nameFile);
+
+                            imageElement.on('click', () =>
+                                changeImage(imageElement, nameFile, key)
+                            );
+
+                            const closeIcon = $('<i>').addClass('fas fa-times close-icon');
+
+
+                            image.append(imageElement);
+                            image.append(closeIcon);
+
+                            const content = $('<div>').addClass('content');
+                            const icon = $('<div>').addClass('icon');
+                            icon.html('<i class="fas fa-cloud-upload-alt"></i>');
+                            content.append(icon);
+
+                            var cancelBtn = $('<div>').addClass('cancel-btn');
+                            cancelBtn.html('<i class="fas fa-times"></i>');
+
+                            wrapper.append(image);
+                            wrapper.append(content);
+                            wrapper.append(cancelBtn);
+                            containerFile.append(wrapper);
+
+                            closeIcon.on('click', function () {
+                                const fileInput = wrapper.find('input');
+                                if (fileInput.length == 0) {
+                                    lstAnhRemove[key].push(nameFile)
+                                } else {
+                                    const indexDelete = selectedFiles[key].findIndex(item => item.key === nameFile);
+                                    selectedFiles[key].splice(indexDelete, 1);
+                                }
+
+                                wrapper.remove();
+                            });
+
+                            return;
+                        });
+
+                    } else {
+                        const item = $(ItemTemplate(index, false, "", lstColor[i].value, lstSize[j].value, lstColor[i].text + ' - ' + lstSize[j].text, $('#giaNhap').val().replace(/₫|,|\s/g, ''), $('#giaBan').val().replace(/₫|,|\s/g, ''), $('#soLuongTon').val().replace(/₫|,|\s/g, ''), $('#MoTaCauHinh').summernote('code'), $('#khoiLuong').val().replace(/₫|,|\s/g, ''), ''))
+
+                        item.find('.switch-2-day').prop('checked', $('#switch-1-day').prop('checked'))
+                        item.find('.switch-2-noibat').prop('checked', $('#switch-1-noibat').prop('checked'))
+                        container.append(item)
+                    }
+                }).catch((er) => console.log(er))
+
+                ajaxPromises.push(promise);
+
+                if (ajaxPromises.length >= maxPromise) {
+                    await Promise.all(ajaxPromises);
+                    ajaxPromises.length = 0
+                }
+            }
+        }
+
+        await Promise.all(ajaxPromises);
+        $('#preloader').hide();
+
+        $(".accordion").find(".formatPrice").each(function () {
+            var autoNumeric = new AutoNumeric(this, {
+                decimalCharacter: ".",
+                digitGroupSeparator: ",",
+                decimalPlaces: 0,
+                currencySymbol: " ₫",
+                currencySymbolPlacement: "s",
+                minimumValue: 0,
+                maximumValue: 99999999
+            });
+        });
+
+        $(".accordion").find(".formatNumber").each(function () {
+            var autoNumeric = new AutoNumeric(this, {
+                decimalCharacter: ".",
+                digitGroupSeparator: ",",
+                decimalPlaces: 0,
+                minimumValue: 0,
+                maximumValue: 9999
+            });
+        });
+
+        $(".accordion").find(".formatKhoiLuong").each(function () {
+            var autoNumeric = new AutoNumeric(this, {
+                decimalCharacter: ".",
+                digitGroupSeparator: ",",
+                decimalPlaces: 2, // Số thập phân
+                minimumValue: 0,
+                maximumValue: 99999.00
+            });
+        });
+        AddEditor();
+    }
+
+    //close Item gen
+    $(document).on('click', '.btnn-close', function () {
+        this.closest('.item-accordion').remove();
+        if ($('.accordion').find($('.item-accordion')).length === 0) {
+            unDisabledFormMain();
+            $('#confirm').hide();
+        }
+    })
+
+    //Creat event click for file input
+    $(document).on('click', '[name= "choseFile"]', function () {
+        $(this).closest('.upload').find('.fileInput').trigger('click')
+    })
+
+    //change for file element click current
+    const changeImage = (imageElement, file, key) => {
+        const newInputFile = $('<input>').attr('type', 'file').css('display', 'none');
+        newInputFile.on('change', function () {
+            const newFile = this.files[0]
+            if (newFile) {
+                const container = imageElement.closest('.wrapper-file')
+                container.append(newInputFile)
+                if (newFile && newFile.type.startsWith('image/')) {
+                    if (typeof file === 'object' && file instanceof File) {
+                        const CheckIndex = selectedFiles[key].findIndex(file => file.data.name === newFile.name);
+                        if (CheckIndex !== -1) {
+                            alert('File này đã tồn tại')
+                        } else {
+                            const indexChange = selectedFiles[key].findIndex(item => item.key === file.name);
+                            imageElement.attr('src', URL.createObjectURL(newFile));
+                            selectedFiles[key][indexChange] = { key: file.name, data: newFile };
+                        }
+                    } else {
+                        if (!selectedFiles[key]) {
+                            selectedFiles[key] = []
+                            selectedFiles[key].push({ key: file, data: newFile });
+                            imageElement.attr('src', URL.createObjectURL(newFile));
+                            lstAnhRemove[key].push(file)
+                        } else {
+                            if (Array.from(selectedFiles[key]).find(item => item.data.name === newFile.name)) {
+                                alert('File này đã được chọn trước đó!')
+                            } else {
+                                const foundItem = selectedFiles[key].find(item => item.key === file);
+                                if (foundItem) {
+                                    selectedFiles[key].find(item => item.key === file).data = newFile;
+                                    imageElement.attr('src', URL.createObjectURL(newFile))
+                                } else {
+                                    selectedFiles[key].push({ key: file, data: newFile })
+                                    lstAnhRemove[key].push(file)
+                                    imageElement.attr('src', URL.createObjectURL(newFile))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        newInputFile.trigger('click')
+    }
+
+    //When file change
+    $(document).on('change', '.fileInput', function () {
+        const imageList = $(this).closest('.upload').find('.container-file');
+        const countImage = imageList.find('.wrapper-file').length;
+        const key = imageList.closest('.collapse').attr('id');
+
+        if (this.files.length + countImage > 6) {
+            var toastHTML = `<div class="toast fade hide" data-delay="5000">
+        <div class="toast-header">
+            <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+            <strong class="mr-auto">Thông báo</strong>
+            <small>1 second ago</small>
+            <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            Chỉ được chọn tối đa 6 ảnh!
+            <br/>
+            S/P đang có ${countImage} ảnh.
+            <br/>
+            Do vậy bạn chỉ có thể chọn tối đa ${6 - countImage} ảnh nữa!!!
+        </div>
+    </div>`
+            $('#notification-toast').append(toastHTML)
+            $('#notification-toast .toast').toast('show');
+            setTimeout(function () {
+                $('#notification-toast .toast:first-child').remove();
+            }, 5000);
+            return
+        }
+
+        Array.from(this.files).map((file) => {
+            if (file.type.startsWith("image")) {
+                const wrapper = $('<div>').addClass('wrapper-file');
+                const image = $('<div>').addClass('image');
+                const imageElement = $('<img>').addClass('file-image').attr('src', URL.createObjectURL(file));
+
+                if (!selectedFiles[key]) {
+                    selectedFiles[key] = []
+                }
+                selectedFiles[key].push({ key: file.name, data: file });
+
+                imageElement.on('click', () =>
+                    changeImage(imageElement, file, key)
+                );
+
+                const closeIcon = $('<i>').addClass('fas fa-times close-icon');
+
+
+                image.append(imageElement);
+                image.append(closeIcon);
+
+                const content = $('<div>').addClass('content');
+                const icon = $('<div>').addClass('icon');
+                icon.html('<i class="fas fa-cloud-upload-alt"></i>');
+                content.append(icon);
+
+                var cancelBtn = $('<div>').addClass('cancel-btn');
+                cancelBtn.html('<i class="fas fa-times"></i>');
+
+                wrapper.append(image);
+                wrapper.append(content);
+                wrapper.append(cancelBtn);
+                imageList.append(wrapper);
+
+                closeIcon.on('click', function () {
+                    const fileInput = wrapper.find('input');
+                    if (fileInput.length == 0) {
+                        const indexDelete = selectedFiles[key].findIndex(item => item.data.name === file.name);
+                        selectedFiles[key].splice(indexDelete, 1);
+                    } else {
+                        const indexDelete = selectedFiles[key].findIndex(item => item.data.name === fileInput.name);
+                        selectedFiles[key].splice(indexDelete, 1);
+                    }
+                    wrapper.remove();
+                });
+
+                return;
+            }
+            this.files = "";
+            alert('Vui lòng chọn đúng định dạng');
+        });
+    });
+
+    function CapNhat(btn) {
+        const $btn = $(btn)
+        Swal.fire({
+            title: 'Thông báo?',
+            text: 'Bạn có muốn cập nhật các biến thể này không?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $btn.addClass('is-loading')
+                var items = $('.item-accordion');
+                var currentIndex = 0;
+                var checkErr = 0;
+                var checkSS = 0
+
+                function processNextItem() {
+                    if (currentIndex >= items.length) {
+                        if ($('.accordion').find($('.item-accordion')).length === 0) {
+                            Swal.fire({
+                                title: 'Thông báo!',
+                                text: 'Quá trình cập nhật đã hoàn tất!',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonText: 'D/Sách tổng quan S/P',
+                                cancelButtonText: 'Ở lại màn hiện tại',
+                                allowOutsideClick: false,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/Admin/SanPhamChiTiet/TongQuanSanPham'
+                                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                    window.location.reload();
+                                }
+                            });
+                            $btn.removeClass('is-loading')
+                        }
+                        $('#preloader').hide();
+                        if (checkSS > 0) {
+                            var toastHTML = `<div class="toast fade hide" data-delay="3000">
+                                     <div class="toast-header">
+                                         <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                         <strong class="mr-auto">Bootstrap</strong>
+                                         <small>1 second ago</small>
+                                         <button type="button" class="ml-2 btn btn-tone close" data-dismiss="toast" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                         </button>
+                                     </div>
+                                     <div class="toast-body">
+                                         ${checkSS} thực thể được cập nhật thành công
+                                     </div>
+                             </div>`
+
+                            $('#notification-toast').append(toastHTML)
+                            $('#notification-toast .toast').toast('show');
+                            setTimeout(function () {
+                                $('#notification-toast .toast:first-child').remove();
+                            }, 3000);
+                            checkErr = 0;
+                            $btn.removeClass('is-loading')
+                        }
+
+                        if (checkErr > 0) {
+                            var toastHTML = `<div class="toast fade hide" data-delay="3000">
+                                 <div class="toast-header">
+                                     <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                     <strong class="mr-auto">Thông báo</strong>
+                                     <small>1 second ago</small>
+                                     <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                                         <span aria-hidden="true">&times;</span>
+                                     </button>
+                                 </div>
+                                 <div class="toast-body">
+                                     Một vài thực thể dữ liệu chưa được nhập.
+                                     Vui lòng nhập các trường cần thiết và chọn ảnh để tiếp tục!
+                                 </div>
+                             </div>`
+                            $('#notification-toast').append(toastHTML)
+                            $('#notification-toast .toast').toast('show');
+                            setTimeout(function () {
+                                $('#notification-toast .toast:first-child').remove();
+                            }, 3000);
+                            checkErr = 0;
+                            $btn.removeClass('is-loading')
+                        }
+                        return
+                    }
+                    const currentItem = items.eq(currentIndex);
+
+                    var isUpdate = currentItem.attr('data-update');
+
+                    var dataBienThe = {};
+
+                    $(currentItem.find('.tab-pane')[0]).find("input, select, textarea").each(function () {
+                        var fieldType = $(this).attr("type");
+                        var fieldName = $(this).attr("name");
+                        var fieldValue;
+
+                        if (fieldType === "checkbox" || fieldType === "radio") {
+                            fieldValue = $(this).is(":checked");
+                        } else {
+                            if ($(this).hasClass("formatPrice") || $(this).hasClass("formatNumber")) {
+                                var fieldValue = $(this).val();
+                                fieldValue = BigInt(fieldValue.replace(/₫|,|\s/g, '')).toString();
+                            }
+                            else if ($(this).hasClass("formatKhoiLuong")) {
+                                var doubleValue = parseFloat($(this).val().replace(/,/g, ''));
+                                fieldValue = doubleValue;
+                            }
+                            else {
+                                fieldValue = $(this).val();
+                            }
+                        }
+                        if (fieldName) {
+                            dataBienThe[fieldName] = fieldValue;
+                        }
+                    });
+
+
+                    const DataInDataset = {}
+
+                    Array.from(["IdMauSac", "IdKichCo"]).forEach(name => {
+                        let value = currentItem.attr('data-' + name) || currentItem.find('[data-' + name + ']').attr('data-' + name);
+                        if (value !== undefined) {
+                            DataInDataset[name] = value;
+                        }
+                    });
+
+                    const moTa = { MoTa: currentItem.find('.moTa').summernote('code') }
+
+                    var slImage = currentItem.find('.wrapper-file').length;
+
+                    if (isUpdate === 'true') {
+                        var opject = {
+                            ...GetDataMain(),
+                            ...dataBienThe,
+                            ...DataInDataset,
+                            ...{ IdChiTietSp: currentItem.attr('data-idproductdetail') },
+                            ...moTa,
+                            ...{
+                                Day: currentItem.find('.switch-2-day').prop('checked'),
+                                NoiBat: currentItem.find('.switch-2-noibat').prop('checked'),
+                                NoiBat: currentItem.find('.switch-2-trangthaikhuyenmai').prop('checked'),
+                            }
+                        }
+
+                        if (opject.GiaBan !== "0" && opject.GiaNhap !== "0" && opject.KhoiLuong !== "0" && slImage >= 1) {
+                            const key = currentItem.find('.collapse').attr('id');
+
+
+                            if (selectedFiles[key] && Array.from(selectedFiles[key]).length > 0) {
+                                var data = new FormData();
+                                Array.from(selectedFiles[key]).map(item => data.append('lstIFormFile', item.data))
+                                data.append('IdChiTietSp', currentItem.attr('data-idproductdetail'));
+                                $.ajax({
+                                    url: URL_CREATE_IMAGE,
+                                    type: 'POST',
+                                    data: data,
+                                    contentType: false,
+                                    processData: false,
+                                    success: function (result) {
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.log(xhr.responseText);
+                                        console.log(status);
+                                        console.log(error);
+                                        console.log(xhr);
+                                    }
+                                });
+                            }
+
+                            if (lstAnhRemove[key] && Array.from(lstAnhRemove[key]).length > 0) {
+                                const data = new FormData();
+                                lstAnhRemove[key].map(item => data.append('lstImageRemove', item))
+                                data.append('idProductDetail', currentItem.attr('data-idproductdetail'))
+                                fetch(URL_DELETE_LIST_IMAGE, {
+                                    method: 'POST',
+                                    body: data
+                                })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            if (response.headers.get("content-length") !== "0") {
+                                                return response.json();
+                                            } else {
+                                                return null;
+                                            }
+                                        }
+                                        throw new Error('Network response was not ok.');
+                                    })
+                                    .then(data => {
+
+                                    })
+                                    .catch(error => {
+                                        console.error(error);
+                                    });
+                            }
+
+                            $.ajax({
+                                url: URL_UPDATE_PRODUCT_DETAIL,
+                                type: 'POST',
+                                data: JSON.stringify(opject),
+                                contentType: 'application/json',
+                                success: function (result) {
+                                    checkSS++;
+                                    currentItem.remove();
+                                    currentIndex++;
+                                    processNextItem();
+                                },
+                                error: function (xhr, status, error) {
+                                    checkErr++;
+                                    console.log(xhr.responseText);
+                                    console.log(status);
+                                    console.log(error);
+                                    console.log(xhr);
+                                }
+                            });
+                        } else {
+                            checkErr++;
+                            currentIndex++;
+                            processNextItem();
+                        }
+                    } else {
+
+                        if (dataBienThe.GiaBan && dataBienThe.GiaNhap && dataBienThe.SoLuongTon && dataBienThe.KhoiLuong && slImage >= 1) {
+                            $.ajax({
+                                url: URL_CREATE_PRODUCT,
+                                type: 'POST',
+                                data: JSON.stringify({
+                                    ...GetDataMain()
+                                    , ...dataBienThe
+                                    , ...DataInDataset
+                                    , ...moTa
+                                    , ...{
+                                        Day: currentItem.find('.switch-2-day').prop('checked')
+                                        , NoiBat: currentItem.find('.switch-2-noibat').prop('checked')
+                                    }
+                                }),
+                                contentType: 'application/json',
+                                success: function (result) {
+                                    if (result.success) {
+                                        const key = currentItem.find('.collapse').attr('id');
+                                        if (selectedFiles[key] && Array.from(selectedFiles[key]).length > 0) {
+                                            var data = new FormData();
+                                            selectedFiles[key].map(item => data.append('lstIFormFile', item.data))
+                                            data.append('IdChiTietSp', result.idChiTietSp);
+                                            $.ajax({
+                                                url: URL_CREATE_IMAGE,
+                                                type: 'POST',
+                                                data: data,
+                                                contentType: false,
+                                                processData: false,
+                                                success: function (result) {
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    console.log(xhr.responseText);
+                                                    console.log(status);
+                                                    console.log(error);
+                                                    console.log(xhr);
+                                                }
+                                            });
+                                        }
+                                        checkSS++;
+                                        currentItem.remove();
+                                        currentIndex++;
+                                        processNextItem();
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    checkErr++;
+                                    console.log(xhr.responseText);
+                                    console.log(status);
+                                    console.log(error);
+                                    console.log(xhr);
+                                }
+                            });
+                        } else {
+                            checkErr++;
+                            currentIndex++;
+                            processNextItem();
+                        }
+                    }
+                }
+                processNextItem();
+            }
+        });
+
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/Admin/vendors/select2/select2.min.js" defer></script>
+    <script src="~/Admin/js/pages/form-elements.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.8.1/autoNumeric.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+}
+

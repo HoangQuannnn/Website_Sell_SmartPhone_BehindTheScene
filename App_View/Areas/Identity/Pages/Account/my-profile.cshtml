@@ -1,0 +1,125 @@
+﻿@page "/MyProfile"
+@using System.Security.Claims;
+@model App_View.Areas.Identity.Pages.Account.my_profileModel
+@{
+    Layout = "/Views/Shared/_LayoutUser.cshtml";
+}
+<style>
+    .card {
+        border-radius: 10px;
+        
+    }
+
+        .card .card-header .profile_img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            margin: 0px auto;
+            border: 1px solid white;
+            border-radius: 50%;
+        }
+
+        .card h2 {
+           margin-top: 15px;
+        }
+
+    .centered-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+</style>
+
+<div class="col-lg-9 col-md-12">
+   @* 
+   
+    <a class="nav-link text-dark" asp-area="" asp-controller="DanhGia" asp-action="CreateDanhGia">adđanhgia</a>*@
+    <partial name="_StatusMessage" for="StatusMessage" />
+    <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+        <div class="dash__pad-2">
+            <h1 class="dash__h1 u-s-m-b-14">Thông tin của tôi</h1>
+
+            <span class="dash__text u-s-m-b-30">Xem tất cả thông tin của bạn, bạn có thể tùy chỉnh hồ sơ của mình.</span>
+            <div class="row">
+                <div class="col-lg-8 u-s-m-b-30" style=" border-right: 1px solid green;">
+                    <div class="row">
+                        <div class="col-lg-6 u-s-m-b-30">
+                            <h2 class="dash__h2 u-s-m-b-8">Tên đăng nhập</h2>
+                            <span class="dash__text">@Model.Username</span>
+                        </div>
+                        <div class="col-lg-6 u-s-m-b-30">
+                            <h2 class="dash__h2 u-s-m-b-8">Họ và tên</h2>
+                            <span class="dash__text">@Model.FullName</span>
+                        </div>
+                        <div class="col-lg-6 u-s-m-b-30">
+                            <h2 class="dash__h2 u-s-m-b-8">Giới tính </h2>
+                            <span class="dash__text">@Model.GioiTinh</span>
+                        </div>
+                        <div class="col-lg-6 u-s-m-b-30">
+                            <h2 class="dash__h2 u-s-m-b-8">Ngày sinh</h2>
+                            <span class="dash__text">@Model.NgaySinh</span>
+                        </div>
+                        <div class="col-lg-6 u-s-m-b-30">
+                            <h2 class="dash__h2 u-s-m-b-8">Email</h2>
+                            <span class="dash__text">@Model.Email</span>
+                            <div class="dash__link dash__link--secondary">
+                                <a asp-page="Manage/Email">Thay đổi</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 u-s-m-b-30">
+                            <h2 class="dash__h2 u-s-m-b-8">Số điện thoại</h2>
+                            @if (!string.IsNullOrEmpty(Model.Phone))
+                            {
+                                <span class="dash__text">@Model.Phone</span>
+                                <div class="dash__link dash__link--secondary">
+                                    <a asp-page="Manage/PhoneNumber">Thay đổi</a>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <span class="dash__text">Vui lòng nhập điện thoại di động của bạn</span>
+                                <div class="dash__link dash__link--secondary">
+
+                                    <a asp-page="Manage/PhoneNumber">Thêm</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 u-s-m-b-30">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent text-center">
+                            <div class="centered-content">
+                                <img class="profile_img" src="@Model.Picture" alt="student dp">
+                                <h2 class="dash__h2 u-s-m-b-8">Ảnh đại diện</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="dash__link dash__link--secondary u-s-m-b-30">
+
+                        <a data-modal="modal" data-modal-id="#dash-newsletter">Theo dõi bản tin</a>
+                    </div>
+                    <div class="u-s-m-b-16">
+                        <a class="dash__custom-link btn--e-transparent-brand-b-2" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            Chỉnh sửa hồ sơ
+                        </a>
+
+                    </div>
+                    <div>
+
+                        <a class="dash__custom-link btn--e-brand-b-2" asp-page="Manage/ChangePassword">Đổi mật khẩu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

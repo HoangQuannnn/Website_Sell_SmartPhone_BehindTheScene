@@ -1,0 +1,179 @@
+﻿<div class="side-nav">
+    <div class="side-nav-inner">
+        <ul class="side-nav-menu scrollable">
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-hdd"></i>
+                    </span>
+                    <span class="title">Quản lý sản phẩm</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" style="display: none;">
+                    <li>
+                        <a href="/Admin/SanPhamChiTiet/TongQuanSanPham">Danh sách nhóm sản phẩm</a>
+                    </li>
+                </ul>
+                <ul class="dropdown-menu" style="display: none;">
+                    <li>
+                        <a href="/Admin/ThuocTinhSanPham/DanhSachThuocTinhSanPham">Danh sách thuộc tính</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fas fa-gift"></i>
+                    </span>
+                    <span class="title">Quản lý voucher</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" style="display: none;">
+                    <li>
+                        <a href="/Admin/Vouchers/ShowVoucher">Voucher Online</a>
+                        <a href="/Admin/Vouchers/ShowVoucherTaiQuay">Voucher Tại Quầy</a>
+                    </li>
+                </ul>
+            </li>
+           
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fas fa-users-cog"></i>
+                    </span>
+                    <span class="title">Quản lý người dùng</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" style="display: none;">
+                    <li>
+                        <a asp-page="/User/Index">
+                            Danh sách khách hàng
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-page="/User/DanhSachNhanVien">
+                            Danh sách nhân viên
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-page="/User/DanhSachQuanLy">
+                            Danh sách quản lý
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-page="/Role/Index">
+                            Danh sách chức vụ
+                        </a>
+                    </li>
+                </ul>
+              
+
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-star"></i>
+                    </span>
+                    <span class="title">Quản lý Đánh Giá</span>
+                    <span class="arrow">
+                        
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+               @* <ul class="dropdown-menu" style="display: none;">
+                    <li>
+                        <a href="/Admin/DanhGia/Index">Danh sách đánh giá</a>
+                    </li>
+                </ul>*@
+                <ul class="dropdown-menu" style="display: none;">
+                    <li>
+                        <a href="/Admin/DanhGia/DanhSachDanhGiaChuaDuyet">Danh sách đánh giá chưa duyệt</a>
+                    </li>
+                    <li>
+                        <a href="/Admin/DanhGia/DanhSachDanhGiaDaDuyet">Danh sách đánh giá đã duyệt</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-area-chart"></i>
+                    </span>
+                    <span class="title">Thống kê</span>
+                    <span class="arrow">
+
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                @* <ul class="dropdown-menu" style="display: none;">
+                <li>
+                <a href="/Admin/DanhGia/Index">Danh sách đánh giá</a>
+                </li>
+                </ul>*@
+                <ul class="dropdown-menu" style="display: none;">
+                    <li>
+                        <a href="/Admin/ThongKe/TongQuan">Tổng quan</a>
+                    </li>
+                </ul>
+                <ul class="dropdown-menu" style="display: none;">
+                    <li>
+                        <a href="/Admin/ThongKe/DoanhThuTheoDonHangTheoNgay">Thống kê doanh thu theo đơn hàng</a>
+                    </li>
+                </ul>
+                <ul class="dropdown-menu" style="display: none;">
+                    <li>
+                        <a href="/Admin/ThongKe/DoanhThuTheoSanPham">Thống kê doanh thu theo sản phẩm</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a asp-controller="BanHangTaiQuay" asp-action="DanhSachHoaDonCho">
+                    <span class="icon-holder">
+                        <i class="fas fa-shopping-basket"></i>
+                    </span>
+                    <span class="title">Bán hàng tại quầy</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a asp-controller="KhuyenMais" asp-action="Index">
+                    <span class="icon-holder">
+                        <i class="fas fa-percent"></i>
+                    </span>
+                    <span class="title">Khuyến Mại</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a asp-controller="KhuyenMaiChiTiets" asp-action="Index">
+                    <span class="icon-holder">
+                        <i class=" fas fa-tags"></i>
+                    </span>
+                    <span class="title">Sản phẩm khuyến mại</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a asp-controller="HoaDon" asp-action="TongQuanHoaDon">
+                    <span class="icon-holder">
+                        <i class="fas fa-file-invoice"></i>
+                    </span>
+                    <span class="title">Quản lý hóa đơn</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a asp-controller="TrangThaiGiaoHang" asp-action="QuanLyGiaoHang">
+                    <span class="icon-holder">
+                        <i class="fas fa-truck"></i>
+                    </span>
+                    <span class="title">Quản lý trạng thái giao hàng</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+

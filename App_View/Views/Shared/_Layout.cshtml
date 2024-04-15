@@ -1,0 +1,472 @@
+﻿@using App_Data.Models;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<NguoiDung> SignInManager
+@inject UserManager<NguoiDung> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bazaizai Store</title>
+    <meta charset="UTF-8">
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="/images/logo.jpg" rel="shortcut icon">
+    <title>Ludus - Electronics, Apparel, Computers, Books, DVDs & more</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--====== Google Font ======-->
+    @*<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">*@
+
+    <!--====== Vendor Css ======-->
+    <link rel="stylesheet" href="/css/vendor.css">
+
+    <!--====== Utility-Spacing ======-->
+    <link rel="stylesheet" href="/css/utility.css">
+
+    <!--====== App ======-->
+    <link rel="stylesheet" href="/css/app.css">
+    <style>
+        .breadcrumb__wrap {
+            background-image: url('https://i.pinimg.com/originals/8d/b5/ef/8db5efdbe3f36746b18f7779c04b2d58.gif')
+        }
+    </style>
+</head>
+<body class="config" id="js-scrollspy-trigger">
+    <div class="preloader is-active">
+        <div class="preloader__wrap">
+
+            <img class="preloader__img" src="/Admin//images/load/loader.gif" width="140px" alt="">
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <!--====== Main App ======-->
+    <div id="app">
+
+
+        <!--====== Main Header ======-->
+        <header class="header--style-1 header--box-shadow">
+
+            <!--====== Nav 1 ======-->
+            <nav class="primary-nav primary-nav-wrapper--border">
+                <div class="container">
+
+                    <!--====== Primary Nav ======-->
+                    <div class="primary-nav">
+
+                        <!--====== Main Logo ======-->
+
+                        <a class="main-logo" href="/">
+
+                            <img src="~/images/logo/logo-1.png" alt="" width="150rem">
+                        </a>
+                        <!--====== End - Main Logo ======-->
+                        <!--====== Search Form ======-->
+                        <form class="main-form" action="/SanPhamChiTiets/index" method="get">
+
+                            <label for="main-search"></label>
+
+                            <input class="input-text input-text--border-radius input-text--style-1" type="text" name="search" id="main-search" placeholder="Tìm kiếm theo tên sản phẩm ...">
+
+                            <button class="btn btn--icon fas fa-search main-search-button" type="submit"></button>
+                        </form>
+                        <!--====== End - Search Form ======-->
+                        <!--====== Dropdown Main plugin ======-->
+                        <div class="menu-init" id="navigation">
+
+                            <button class="btn btn--icon toggle-button fas fa-cogs" type="button"></button>
+
+                            <!--====== Menu ======-->
+                            <div class="ah-lg-mode">
+
+                                <span class="ah-close">✕ Close</span>
+
+                                <!--====== List ======-->
+                                <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
+                                    <partial name="_LoginPartial" />
+
+                                    <li data-tooltip="tooltip" data-placement="left" title="" data-original-title="Contact">
+
+                                        <a href="tel:0374232108"><i class="fas fa-phone-volume"></i></a>
+                                    </li>
+                                    <li data-tooltip="tooltip" data-placement="left" title="" data-original-title="Mail">
+
+                                        <a href="mailto:bazaizaistore@gmail.com"><i class="far fa-envelope"></i></a>
+                                    </li>
+                                </ul>
+                                <!--====== End - List ======-->
+                            </div>
+                            <!--====== End - Menu ======-->
+                        </div>
+                        <!--====== End - Dropdown Main plugin ======-->
+                    </div>
+                    <!--====== End - Primary Nav ======-->
+                </div>
+            </nav>
+            <!--====== End - Nav 1 ======-->
+            <!--====== Nav 2 ======-->
+            <nav class="secondary-nav-wrapper">
+                <div class="container">
+
+                    <!--====== Secondary Nav ======-->
+                    <div class="secondary-nav">
+                        <div class="menu-init">
+                            <img style="width: 8rem;height: 3rem;" src="/cons_illustration_o.gif" class="mega-text">
+                        </div>
+                        <!--====== Dropdown Main plugin ======-->
+                        <div class="menu-init" id="navigation2">
+
+                            <button class="btn btn--icon toggle-button fas fa-cog" type="button"></button>
+
+                            <!--====== Menu ======-->
+                            <div class="ah-lg-mode">
+
+                                <span class="ah-close">✕ Close</span>
+
+                                <!--====== List ======-->
+                                <ul class="ah-list ah-list--design2 ah-list--link-color-secondary">
+                                    <li>
+
+                                        <a href="/">TRANG CHỦ</a>
+                                    </li>
+                                    <li>
+                                        <a href="/SanPhamChiTiets">GIAN HÀNG</a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="ViewKhuyenMai" asp-controller="KhuyenMaiChiTiet" asp-area="">SALE</a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="VoucherToCalm" asp-controller="Voucher" asp-area="">VOUCHER</a>
+                                    </li>
+                                    <li>
+                                        <a href="/home/AboutUs">ABOUT US</a>
+                                    </li>
+                                    <li>
+                                        <a href="/home/FAQ">FAQ</a>
+                                    </li>
+                                </ul>
+                                <!--====== End - List ======-->
+                            </div>
+                            <!--====== End - Menu ======-->
+                        </div>
+                        <!--====== End - Dropdown Main plugin ======-->
+                        <!--====== Dropdown Main plugin ======-->
+                        <div class="menu-init" id="navigation3">
+
+                            <button class="btn btn--icon toggle-button fas fa-shopping-bag toggle-button-shop" type="button"></button>
+
+                            @*<span class="total-item-round">2</span>*@
+
+                            <!--====== Menu ======-->
+                            <div class="ah-lg-mode">
+
+                                <span class="ah-close">✕ Close</span>
+
+                                <!--====== List ======-->
+                                <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
+                                    <li>
+
+                                        <a href="/"><i class="fas fa-home"></i></a>
+                                    </li>
+                                    <li>
+
+                                        <a href="/SanPhamYeuThich/DanhSachSanPhamYeuThich"><i class="far fa-heart"></i></a>
+                                    </li>
+                                    <li class="has-dropdown" id="body-mini-cart">
+
+                                        @await Component.InvokeAsync("Cart")
+                                    </li>
+                                </ul>
+                                <!--====== End - List ======-->
+                            </div>
+                            <!--====== End - Menu ======-->
+                        </div>
+                        <!--====== End - Dropdown Main plugin ======-->
+                    </div>
+                    <!--====== End - Secondary Nav ======-->
+                </div>
+            </nav>
+            <!--====== End - Nav 2 ======-->
+        </header>
+        <!--====== End - Main Header ======-->
+        @RenderBody()
+        <!--====== Main Footer ======-->
+        <footer>
+            <div class="outer-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="outer-footer__content u-s-m-b-40">
+
+                                <span class="outer-footer__content-title">Liên hệ chúng tôi</span>
+                                <div class="outer-footer__text-wrap">
+                                    <i class="fas fa-home"></i>
+
+                                    <span>Đường Trịnh Văn Bô, Phương Canh, Nam Từ Liêm, Hà Nội</span>
+                                </div>
+                                <div class="outer-footer__text-wrap">
+                                    <i class="fas fa-phone-volume"></i>
+
+                                    <span>(+84) 0374 232 108</span>
+                                </div>
+                                <div class="outer-footer__text-wrap">
+                                    <i class="far fa-envelope"></i>
+
+                                    <span>bazaizaistore@gmail.com</span>
+                                </div>
+                                <div class="outer-footer__text-wrap">
+                                    <i class="fab fa-facebook-f"></i>
+                                    <span>
+                                        <a href="https://www.facebook.com/profile.php?id=61553709732040&mibextid=ZbWKwL" style="color: white !important">
+                                            FaceBook
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="outer-footer__content u-s-m-b-40">
+
+                                        <span class="outer-footer__content-title">Thông tin</span>
+                                        <div class="outer-footer__list-wrap">
+                                            <ul>
+                                                <li>
+
+                                                    <a href="/GioHangChiTiets/ShowCartNoLogin">Giỏ hàng</a>
+                                                </li>
+                                                <li>
+
+                                                    <a href="/MyProfile">Tài khoản của tôi</a>
+                                                </li>
+                                                <li>
+
+                                                    <a href="/SanPhamChiTiets">Gian hàng</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="outer-footer__content u-s-m-b-40">
+                                        <div class="outer-footer__list-wrap">
+
+                                            <span class="outer-footer__content-title">Về chúng tôi</span>
+                                            <ul>
+                                                <li>
+
+                                                    <a href="/home/AboutUs">About us</a>
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li>
+
+                                                    <a href="/home/FAQ">FAQ</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="outer-footer__content">
+
+                                <span class="outer-footer__content-title">Bazaizai Store</span>
+                                <form class="newsletter">
+                                    <span class="newsletter__text">Đặt bước chân vào thế giới thời trang độc đáo với những đôi giày sneaker tinh tế từ Bazaizai Store - Nơi nâng cao phong cách, không giới hạn đường đi!</span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lower-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="lower-footer__content">
+                                <div class="lower-footer__copyright">
+
+                                    <span>Copyright © 2018</span>
+
+                                    <a href="index-2.html">Reshop</a>
+
+                                    <span>All Right Reserved</span>
+                                </div>
+                                <div class="lower-footer__payment">
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--====== Side Filters ======-->
+        @await Component.InvokeAsync("SideFilters")
+        <!--====== End - Side Filters ======-->
+        <!--====== Modal Section ======-->
+        <!--====== Quick Look Modal ======-->
+        <div class="modal fade" id="quick-look">
+            @*@await Html.PartialAsync("/Views/SanPhamChiTiets/_ModalSanPhamChiTietPartialView.cshtml");*@
+        </div>
+        <!--====== End - Quick Look Modal ======-->
+        <!--====== Add to Cart Modal ======-->
+
+        <div class="modal fade" id="add-to-cart">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content modal-radius modal-shadow" style="
+    MARGIN-TOP: -300px;
+    WIDTH: 643px !important;
+    max-width: 600px !important;
+">
+
+                    <button class="btn dismiss-button miss-add-to-cart fas fa-times" type="button" data-dismiss="modal"></button>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12">
+                                <div class="success u-s-m-b-30">
+                                    <div class="success__text-wrap">
+                                        <i class="fas fa-check"></i>
+
+                                        <span>Sản phẩm đã thêm vào giỏ hàng thành công!</span>
+                                    </div>
+                                    <div class="success__img-wrap">
+
+                                        <img class="u-img-fluid" src="/images/logo.jpg" alt="">
+                                    </div>
+                                    <div class="success__info-wrap">
+
+                                        <span class="success__name">Bazaizai Store</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="s-option">
+
+                                    <span class="s-option__text">Một hoặc nhiều sản phẩm đang trong giỏ hàng của bạn!</span>
+                                    <div class="s-option__link-box">
+
+                                        <a class="s-option__link btn--e-white-brand-shadow" href="/SanPhamChiTiets">TIẾP TỤC MUA SẮM</a>
+
+                                        <a class="s-option__link btn--e-white-brand-shadow" href="/GioHangChiTiets/ShowCartUser">ĐI ĐẾN GIỎ HÀNG</a>
+
+                                        <a class="s-option__link btn--e-brand-shadow" href="/GioHangChiTiets/CheckOut">TIẾN HÀNH THANH TOÁN</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Add to Cart Modal ======-->
+        <!--====== Newsletter Subscribe Modal ======-->
+        <div class="modal fade new-l" id="newsletter-modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content modal--shadow">
+
+                    <button class="btn new-l__dismiss fas fa-times" type="button" data-dismiss="modal"></button>
+                    <div class="modal-body">
+                        <div class="row u-s-m-x-0">
+                            <div class="col-lg-6 new-l__col-1 u-s-p-x-0">
+
+                                <a class="new-l__img-wrap u-d-block" href="shop-side-version-2.html">
+
+                                    <img class="u-img-fluid u-d-block" src="/images/newsletter/newsletter.jpg" alt="">
+                                </a>
+                            </div>
+                            <div class="col-lg-6 new-l__col-2">
+                                <div class="new-l__section u-s-m-t-30">
+                                    <div class="u-s-m-b-8 new-l--center">
+                                        <h3 class="new-l__h3">Newsletter</h3>
+                                    </div>
+                                    <div class="u-s-m-b-30 new-l--center">
+                                        <p class="new-l__p1">Sign up for emails to get the scoop on new arrivals, special sales and more.</p>
+                                    </div>
+                                    <form class="new-l__form">
+                                        <div class="u-s-m-b-15">
+
+                                            <input class="news-l__input" type="text" placeholder="E-mail Address">
+                                        </div>
+                                        <div class="u-s-m-b-15">
+
+                                            <button class="btn btn--e-brand-b-2" type="submit">Sign up!</button>
+                                        </div>
+                                    </form>
+                                    <div class="u-s-m-b-15 new-l--center">
+                                        <p class="new-l__p2">By Signing up, you agree to receive Reshop offers,<br />promotions and other commercial messages. You may unsubscribe at any time.</p>
+                                    </div>
+                                    <div class="u-s-m-b-15 new-l--center">
+
+                                        <a class="new-l__link" data-dismiss="modal">No Thanks</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* Thêm*@
+
+        <!--====== End - Newsletter Subscribe Modal ======-->
+        <!--====== End - Modal Section ======-->
+    </div>
+    <!--====== End - Main App ======-->
+    <!--====== Google Analytics: change UA-XXXXX-Y to be your site's ID ======-->
+    <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+    <!--====== Vendor Js ======-->
+    <script src="/js/vendor.js"></script>
+
+    <!--====== jQuery Shopnav plugin ======-->
+    <script src="/js/jquery.shopnav.js"></script>
+
+    <!--====== App ======-->
+    <script src="/js/app.js"></script>
+    <script src="~/js/toast.js"></script>
+    <script src="/js/capnhatgiohang.js"></script>
+    <!--====== Noscript ======-->
+    <noscript>
+        <div class="app-setting">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="app-setting__wrap">
+                            <h1 class="app-setting__h1">JavaScript is disabled in your browser.</h1>
+
+                            <span class="app-setting__text">Please enable JavaScript in your browser or upgrade to a JavaScript-capable browser.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </noscript>
+    @* @await RenderSectionAsync("Scripts", required: false) *@
+</body>
+</html>
+@* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/App_View.styles.css" asp-append-version="true" /> *@
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+@* <script src="~/js/site.js" asp-append-version="true"></script> *@
+<script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger intent="WELCOME"
+              chat-title="BazaizaiStore"
+              agent-id="7922b841-2e11-423a-8f4d-24c1404ea696"
+              language-code="vi"></df-messenger>
+@await RenderSectionAsync("Scripts", required: false)

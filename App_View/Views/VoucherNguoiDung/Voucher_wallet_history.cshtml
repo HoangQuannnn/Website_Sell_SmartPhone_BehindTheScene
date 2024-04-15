@@ -1,0 +1,168 @@
+﻿@using System.Globalization;
+@using static App_Data.Repositories.TrangThai;
+@model IEnumerable<App_Data.ViewModels.VoucherNguoiDung.VoucherNguoiDungDTO>
+
+@{
+    Layout = "/Views/Shared/_LayoutUser.cshtml";
+}
+
+<style>
+    .tabs {
+        justify-content: center;
+        display: flex;
+        border: 1px solid #ccc;
+        overflow: hidden;
+        background-color: white;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        min-width: -webkit-fill-available;
+    }
+
+
+    .tab-item {
+        flex: 1;
+        font-size: 12px;
+        text-align: center;
+        padding: 10px 0;
+        cursor: pointer;
+        color: #333333;
+        transition: background-color 0.3s;
+        font-weight: 600;
+    }
+
+        .tab-item.active {
+            background-color: #ff4500;
+            color: #fff;
+            font-weight: 600;
+        }
+
+
+
+    .modal-content {
+        margin: auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: .3rem;
+        outline: 0;
+    }
+
+</style>
+
+
+@functions {
+    // Hàm trợ giúp để định dạng số nguyên thành tiền tệ Việt Nam
+    public string FormatCurrency(int? value)
+    {
+        return string.Format(new CultureInfo("vi-VN"), "{0:C0}", value);
+    }
+    public string FormatDate(DateTime? value)
+    {
+        if (value.HasValue)
+        {
+            string formattedDate = value.Value.ToString("dd.MM.yyyy HH:mm", System.Globalization.CultureInfo.CurrentCulture);
+            return formattedDate;
+        }
+        return string.Empty; // hoặc bạn có thể trả về một giá trị mặc định khác nếu cần
+    }
+}
+
+<div class="col-lg-9 col-md-12">
+
+    <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+
+        <div class="dash__pad-2" >
+            <div>
+                <h1 class="dash__h1 u-s-m-b-14" style="display: inline-block;">Lịch sử voucher</h1>
+                <a style="color:#FF4500;margin-left:32%;display: inline-block;" asp-action="VoucherToCalm" asp-controller="Voucher">Tìm thêm voucher🔎</a> |
+                <a asp-action="Voucher_wallet" style="color:#FF4500" style="display: inline-block;">My Voucher📃</a>|
+                <a style="color:#FF4500" href="/" style="display: inline-block;">Trang chủ🏡</a>
+            </div>
+            <span class="dash__text u-s-m-b-30">Bạn sẽ thấy tất cả lịch sử voucher của bạn ở đây.</span>
+            <!--Lưu mã voucher-->
+            <!--Show mã voucher-->
+            <div class="m-order__select-wrapper">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="tabs">
+                            <div class="tab-item active" id="tab1" name="trangThai">Tất cả</div>
+                            <div class="tab-item" id="tab2" name="TrangThai" data-value="1">Đã sử dụng</div>
+                            <div class="tab-item" id="tab3" name="TrangThai" data-value="2">Hết hiệu lực</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            </div>
+            <div class="m-order__list" id="voucherList">
+             
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        loadDefaultVoucher();
+    });
+    var tabs = document.querySelectorAll('.tab-item');
+    function loadDefaultVoucher() {
+        $.ajax({
+            url: '@Url.Action("Voucher_wallet_historyPatial", "VoucherNguoiDung")',
+            type: 'POST',
+            success: function (result) {
+                if (result.mess) {
+                    $('#voucherList').empty().html('<h1 class="dash__h1 u-s-m-b-14">' + result.mess + '</h1>');
+                }
+                else  {
+                    $('#voucherList').html(result);
+                }
+            }
+        });
+    }
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            // Xóa class 'active' từ tất cả các tab
+            tabs.forEach(function (innerTab) {
+                innerTab.classList.remove('active');
+            });
+
+            // Thêm class 'active' cho tab được click
+            tab.classList.add('active');
+        });
+    });
+    $('.tab-item').click(function () {
+        var TrangThai = $(this).data('value');
+        $.ajax({
+            url: '@Url.Action("Voucher_wallet_historyPatial", "VoucherNguoiDung")',
+            type: 'POST',
+            data: { TrangThai: TrangThai },
+            success: function (result) {
+                $('#voucherList').html(result);
+            }
+        });
+    });
+    $(document).on('click', '.copyButton', function () {
+        var maVoucher = $(this).closest('.body_copy').find('.textToCopy').val()
+        var tempInput = document.createElement("input");
+        tempInput.value = maVoucher;
+        document.body.appendChild(tempInput);
+
+        // Chọn văn bản trong phần tử input tạm thời
+        tempInput.select();
+        document.execCommand("copy");
+
+        // Xóa phần tử input tạm thời
+        document.body.removeChild(tempInput);
+
+        alert("Đã sao chép mã vào clipboard: " + maVoucher);
+    })
+        // Sau khi nhận phản hồi thành công từ server
+
+</script>

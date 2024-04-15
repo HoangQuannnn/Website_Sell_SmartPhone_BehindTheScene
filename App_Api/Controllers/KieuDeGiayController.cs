@@ -10,29 +10,29 @@
 
 //// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-//namespace App_Api.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class KieuDeGiayController : ControllerBase
-//    {
-//        private readonly IAllRepo<KieuDeGiay> allRepo;
-//        AppDbContext dbContext = new AppDbContext();
-//        DbSet<KieuDeGiay> KieuDeGiay;
-//        private readonly IMapper _mapper;
-//        public KieuDeGiayController(IMapper mapper)
-//        {
-//            KieuDeGiay = dbContext.KieuDeGiays;
-//            //AllRepo<KieuDeGiay> all = new AllRepo<KieuDeGiay>(dbContext, KieuDeGiay);
-//            allRepo = all;
-//            _mapper = mapper;
-//        }
-//        // GET: api/<KieuDeGiayController>
-//        [HttpGet]
-//        public IEnumerable<KieuDeGiay> ShowAllKieuGiay()
-//        {
-//            return allRepo.GetAll();
-//        }
+namespace App_Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class KieuDeGiayController : ControllerBase
+    {
+        private readonly IAllRepo<KieuDeGiay> allRepo;
+        AppDbContext dbContext = new AppDbContext();
+        DbSet<KieuDeGiay> KieuDeGiay;
+        private readonly IMapper _mapper;
+        public KieuDeGiayController(IMapper mapper)
+        {
+            KieuDeGiay = dbContext.KieuDeGiays;
+            AllRepo<KieuDeGiay> all = new AllRepo<KieuDeGiay>(dbContext, KieuDeGiay);
+            allRepo = all;
+            _mapper = mapper;
+        }
+        // GET: api/<KieuDeGiayController>
+        [HttpGet]
+        public IEnumerable<KieuDeGiay> ShowAllKieuGiay()
+        {
+            return allRepo.GetAll();
+        }
 
 //        // GET api/<KieuDeGiayController>/5
 //        [HttpGet("TimKieuDeGiay={id}")]

@@ -6,12 +6,12 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Net.Http;
 using App_Data.ViewModels.SanPhamChiTiet.SanPhamDTO;
-using App_Data.ViewModels.SanPhamChiTiet.ThuongHieuDTO;
+using App_Data.ViewModels.HangDTO;
 using App_Data.ViewModels.XuatXu;
-using App_Data.ViewModels.ChatLieuDTO;
-using App_Data.ViewModels.LoaiGiayDTO;
-using App_Data.ViewModels.KieuDeGiayDTO;
-using App_Data.ViewModels.KichCoDTO;
+using App_Data.ViewModels.RamDTO;
+using App_Data.ViewModels.CongSacDTO;
+using App_Data.ViewModels.ChiTietCameraDTO;
+using App_Data.ViewModels.RomDTO;
 using App_Data.ViewModels.MauSac;
 using App_Data.ViewModels.SanPhamChiTietViewModel;
 using App_Data.ViewModels.SanPhamChiTietDTO;
@@ -100,14 +100,14 @@ namespace App_View.Services
             }
         }
 
-        public async Task<ChatLieuDTO?> CreateTenChatLieuAynsc(ChatLieuDTO xuatXuDTO)
+        public async Task<RamDTO?> CreateTenChatLieuAynsc(RamDTO ram)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-ChatLieu", xuatXuDTO);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-Ram", ram);
             try
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadAsAsync<ChatLieuDTO>();
+                    return await response.Content.ReadAsAsync<RamDTO>();
                 }
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 throw new Exception("Not IsSuccessStatusCode");
@@ -119,14 +119,14 @@ namespace App_View.Services
             }
         }
 
-        public async Task<KichCoDTO?> CreateTenKichCoAynsc(KichCoDTO kichCoDTO)
+        public async Task<RomDTO?> CreateTenKichCoAynsc(RomDTO Rom)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-KichCo", kichCoDTO);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-Rom", Rom);
             try
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadAsAsync<KichCoDTO>();
+                    return await response.Content.ReadAsAsync<RomDTO>();
                 }
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 throw new Exception("Not IsSuccessStatusCode");
@@ -138,14 +138,14 @@ namespace App_View.Services
             }
         }
 
-        public async Task<KieuDeGiayDTO?> CreateTenKieuDeGiayAynsc(KieuDeGiayDTO kieuDeGiayDTO)
+        public async Task<ChiTietCameraDTO?> CreateTenKieuDeGiayAynsc(ChiTietCameraDTO ChiTietCamera)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-KieuDeGiay", kieuDeGiayDTO);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-ChiTietCamera", ChiTietCamera);
             try
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadAsAsync<KieuDeGiayDTO>();
+                    return await response.Content.ReadAsAsync<ChiTietCameraDTO>();
                 }
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 throw new Exception("Not IsSuccessStatusCode");
@@ -157,14 +157,14 @@ namespace App_View.Services
             }
         }
 
-        public async Task<LoaiGiayDTO?> CreateTenLoaiGiayAynsc(LoaiGiayDTO loaiGiayDTO)
+        public async Task<CongSacDTO?> CreateTenLoaiGiayAynsc(CongSacDTO CongSac)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-LoaiGiay", loaiGiayDTO);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-CongSac", CongSac);
             try
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadAsAsync<LoaiGiayDTO>();
+                    return await response.Content.ReadAsAsync<CongSacDTO>();
                 }
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 throw new Exception("Not IsSuccessStatusCode");
@@ -176,9 +176,9 @@ namespace App_View.Services
             }
         }
 
-        public async Task<MauSacDTO?> CreateTenMauSacAynsc(MauSacDTO mauSacDTO)
+        public async Task<MauSacDTO?> CreateTenMauSacAynsc(MauSacDTO mauSac)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-MauSac", mauSacDTO);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-MauSac", mauSac);
             try
             {
                 if (response.IsSuccessStatusCode)
@@ -195,9 +195,9 @@ namespace App_View.Services
             }
         }
 
-        public async Task<SanPhamDTO?> CreateTenSanPhamAynsc(SanPhamDTO sanPhamDTO)
+        public async Task<SanPhamDTO?> CreateTenSanPhamAynsc(SanPhamDTO sanPham)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-SanPham", sanPhamDTO);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-SanPham", sanPham);
             try
             {
                 if (response.IsSuccessStatusCode)
@@ -214,14 +214,14 @@ namespace App_View.Services
             }
         }
 
-        public async Task<ThuongHieuDTO?> CreateTenThuongHieuAynsc(ThuongHieuDTO thuongHieu)
+        public async Task<HangDTO?> CreateTenThuongHieuAynsc(HangDTO hang)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-ThuongHieu", thuongHieu);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-Hang", hang);
             try
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadAsAsync<ThuongHieuDTO>();
+                    return await response.Content.ReadAsAsync<HangDTO>();
                 }
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 throw new Exception("Not IsSuccessStatusCode");
@@ -233,9 +233,9 @@ namespace App_View.Services
             }
         }
 
-        public async Task<XuatXuDTO?> CreateTenXuatXuAynsc(XuatXuDTO xuatXuDTO)
+        public async Task<XuatXuDTO?> CreateTenXuatXuAynsc(XuatXuDTO xuatXu)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-XuatXu", xuatXuDTO);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-XuatXu", xuatXu);
             try
             {
                 if (response.IsSuccessStatusCode)
@@ -506,26 +506,6 @@ namespace App_View.Services
             }
         }
 
-        public async Task<List<ChatLieu>> GetListModelChatLieuAsync()
-        {
-            return (await _httpClient.GetFromJsonAsync<List<ChatLieu>?>("/api/SanPhamChiTiet/Get-List-ChatLieu"))!;
-        }
-
-        public async Task<List<KichCo>> GetListModelKichCoAsync()
-        {
-            return (await _httpClient.GetFromJsonAsync<List<KichCo>?>("/api/SanPhamChiTiet/Get-List-KichCo"))!;
-        }
-
-        public async Task<List<KieuDeGiay>> GetListModelKieuDeGiayAsync()
-        {
-            return (await _httpClient.GetFromJsonAsync<List<KieuDeGiay>?>("/api/SanPhamChiTiet/Get-List-KieuDeGiay"))!;
-        }
-
-        public async Task<List<LoaiGiay>> GetListModelLoaiGiayAsync()
-        {
-            return (await _httpClient.GetFromJsonAsync<List<LoaiGiay>?>("/api/SanPhamChiTiet/Get-List-LoaiGiay"))!;
-        }
-
         public async Task<List<MauSac>> GetListModelMauSacAsync()
         {
             return (await _httpClient.GetFromJsonAsync<List<MauSac>?>("/api/SanPhamChiTiet/Get-List-MauSac"))!;
@@ -536,14 +516,59 @@ namespace App_View.Services
             return (await _httpClient.GetFromJsonAsync<List<SanPham>?>("/api/SanPhamChiTiet/Get-List-SanPham"))!;
         }
 
-        public async Task<List<ThuongHieu>> GetListModelThuongHieuAsync()
+        public Task<HangDTO?> CreateTenHangAynsc(HangDTO hangDTO)
         {
-            return (await _httpClient.GetFromJsonAsync<List<ThuongHieu>?>("/api/SanPhamChiTiet/Get-List-ThuongHieu"))!;
+            throw new NotImplementedException();
         }
 
-        public async Task<List<XuatXu>> GetListModelXuatXuAsync()
+        public Task<RamDTO?> CreateRamAynsc(RamDTO ramDTO)
         {
-            return (await _httpClient.GetFromJsonAsync<List<XuatXu>>("/api/SanPhamChiTiet/Get-List-XuatXu"))!;
+            throw new NotImplementedException();
+        }
+
+        public Task<CongSacDTO?> CreateCongSacAynsc(CongSacDTO CongsacDOT)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ChiTietCameraDTO?> CreateChitietCameraAynsc(ChiTietCameraDTO ChiTietCameraDTO)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RomDTO?> CreateTenRomAynsc(RomDTO RomDTO)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Hang>> GetListModelChatLieuAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Ram>> GetListModelKichCoAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<CongSac>> GetListModelKieuDeGiayAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<ChiTietCamera>> GetListModelLoaiGiayAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Rom>> GetListModelThuongHieuAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Pin>> GetListModelXuatXuAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

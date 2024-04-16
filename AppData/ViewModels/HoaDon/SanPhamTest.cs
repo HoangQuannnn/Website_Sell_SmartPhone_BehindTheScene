@@ -21,5 +21,10 @@ namespace App_Data.ViewModels.HoaDon
         public int? TrangThaiGiaoHang { get; set; }
         public DanhGiaViewModel? DanhGia { get; set; }
         public List<string?> LinkAnh { get; set; }
+
+        public static implicit operator SanPhamTest(SanPhamTest v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

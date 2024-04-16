@@ -1,12 +1,13 @@
 ﻿using App_Data.Models;
 using App_Data.ViewModels.Anh;
-using App_Data.ViewModels.ChatLieuDTO;
-using App_Data.ViewModels.KichCoDTO;
-using App_Data.ViewModels.KieuDeGiayDTO;
-using App_Data.ViewModels.LoaiGiayDTO;
+using App_Data.ViewModels.ChiTietCameraDTO;
+using App_Data.ViewModels.CongSacDTO;
+using App_Data.ViewModels.HangDTO;
+
 using App_Data.ViewModels.MauSac;
+using App_Data.ViewModels.RamDTO;
+using App_Data.ViewModels.RomDTO;
 using App_Data.ViewModels.SanPhamChiTiet.SanPhamDTO;
-using App_Data.ViewModels.SanPhamChiTiet.ThuongHieuDTO;
 using App_Data.ViewModels.SanPhamChiTietDTO;
 using App_Data.ViewModels.SanPhamChiTietViewModel;
 using App_Data.ViewModels.XuatXu;
@@ -30,13 +31,13 @@ namespace App_View.IServices
         Task CreateAnhAysnc(string IdChiTietSp, List<IFormFile> lstIFormFile);
         Task DeleteAnhAysnc(ImageDTO responseImageDeleteVM);
         Task<SanPhamDTO?> CreateTenSanPhamAynsc(SanPhamDTO sanPhamDTO);
-        Task<ThuongHieuDTO?> CreateTenThuongHieuAynsc(ThuongHieuDTO thuongHieuDTO);
+        Task<HangDTO?> CreateTenHangAynsc(HangDTO hangDTO);
         Task<XuatXuDTO?> CreateTenXuatXuAynsc(XuatXuDTO xuatXuDTO);
-        Task<ChatLieuDTO?> CreateTenChatLieuAynsc(ChatLieuDTO xuatXuDTO);
-        Task<LoaiGiayDTO?> CreateTenLoaiGiayAynsc(LoaiGiayDTO loaiGiayDTO);
-        Task<KieuDeGiayDTO?> CreateTenKieuDeGiayAynsc(KieuDeGiayDTO kieuDeGiayDTO);
+        Task<RamDTO?> CreateRamAynsc(RamDTO ramDTO);
+        Task<CongSacDTO?> CreateCongSacAynsc(CongSacDTO CongsacDOT);
+        Task<ChiTietCameraDTO?> CreateChitietCameraAynsc(ChiTietCameraDTO ChiTietCameraDTO);
         Task<MauSacDTO?> CreateTenMauSacAynsc(MauSacDTO mauSacDTO);
-        Task<KichCoDTO?> CreateTenKichCoAynsc(KichCoDTO kichCoDTO);
+        Task<RomDTO?> CreateTenRomAynsc(RomDTO RomDTO);
         Task<List<ItemShopViewModel>?> GetListItemShopViewModelAynsc();
         Task<List<ItemShopViewModel>?> GetDanhSachBienTheItemShopViewModelAsync();
         Task<ItemDetailViewModel?> GetItemDetailViewModelAynsc(string id);
@@ -51,14 +52,14 @@ namespace App_View.IServices
         Task<SanPhamChiTietDTO> GetItemExcelAynsc(BienTheDTO bienTheDTO);
         Task UpDatSoLuongAynsc(SanPhamSoLuongDTO sanPhamSoLuongDTO);
         #region GetListModelVariants
-        Task<List<ChatLieu>> GetListModelChatLieuAsync();
-        Task<List<KichCo>> GetListModelKichCoAsync();
-        Task<List<KieuDeGiay>> GetListModelKieuDeGiayAsync();
-        Task<List<LoaiGiay>> GetListModelLoaiGiayAsync();
+        Task<List<Hang>> GetListModelChatLieuAsync();
+        Task<List<Ram>> GetListModelKichCoAsync();
+        Task<List<CongSac>> GetListModelKieuDeGiayAsync();
+        Task<List<ChiTietCamera>> GetListModelLoaiGiayAsync();
         Task<List<MauSac>> GetListModelMauSacAsync();
         Task<List<SanPham>> GetListModelSanPhamAsync();
-        Task<List<ThuongHieu>> GetListModelThuongHieuAsync();
-        Task<List<XuatXu>> GetListModelXuatXuAsync();
+        Task<List<Rom>> GetListModelThuongHieuAsync();
+        Task<List<Pin>> GetListModelXuatXuAsync();
         #endregion
 
     }

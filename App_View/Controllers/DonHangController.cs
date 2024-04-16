@@ -189,17 +189,17 @@ namespace App_View.Controllers
                     else
                     {
                         existing.SoLuong = Convert.ToInt32(product.SoLuongTon);
-                        message.Add($"{product.SanPham} màu {product.MauSac} size {product.KichCo} số lượn chỉ còn {product.SoLuongTon},Trong giỏ hàng bạn đã có!");
+                        message.Add($"{product.SanPham} màu {product.MauSac} số lượn chỉ còn {product.SoLuongTon},Trong giỏ hàng bạn đã có!");
                     }
                     await GioHangChiTietservices.UpdateGioHang(sp.IdSanPhamChiTiet, Convert.ToInt32(existing.SoLuong), UserID);
                 }
                 else if (product.TrangThai == 1)
                 {
-                    message.Add($"{product.SanPham} màu {product.MauSac} size {product.KichCo} đã ngừng bán!");
+                    message.Add($"{product.SanPham} màu {product.MauSac}  đã ngừng bán!");
                 }
                 else if (product.SoLuongTon == 0)
                 {
-                    message.Add($"{product.SanPham} màu {product.MauSac} size {product.KichCo} đã hết hàng!");
+                    message.Add($"{product.SanPham} màu {product.MauSac} đã hết hàng!");
                 }
                 else
                 {

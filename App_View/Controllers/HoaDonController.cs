@@ -148,17 +148,15 @@ namespace App_View.Controllers
                         GiaBan = item.GiaBan,
                         TrangThai = (int)TrangThaiHoaDonChiTiet.ChuaThanhToan
                     });
-                    //var sanphamupdate = new SanPhamSoLuongDTO()
-                    //{
-                    //    IdChiTietSanPham = item.IdSanPhamCT,
-                    //    SoLuong = (int)item.SoLuong
-                    //};
+
                     var sanPhamTest = new SanPhamTest()
                     {
-                        TenThuongHieu = item.TenThuongHieu,
+                     
                         TenSanPham = item.TenSanPham,
                         TenMauSac = item.TenMauSac,
-                        TenKichCo = item.TenKichCo,
+                        DungLuongRam = item.DungLuongRam,
+                        DungLuongRom = item.DungLuongRom,
+                        TenHang = item.TenHang,
                         SoLuong = item.SoLuong,
                         GiaBan = item.GiaBan
                     };
@@ -303,10 +301,11 @@ namespace App_View.Controllers
                     //};
                     var sanPhamTest = new SanPhamTest()
                     {
-                        TenThuongHieu = item.TenThuongHieu,
                         TenSanPham = item.TenSanPham,
                         TenMauSac = item.TenMauSac,
-                        TenKichCo = item.TenKichCo,
+                        DungLuongRam = item.DungLuongRam,
+                        DungLuongRom = item.DungLuongRom,
+                        TenHang = item.TenHang,
                         SoLuong = item.SoLuong,
                         GiaBan = item.GiaBan
                     };
@@ -479,17 +478,17 @@ namespace App_View.Controllers
 
                 if (item.SoLuong > product.SoLuongTon && product.SoLuongTon == 0)
                 {
-                    message.Add($"Sản phẩm {product.SanPham} màu {product.MauSac} size {product.KichCo} đã hết hàng, Vui lòng chọn sản phẩm khác!");
+                    message.Add($"Sản phẩm {product.SanPham} màu {product.MauSac}  đã hết hàng, Vui lòng chọn sản phẩm khác!");
                     outOfStockCount++;
                 }
                 else if (item.TrangThaiSanPham == 1 || item.TrangThaiSanPham != product.TrangThai)
                 {
-                    message.Add($"Sản phẩm {product.SanPham} màu {product.MauSac} size {product.KichCo} đã ngừng bán, Vui lòng chọn sản phẩm khác!");
+                    message.Add($"Sản phẩm {product.SanPham} màu {product.MauSac}  đã ngừng bán, Vui lòng chọn sản phẩm khác!");
                     stoppedSellingCount++;
                 }
                 else if (item.SoLuong > product.SoLuongTon)
                 {
-                    message.Add($"Số lượng sản phẩm {product.SanPham} màu {product.MauSac} size {product.KichCo} chỉ còn {product.SoLuongTon}, Vui lòng chọn lại số lượng!");
+                    message.Add($"Số lượng sản phẩm {product.SanPham} màu {product.MauSac}  chỉ còn {product.SoLuongTon}, Vui lòng chọn lại số lượng!");
                     quantityErrorCount++;
                 }
             }

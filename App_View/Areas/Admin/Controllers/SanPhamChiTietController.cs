@@ -11,13 +11,8 @@ using App_View.IServices;
 using App_Data.ViewModels.Anh;
 using System.Security.Cryptography;
 using App_Data.ViewModels.SanPhamChiTiet.SanPhamDTO;
-using App_Data.ViewModels.SanPhamChiTiet.ThuongHieuDTO;
 using App_Data.ViewModels.XuatXu;
-using App_Data.ViewModels.ChatLieuDTO;
-using App_Data.ViewModels.LoaiGiayDTO;
-using App_Data.ViewModels.KieuDeGiayDTO;
 using App_Data.ViewModels.MauSac;
-using App_Data.ViewModels.KichCoDTO;
 using App_Data.ViewModels.SanPhamChiTietDTO;
 using OfficeOpenXml;
 using System.Diagnostics;
@@ -39,6 +34,17 @@ using Microsoft.DotNet.MSIdentity.Shared;
 using DocumentFormat.OpenXml.Spreadsheet;
 using App_Data.ViewModels.FilterDTO;
 using Microsoft.AspNetCore.Authorization;
+using App_Data.ViewModels.HangDTO;
+using App_Data.ViewModels.RamDTO;
+using App_Data.ViewModels.RomDTO;
+using App_Data.ViewModels.ChipDTO;
+using App_Data.ViewModels.PinDTO;
+using App_Data.ViewModels.CongSacDTO;
+using App_Data.ViewModels.TheNhoDTO;
+using App_Data.ViewModels.TheSimDTO;
+using App_Data.ViewModels.ManHinhDTO;
+using App_Data.ViewModels.CameraSauDTO;
+using App_Data.ViewModels.CameraTruocDTO;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -61,11 +67,21 @@ namespace App_View.Areas.Admin.Controllers
         // GET: Admin/SanPhamChiTiet/DanhSachSanPham
         public async Task<IActionResult> DanhSachSanPham()
         {
-            ViewData["ThuongHieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelThuongHieuAsync(), "IdThuongHieu", "TenThuongHieu");
-            ViewData["KichCo"] = new SelectList((await _SanPhamChiTietservice.GetListModelKichCoAsync()).OrderBy(kc => kc.SoKichCo), "IdKichCo", "SoKichCo");
             ViewData["MauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["SanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
-            ViewData["LoaiGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelLoaiGiayAsync(), "IdLoaiGiay", "TenLoaiGiay");
+            ViewData["Hang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["Ram"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
+            ViewData["Rom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
+            ViewData["Chip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["CongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["Pin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin" + "DungLuong");
+            ViewData["TheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho" + "DungLuong");
+            ViewData["TheSim"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheSimAsync(), "IdTheSim", "Loaithesim" + "SoKhaySim");
+            ViewData["CameraTruoc"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraTruocAsync(), "IdCameraTruoc", "LoaiCamera" + "DoPhanGiai");
+            ViewData["CameraSau"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraSauAsync(), "IdCameraSau", "LoaiCamera" + "DoPhanGiai");
+            ViewData["ManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh" + "KichThuoc" + "TanSoQuet");
+
+
             return View();
         }
 
@@ -98,404 +114,404 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(await _SanPhamChiTietservice.KhoiPhucKinhDoanhAynsc(id));
         }
 
-        #region ImportExcel
+        //#region ImportExcel
 
-        public class ErrorRow
-        {
-            public int Row { get; set; }
-            public string? SanPham { get; set; }
-            public string? ThuongHieu { get; set; }
-            public string? XuatXu { get; set; }
-            public string? ChatLieu { get; set; }
-            public string? LoaiGiay { get; set; }
-            public string? KieuDeGiay { get; set; }
-            public string? MauSac { get; set; }
-            public string? KichCo { get; set; }
-            public string? GiaNhap { get; set; }
-            public string? GiaBan { get; set; }
-            public string? SoLuong { get; set; }
-            public string? KhoiLuong { get; set; }
-            public string? MoTa { get; set; }
-            public bool? Day { get; set; }
-            public bool? NoiBat { get; set; }
-            public bool? TrangThaiSale { get; set; }
-            public string? ListTenAnh { get; set; }
+        //public class ErrorRow
+        //{
+        //    public int Row { get; set; }
+        //    public string? SanPham { get; set; }
+        //    public string? ThuongHieu { get; set; }
+        //    public string? XuatXu { get; set; }
+        //    public string? ChatLieu { get; set; }
+        //    public string? LoaiGiay { get; set; }
+        //    public string? KieuDeGiay { get; set; }
+        //    public string? MauSac { get; set; }
+        //    public string? KichCo { get; set; }
+        //    public string? GiaNhap { get; set; }
+        //    public string? GiaBan { get; set; }
+        //    public string? SoLuong { get; set; }
+        //    public string? KhoiLuong { get; set; }
+        //    public string? MoTa { get; set; }
+        //    public bool? Day { get; set; }
+        //    public bool? NoiBat { get; set; }
+        //    public bool? TrangThaiSale { get; set; }
+        //    public string? ListTenAnh { get; set; }
 
-            public string? ErrorMessage { get; set; }
-        }
+        //    public string? ErrorMessage { get; set; }
+        //}
 
 
-        [HttpPost]
-        public async Task<ActionResult> ImportProducts(IFormFile file)
-        {
-            int slSuccess = 0;
-            int slFalse = 0;
-            List<ErrorRow> errorRows = new List<ErrorRow>();
-            var sanpham = "";
-            var thuongHieu = "";
-            var xuatXu = "";
-            var chatLieu = "";
-            var loaiGiay = "";
-            var kieuDeGiay = "";
-            var mauSac = "";
-            var kichCo = "";
-            var giaNhap = "";
-            var giaBan = "";
-            var soLuong = "";
-            var khoiLuong = "";
-            var day = "";
-            var noiBat = "";
-            var moTa = "";
-            var trangThaiSale = "";
-            var listTenAnh = new List<string>();
+        //[HttpPost]
+        //public async Task<ActionResult> ImportProducts(IFormFile file)
+        //{
+        //    int slSuccess = 0;
+        //    int slFalse = 0;
+        //    List<ErrorRow> errorRows = new List<ErrorRow>();
+        //    var sanpham = "";
+        //    var thuongHieu = "";
+        //    var xuatXu = "";
+        //    var chatLieu = "";
+        //    var loaiGiay = "";
+        //    var kieuDeGiay = "";
+        //    var mauSac = "";
+        //    var kichCo = "";
+        //    var giaNhap = "";
+        //    var giaBan = "";
+        //    var soLuong = "";
+        //    var khoiLuong = "";
+        //    var day = "";
+        //    var noiBat = "";
+        //    var moTa = "";
+        //    var trangThaiSale = "";
+        //    var listTenAnh = new List<string>();
 
-            if (file != null && file.Length > 0)
-            {
-                try
-                {
-                    using (var stream = file.OpenReadStream())
-                    using (var package = new ExcelPackage(stream))
-                    {
-                        var worksheet = package.Workbook.Worksheets[0];
+        //    if (file != null && file.Length > 0)
+        //    {
+        //        try
+        //        {
+        //            using (var stream = file.OpenReadStream())
+        //            using (var package = new ExcelPackage(stream))
+        //            {
+        //                var worksheet = package.Workbook.Worksheets[0];
 
-                        int rowCount = worksheet.Dimension.Rows;
-                        int colCount = worksheet.Dimension.Columns;
-                        Console.WriteLine(rowCount);
-                        Console.WriteLine(colCount);
+        //                int rowCount = worksheet.Dimension.Rows;
+        //                int colCount = worksheet.Dimension.Columns;
+        //                Console.WriteLine(rowCount);
+        //                Console.WriteLine(colCount);
 
-                        for (int row = 2; row <= rowCount; row++)
-                        {
-                            bool isRowEmpty = true;
-                            Console.WriteLine(row);
-                            Console.WriteLine(rowCount);
-                            for (int col = 1; col <= colCount; col++)
-                            {
-                                Console.WriteLine(row.ToString() + "-" + worksheet.Cells[row, col].Text + "-");
-                                if (!string.IsNullOrWhiteSpace(worksheet.Cells[row, col].Text))
-                                {
-                                    isRowEmpty = false;
-                                    break;
-                                }
-                            }
+        //                for (int row = 2; row <= rowCount; row++)
+        //                {
+        //                    bool isRowEmpty = true;
+        //                    Console.WriteLine(row);
+        //                    Console.WriteLine(rowCount);
+        //                    for (int col = 1; col <= colCount; col++)
+        //                    {
+        //                        Console.WriteLine(row.ToString() + "-" + worksheet.Cells[row, col].Text + "-");
+        //                        if (!string.IsNullOrWhiteSpace(worksheet.Cells[row, col].Text))
+        //                        {
+        //                            isRowEmpty = false;
+        //                            break;
+        //                        }
+        //                    }
 
-                            if (isRowEmpty)
-                            {
-                                break;
-                            }
+        //                    if (isRowEmpty)
+        //                    {
+        //                        break;
+        //                    }
 
-                            sanpham = worksheet.Cells[row, 1].Text;
-                            thuongHieu = worksheet.Cells[row, 2].Text;
-                            xuatXu = worksheet.Cells[row, 3].Text;
-                            chatLieu = worksheet.Cells[row, 4].Text;
-                            loaiGiay = worksheet.Cells[row, 5].Text;
-                            kieuDeGiay = worksheet.Cells[row, 6].Text;
-                            mauSac = worksheet.Cells[row, 7].Text;
-                            kichCo = worksheet.Cells[row, 8].Text;
-                            giaNhap = worksheet.Cells[row, 9].Text.Replace(",", "").Replace("₫", "");
-                            giaBan = worksheet.Cells[row, 10].Text.Replace(",", "").Replace("₫", "");
-                            soLuong = worksheet.Cells[row, 11].Text;
-                            khoiLuong = worksheet.Cells[row, 12].Text;
-                            day = worksheet.Cells[row, 13].Text;
-                            noiBat = worksheet.Cells[row, 14].Text;
-                            trangThaiSale = worksheet.Cells[row, 15].Text;
-                            moTa = worksheet.Cells[row, 16].Text;
-                            listTenAnh = !string.IsNullOrWhiteSpace(worksheet.Cells[row, 17].Text) ? worksheet.Cells[row, 17].Text.Split(',').ToList() : new List<string>();
-                            Console.WriteLine(sanpham + "-" + mauSac + "-" + kichCo);
-                            Console.WriteLine();
+        //                    sanpham = worksheet.Cells[row, 1].Text;
+        //                    thuongHieu = worksheet.Cells[row, 2].Text;
+        //                    xuatXu = worksheet.Cells[row, 3].Text;
+        //                    chatLieu = worksheet.Cells[row, 4].Text;
+        //                    loaiGiay = worksheet.Cells[row, 5].Text;
+        //                    kieuDeGiay = worksheet.Cells[row, 6].Text;
+        //                    mauSac = worksheet.Cells[row, 7].Text;
+        //                    kichCo = worksheet.Cells[row, 8].Text;
+        //                    giaNhap = worksheet.Cells[row, 9].Text.Replace(",", "").Replace("₫", "");
+        //                    giaBan = worksheet.Cells[row, 10].Text.Replace(",", "").Replace("₫", "");
+        //                    soLuong = worksheet.Cells[row, 11].Text;
+        //                    khoiLuong = worksheet.Cells[row, 12].Text;
+        //                    day = worksheet.Cells[row, 13].Text;
+        //                    noiBat = worksheet.Cells[row, 14].Text;
+        //                    trangThaiSale = worksheet.Cells[row, 15].Text;
+        //                    moTa = worksheet.Cells[row, 16].Text;
+        //                    listTenAnh = !string.IsNullOrWhiteSpace(worksheet.Cells[row, 17].Text) ? worksheet.Cells[row, 17].Text.Split(',').ToList() : new List<string>();
+        //                    Console.WriteLine(sanpham + "-" + mauSac + "-" + kichCo);
+        //                    Console.WriteLine();
 
-                            if (
-                                !string.IsNullOrEmpty(sanpham) &&
-                                !string.IsNullOrEmpty(thuongHieu) &&
-                                !string.IsNullOrEmpty(xuatXu) &&
-                                !string.IsNullOrEmpty(chatLieu) &&
-                                !string.IsNullOrEmpty(loaiGiay) &&
-                                !string.IsNullOrEmpty(kieuDeGiay) &&
-                                !string.IsNullOrEmpty(mauSac) &&
-                                mauSac.Length > 2 &&
-                                !string.IsNullOrEmpty(kichCo) &&
-                                !string.IsNullOrEmpty(giaNhap) &&
-                                !string.IsNullOrEmpty(giaBan) &&
-                                !string.IsNullOrEmpty(soLuong) &&
-                                !string.IsNullOrEmpty(khoiLuong) &&
-                                !string.IsNullOrEmpty(noiBat) &&
-                                !string.IsNullOrEmpty(trangThaiSale) &&
-                                listTenAnh.Any()
-                                )
-                            {
-                                var sanPhamDTO = await _SanPhamChiTietservice.GetItemExcelAynsc(new BienTheDTO
-                                {
-                                    ChatLieu = chatLieu,
-                                    KichCo = kichCo,
-                                    KieuDeGiay = kieuDeGiay,
-                                    LoaiGiay = loaiGiay,
-                                    MauSac = mauSac,
-                                    SanPham = sanpham,
-                                    ThuongHieu = thuongHieu,
-                                    XuatXu = xuatXu,
-                                });
+        //                    if (
+        //                        !string.IsNullOrEmpty(sanpham) &&
+        //                        !string.IsNullOrEmpty(thuongHieu) &&
+        //                        !string.IsNullOrEmpty(xuatXu) &&
+        //                        !string.IsNullOrEmpty(chatLieu) &&
+        //                        !string.IsNullOrEmpty(loaiGiay) &&
+        //                        !string.IsNullOrEmpty(kieuDeGiay) &&
+        //                        !string.IsNullOrEmpty(mauSac) &&
+        //                        mauSac.Length > 2 &&
+        //                        !string.IsNullOrEmpty(kichCo) &&
+        //                        !string.IsNullOrEmpty(giaNhap) &&
+        //                        !string.IsNullOrEmpty(giaBan) &&
+        //                        !string.IsNullOrEmpty(soLuong) &&
+        //                        !string.IsNullOrEmpty(khoiLuong) &&
+        //                        !string.IsNullOrEmpty(noiBat) &&
+        //                        !string.IsNullOrEmpty(trangThaiSale) &&
+        //                        listTenAnh.Any()
+        //                        )
+        //                    {
+        //                        var sanPhamDTO = await _SanPhamChiTietservice.GetItemExcelAynsc(new BienTheDTO
+        //                        {
+        //                            ChatLieu = chatLieu,
+        //                            KichCo = kichCo,
+        //                            KieuDeGiay = kieuDeGiay,
+        //                            LoaiGiay = loaiGiay,
+        //                            MauSac = mauSac,
+        //                            SanPham = sanpham,
+        //                            ThuongHieu = thuongHieu,
+        //                            XuatXu = xuatXu,
+        //                        });
 
-                                if (sanPhamDTO == null)
-                                {
-                                    slFalse++;
-                                    var errorRow = new ErrorRow
-                                    {
-                                        SanPham = sanpham,
-                                        ThuongHieu = thuongHieu,
-                                        XuatXu = xuatXu,
-                                        ChatLieu = chatLieu,
-                                        LoaiGiay = loaiGiay,
-                                        KieuDeGiay = kieuDeGiay,
-                                        MauSac = mauSac,
-                                        KichCo = kichCo,
-                                        GiaNhap = giaNhap,
-                                        GiaBan = giaBan,
-                                        SoLuong = soLuong,
-                                        KhoiLuong = khoiLuong,
-                                        Day = day == "1",
-                                        NoiBat = noiBat == "1",
-                                        TrangThaiSale = trangThaiSale == "1",
-                                        MoTa = moTa,
-                                        ListTenAnh = string.Join(",", listTenAnh),
-                                        ErrorMessage = "Đầu vào không hợp lệ"
-                                    };
+        //                        if (sanPhamDTO == null)
+        //                        {
+        //                            slFalse++;
+        //                            var errorRow = new ErrorRow
+        //                            {
+        //                                SanPham = sanpham,
+        //                                ThuongHieu = thuongHieu,
+        //                                XuatXu = xuatXu,
+        //                                ChatLieu = chatLieu,
+        //                                LoaiGiay = loaiGiay,
+        //                                KieuDeGiay = kieuDeGiay,
+        //                                MauSac = mauSac,
+        //                                KichCo = kichCo,
+        //                                GiaNhap = giaNhap,
+        //                                GiaBan = giaBan,
+        //                                SoLuong = soLuong,
+        //                                KhoiLuong = khoiLuong,
+        //                                Day = day == "1",
+        //                                NoiBat = noiBat == "1",
+        //                                TrangThaiSale = trangThaiSale == "1",
+        //                                MoTa = moTa,
+        //                                ListTenAnh = string.Join(",", listTenAnh),
+        //                                ErrorMessage = "Đầu vào không hợp lệ"
+        //                            };
 
-                                    errorRows.Add(errorRow);
-                                }
-                                else
-                                {
-                                    try
-                                    {
+        //                            errorRows.Add(errorRow);
+        //                        }
+        //                        else
+        //                        {
+        //                            try
+        //                            {
 
-                                        sanPhamDTO!.GiaNhap = string.IsNullOrEmpty(giaNhap) ? null : Convert.ToDouble(giaNhap);
-                                        sanPhamDTO.SoLuongTon = string.IsNullOrEmpty(giaNhap) ? null : Convert.ToInt32(soLuong);
-                                        sanPhamDTO.GiaBan = Convert.ToDouble(giaBan);
-                                        sanPhamDTO.KhoiLuong = Convert.ToDouble(khoiLuong);
-                                        sanPhamDTO.Day = day == "1" ? true : false;
-                                        sanPhamDTO.TrangThaiKhuyenMai = trangThaiSale == "1" ? true : false;
-                                        sanPhamDTO.NoiBat = noiBat == "1" ? true : false;
-                                        sanPhamDTO.MoTa = moTa;
+        //                                sanPhamDTO!.GiaNhap = string.IsNullOrEmpty(giaNhap) ? null : Convert.ToDouble(giaNhap);
+        //                                sanPhamDTO.SoLuongTon = string.IsNullOrEmpty(giaNhap) ? null : Convert.ToInt32(soLuong);
+        //                                sanPhamDTO.GiaBan = Convert.ToDouble(giaBan);
+        //                                sanPhamDTO.KhoiLuong = Convert.ToDouble(khoiLuong);
+        //                                sanPhamDTO.Day = day == "1" ? true : false;
+        //                                sanPhamDTO.TrangThaiKhuyenMai = trangThaiSale == "1" ? true : false;
+        //                                sanPhamDTO.NoiBat = noiBat == "1" ? true : false;
+        //                                sanPhamDTO.MoTa = moTa;
 
-                                        if (sanPhamDTO!.GiaNhap < 0 || sanPhamDTO.SoLuongTon < 0 || sanPhamDTO.GiaBan < 0 || sanPhamDTO.KhoiLuong < 0)
-                                        {
-                                            throw new Exception();
-                                        }
+        //                                if (sanPhamDTO!.GiaNhap < 0 || sanPhamDTO.SoLuongTon < 0 || sanPhamDTO.GiaBan < 0 || sanPhamDTO.KhoiLuong < 0)
+        //                                {
+        //                                    throw new Exception();
+        //                                }
 
-                                        var response = (await _SanPhamChiTietservice.AddAysnc(sanPhamDTO));
+        //                                var response = (await _SanPhamChiTietservice.AddAysnc(sanPhamDTO));
 
-                                        if (response.Success)
-                                        {
-                                            slSuccess++;
+        //                                if (response.Success)
+        //                                {
+        //                                    slSuccess++;
 
-                                            var formContent = new MultipartFormDataContent();
-                                            formContent.Add(new StringContent(response.IdChiTietSp!), "idProductDetail");
-                                            for (int i = 0; i < listTenAnh.Count(); i++)
-                                            {
-                                                formContent.Add(new StringContent(listTenAnh[i]), $"lstNameImage[{i}]");
-                                            }
-                                            try
-                                            {
-                                                HttpResponseMessage responseCreate = await _httpClient.PostAsync("/api/Anh/create-list-model-image", formContent);
-                                                responseCreate.EnsureSuccessStatusCode();
+        //                                    var formContent = new MultipartFormDataContent();
+        //                                    formContent.Add(new StringContent(response.IdChiTietSp!), "idProductDetail");
+        //                                    for (int i = 0; i < listTenAnh.Count(); i++)
+        //                                    {
+        //                                        formContent.Add(new StringContent(listTenAnh[i]), $"lstNameImage[{i}]");
+        //                                    }
+        //                                    try
+        //                                    {
+        //                                        HttpResponseMessage responseCreate = await _httpClient.PostAsync("/api/Anh/create-list-model-image", formContent);
+        //                                        responseCreate.EnsureSuccessStatusCode();
 
-                                            }
-                                            catch (HttpRequestException ex)
-                                            {
-                                                slFalse++;
-                                                Console.WriteLine($"Lỗi gửi yêu cầu HTTP: {ex.Message}");
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                slFalse++;
-                                                Console.WriteLine($"Lỗi khác: {ex.Message}");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            slFalse++;
-                                            var errorRow = new ErrorRow
-                                            {
-                                                SanPham = sanpham,
-                                                ThuongHieu = thuongHieu,
-                                                XuatXu = xuatXu,
-                                                ChatLieu = chatLieu,
-                                                LoaiGiay = loaiGiay,
-                                                KieuDeGiay = kieuDeGiay,
-                                                MauSac = mauSac,
-                                                KichCo = kichCo,
-                                                GiaNhap = giaNhap,
-                                                GiaBan = giaBan,
-                                                SoLuong = soLuong,
-                                                KhoiLuong = khoiLuong,
-                                                Day = day == "1",
-                                                NoiBat = noiBat == "1",
-                                                TrangThaiSale = trangThaiSale == "1",
-                                                MoTa = moTa,
-                                                ListTenAnh = string.Join(",", listTenAnh),
-                                                ErrorMessage = response.DescriptionErr
-                                            };
+        //                                    }
+        //                                    catch (HttpRequestException ex)
+        //                                    {
+        //                                        slFalse++;
+        //                                        Console.WriteLine($"Lỗi gửi yêu cầu HTTP: {ex.Message}");
+        //                                    }
+        //                                    catch (Exception ex)
+        //                                    {
+        //                                        slFalse++;
+        //                                        Console.WriteLine($"Lỗi khác: {ex.Message}");
+        //                                    }
+        //                                }
+        //                                else
+        //                                {
+        //                                    slFalse++;
+        //                                    var errorRow = new ErrorRow
+        //                                    {
+        //                                        SanPham = sanpham,
+        //                                        ThuongHieu = thuongHieu,
+        //                                        XuatXu = xuatXu,
+        //                                        ChatLieu = chatLieu,
+        //                                        LoaiGiay = loaiGiay,
+        //                                        KieuDeGiay = kieuDeGiay,
+        //                                        MauSac = mauSac,
+        //                                        KichCo = kichCo,
+        //                                        GiaNhap = giaNhap,
+        //                                        GiaBan = giaBan,
+        //                                        SoLuong = soLuong,
+        //                                        KhoiLuong = khoiLuong,
+        //                                        Day = day == "1",
+        //                                        NoiBat = noiBat == "1",
+        //                                        TrangThaiSale = trangThaiSale == "1",
+        //                                        MoTa = moTa,
+        //                                        ListTenAnh = string.Join(",", listTenAnh),
+        //                                        ErrorMessage = response.DescriptionErr
+        //                                    };
 
-                                            errorRows.Add(errorRow);
+        //                                    errorRows.Add(errorRow);
 
-                                        }
-                                    }
-                                    catch (Exception)
-                                    {
-                                        slFalse++;
-                                        var errorRow = new ErrorRow
-                                        {
-                                            SanPham = sanpham,
-                                            ThuongHieu = thuongHieu,
-                                            XuatXu = xuatXu,
-                                            ChatLieu = chatLieu,
-                                            LoaiGiay = loaiGiay,
-                                            KieuDeGiay = kieuDeGiay,
-                                            MauSac = mauSac,
-                                            KichCo = kichCo,
-                                            GiaNhap = giaNhap,
-                                            GiaBan = giaBan,
-                                            SoLuong = soLuong,
-                                            KhoiLuong = khoiLuong,
-                                            Day = day == "1",
-                                            NoiBat = noiBat == "1",
-                                            TrangThaiSale = trangThaiSale == "1",
-                                            MoTa = moTa,
-                                            ListTenAnh = string.Join(",", listTenAnh),
-                                            ErrorMessage = "Trường có đầu vào không hợp lệ"
-                                        };
+        //                                }
+        //                            }
+        //                            catch (Exception)
+        //                            {
+        //                                slFalse++;
+        //                                var errorRow = new ErrorRow
+        //                                {
+        //                                    SanPham = sanpham,
+        //                                    ThuongHieu = thuongHieu,
+        //                                    XuatXu = xuatXu,
+        //                                    ChatLieu = chatLieu,
+        //                                    LoaiGiay = loaiGiay,
+        //                                    KieuDeGiay = kieuDeGiay,
+        //                                    MauSac = mauSac,
+        //                                    KichCo = kichCo,
+        //                                    GiaNhap = giaNhap,
+        //                                    GiaBan = giaBan,
+        //                                    SoLuong = soLuong,
+        //                                    KhoiLuong = khoiLuong,
+        //                                    Day = day == "1",
+        //                                    NoiBat = noiBat == "1",
+        //                                    TrangThaiSale = trangThaiSale == "1",
+        //                                    MoTa = moTa,
+        //                                    ListTenAnh = string.Join(",", listTenAnh),
+        //                                    ErrorMessage = "Trường có đầu vào không hợp lệ"
+        //                                };
 
-                                        errorRows.Add(errorRow);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                slFalse++;
-                                var errorRow = new ErrorRow
-                                {
-                                    SanPham = sanpham,
-                                    ThuongHieu = thuongHieu,
-                                    XuatXu = xuatXu,
-                                    ChatLieu = chatLieu,
-                                    LoaiGiay = loaiGiay,
-                                    KieuDeGiay = kieuDeGiay,
-                                    MauSac = mauSac,
-                                    KichCo = kichCo,
-                                    GiaNhap = giaNhap,
-                                    GiaBan = giaBan,
-                                    SoLuong = soLuong,
-                                    KhoiLuong = khoiLuong,
-                                    Day = day == "1",
-                                    NoiBat = noiBat == "1",
-                                    TrangThaiSale = trangThaiSale == "1",
-                                    MoTa = moTa,
-                                    ListTenAnh = string.Join(",", listTenAnh),
-                                    ErrorMessage = "Các trường không được để trống/Độ dài không hợp lệ."
-                                };
+        //                                errorRows.Add(errorRow);
+        //                            }
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        slFalse++;
+        //                        var errorRow = new ErrorRow
+        //                        {
+        //                            SanPham = sanpham,
+        //                            ThuongHieu = thuongHieu,
+        //                            XuatXu = xuatXu,
+        //                            ChatLieu = chatLieu,
+        //                            LoaiGiay = loaiGiay,
+        //                            KieuDeGiay = kieuDeGiay,
+        //                            MauSac = mauSac,
+        //                            KichCo = kichCo,
+        //                            GiaNhap = giaNhap,
+        //                            GiaBan = giaBan,
+        //                            SoLuong = soLuong,
+        //                            KhoiLuong = khoiLuong,
+        //                            Day = day == "1",
+        //                            NoiBat = noiBat == "1",
+        //                            TrangThaiSale = trangThaiSale == "1",
+        //                            MoTa = moTa,
+        //                            ListTenAnh = string.Join(",", listTenAnh),
+        //                            ErrorMessage = "Các trường không được để trống/Độ dài không hợp lệ."
+        //                        };
 
-                                errorRows.Add(errorRow);
-                            }
-                        }
-                    }
+        //                        errorRows.Add(errorRow);
+        //                    }
+        //                }
+        //            }
 
-                }
-                catch (Exception)
-                {
-                    slFalse++;
-                    var errorRow = new ErrorRow
-                    {
-                        SanPham = sanpham,
-                        ThuongHieu = thuongHieu,
-                        XuatXu = xuatXu,
-                        ChatLieu = chatLieu,
-                        LoaiGiay = loaiGiay,
-                        KieuDeGiay = kieuDeGiay,
-                        MauSac = mauSac,
-                        KichCo = kichCo,
-                        GiaNhap = giaNhap,
-                        GiaBan = giaBan,
-                        SoLuong = soLuong,
-                        KhoiLuong = khoiLuong,
-                        Day = day == "1",
-                        NoiBat = noiBat == "1",
-                        TrangThaiSale = trangThaiSale == "1",
-                        MoTa = moTa,
-                        ListTenAnh = string.Join(",", listTenAnh),
-                        ErrorMessage = "Trường có đầu vào không hợp lệ"
-                    };
+        //        }
+        //        catch (Exception)
+        //        {
+        //            slFalse++;
+        //            var errorRow = new ErrorRow
+        //            {
+        //                SanPham = sanpham,
+        //                ThuongHieu = thuongHieu,
+        //                XuatXu = xuatXu,
+        //                ChatLieu = chatLieu,
+        //                LoaiGiay = loaiGiay,
+        //                KieuDeGiay = kieuDeGiay,
+        //                MauSac = mauSac,
+        //                KichCo = kichCo,
+        //                GiaNhap = giaNhap,
+        //                GiaBan = giaBan,
+        //                SoLuong = soLuong,
+        //                KhoiLuong = khoiLuong,
+        //                Day = day == "1",
+        //                NoiBat = noiBat == "1",
+        //                TrangThaiSale = trangThaiSale == "1",
+        //                MoTa = moTa,
+        //                ListTenAnh = string.Join(",", listTenAnh),
+        //                ErrorMessage = "Trường có đầu vào không hợp lệ"
+        //            };
 
-                    errorRows.Add(errorRow);
-                }
-            }
-            if (errorRows.Count > 0)
-            {
-                using (var errorPackage = new ExcelPackage())
-                {
-                    var errorWorksheet = errorPackage.Workbook.Worksheets.Add("Errors");
-                    using (var range = errorWorksheet.Cells[1, 1, 1, 19])
-                    {
-                        range.Style.Font.Bold = true;
-                        range.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-                        range.Style.Font.Size = 12;
-                    }
+        //            errorRows.Add(errorRow);
+        //        }
+        //    }
+        //    if (errorRows.Count > 0)
+        //    {
+        //        using (var errorPackage = new ExcelPackage())
+        //        {
+        //            var errorWorksheet = errorPackage.Workbook.Worksheets.Add("Errors");
+        //            using (var range = errorWorksheet.Cells[1, 1, 1, 19])
+        //            {
+        //                range.Style.Font.Bold = true;
+        //                range.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+        //                range.Style.Font.Size = 12;
+        //            }
 
-                    errorWorksheet.Cells[1, 1].Value = "Tên SP*";
-                    errorWorksheet.Cells[1, 2].Value = "Thương Hiệu*";
-                    errorWorksheet.Cells[1, 3].Value = "Xuất xứ*";
-                    errorWorksheet.Cells[1, 4].Value = "Chất liệu*";
-                    errorWorksheet.Cells[1, 5].Value = "Loại giầy*";
-                    errorWorksheet.Cells[1, 6].Value = "Kiểu đế giầy*";
-                    errorWorksheet.Cells[1, 7].Value = "Màu sắc*";
-                    errorWorksheet.Cells[1, 8].Value = "Kích cỡ*";
-                    errorWorksheet.Cells[1, 9].Value = "Giá nhập*";
-                    errorWorksheet.Cells[1, 10].Value = "Giá bán*";
-                    errorWorksheet.Cells[1, 11].Value = "Số lượng*";
-                    errorWorksheet.Cells[1, 12].Value = "Khối lượng*";
-                    errorWorksheet.Cells[1, 13].Value = "Dây*";
-                    errorWorksheet.Cells[1, 14].Value = "Nổi bật*";
-                    errorWorksheet.Cells[1, 15].Value = "Được áp dụng khuyển mại*";
-                    errorWorksheet.Cells[1, 16].Value = "Mô tả";
-                    errorWorksheet.Cells[1, 17].Value = "Ảnh*";
-                    errorWorksheet.Cells[1, 18].Value = "Mô tả lỗi";
+        //            errorWorksheet.Cells[1, 1].Value = "Tên SP*";
+        //            errorWorksheet.Cells[1, 2].Value = "Thương Hiệu*";
+        //            errorWorksheet.Cells[1, 3].Value = "Xuất xứ*";
+        //            errorWorksheet.Cells[1, 4].Value = "Chất liệu*";
+        //            errorWorksheet.Cells[1, 5].Value = "Loại giầy*";
+        //            errorWorksheet.Cells[1, 6].Value = "Kiểu đế giầy*";
+        //            errorWorksheet.Cells[1, 7].Value = "Màu sắc*";
+        //            errorWorksheet.Cells[1, 8].Value = "Kích cỡ*";
+        //            errorWorksheet.Cells[1, 9].Value = "Giá nhập*";
+        //            errorWorksheet.Cells[1, 10].Value = "Giá bán*";
+        //            errorWorksheet.Cells[1, 11].Value = "Số lượng*";
+        //            errorWorksheet.Cells[1, 12].Value = "Khối lượng*";
+        //            errorWorksheet.Cells[1, 13].Value = "Dây*";
+        //            errorWorksheet.Cells[1, 14].Value = "Nổi bật*";
+        //            errorWorksheet.Cells[1, 15].Value = "Được áp dụng khuyển mại*";
+        //            errorWorksheet.Cells[1, 16].Value = "Mô tả";
+        //            errorWorksheet.Cells[1, 17].Value = "Ảnh*";
+        //            errorWorksheet.Cells[1, 18].Value = "Mô tả lỗi";
 
-                    for (int i = 0; i < errorRows.Count; i++)
-                    {
-                        var errorRow = errorRows[i];
+        //            for (int i = 0; i < errorRows.Count; i++)
+        //            {
+        //                var errorRow = errorRows[i];
 
-                        errorWorksheet.Cells[i + 2, 1].Value = errorRow.SanPham;
-                        errorWorksheet.Cells[i + 2, 2].Value = errorRow.ThuongHieu;
-                        errorWorksheet.Cells[i + 2, 3].Value = errorRow.XuatXu;
-                        errorWorksheet.Cells[i + 2, 4].Value = errorRow.ChatLieu;
-                        errorWorksheet.Cells[i + 2, 5].Value = errorRow.LoaiGiay;
-                        errorWorksheet.Cells[i + 2, 6].Value = errorRow.KieuDeGiay;
-                        errorWorksheet.Cells[i + 2, 7].Value = errorRow.MauSac;
-                        errorWorksheet.Cells[i + 2, 8].Value = errorRow.KichCo;
-                        errorWorksheet.Cells[i + 2, 9].Value = errorRow.GiaNhap;
-                        errorWorksheet.Cells[i + 2, 10].Value = errorRow.GiaBan;
-                        errorWorksheet.Cells[i + 2, 11].Value = errorRow.SoLuong;
-                        errorWorksheet.Cells[i + 2, 12].Value = errorRow.KhoiLuong;
-                        errorWorksheet.Cells[i + 2, 13].Value = errorRow.Day;
-                        errorWorksheet.Cells[i + 2, 14].Value = errorRow.NoiBat;
-                        errorWorksheet.Cells[i + 2, 15].Value = errorRow.TrangThaiSale;
-                        errorWorksheet.Cells[i + 2, 16].Value = errorRow.MoTa;
-                        errorWorksheet.Cells[i + 2, 17].Value = errorRow.ListTenAnh;
-                        errorWorksheet.Cells[i + 2, 18].Value = errorRow.ErrorMessage;
-                    }
+        //                errorWorksheet.Cells[i + 2, 1].Value = errorRow.SanPham;
+        //                errorWorksheet.Cells[i + 2, 2].Value = errorRow.ThuongHieu;
+        //                errorWorksheet.Cells[i + 2, 3].Value = errorRow.XuatXu;
+        //                errorWorksheet.Cells[i + 2, 4].Value = errorRow.ChatLieu;
+        //                errorWorksheet.Cells[i + 2, 5].Value = errorRow.LoaiGiay;
+        //                errorWorksheet.Cells[i + 2, 6].Value = errorRow.KieuDeGiay;
+        //                errorWorksheet.Cells[i + 2, 7].Value = errorRow.MauSac;
+        //                errorWorksheet.Cells[i + 2, 8].Value = errorRow.KichCo;
+        //                errorWorksheet.Cells[i + 2, 9].Value = errorRow.GiaNhap;
+        //                errorWorksheet.Cells[i + 2, 10].Value = errorRow.GiaBan;
+        //                errorWorksheet.Cells[i + 2, 11].Value = errorRow.SoLuong;
+        //                errorWorksheet.Cells[i + 2, 12].Value = errorRow.KhoiLuong;
+        //                errorWorksheet.Cells[i + 2, 13].Value = errorRow.Day;
+        //                errorWorksheet.Cells[i + 2, 14].Value = errorRow.NoiBat;
+        //                errorWorksheet.Cells[i + 2, 15].Value = errorRow.TrangThaiSale;
+        //                errorWorksheet.Cells[i + 2, 16].Value = errorRow.MoTa;
+        //                errorWorksheet.Cells[i + 2, 17].Value = errorRow.ListTenAnh;
+        //                errorWorksheet.Cells[i + 2, 18].Value = errorRow.ErrorMessage;
+        //            }
 
-                    var errorBytes = errorPackage.GetAsByteArray();
-                    var errorFileName = "ImportErrors.xlsx";
-                    var errorFilePath = Path.Combine(_webHostEnvironment.WebRootPath, errorFileName);
-                    if (System.IO.File.Exists(errorFilePath))
-                    {
-                        System.IO.File.Delete(errorFilePath);
-                    }
-                    System.IO.File.WriteAllBytes(errorFilePath, errorBytes);
-                    return Ok(new { Success = false, ErrorFilePath = errorFilePath, slFalse, slSuccess });
-                }
-            }
-            return Ok(new { slFalse, slSuccess });
-        }
+        //            var errorBytes = errorPackage.GetAsByteArray();
+        //            var errorFileName = "ImportErrors.xlsx";
+        //            var errorFilePath = Path.Combine(_webHostEnvironment.WebRootPath, errorFileName);
+        //            if (System.IO.File.Exists(errorFilePath))
+        //            {
+        //                System.IO.File.Delete(errorFilePath);
+        //            }
+        //            System.IO.File.WriteAllBytes(errorFilePath, errorBytes);
+        //            return Ok(new { Success = false, ErrorFilePath = errorFilePath, slFalse, slSuccess });
+        //        }
+        //    }
+        //    return Ok(new { slFalse, slSuccess });
+        //}
 
-        #endregion
+        //#endregion
 
         #region DownLoadFile
         public IActionResult DownloadFileTemplate()
@@ -556,26 +572,28 @@ namespace App_View.Areas.Admin.Controllers
                 worksheet.Cells[1, 1].Value = "MSP";
                 worksheet.Cells[1, 2].Value = "Sản phẩm";
                 worksheet.Cells[1, 3].Value = "Màu";
-                worksheet.Cells[1, 4].Value = "K/Cỡ";
-                worksheet.Cells[1, 5].Value = "G/Nhập";
-                worksheet.Cells[1, 6].Value = "G/Bán";
-                worksheet.Cells[1, 7].Value = "Số lượng";
-                worksheet.Cells[1, 8].Value = "Khối lượng";
-                worksheet.Cells[1, 9].Value = "Số lượng đã bán";
-                worksheet.Cells[1, 10].Value = "Kinh doanh";
+                worksheet.Cells[1, 4].Value = "Ram";
+                worksheet.Cells[1, 5].Value = "Rom";
+                worksheet.Cells[1, 6].Value = "G/Nhập";
+                worksheet.Cells[1, 7].Value = "G/Bán";
+                worksheet.Cells[1, 8].Value = "Số lượng";
+                worksheet.Cells[1, 9].Value = "Khối lượng";
+                worksheet.Cells[1, 10].Value = "Số lượng đã bán";
+                worksheet.Cells[1, 11].Value = "Kinh doanh";
 
                 for (int i = 0; i < listSanPhamChiTietViewModel.Count(); i++)
                 {
                     worksheet.Cells[i + 2, 1].Value = listSanPhamChiTietViewModel[i].Ma;
                     worksheet.Cells[i + 2, 2].Value = listSanPhamChiTietViewModel[i].SanPham;
                     worksheet.Cells[i + 2, 3].Value = listSanPhamChiTietViewModel[i].MauSac;
-                    worksheet.Cells[i + 2, 4].Value = listSanPhamChiTietViewModel[i].KichCo;
-                    worksheet.Cells[i + 2, 5].Value = listSanPhamChiTietViewModel[i].GiaNhap;
-                    worksheet.Cells[i + 2, 6].Value = listSanPhamChiTietViewModel[i].GiaBan;
-                    worksheet.Cells[i + 2, 7].Value = listSanPhamChiTietViewModel[i].SoLuongTon;
-                    worksheet.Cells[i + 2, 8].Value = listSanPhamChiTietViewModel[i].KhoiLuong;
-                    worksheet.Cells[i + 2, 9].Value = listSanPhamChiTietViewModel[i].SoLuongDaBan;
-                    worksheet.Cells[i + 2, 10].Value = listSanPhamChiTietViewModel[i].TrangThai == 0 ? "Đang kinh doanh" : "Ngừng kinh doanh";
+                    worksheet.Cells[i + 2, 4].Value = listSanPhamChiTietViewModel[i].Ram;
+                    worksheet.Cells[i + 2, 5].Value = listSanPhamChiTietViewModel[i].Rom;
+                    worksheet.Cells[i + 2, 6].Value = listSanPhamChiTietViewModel[i].GiaNhap;
+                    worksheet.Cells[i + 2, 7].Value = listSanPhamChiTietViewModel[i].GiaBan;
+                    worksheet.Cells[i + 2, 8].Value = listSanPhamChiTietViewModel[i].SoLuongTon;
+                    worksheet.Cells[i + 2, 9].Value = listSanPhamChiTietViewModel[i].KhoiLuong;
+                    worksheet.Cells[i + 2, 10].Value = listSanPhamChiTietViewModel[i].SoLuongDaBan;
+                    worksheet.Cells[i + 2, 11].Value = listSanPhamChiTietViewModel[i].TrangThai == 0 ? "Đang kinh doanh" : "Ngừng kinh doanh";
                 }
 
                 byte[] excelBytes = package.GetAsByteArray();
@@ -627,24 +645,26 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     worksheet.Cells[i + 2, 1].Value = lstProduct[i].Ma;
                     worksheet.Cells[i + 2, 2].Value = lstProduct[i].SanPham;
-                    worksheet.Cells[i + 2, 3].Value = lstProduct[i].ThuongHieu;
-                    worksheet.Cells[i + 2, 4].Value = lstProduct[i].KieuDeGiay;
-                    worksheet.Cells[i + 2, 5].Value = lstProduct[i].ChatLieu;
-                    worksheet.Cells[i + 2, 6].Value = lstProduct[i].LoaiGiay;
-                    worksheet.Cells[i + 2, 7].Value = lstProduct[i].XuatXu;
-                    worksheet.Cells[i + 2, 8].Value = lstProduct[i].KichCo;
-                    worksheet.Cells[i + 2, 9].Value = lstProduct[i].MauSac;
-                    worksheet.Cells[i + 2, 10].Value = lstProduct[i].GiaNhap;
-                    worksheet.Cells[i + 2, 11].Value = lstProduct[i].GiaBan;
-                    worksheet.Cells[i + 2, 12].Value = lstProduct[i].Day;
-                    worksheet.Cells[i + 2, 13].Value = lstProduct[i].TrangThaiKhuyenMai;
-                    worksheet.Cells[i + 2, 14].Value = lstProduct[i].NoiBat;
-                    worksheet.Cells[i + 2, 15].Value = lstProduct[i].SoLuongTon;
-                    worksheet.Cells[i + 2, 16].Value = lstProduct[i].SoLuongDaBan;
-                    worksheet.Cells[i + 2, 17].Value = lstProduct[i].KhoiLuong;
-                    worksheet.Cells[i + 2, 18].Value = lstProduct[i].NgayTao;
-                    worksheet.Cells[i + 2, 19].Value = lstProduct[i].MoTa;
-                    worksheet.Cells[i + 2, 20].Value = lstProduct[i].DanhSachAnh;
+                    worksheet.Cells[i + 2, 3].Value = lstProduct[i].Hang;
+                    worksheet.Cells[i + 2, 4].Value = lstProduct[i].Chip;
+                    worksheet.Cells[i + 2, 5].Value = lstProduct[i].Pin;
+                    worksheet.Cells[i + 2, 6].Value = lstProduct[i].CongSac;
+                    worksheet.Cells[i + 2, 7].Value = lstProduct[i].TheNho;
+                    worksheet.Cells[i + 2, 8].Value = lstProduct[i].HeDieuHanh;
+                    worksheet.Cells[i + 2, 9].Value = lstProduct[i].CameraSau;
+                    worksheet.Cells[i + 2, 10].Value = lstProduct[i].CameraTruoc;
+                    worksheet.Cells[i + 2, 11].Value = lstProduct[i].TheSim;
+                    worksheet.Cells[i + 2, 12].Value = lstProduct[i].ManHinh;
+                    worksheet.Cells[i + 2, 13].Value = lstProduct[i].MauSac;
+                    worksheet.Cells[i + 2, 14].Value = lstProduct[i].GiaNhap;
+                    worksheet.Cells[i + 2, 15].Value = lstProduct[i].GiaBan;
+                    worksheet.Cells[i + 2, 16].Value = lstProduct[i].TrangThaiKhuyenMai;
+                    worksheet.Cells[i + 2, 17].Value = lstProduct[i].NoiBat;
+                    worksheet.Cells[i + 2, 18].Value = lstProduct[i].SoLuongTon;
+                    worksheet.Cells[i + 2, 19].Value = lstProduct[i].SoLuongDaBan;
+                    worksheet.Cells[i + 2, 20].Value = lstProduct[i].NgayTao;
+                    worksheet.Cells[i + 2, 21].Value = lstProduct[i].MoTa;
+                    worksheet.Cells[i + 2, 22].Value = lstProduct[i].DanhSachAnh;
                 }
 
                 byte[] excelBytes = package.GetAsByteArray();
@@ -695,24 +715,26 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     worksheet.Cells[i + 2, 1].Value = lstProduct[i].Ma;
                     worksheet.Cells[i + 2, 2].Value = lstProduct[i].SanPham;
-                    worksheet.Cells[i + 2, 3].Value = lstProduct[i].ThuongHieu;
-                    worksheet.Cells[i + 2, 4].Value = lstProduct[i].KieuDeGiay;
-                    worksheet.Cells[i + 2, 5].Value = lstProduct[i].ChatLieu;
-                    worksheet.Cells[i + 2, 6].Value = lstProduct[i].LoaiGiay;
-                    worksheet.Cells[i + 2, 7].Value = lstProduct[i].XuatXu;
-                    worksheet.Cells[i + 2, 8].Value = lstProduct[i].KichCo;
-                    worksheet.Cells[i + 2, 9].Value = lstProduct[i].MauSac;
-                    worksheet.Cells[i + 2, 10].Value = lstProduct[i].GiaNhap;
-                    worksheet.Cells[i + 2, 11].Value = lstProduct[i].GiaBan;
-                    worksheet.Cells[i + 2, 12].Value = lstProduct[i].Day;
-                    worksheet.Cells[i + 2, 13].Value = lstProduct[i].TrangThaiKhuyenMai;
-                    worksheet.Cells[i + 2, 14].Value = lstProduct[i].NoiBat;
-                    worksheet.Cells[i + 2, 15].Value = lstProduct[i].SoLuongTon;
-                    worksheet.Cells[i + 2, 16].Value = lstProduct[i].SoLuongDaBan;
-                    worksheet.Cells[i + 2, 17].Value = lstProduct[i].KhoiLuong;
-                    worksheet.Cells[i + 2, 18].Value = lstProduct[i].NgayTao;
-                    worksheet.Cells[i + 2, 19].Value = lstProduct[i].MoTa;
-                    worksheet.Cells[i + 2, 20].Value = lstProduct[i].DanhSachAnh;
+                    worksheet.Cells[i + 2, 3].Value = lstProduct[i].Hang;
+                    worksheet.Cells[i + 2, 4].Value = lstProduct[i].Chip;
+                    worksheet.Cells[i + 2, 5].Value = lstProduct[i].Pin;
+                    worksheet.Cells[i + 2, 6].Value = lstProduct[i].CongSac;
+                    worksheet.Cells[i + 2, 7].Value = lstProduct[i].TheNho;
+                    worksheet.Cells[i + 2, 8].Value = lstProduct[i].HeDieuHanh;
+                    worksheet.Cells[i + 2, 9].Value = lstProduct[i].CameraSau;
+                    worksheet.Cells[i + 2, 10].Value = lstProduct[i].CameraTruoc;
+                    worksheet.Cells[i + 2, 11].Value = lstProduct[i].TheSim;
+                    worksheet.Cells[i + 2, 12].Value = lstProduct[i].ManHinh;
+                    worksheet.Cells[i + 2, 13].Value = lstProduct[i].MauSac;
+                    worksheet.Cells[i + 2, 14].Value = lstProduct[i].GiaNhap;
+                    worksheet.Cells[i + 2, 15].Value = lstProduct[i].GiaBan;
+                    worksheet.Cells[i + 2, 16].Value = lstProduct[i].TrangThaiKhuyenMai;
+                    worksheet.Cells[i + 2, 17].Value = lstProduct[i].NoiBat;
+                    worksheet.Cells[i + 2, 18].Value = lstProduct[i].SoLuongTon;
+                    worksheet.Cells[i + 2, 19].Value = lstProduct[i].SoLuongDaBan;
+                    worksheet.Cells[i + 2, 20].Value = lstProduct[i].NgayTao;
+                    worksheet.Cells[i + 2, 21].Value = lstProduct[i].MoTa;
+                    worksheet.Cells[i + 2, 22].Value = lstProduct[i].DanhSachAnh;
                 }
 
                 byte[] excelBytes = package.GetAsByteArray();
@@ -728,14 +750,19 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetPartialViewListUpdate([FromBody] ListGuildDTO listGuildDTO)
         {
-            ViewData["IdChatLieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelChatLieuAsync(), "IdChatLieu", "TenChatLieu");
-            ViewData["IdKichCo"] = new SelectList((await _SanPhamChiTietservice.GetListModelKichCoAsync()).OrderBy(kc => kc.SoKichCo), "IdKichCo", "SoKichCo");
-            ViewData["IdKieuDeGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelKieuDeGiayAsync(), "IdKieuDeGiay", "TenKieuDeGiay");
-            ViewData["IdLoaiGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelLoaiGiayAsync(), "IdLoaiGiay", "TenLoaiGiay");
-            ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
-            ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
-            ViewData["IdThuongHieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelThuongHieuAsync(), "IdThuongHieu", "TenThuongHieu");
-            ViewData["IdXuatXu"] = new SelectList(await _SanPhamChiTietservice.GetListModelXuatXuAsync(), "IdXuatXu", "Ten");
+            ViewData["MauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
+            ViewData["SanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
+            ViewData["Hang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["Ram"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
+            ViewData["Rom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
+            ViewData["Chip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["CongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["Pin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin" + "DungLuong");
+            ViewData["TheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho" + "DungLuong");
+            ViewData["TheSim"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheSimAsync(), "IdTheSim", "Loaithesim" + "SoKhaySim");
+            ViewData["CameraTruoc"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraTruocAsync(), "IdCameraTruoc", "LoaiCamera" + "DoPhanGiai");
+            ViewData["CameraSau"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraSauAsync(), "IdCameraSau", "LoaiCamera" + "DoPhanGiai");
+            ViewData["ManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh" + "KichThuoc" + "TanSoQuet");
             var model = await _SanPhamChiTietservice.GetListSanPhamChiTietDTOAsync(listGuildDTO);
             return PartialView("_DanhSachSanPhamUpdate", model);
         }
@@ -743,14 +770,19 @@ namespace App_View.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPartialViewSanPhamCopy(string IdSanPhamChiTiet)
         {
-            ViewData["IdChatLieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelChatLieuAsync(), "IdChatLieu", "TenChatLieu");
-            ViewData["IdKichCo"] = new SelectList((await _SanPhamChiTietservice.GetListModelKichCoAsync()).OrderBy(kc => kc.SoKichCo), "IdKichCo", "SoKichCo");
-            ViewData["IdKieuDeGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelKieuDeGiayAsync(), "IdKieuDeGiay", "TenKieuDeGiay");
-            ViewData["IdLoaiGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelLoaiGiayAsync(), "IdLoaiGiay", "TenLoaiGiay");
-            ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
-            ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
-            ViewData["IdThuongHieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelThuongHieuAsync(), "IdThuongHieu", "TenThuongHieu");
-            ViewData["IdXuatXu"] = new SelectList(await _SanPhamChiTietservice.GetListModelXuatXuAsync(), "IdXuatXu", "Ten");
+            ViewData["MauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
+            ViewData["SanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
+            ViewData["Hang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["Ram"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
+            ViewData["Rom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
+            ViewData["Chip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["CongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["Pin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin" + "DungLuong");
+            ViewData["TheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho" + "DungLuong");
+            ViewData["TheSim"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheSimAsync(), "IdTheSim", "Loaithesim" + "SoKhaySim");
+            ViewData["CameraTruoc"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraTruocAsync(), "IdCameraTruoc", "LoaiCamera" + "DoPhanGiai");
+            ViewData["CameraSau"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraSauAsync(), "IdCameraSau", "LoaiCamera" + "DoPhanGiai");
+            ViewData["ManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh" + "KichThuoc" + "TanSoQuet");
 
             var model = (await _SanPhamChiTietservice
                 .GetListSanPhamChiTietDTOAsync(new ListGuildDTO()
@@ -849,9 +881,9 @@ namespace App_View.Areas.Admin.Controllers
                 string searchValueLower = searchValue.ToLower();
                 query = (await _SanPhamChiTietservice.GetDanhSachGiayNgungKinhDoanhAynsc()).Where(x =>
                 x.SanPham!.ToLower().Contains(searchValueLower) ||
-                x.LoaiGiay!.ToLower().Contains(searchValueLower) ||
-                x.ChatLieu!.ToLower().Contains(searchValueLower) ||
-                x.KieuDeGiay!.ToLower().Contains(searchValueLower)
+                x.Ram!.ToLower().Contains(searchValueLower) ||
+                x.Rom!.ToLower().Contains(searchValueLower) ||
+                x.Hang!.ToLower().Contains(searchValueLower)
                 )
                 .Skip(start)
                 .Take(length)
@@ -872,14 +904,19 @@ namespace App_View.Areas.Admin.Controllers
         // GET: Admin/SanPhamChiTiet/ManageSanPham
         public async Task<IActionResult> ManageSanPham()
         {
-            ViewData["IdChatLieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelChatLieuAsync(), "IdChatLieu", "TenChatLieu");
-            ViewData["IdKichCo"] = new SelectList((await _SanPhamChiTietservice.GetListModelKichCoAsync()).OrderBy(kc => kc.SoKichCo), "IdKichCo", "SoKichCo");
-            ViewData["IdKieuDeGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelKieuDeGiayAsync(), "IdKieuDeGiay", "TenKieuDeGiay");
-            ViewData["IdLoaiGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelLoaiGiayAsync(), "IdLoaiGiay", "TenLoaiGiay");
-            ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
-            ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
-            ViewData["IdThuongHieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelThuongHieuAsync(), "IdThuongHieu", "TenThuongHieu");
-            ViewData["IdXuatXu"] = new SelectList(await _SanPhamChiTietservice.GetListModelXuatXuAsync(), "IdXuatXu", "Ten");
+            ViewData["MauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
+            ViewData["SanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
+            ViewData["Hang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["Ram"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
+            ViewData["Rom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
+            ViewData["Chip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["CongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["Pin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin" + "DungLuong");
+            ViewData["TheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho" + "DungLuong");
+            ViewData["TheSim"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheSimAsync(), "IdTheSim", "Loaithesim" + "SoKhaySim");
+            ViewData["CameraTruoc"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraTruocAsync(), "IdCameraTruoc", "LoaiCamera" + "DoPhanGiai");
+            ViewData["CameraSau"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraSauAsync(), "IdCameraSau", "LoaiCamera" + "DoPhanGiai");
+            ViewData["ManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh" + "KichThuoc" + "TanSoQuet");
             return View();
         }
 
@@ -924,45 +961,75 @@ namespace App_View.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTenThuongHieu([FromBody] ThuongHieuDTO thuongHieuDTO)
+        public async Task<IActionResult> CreateTenHang([FromBody] HangDTO hangDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateTenThuongHieuAynsc(thuongHieuDTO));
+            return Json(await _SanPhamChiTietservice.CreateTenHangAynsc(hangDTO));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTenChatLieu([FromBody] ChatLieuDTO chatLieuDTO)
+        public async Task<IActionResult> CreateDungLuongRam([FromBody] RamDTO ramDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateTenChatLieuAynsc(chatLieuDTO));
+            return Json(await _SanPhamChiTietservice.CreateRamAynsc(ramDTO));
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateDungLuongRom([FromBody] RomDTO romDTO)
+        {
+            return Json(await _SanPhamChiTietservice.CreateRomAynsc(romDTO));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTenLoaiGiay([FromBody] LoaiGiayDTO loaiGiayDTO)
+        public async Task<IActionResult> CreateTenChip([FromBody] ChipDTO chipDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateTenLoaiGiayAynsc(loaiGiayDTO));
+            return Json(await _SanPhamChiTietservice.CreateTenChipAynsc(chipDTO));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTenKieuDeGiay([FromBody] KieuDeGiayDTO kieuDeGiayDTO)
+        public async Task<IActionResult> CreateLoaiPin([FromBody] PinDTO pinDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateTenKieuDeGiayAynsc(kieuDeGiayDTO));
+            return Json(await _SanPhamChiTietservice.CreateLoaiPinAynsc(pinDTO));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTenMauSac([FromBody] MauSacDTO kieuDeGiayDTO)
+        public async Task<IActionResult> CreateCongSac([FromBody] CongSacDTO congSacDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateTenMauSacAynsc(kieuDeGiayDTO));
+            return Json(await _SanPhamChiTietservice.CreateCongSacAynsc(congSacDTO));
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateTheNho([FromBody] TheNhoDTO theNhoDTO)
+        {
+            return Json(await _SanPhamChiTietservice.CreateTheNhoAynsc(theNhoDTO));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTenKichCo([FromBody] KichCoDTO kichCoDTO)
+        public async Task<IActionResult> CreateTheSim([FromBody] TheSimDTO theSimDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateTenKichCoAynsc(kichCoDTO));
+            return Json(await _SanPhamChiTietservice.CreateTheSimAynsc(theSimDTO));
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateManHinh([FromBody] ManHinhDTO manHinhDTO)
+        {
+            return Json(await _SanPhamChiTietservice.CreateManHinhAynsc(manHinhDTO));
+        } 
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateCameraSau([FromBody] CameraSauDTO cameraSauDTO)
+        {
+            return Json(await _SanPhamChiTietservice.CreateCameraSauAynsc(cameraSauDTO));
+        } 
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateCameraTruoc ([FromBody] CameraTruocDTO cameraTruocDTO)
+        {
+            return Json(await _SanPhamChiTietservice.CreateCameraTruocAynsc(cameraTruocDTO));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTenXuatXu([FromBody] XuatXuDTO xuatXuDTO)
+        public async Task<IActionResult> CreateTenMauSac([FromBody] MauSacDTO mauSacDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateTenXuatXuAynsc(xuatXuDTO));
+            return Json(await _SanPhamChiTietservice.CreateTenMauSacAynsc(mauSacDTO));  
         }
 
         [HttpPost]
@@ -985,12 +1052,19 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DanhSachTongQuanSanPham()
         {
-            ViewData["IdChatLieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelChatLieuAsync(), "IdChatLieu", "TenChatLieu");
-            ViewData["IdKieuDeGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelKieuDeGiayAsync(), "IdKieuDeGiay", "TenKieuDeGiay");
-            ViewData["IdLoaiGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelLoaiGiayAsync(), "IdLoaiGiay", "TenLoaiGiay");
-            ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
-            ViewData["IdThuongHieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelThuongHieuAsync(), "IdThuongHieu", "TenThuongHieu");
-            ViewData["IdXuatXu"] = new SelectList(await _SanPhamChiTietservice.GetListModelXuatXuAsync(), "IdXuatXu", "Ten");
+            ViewData["MauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
+            ViewData["SanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
+            ViewData["Hang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["Ram"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
+            ViewData["Rom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
+            ViewData["Chip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["CongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["Pin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin" + "DungLuong");
+            ViewData["TheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho" + "DungLuong");
+            ViewData["TheSim"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheSimAsync(), "IdTheSim", "Loaithesim" + "SoKhaySim");
+            ViewData["CameraTruoc"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraTruocAsync(), "IdCameraTruoc", "LoaiCamera" + "DoPhanGiai");
+            ViewData["CameraSau"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraSauAsync(), "IdCameraSau", "LoaiCamera" + "DoPhanGiai");
+            ViewData["ManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh" + "KichThuoc" + "TanSoQuet");
             return PartialView();
         }
 
@@ -1007,20 +1081,26 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(await response.Content.ReadAsAsync<bool>());
         }
 
-        public async Task<IActionResult> GetRelatedProducts(string sumGuid, string? mauSac, string? size)
+        public async Task<IActionResult> GetRelatedProducts(string sumGuid, string? mauSac, string? dungluongram, string? dungluongrom)
         {
             var lstRelatedProducts = await _httpClient.GetFromJsonAsync<List<RelatedProductViewModel>>($"/api/SanPhamChiTiet/Get-List-RelatedProduct?sumGuild={sumGuid}");
             ViewData["MauSac"] = new SelectList(lstRelatedProducts!.Select(x => x.MauSac).Distinct());
-            ViewData["Size"] = new SelectList(lstRelatedProducts!.Select(x => x.KichCo.ToString()).Distinct());
+            ViewData["Ram"] = new SelectList(lstRelatedProducts!.Select(x => x.Ram.ToString()).Distinct());
+            ViewData["Rom"] = new SelectList(lstRelatedProducts!.Select(x => x.Rom.ToString()).Distinct());
             if (!string.IsNullOrEmpty(mauSac))
             {
                 ViewData["ValueMauSac"] = mauSac;
                 lstRelatedProducts = lstRelatedProducts!.Where(it => it.MauSac!.ToLower() == mauSac.ToLower()).ToList();
             }
-            if (!string.IsNullOrEmpty(size))
+            if (!string.IsNullOrEmpty(dungluongram))
             {
-                ViewData["ValueSize"] = size;
-                lstRelatedProducts = lstRelatedProducts!.Where(it => it.KichCo == Convert.ToInt32(size)).ToList();
+                ViewData["ValueRam"] = dungluongram;
+                lstRelatedProducts = lstRelatedProducts!.Where(it => it.Ram == dungluongram).ToList();
+            } 
+            if (!string.IsNullOrEmpty(dungluongrom))
+            {
+                ViewData["ValueRom"] = dungluongrom;
+                lstRelatedProducts = lstRelatedProducts!.Where(it => it.Rom == dungluongrom).ToList();
             }
             return PartialView(lstRelatedProducts!);
         }
@@ -1051,14 +1131,19 @@ namespace App_View.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> LoadPartialViewUpdate(string idSanPhamChiTiet)
         {
-            ViewData["IdChatLieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelChatLieuAsync(), "IdChatLieu", "TenChatLieu");
-            ViewData["IdKichCo"] = new SelectList((await _SanPhamChiTietservice.GetListModelKichCoAsync()).OrderBy(kc => kc.SoKichCo), "IdKichCo", "SoKichCo");
-            ViewData["IdKieuDeGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelKieuDeGiayAsync(), "IdKieuDeGiay", "TenKieuDeGiay");
-            ViewData["IdLoaiGiay"] = new SelectList(await _SanPhamChiTietservice.GetListModelLoaiGiayAsync(), "IdLoaiGiay", "TenLoaiGiay");
-            ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
-            ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
-            ViewData["IdThuongHieu"] = new SelectList(await _SanPhamChiTietservice.GetListModelThuongHieuAsync(), "IdThuongHieu", "TenThuongHieu");
-            ViewData["IdXuatXu"] = new SelectList(await _SanPhamChiTietservice.GetListModelXuatXuAsync(), "IdXuatXu", "Ten");
+            ViewData["MauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
+            ViewData["SanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
+            ViewData["Hang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["Ram"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
+            ViewData["Rom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
+            ViewData["Chip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["CongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["Pin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin" + "DungLuong");
+            ViewData["TheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho" + "DungLuong");
+            ViewData["TheSim"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheSimAsync(), "IdTheSim", "Loaithesim" + "SoKhaySim");
+            ViewData["CameraTruoc"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraTruocAsync(), "IdCameraTruoc", "LoaiCamera" + "DoPhanGiai");
+            ViewData["CameraSau"] = new SelectList(await _SanPhamChiTietservice.GetListModelCameraSauAsync(), "IdCameraSau", "LoaiCamera" + "DoPhanGiai");
+            ViewData["ManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh" + "KichThuoc" + "TanSoQuet");
             var model = await _SanPhamChiTietservice.GetListSanPhamChiTietDTOAsync(new ListGuildDTO()
             {
                 listGuild = new List<string>() { idSanPhamChiTiet }

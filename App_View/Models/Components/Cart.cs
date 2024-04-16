@@ -38,7 +38,7 @@ namespace App_View.Models.Components
                     GiaSanPham = Convert.ToDouble(gh.GiaBan),
                     IdSanPhamChiTiet = gh.IdSanPhamCT.ToString(),
                     SoLuong = Convert.ToInt32(gh.SoLuong),
-                    TenSanPham = gh.TenSanPham + " " + gh.TenMauSac + " " + gh.TenKichCo,
+                    TenSanPham = gh.TenSanPham + " " + gh.TenMauSac + " " + gh.DungLuongRam + " " + gh.DungLuongRom,
  
                 }).ToList();
             }

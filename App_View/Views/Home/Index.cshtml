@@ -11,8 +11,8 @@
 @{
     AppDbContext context = new AppDbContext();
     _DanhGiaservice = new DanhGiaservice();
-    var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachGiayViewModel();
-    model = SanPhamChiTietservice.GetDanhSachGiayViewModelAynsc().Result;
+    var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachDienThoaiViewModel();
+    model = SanPhamChiTietservice.DanhSachDienThoaiViewModel().Result;
     var lstSpDuocApDungKhuyenMai = model.LstAllSanPham.Where(x => x.GiaThucTe < x.GiaGoc).GroupBy(x => x.TenSanPham)
     .Select(group => group.First())
     .ToList(); 
@@ -84,11 +84,11 @@
                                                     <div class="col-12">
                                                         <div class="slider-content slider-content--animation">
 
-                                                            <span class="content-span-1" style="color: #FFB544">Tìm thương hiệu hàng đầu</span>
+                                                            <span class="content-span-1" style="color: #FFB544">Tìm hãng điện thoại hàng đầu</span>
 
-                                                            <span class="content-span-2" style="color: #FFB544">Giày xịn giá tốt chỉ có tại BAZAIZAI STORE</span>
+                                                            <span class="content-span-2" style="color: #FFB544">Điện thoại xịn giá tốt chỉ có tại BEHINDTHESCENE STORE</span>
 
-                                                            <span class="content-span-3" style="color: #FFB544">Tìm giày với giá tốt nhất</span>
+                                                            <span class="content-span-3" style="color: #FFB544">Tìm điện thoại với giá tốt nhất</span>
 
                                                             <span class="content-span-4" style="color: #FFB544">
                                                                 Bắt đầu tại
@@ -279,7 +279,7 @@
 
                                                             <div class="product-m__category">
 
-                                                                    <a>@lstSpDuocApDungKhuyenMai.FirstOrDefault(x => x.TenSanPham.ToUpper().Contains(item.SanPham.ToUpper())).ThuongHieu / @lstSpDuocApDungKhuyenMai.FirstOrDefault(x => x.TenSanPham.ToUpper().Contains(item.SanPham.ToUpper())).TheLoai</a>
+                                                                    <a>@lstSpDuocApDungKhuyenMai.FirstOrDefault(x => x.TenSanPham.ToUpper().Contains(item.SanPham.ToUpper())).Hang</a>
                                                             </div>
 
                                                             <span class="product-o__name">

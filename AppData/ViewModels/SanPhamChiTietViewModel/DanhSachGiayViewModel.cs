@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace App_Data.ViewModels.SanPhamChiTietViewModel
 {
-    public class DanhSachGiayViewModel
+    public class DanhSachDienThoaiViewModel
     {
         public List<ItemShopViewModel>? LstSanPhamMoi { get; set; } = new List<ItemShopViewModel> { };
         public List<ItemShopViewModel>? LstBanChay { get; set; } = new List<ItemShopViewModel> { };

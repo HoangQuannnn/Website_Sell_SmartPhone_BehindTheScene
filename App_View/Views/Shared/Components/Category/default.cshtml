@@ -1,4 +1,4 @@
-﻿@model List<App_Data.Models.ThuongHieu>
+﻿@model List<App_Data.Models.Hang>
 <div class="u-s-p-y-60" id="electronic-02">
 
     <!--====== Section Intro ======-->
@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="block">
-                        <span class="block__title">DANH MỤC THƯƠNG HIỆU GIÀY</span>
+                        <span class="block__title">DANH MỤC HÃNG ĐIỆN THOẠI</span>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="category-o__info">
 
-                                    <a class="category-o__shop-now btn--e-white-brand" href="/SanPhamChiTiets?brand=@item.TenThuongHieu" style=" background: #180303e6; color: white;">@item.TenThuongHieu!.ToUpper()</a>
+                                    <a class="category-o__shop-now btn--e-white-brand" href="/SanPhamChiTiets?brand=@item.TenHang" style=" background: #180303e6; color: white;">@item.TenHang!.ToUpper()</a>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
     color: red;
     font-weight: bold;
 ">
-                        CHƯA CÓ THƯƠNG HIỆU!!!
+                        CHƯA CÓ HÃNG!!!
                     </span>
                 </div>
             }

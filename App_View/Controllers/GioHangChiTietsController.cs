@@ -109,8 +109,6 @@ namespace App_View.Controllers
                     giohang.SoLuong = gioHangChiTietDTOCUD.SoLuong;
                     giohang.TenSanPham = product.SanPham;
                     giohang.TenMauSac = product.MauSac;
-                    giohang.TenKichCo = product.KichCo;
-                    giohang.TenThuongHieu = product.ThuongHieu;
                     giohang.LinkAnh = product.ListTenAnh;
                     giohang.GiaGoc = product.GiaBan;
                     giohang.GiaBan = product.GiaThucTe;
@@ -218,7 +216,7 @@ namespace App_View.Controllers
                     {
                         Item = item,
                         SanPhamChiTiet = sanPhamChiTiet,
-                        Message = $"{sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} size {sanPhamChiTiet.KichCo} đã hết hàng, Vui lòng chọn sản phẩm khác!",
+                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} ram {sanPhamChiTiet.Ram} đã hết hàng, Vui lòng chọn sản phẩm khác!",
                         Idsanpham = sanPhamChiTiet.IdChiTietSp
                     };
                 }
@@ -228,7 +226,7 @@ namespace App_View.Controllers
                     {
                         Item = item,
                         SanPhamChiTiet = sanPhamChiTiet,
-                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} size {sanPhamChiTiet.KichCo} số lượng chỉ còn {sanPhamChiTiet.SoLuongTon}, Vui lòng chọn lại số lượng sản phẩm!",
+                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} ram {sanPhamChiTiet.Ram} số lượng chỉ còn {sanPhamChiTiet.SoLuongTon}, Vui lòng chọn lại số lượng sản phẩm!",
                         Idsanpham = sanPhamChiTiet.IdChiTietSp
                     };
                 }
@@ -238,7 +236,7 @@ namespace App_View.Controllers
                     {
                         Item = item,
                         SanPhamChiTiet = sanPhamChiTiet,
-                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} size {sanPhamChiTiet.KichCo} đã ngừng bán, Vui lòng chọn sản phẩm khác!",
+                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} ram {sanPhamChiTiet. } đã ngừng bán, Vui lòng chọn sản phẩm khác!",
                         Idsanpham = sanPhamChiTiet.IdChiTietSp
                     };
                 }
@@ -463,21 +461,20 @@ namespace App_View.Controllers
 
                 if (item.SoLuong > product.SoLuongTon && product.SoLuongTon == 0)
                 {
-                    message.Add($"Sản phẩm {product.SanPham} màu {product.MauSac} size {product.KichCo} đã hết hàng, Vui lòng chọn sản phẩm khác!");
+                    message.Add($"Sản phẩm {product.SanPham} màu {product.MauSac} ram {product.Ram} đã hết hàng, Vui lòng chọn sản phẩm khác!");
                     outOfStockCount++;
                 }
                 else if (item.TrangThaiSanPham == 1 || item.TrangThaiSanPham != product.TrangThai)
                 {
-                    message.Add($"Sản phẩm {product.SanPham} màu {product.MauSac} size {product.KichCo} đã ngừng bán, Vui lòng chọn sản phẩm khác!");
+                    message.Add($"Sản phẩm {product.SanPham} màu {product.MauSac} ram {product.Ram} đã ngừng bán, Vui lòng chọn sản phẩm khác!");
                     stoppedSellingCount++;
                 }
                 else if (item.SoLuong > product.SoLuongTon)
                 {
-                    message.Add($"Số lượng sản phẩm {product.SanPham} màu {product.MauSac} size {product.KichCo} chỉ còn {product.SoLuongTon}, Vui lòng chọn lại số lượng!");
+                    message.Add($"Số lượng sản phẩm {product.SanPham} màu {product.MauSac} ram {product.Ram} chỉ còn {product.SoLuongTon}, Vui lòng chọn lại số lượng!");
                     quantityErrorCount++;
                 }
             }
-
             return System.Tuple.Create(quantityErrorCount, outOfStockCount, stoppedSellingCount, message);
         }
 
@@ -498,7 +495,7 @@ namespace App_View.Controllers
                     GiaSanPham = Convert.ToDouble(gh.GiaBan),
                     IdSanPhamChiTiet = gh.IdSanPhamCT.ToString(),
                     SoLuong = Convert.ToInt32(gh.SoLuong),
-                    TenSanPham = gh.TenSanPham + " " + gh.TenMauSac + " " + gh.TenKichCo,
+                    TenSanPham = gh.TenSanPham + " " + gh.TenMauSac + " " + gh.DungLuongRam,
 
                 }).ToList();
             }

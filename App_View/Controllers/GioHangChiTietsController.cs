@@ -236,7 +236,7 @@ namespace App_View.Controllers
                     {
                         Item = item,
                         SanPhamChiTiet = sanPhamChiTiet,
-                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} ram {sanPhamChiTiet. } đã ngừng bán, Vui lòng chọn sản phẩm khác!",
+                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} ram {sanPhamChiTiet.Ram} đã ngừng bán, Vui lòng chọn sản phẩm khác!",
                         Idsanpham = sanPhamChiTiet.IdChiTietSp
                     };
                 }

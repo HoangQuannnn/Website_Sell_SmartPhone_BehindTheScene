@@ -16,6 +16,13 @@ using App_Data.ViewModels.MauSac;
 using App_Data.ViewModels.SanPhamChiTietViewModel;
 using App_Data.ViewModels.SanPhamChiTietDTO;
 using static App_View.Areas.Admin.Controllers.SanPhamChiTietController;
+using App_Data.ViewModels.ChipDTO;
+using App_Data.ViewModels.PinDTO;
+using App_Data.ViewModels.TheNhoDTO;
+using App_Data.ViewModels.TheSimDTO;
+using App_Data.ViewModels.ManHinhDTO;
+using App_Data.ViewModels.CameraTruocDTO;
+using App_Data.ViewModels.CameraSauDTO;
 
 namespace App_View.Services
 {
@@ -308,9 +315,9 @@ namespace App_View.Services
             return (await _httpClient.GetFromJsonAsync<List<SanPhamDanhSachViewModel>>("/api/SanPhamChiTiet/Get-List-SanPhamNgungKinhDoanhViewModel"))!;
         }
 
-        public Task<DanhSachGiayViewModel?> GetDanhSachGiayViewModelAynsc()
+        public Task<DanhSachDienThoaiViewModel?> GetDanhSachDienThoaiViewModelAynsc()
         {
-            return _httpClient.GetFromJsonAsync<DanhSachGiayViewModel?>("/api/SanPhamChiTiet/Get-DanhSachGiayViewModel");
+            return _httpClient.GetFromJsonAsync<DanhSachDienThoaiViewModel?>("/api/SanPhamChiTiet/Get-DanhSachDienThoaiViewModel");
         }
 
         public async Task<ItemDetailViewModel?> GetItemDetailViewModelAynsc(string id)
@@ -541,32 +548,101 @@ namespace App_View.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Hang>> GetListModelChatLieuAsync()
+        public Task<RamDTO?> CreateRomAynsc(RomDTO romDTO)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Ram>> GetListModelKichCoAsync()
+        public Task<ChipDTO?> CreateTenChipAynsc(ChipDTO chipDTO)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<CongSac>> GetListModelKieuDeGiayAsync()
+        public Task<PinDTO?> CreateLoaiPinAynsc(PinDTO pinDTO)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<ChiTietCamera>> GetListModelLoaiGiayAsync()
+        public Task<TheNhoDTO?> CreateTheNhoAynsc(TheNhoDTO theNhoDTO)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Rom>> GetListModelThuongHieuAsync()
+        public Task<TheSimDTO?> CreateTheSimAynsc(TheSimDTO theSimDTO)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Pin>> GetListModelXuatXuAsync()
+        public Task<ManHinhDTO?> CreateManHinhAynsc(ManHinhDTO manHinhDTO)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CameraTruocDTO?> CreateCameraTruocAynsc(CameraTruocDTO cameraTruocDTO)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CameraSauDTO?> CreateCameraSauAynsc(CameraSauDTO cameraSauDTO)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<List<Hang>> GetListModelHangAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Ram>> GetListModelRamAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Rom>> GetListModelRomAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<CongSac>> GetListModelCongSacAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<ChiTietCamera>> GetListModelChiTietCameraAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Chip>> GetListModelChipAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Pin>> GetListModelPinAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<TheNho>> GetListModelTheNhoAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<TheSim>> GetListModelTheSimAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<CameraTruoc>> GetListModelCameraTruocAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<CameraSau>> GetListModelCameraSauAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<ManHinh>> GetListModelManHinhAsync()
         {
             throw new NotImplementedException();
         }

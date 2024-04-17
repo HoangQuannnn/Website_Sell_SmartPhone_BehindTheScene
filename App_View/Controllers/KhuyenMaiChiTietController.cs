@@ -90,8 +90,8 @@ namespace App_View.Controllers
         public async Task<IActionResult> KhuyenMaiDongGiaAsync(string idKhuyenMai)
         {
             var kmct = (await KhuyenMaiChiTietservices.GetAllKhuyenMaiChiTiet()).Where(x => x.TrangThai == (int)TrangThaiSaleDetail.DangKhuyenMai&&x.IdKhuyenMai== idKhuyenMai).GroupBy(x=>x.SanPham).Select(x=>x.First()).ToList();
-            var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachGiayViewModel();
-            model = SanPhamChiTietservice.GetDanhSachGiayViewModelAynsc().Result;
+            var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachDienThoaiViewModel();
+            model = SanPhamChiTietservice.GetDanhSachDienThoaiViewModelAynsc().Result;
             var lstSpDuocApDungKhuyenMai = model.LstAllSanPham.Where(x => x.GiaThucTe < x.GiaGoc).ToList();
             ViewBag.lstSpct = lstSpDuocApDungKhuyenMai.ToList();
             var khuyenMai = (await KhuyenMaiservices.GetAllKhuyenMai()).Where(x => x.TrangThai == (int)TrangThaiSale.DangBatDau);

@@ -587,12 +587,6 @@ namespace App_View.Services
         {
             throw new NotImplementedException();
         }
-
-        public Task<DanhSachDienThoaiViewModel?> DanhSachDienThoaiViewModel()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<List<Hang>> GetListModelHangAsync()
         {
             throw new NotImplementedException();

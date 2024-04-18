@@ -154,7 +154,7 @@
                         <h1 class="checkout-f__h1">THÔNG TIN GIAO HÀNG</h1>
                         <form class="checkout-f__delivery" id="deliveryForm" asp-action="DataBill" asp-controller="HoaDon">
                             <div class="u-s-m-b-30">
-                                
+
 
                                 <!--====== First Name, Last Name ======-->
                                 <div class="gl-inline">
@@ -219,20 +219,20 @@
                                 </div>
                                 @* <div class="u-s-m-b-10">
 
-                                    <!--====== Check Box ======-->
-                                    <div class="check-box">
+                                <!--====== Check Box ======-->
+                                <div class="check-box">
 
-                                        <input type="checkbox" id="make-default-address" data-bill="">
-                                        <div class="check-box__state check-box__state--primary">
+                                <input type="checkbox" id="make-default-address" data-bill="">
+                                <div class="check-box__state check-box__state--primary">
 
-                                            <label class="check-box__label" for="make-default-address">Chọn làm địa chỉ mặc định</label>
-                                        </div>
-                                    </div>
-                                    <!--====== End - Check Box ======-->
+                                <label class="check-box__label" for="make-default-address">Chọn làm địa chỉ mặc định</label>
+                                </div>
+                                </div>
+                                <!--====== End - Check Box ======-->
                                 </div> *@
                                 @* <div class="u-s-m-b-10">
 
-                                    <a class="gl-link" href="#create-account" data-toggle="collapse">Tạo tài khoản mới?</a>
+                                <a class="gl-link" href="#create-account" data-toggle="collapse">Tạo tài khoản mới?</a>
                                 </div> *@
                                 <div class="collapse u-s-m-b-15" id="create-account">
 
@@ -275,9 +275,9 @@
 
                                                         <span class="o-card__name">
 
-                                                            <a href="@Url.Action("Details", "SanPhamChiTiets", new { id = item.IdSanPhamCT })">@item.TenThuongHieu @item.TenSanPham</a>
+                                                            <a href="@Url.Action("Details", "SanPhamChiTiets", new { id = item.IdSanPhamCT })">@item.TenHang @item.TenSanPham</a>
                                                         </span>
-                                                        <span class="o-card__quantity">Size: @item.TenKichCo Màu: @item.TenMauSac</span>
+                                                        <span class="o-card__quantity">Size: @item.DungLuongRam Màu: @item.TenMauSac</span>
                                                         <span class="o-card__quantity">Số lượng x @item.SoLuong</span>
 
                                                         <span class="o-card__price">@string.Format("{0:N0}đ", item.GiaBan)</span>
@@ -359,20 +359,20 @@
 
                                             <span class="gl-text u-s-m-t-6">Thanh toán bằng tiền mặt khi giao hàng.</span>
                                         </div>
-                                       @*  <div class="u-s-m-b-10">
+                                        @*  <div class="u-s-m-b-10">
 
-                                            <!--====== Radio Box ======-->
-                                            <div class="radio-box">
+                                        <!--====== Radio Box ======-->
+                                        <div class="radio-box">
 
-                                                <input type="radio" value="Momo" id="direct-bank-transfer" name="Payment">
-                                                <div class="radio-box__state radio-box__state--primary">
+                                        <input type="radio" value="Momo" id="direct-bank-transfer" name="Payment">
+                                        <div class="radio-box__state radio-box__state--primary">
 
-                                                    <label class="radio-box__label" for="direct-bank-transfer">Momo</label>
-                                                </div>
-                                            </div>
-                                            <!--====== End - Radio Box ======-->
+                                        <label class="radio-box__label" for="direct-bank-transfer">Momo</label>
+                                        </div>
+                                        </div>
+                                        <!--====== End - Radio Box ======-->
 
-                                            <span class="gl-text u-s-m-t-6">Khi bạn nhấp vào "Đặt hàng" bên dưới, chúng tôi sẽ chuyển hướng bạn đến trang web của Momo để thiết lập thông tin thanh toán của bạn.</span>
+                                        <span class="gl-text u-s-m-t-6">Khi bạn nhấp vào "Đặt hàng" bên dưới, chúng tôi sẽ chuyển hướng bạn đến trang web của Momo để thiết lập thông tin thanh toán của bạn.</span>
                                         </div> *@
 
                                         <div class="u-s-m-b-10">
@@ -440,17 +440,17 @@
         var tongTienSauGiamGia = 0;
         let hasFunctionRun = false;
         $(document).ready(function () {
-         $('#phiship').text('0đ');
-         phiship = 0;
-                if (MucUuDai !== null && MucUuDai !== "") {
-                    totalAmountElement.innerText = tongTienSauGiamGia.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
-                    totalAmountElement.value = tongTienSauGiamGia.toString();
-                } else {
-                    totalAmountElement.innerText = tongtienSanPham.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
-                    totalAmountElement.value = tongtienSanPham.toString();
-                }
-                useInputAddressScript();
-                
+            $('#phiship').text('0đ');
+            phiship = 0;
+            if (MucUuDai !== null && MucUuDai !== "") {
+                totalAmountElement.innerText = tongTienSauGiamGia.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
+                totalAmountElement.value = tongTienSauGiamGia.toString();
+            } else {
+                totalAmountElement.innerText = tongtienSanPham.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
+                totalAmountElement.value = tongtienSanPham.toString();
+            }
+            useInputAddressScript();
+
 
             function useInputAddressScript() {
                 $(document).ready(function () {
@@ -749,7 +749,7 @@
                                 type: "warning",
                                 duration: 2000
                             });
-                        }else if (phiship == 0 && loaiuudai == 2) {
+                        } else if (phiship == 0 && loaiuudai == 2) {
                             Swal.fire({
                                 title: "Vui lòng nhập địa chỉ trước khi áp dụng freeship",
                                 icon: "warning",

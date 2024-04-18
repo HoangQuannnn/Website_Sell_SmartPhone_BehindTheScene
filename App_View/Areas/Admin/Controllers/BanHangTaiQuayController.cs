@@ -16,7 +16,7 @@ using static App_Data.Repositories.TrangThai;
 namespace App_View.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles ="Admin,NhanVien")]
+    [Authorize(Roles = "Admin,NhanVien")]
 
     public class BanHangTaiQuayController : Controller
     {
@@ -26,7 +26,7 @@ namespace App_View.Areas.Admin.Controllers
         private readonly IVoucherservices _Voucherservices;
         private readonly IHoaDonChiTietservices _HoaDonChiTietservices; private readonly SignInManager<NguoiDung> _signInManager;
         private readonly UserManager<NguoiDung> _userManager;
-        public BanHangTaiQuayController(ISanPhamChiTietservice SanPhamChiTietservice, IVoucherNguoiDungservices VoucherNguoiDungservices,IVoucherservices Voucherservices, SignInManager<NguoiDung> signInManager, UserManager<NguoiDung> userManager)
+        public BanHangTaiQuayController(ISanPhamChiTietservice SanPhamChiTietservice, IVoucherNguoiDungservices VoucherNguoiDungservices, IVoucherservices Voucherservices, SignInManager<NguoiDung> signInManager, UserManager<NguoiDung> userManager)
         {
             HttpClient httpClient = new HttpClient();
             _hoaDonServices = new HoaDonServices();
@@ -48,7 +48,7 @@ namespace App_View.Areas.Admin.Controllers
                 foreach (var item2 in item.hoaDonChiTietDTOs)
                 {
                     var sanpham = listsanpham.FirstOrDefault(c => c.IdChiTietSp == item2.IdSanPhamChiTiet);
-                    item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.KichCo;
+                    item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.Ram;
                     //item2.masanpham  = sanpham
                 }
             }
@@ -80,7 +80,7 @@ namespace App_View.Areas.Admin.Controllers
             var sanPham = (await _SanPhamChiTietservice.GetDanhSachBienTheItemShopViewModelAsync()).FirstOrDefault(c => c.IdChiTietSp == idSanPham);
             if (sanPham.SoLuongTon == 0)
             {
-                return Ok(new { TrangThai = false , TrangThaiHang = true });
+                return Ok(new { TrangThai = false, TrangThaiHang = true });
             }
             var hoaDonChitiet = new HoaDonChiTiet()
             {
@@ -111,7 +111,7 @@ namespace App_View.Areas.Admin.Controllers
                 SoLuong = hoaDonChiTietTraLai.SoLuong,
                 GiaBan = hoaDonChiTietTraLai.GiaBan,
                 GiaGoc = hoaDonChiTietTraLai.GiaGoc,
-                TenSanPham = sanPham.TenSanPham + "/" + sanPham.MauSac + "/" + sanPham.KichCo,
+                TenSanPham = sanPham.TenSanPham + "/" + sanPham.MauSac + "/" + sanPham.Ram,
                 MaSanPham = sanPham.MaSanPham,
                 TongTienThayDoi = tongTienThayDoi,
                 SoTienTraLaiThayDoi = soTienTraLaiThayDoi,
@@ -136,7 +136,7 @@ namespace App_View.Areas.Admin.Controllers
             else
                 return PartialView("_KhachHangPartialView", await _hoaDonServices.GetKhachHangs());
         }
-        
+
         [HttpPut]
         public async Task<IActionResult> UpdateSoLuong(string maHD, string idSanPham, int SoLuongMoi)
         {
@@ -244,7 +244,7 @@ namespace App_View.Areas.Admin.Controllers
                     SoTienVoucherGiam = 0,
                     MaHoaDon = "",
                     NgayTao = "",
-                    TenNhanVien =""
+                    TenNhanVien = ""
                 });
             }
             var hoaDon = (await _hoaDonServices.GetAllHoaDonCho()).FirstOrDefault(hd => hd.MaHoaDon == maHD);
@@ -295,7 +295,7 @@ namespace App_View.Areas.Admin.Controllers
             foreach (var item2 in hoaDonDuocChon)
             {
                 var sanpham = listsanpham.FirstOrDefault(c => c.IdChiTietSp == item2.IdSanPhamChiTiet);
-                item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.KichCo;
+                item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.Ram;
                 item2.MaSanPham = sanpham.MaSanPham;
             }
             return PartialView("_HoaDonChiTietPartialView", hoaDonDuocChon);
@@ -303,7 +303,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> ThemKhachHang(string TenKhachHang, string SDT)
         {
-            if (string.IsNullOrWhiteSpace(TenKhachHang)|| string.IsNullOrWhiteSpace(SDT))
+            if (string.IsNullOrWhiteSpace(TenKhachHang) || string.IsNullOrWhiteSpace(SDT))
             {
                 return Ok(new { TrangThai = false });
             }
@@ -339,7 +339,7 @@ namespace App_View.Areas.Admin.Controllers
                 return Ok(new { TrangThai = false });
             }
             var voucherReturn = await _VoucherNguoiDungservices.GetVocherTaiQuay(id.Trim());
-            if (voucherReturn != null&&voucherReturn.IdVouCherNguoiDung !=null && voucherReturn.LoaiHinhUuDai <= 1)
+            if (voucherReturn != null && voucherReturn.IdVouCherNguoiDung != null && voucherReturn.LoaiHinhUuDai <= 1)
             {
                 return Ok(new
                 {
@@ -438,11 +438,11 @@ namespace App_View.Areas.Admin.Controllers
                     TrangThai = false,
                 });
             }
-            var hoaDon = (await _hoaDonServices.GetAllHoaDonCho()).FirstOrDefault(c=>c.MaHoaDon == maHD);
+            var hoaDon = (await _hoaDonServices.GetAllHoaDonCho()).FirstOrDefault(c => c.MaHoaDon == maHD);
             var user = await _userManager.GetUserAsync(User);
             var idUser = await _userManager.GetUserIdAsync(user);
             var hoadonchitiet = await _HoaDonChiTietservices.HuyHoaDon(maHD, lyDoHuy, idUser);
-            if(hoaDon.hoaDonChiTietDTOs.Count() == 0)
+            if (hoaDon.hoaDonChiTietDTOs.Count() == 0)
             {
                 return Ok(
                   new { TrangThai = true, }
@@ -468,7 +468,7 @@ namespace App_View.Areas.Admin.Controllers
             });
         }
         [HttpPost]
-        public async Task<IActionResult> ThanhToan(string maHD, string SDT,double tongTien,double tienMat,double chuyenKhoan, string idVoucher,int hinhThuc,double tongGiam)
+        public async Task<IActionResult> ThanhToan(string maHD, string SDT, double tongTien, double tienMat, double chuyenKhoan, string idVoucher, int hinhThuc, double tongGiam)
         {
             if (string.IsNullOrEmpty(maHD))
             {
@@ -476,7 +476,7 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     TrangThai = false,
                     Chuoi = "Vui lòng chọn hóa đơn",
-                }) ;
+                });
             }
             var hoaDon = (await _hoaDonServices.GetAllHoaDonCho()).FirstOrDefault(c => c.MaHoaDon == maHD);
             var user = await _userManager.GetUserAsync(User);
@@ -492,7 +492,7 @@ namespace App_View.Areas.Admin.Controllers
                 TongTien = tongTien,
                 TienGiam = tongGiam,
                 NgayThanhToan = DateTime.Now,
-                IdNguoiSuaGanNhat= idUser,
+                IdNguoiSuaGanNhat = idUser,
             };
             if (!string.IsNullOrWhiteSpace(idVoucher))
             {
@@ -508,7 +508,7 @@ namespace App_View.Areas.Admin.Controllers
                             Chuoi = "Lỗi khi sử dụng voucher",
                         });
                     }
-                   
+
                 }
                 else
                 {
@@ -527,7 +527,8 @@ namespace App_View.Areas.Admin.Controllers
                     hoaDonUpdate.IdKhachHang = null;
                 }
             }
-            if (await _hoaDonServices.ThanhToanTaiQuay(hoaDonUpdate)) {
+            if (await _hoaDonServices.ThanhToanTaiQuay(hoaDonUpdate))
+            {
                 if (hinhThuc == 1)
                 {
                     var pttt = await _hoaDonServices.GetPTTT("TienMat");
@@ -590,6 +591,6 @@ namespace App_View.Areas.Admin.Controllers
                 Chuoi = "Thanh toán không thành công"
             });
         }
-       
+
     }
 }

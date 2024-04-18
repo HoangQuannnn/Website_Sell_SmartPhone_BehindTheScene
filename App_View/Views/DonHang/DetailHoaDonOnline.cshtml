@@ -123,7 +123,7 @@
                 <div class="manage-o__header u-s-m-b-30">
                     <div class="manage-o__icon">
                         <i class="fas fa-box u-s-m-r-5"></i>
-                        
+
                         <span class="manage-o__text">Thông tin đơn hàng</span>
                     </div>
                 </div>
@@ -350,7 +350,7 @@
 
                                     <a href="@Url.Action("Details", "SanPhamChiTiets", new { id = item.IdSanPhamChiTiet })">@item.TenSanPham</a>
                                 </span>
-                                <span class="o-card__quantity">Size: @item.TenKichCo Màu: @item.TenMauSac</span>
+                                <span class="o-card__quantity">Size: @item.DungLuongRam Màu: @item.TenMauSac</span>
                                 <span class="o-card__quantity">Số lượng x @item.SoLuong</span>
                             </div>
                         </div>
@@ -382,7 +382,7 @@
 
                                             <a href="@Url.Action("Details", "SanPhamChiTiets", new { id = hiddenSp.IdSanPhamChiTiet })">@hiddenSp.TenSanPham</a>
                                         </span>
-                                        <span class="o-card__quantity">Size: @hiddenSp.TenKichCo Màu: @hiddenSp.TenMauSac</span>
+                                        <span class="o-card__quantity">Ram: @hiddenSp.DungLuongRam Màu: @hiddenSp.TenMauSac</span>
                                         <span class="o-card__quantity">Số lượng x @hiddenSp.SoLuong</span>
                                     </div>
                                 </div>
@@ -509,7 +509,7 @@
                 @if (Model.TrangThaiGiaoHang is 5)
                 {
                     <span class="btn btn--e-transparent-brand-b-2 order" style="width: 397.5px; text-align: center; margin-top: 15px;" onclick="ReBuyAjax('@Model.IdHoaDon')">Mua Lại</span>
-                    
+
                 }
             </div>
         </div>
@@ -648,7 +648,7 @@
 
                                         <a href="@Url.Action("Details", "SanPhamChiTiets", new { id = item.IdSanPhamChiTiet })">@item.TenSanPham</a>
                                     </span>
-                                    <span class="o-card__quantity">Size: @item.TenKichCo Màu: @item.TenMauSac</span>
+                                    <span class="o-card__quantity">Ram: @item.DungLuongRam Màu: @item.TenMauSac</span>
                                     <span class="o-card__quantity">Số lượng x @item.SoLuong</span>
                                 </div>
                             </div>
@@ -660,7 +660,7 @@
                                               data-Danhgia-detail-id="@item.IdSanPhamChiTiet*@Model.IdHoaDon"
                                               data-product-img="@item.LinkAnh[0]"
                                               data-product-name="@item.TenSanPham"
-                                              data-product-size-color="@item.TenKichCo*@item.TenMauSac"
+                                              data-product-size-color="@item.DungLuongRam*@item.TenMauSac"
                                               data-product-quantity="@item.SoLuong"
                                               data-modal="modal"
                                               data-modal-id="#add-danh-gia"
@@ -680,7 +680,7 @@
                                               data-chatlg-id="@item.DanhGia.ChatLuongSanPham"
                                               data-Sp-detail-id="@item.IdSanPhamChiTiet"
                                               data-Sp-img-id="@item.LinkAnh[0]"
-                                              data-Sp-name-id="@item.TenSanPham" data-Sp-mau-id="@item.TenMauSac" data-Sp-kichco-id="@item.TenKichCo" data-modal="modal" data-modal-id="#xem-danh-gia" class="btn btn--e-transparent-brand-b-2 order" style="width: 100px;text-align:center">Xem đánh giá</span>
+                                              data-Sp-name-id="@item.TenSanPham" data-Sp-mau-id="@item.TenMauSac" data-Sp-kichco-id="@item.DungLuongRam" data-modal="modal" data-modal-id="#xem-danh-gia" class="btn btn--e-transparent-brand-b-2 order" style="width: 100px;text-align:center">Xem đánh giá</span>
                                     }
                                 </div>
                             </div>
@@ -1115,7 +1115,7 @@
                     url: $(this).attr('action'), // Lấy action từ attribute của form
                     data: formData,
                     success: function (response) {
-                        if (response.mess){
+                        if (response.mess) {
                             toast({
                                 title: response.mess,
                                 type: "warning",

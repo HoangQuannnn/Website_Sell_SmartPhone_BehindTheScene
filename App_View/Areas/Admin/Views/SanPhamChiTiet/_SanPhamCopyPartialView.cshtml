@@ -1067,14 +1067,14 @@ $.ajax({
                                         </div>
                                     </div>
 
-                                    <div class="col-4 thuonghieu" style="margin-top: 10px">
-                                        <label class="font-weight-semibold">Thương hiệu*</label>
+                                    <div class="col-4 hang" style="margin-top: 10px">
+                                        <label class="font-weight-semibold">Hãng*</label>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                                            <select class="select2-active w-100" name="IdThuongHieu">
-                                                @foreach (var item in (SelectList)ViewData["IdThuongHieu"]!)
+                                            <select class="select2-active w-100" name="IdHang">
+                                                @foreach (var item in (SelectList)ViewData["IdHang"]!)
                                                 {
-                                                    if (item.Value == Model.IdThuongHieu)
+                                                    if (item.Value == Model.IdHang)
                                                     {
                                                         <option value="@item.Value" selected>@item.Text</option>
                                                     }
@@ -1087,14 +1087,14 @@ $.ajax({
                                         </div>
                                     </div>
 
-                                    <div class="col-4 xuatxu" style="margin-top: 10px">
-                                        <label class="font-weight-semibold">Xuất xứ*</label>
+                                    <div class="col-4 manhinh" style="margin-top: 10px">
+                                        <label class="font-weight-semibold">Màn hình*</label>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                                            <select class="select2-active w-100" name="IdXuatXu">
-                                                @foreach (var item in (SelectList)ViewData["IdXuatXu"]!)
+                                            <select class="select2-active w-100" name="IdManHinh">
+                                                @foreach (var item in (SelectList)ViewData["IdManHinh"]!)
                                                 {
-                                                    if (item.Value == Model.IdXuatXu)
+                                                    if (item.Value == Model.IdManHinh)
                                                     {
                                                         <option value="@item.Value" selected>@item.Text</option>
                                                     }
@@ -1107,14 +1107,14 @@ $.ajax({
                                         </div>
                                     </div>
 
-                                    <div class="col-4 chatlieu" style="margin-top: 10px">
-                                        <label class="font-weight-semibold">Chất liệu*</label>
+                                    <div class="col-4 pin" style="margin-top: 10px">
+                                        <label class="font-weight-semibold">Pin*</label>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                                            <select class="select2-active w-100" name="IdChatLieu">
-                                                @foreach (var item in (SelectList)ViewData["IdChatLieu"]!)
+                                            <select class="select2-active w-100" name="IdPin">
+                                                @foreach (var item in (SelectList)ViewData["IdPin"]!)
                                                 {
-                                                    if (item.Value == Model.IdChatLieu)
+                                                    if (item.Value == Model.IdPin)
                                                     {
                                                         <option value="@item.Value" selected>@item.Text</option>
                                                     }
@@ -1127,14 +1127,14 @@ $.ajax({
                                         </div>
                                     </div>
 
-                                    <div class="col-4 loaigiay" style="margin-top: 10px">
-                                        <label class="font-weight-semibold">Loại giầy*</label>
+                                    <div class="col-4 congsac" style="margin-top: 10px">
+                                        <label class="font-weight-semibold">Cổng sạc*</label>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                                            <select class="select2-active w-100" name="IdLoaiGiay">
-                                                @foreach (var item in (SelectList)ViewData["IdLoaiGiay"]!)
+                                            <select class="select2-active w-100" name="IdCongSac">
+                                                @foreach (var item in (SelectList)ViewData["IdCongSac"]!)
                                                 {
-                                                    if (item.Value == Model.IdLoaiGiay)
+                                                    if (item.Value == Model.IdCongSac)
                                                     {
                                                         <option value="@item.Value" selected>@item.Text</option>
                                                     }
@@ -1147,14 +1147,14 @@ $.ajax({
                                         </div>
                                     </div>
 
-                                    <div class="col-4 kieudegiay" style="margin-top: 10px">
-                                        <label class="font-weight-semibold">Kiểu đế giầy*</label>
+                                    <div class="col-4 chip" style="margin-top: 10px">
+                                        <label class="font-weight-semibold">Chip*</label>
                                         <div class="d-flex align-items-center mr-1">
                                             <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                                            <select class="select2-active w-100" name="IdKieuDeGiay">
-                                                @foreach (var item in (SelectList)ViewData["IdKieuDeGiay"]!)
+                                            <select class="select2-active w-100" name="IdChip">
+                                                @foreach (var item in (SelectList)ViewData["IdChip"]!)
                                                 {
-                                                    if (item.Value == Model.IdKieuDeGiay)
+                                                    if (item.Value == Model.IdChip)
                                                     {
                                                         <option value="@item.Value" selected>@item.Text</option>
                                                     }
@@ -1170,7 +1170,7 @@ $.ajax({
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-6 mausac">
+                                    <div class="col-4 mausac">
                                         <label class="font-weight-semibold">Màu Sắc*</label>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
@@ -1190,14 +1190,33 @@ $.ajax({
                                         </div>
                                     </div>
 
-                                    <div class="col-6 kichco">
-                                        <label class="font-weight-semibold">Kích cỡ*</label>
+                                    <div class="col-4 ram">
+                                        <label class="font-weight-semibold">Ram*</label>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                                            <select class="select2-active w-100" name="IdKichCo">
-                                                @foreach (var item in (SelectList)ViewData["IdKichCo"]!)
+                                            <select class="select2-active w-100" name="IdRam">
+                                                @foreach (var item in (SelectList)ViewData["IdRam"]!)
                                                 {
-                                                    if (item.Value == Model.IdKichCo)
+                                                    if (item.Value == Model.IdRam)
+                                                    {
+                                                        <option value="@item.Value" selected>@item.Text</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 rom">
+                                        <label class="font-weight-semibold">Rom*</label>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                                            <select class="select2-active w-100" name="IdRom">
+                                                @foreach (var item in (SelectList)ViewData["IdRom"]!)
+                                                {
+                                                    if (item.Value == Model.IdRom)
                                                     {
                                                         <option value="@item.Value" selected>@item.Text</option>
                                                     }
@@ -1244,7 +1263,7 @@ $.ajax({
                                         </div>
                                     </div>
 
-                                    <div class="form-group d-flex align-items-center col-2">
+                                    @* <div class="form-group d-flex align-items-center col-2">
                                         <div class="switch m-r-10">
                                             @if (Model.Day == true)
                                             {
@@ -1258,7 +1277,7 @@ $.ajax({
                                             <label class="font-weight-semibold" for="switch-day-@Model.IdChiTietSp"></label>
                                         </div>
                                         <label class="font-weight-semibold">Dây</label>
-                                    </div>
+                                    </div> *@
 
                                     <div class="form-group d-flex align-items-center col-4">
                                         <div class="switch m-r-10">

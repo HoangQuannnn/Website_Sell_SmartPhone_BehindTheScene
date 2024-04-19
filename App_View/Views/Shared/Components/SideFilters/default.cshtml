@@ -12,7 +12,7 @@
                     <div class="u-s-m-b-30">
                         <div class="shop-w">
                             <div class="shop-w__intro-wrap">
-                                <h1 class="shop-w__h">THƯƠNG HIỆU</h1>
+                                <h1 class="shop-w__h">HÃNG</h1>
 
                                 <span class="fas fa-minus shop-w__toggle" data-target="#s-category" data-toggle="collapse"></span>
                             </div>
@@ -25,10 +25,10 @@
 
                                         <span class="category-list__text u-s-m-l-6">(All)</span>
                                     </li>
-                                    @if (Model.LstItemFilterThuongHieu != null)
+                                    @if (Model.LstItemFilterHang != null)
 
                                     {
-                                        @foreach (var item in Model.LstItemFilterThuongHieu!)
+                                        @foreach (var item in Model.LstItemFilterHang!)
                                         {
                                             <li>
 
@@ -145,10 +145,10 @@
                             </div>
                             <div class="shop-w__wrap collapse show" id="s-manufacturer">
                                 <ul class="shop-w__list-2 lst-theloai">
-                                    @if (Model.LstItemFilterTheLoai != null)
+                                    @if (Model.LstItemFilterRam != null)
 
                                     {
-                                        @foreach (var item in Model.LstItemFilterTheLoai!)
+                                        @foreach (var item in Model.LstItemFilterRam!)
                                         {
                                             <li>
                                                 <div class="list__content">
@@ -198,43 +198,43 @@
                             </div>
                         </div>
                     </div>
-                    <div class="u-s-m-b-30" style="display: none">
-                        <div class="shop-w">
-                            <div class="shop-w__intro-wrap">
-                                <h1 class="shop-w__h">KÍCH CỠ</h1>
+                    @*<div class="u-s-m-b-30" style="display: none">
+                    <div class="shop-w">
+                    <div class="shop-w__intro-wrap">
+                    <h1 class="shop-w__h">KÍCH CỠ</h1>
 
-                                <span class="fas fa-minus shop-w__toggle" data-target="#s-size" data-toggle="collapse"></span>
-                            </div>
-                            <div class="shop-w__wrap" id="s-size">
-                                <ul class="shop-w__list gl-scroll lst-kichco">
-                                    @if (Model.LstItemFilterKichCo != null)
-
-                                    {
-                                        @foreach (var item in Model.LstItemFilterKichCo!)
-                                        {
-                                            <li>
-
-                                                <!--====== Check Box ======-->
-                                                <div class="check-box">
-
-                                                    <input type="checkbox" id="@item.Ten">
-                                                    <div class="check-box__state check-box__state--primary">
-
-                                                        <label class="check-box__label" for="xs">@item.Ten</label>
-                                                    </div>
-                                                </div>
-                                                <!--====== End - Check Box ======-->
-
-                                                <span class="shop-w__total-text">(@item.SoLuong)</span>
-                                            </li>
-
-                                        }
-                                    }
-
-                                </ul>
-                            </div>
-                        </div>
+                    <span class="fas fa-minus shop-w__toggle" data-target="#s-size" data-toggle="collapse"></span>
                     </div>
+                    <div class="shop-w__wrap" id="s-size">
+                    <ul class="shop-w__list gl-scroll lst-kichco">
+                    @if (Model.LstItemFilterKichCo != null)
+
+                    {
+                    @foreach (var item in Model.LstItemFilterKichCo!)
+                    {
+                    <li>
+
+                    <!--====== Check Box ======-->
+                    <div class="check-box">
+
+                    <input type="checkbox" id="@item.Ten">
+                    <div class="check-box__state check-box__state--primary">
+
+                    <label class="check-box__label" for="xs">@item.Ten</label>
+                    </div>
+                    </div>
+                    <!--====== End - Check Box ======-->
+
+                    <span class="shop-w__total-text">(@item.SoLuong)</span>
+                    </li>
+
+                    }
+                    }
+
+                    </ul>
+                    </div>
+                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>

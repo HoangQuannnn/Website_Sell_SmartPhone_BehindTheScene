@@ -62,35 +62,35 @@
                                     </a>
                                     <div class="product-o2__action-wrap">
                                         @*<ul class="product-o2__action-list">
-                                                <li>
+                                <li>
 
-                                                    <a data-modal="modal" data-modal-id="#quick-look" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a>
-                                                </li>
-                                                <li>
+                                <a data-modal="modal" data-modal-id="#quick-look" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a>
+                                </li>
+                                <li>
 
-                                                    <a data-modal="modal" data-modal-id="#add-to-cart" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a>
-                                                </li>
-                                                <li>
+                                <a data-modal="modal" data-modal-id="#add-to-cart" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a>
+                                </li>
+                                <li>
 
-                                                    <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a>
-                                                </li>
-                                                <li>
+                                <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a>
+                                </li>
+                                <li>
 
-                                                    <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a>
-                                                </li>
-                                            </ul>*@
+                                <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a>
+                                </li>
+                                </ul>*@
                                     </div>
                                 </div>
                                 <div class="product-o2__content">
 
                                     <span class="product-o2__category">
 
-                                        <a href="/SanPhamChiTiets">@item.ThuongHieu/@item.TheLoai</a>
+                                        <a href="/SanPhamChiTiets">@item.Hang</a>
                                     </span>
 
                                     <span class="product-o2__name">
 
-                                        <a href="product-detail.html">@item.TenSanPham @item.MauSac @item.KichCo</a>
+                                        <a href="product-detail.html">@item.TenSanPham @item.Ram @item.MauSac</a>
                                     </span>
                                     <div class="product-o2__rating gl-rating-style-2">
                                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
@@ -139,8 +139,8 @@
             }
             @*<li>
 
-                    <a class="fas fa-angle-right" href="javascript:void(0);"></a>
-                </li>*@
+        <a class="fas fa-angle-right" href="javascript:void(0);"></a>
+        </li>*@
         }
 
     </ul>
@@ -149,8 +149,7 @@
 </div>
 <script>
     $(document).off("click", ".no-active")
-    $(document).on("click", ".no-active", function ()
-    {
+    $(document).on("click", ".no-active", function () {
         var trangHienTai = $(this).text()
         var data = {
             page: trangHienTai,

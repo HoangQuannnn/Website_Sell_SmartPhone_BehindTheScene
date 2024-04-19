@@ -12,7 +12,7 @@
 
                     <a href="@Url.Action("Details", "SanPhamChiTiets", new { id = item.IdSanPhamChiTiet })">@item.TenSanPham</a>
                 </span>
-                <span class="o-card__quantity">Size: @item.TenKichCo Màu: @item.TenMauSac</span>
+                <span class="o-card__quantity">Ram/Rom: @item.DungLuongRam/@item.DungLuongRom Màu: @item.TenMauSac</span>
                 <span class="o-card__quantity">Số lượng x @item.SoLuong</span>
             </div>
         </div>
@@ -24,7 +24,7 @@
                           data-Danhgia-detail-id="@item.IdSanPhamChiTiet*@Model.IdHoaDon"
                           data-product-img="@item.LinkAnh[0]"
                           data-product-name="@item.TenSanPham"
-                          data-product-size-color="@item.TenKichCo*@item.TenMauSac"
+                          data-product-ram-rom-color="@item.DungLuongRam*@item.DungLuongRom*@item.TenMauSac"
                           data-product-quantity="@item.SoLuong"
                           data-modal="modal"
                           data-modal-id="#add-danh-gia"

@@ -20,14 +20,14 @@ namespace App_Data.IRepositories
         Task<IEnumerable<SanPhamDanhSachViewModel>> GetListViewModelAsync();
         Task<IEnumerable<SanPhamDanhSachViewModel>> GetAllListViewModelAsync();
         Task<IEnumerable<SanPhamDanhSachViewModel>> GetListSanPhamNgungKinhDoanhViewModelAsync();
-        Task<DanhSachGiayViewModel> GetDanhSachGiayViewModelAsync();
+        Task<DanhSachDienThoaiViewModel> GetDanhSachDienThoaiViewModelAsync();
         Task<List<SanPhamChiTietDTO>> GetListSanPhamChiTietDTOAsync(List<string> listGuid);
         Task<List<ItemShopViewModel>> GetDanhSachItemShopViewModelAsync();
         Task<List<ItemShopViewModel>> GetDanhSachBienTheItemShopViewModelAsync();
         Task<List<ItemShopViewModel>> GetDanhSachBienTheItemShopViewModelSaleAsync();
         Task<ItemDetailViewModel?> GetItemDetailViewModelAynsc(string id);
         Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectColorAynsc(string id, string mauSac);
-        Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectSizeAynsc(string id, string ram, string rom);
+        Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRamAynsc(string id, string ram);
         Task<SanPhamChiTietViewModel?> GetSanPhamChiTietViewModelAynsc(string id);
         Task<bool> NgungKinhDoanhSanPhamAynsc(List<string> lstguid);
         Task<bool> KinhDoanhLaiSanPhamAynsc(List<string> lstguid);

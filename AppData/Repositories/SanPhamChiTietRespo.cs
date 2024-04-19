@@ -93,7 +93,7 @@ namespace App_Data.Repositories
             return _mapper.Map<List<SanPhamChiTietDTO>>(lstSanPhamChiTiet);
         }
 
-        public async Task<DanhSachGiayViewModel> GetDanhSachGiayViewModelAsync()
+        public async Task<DanhSachDienThoaiViewModel> GetDanhSachDienThoaiViewModelAsync()
         {
             using (var dbContext = new AppDbContext())
             {
@@ -267,7 +267,7 @@ namespace App_Data.Repositories
                     .Select(gr => CreateItemShopViewModelAsync(gr))
                     .ToList();
 
-                return new DanhSachGiayViewModel()
+                return new DanhSachDienThoaiViewModel()
                 {
                     LstAllSanPham = lstAllSpViewModel,
                     LstSanPhamNoiBat = lstSPNoiBatViewModels,

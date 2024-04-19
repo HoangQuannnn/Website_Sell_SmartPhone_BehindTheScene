@@ -14,14 +14,14 @@ namespace App_View.Models.Components
 
         public IViewComponentResult Invoke()
         {
-            var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachGiayViewModel();
+            var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachDienThoaiViewModel();
             try
             {
-                model = _SanPhamChiTietservice.GetDanhSachGiayViewModelAynsc().Result;
+                model = _SanPhamChiTietservice.GetDanhSachDienThoaiViewModelAynsc().Result;
             }
             catch (Exception)
             {
-                model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachGiayViewModel();
+                model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachDienThoaiViewModel();
             }
                 
             return View(model);

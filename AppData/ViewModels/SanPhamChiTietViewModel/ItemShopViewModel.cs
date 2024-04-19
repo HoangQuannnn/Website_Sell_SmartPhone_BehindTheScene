@@ -13,6 +13,7 @@ namespace App_Data.ViewModels.SanPhamChiTietViewModel
         public string? MaSanPham { get; set; }
         public string? Hang { get; set; }
         public string? MauSac { get; set; }
+        public string? RamRom { get; set; }
         public string? Ram { get; set; }
         public string? Rom { get; set; }
         public string? ManHinh { get; set; }
@@ -32,6 +33,7 @@ namespace App_Data.ViewModels.SanPhamChiTietViewModel
         public string? MoTaSanPham { get; set; }
         public double? GiaKhuyenMai { get; set; }
         public List<SelectListItem>? LstMauSac { get; set; }
+        public List<SelectListItem>? LstRamRom { get; set; }
         public string? Anh { get; set; }
         public bool IsKhuyenMai { get; set; }
         public bool IsNoiBat { get; set; }

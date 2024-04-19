@@ -613,7 +613,7 @@ namespace App_Data.Repositories
             var lstRamRom = new List<string>();
             lstRamRom.AddRange(lstRam.Select(x => x.Ram.DungLuong));
             lstRamRom.AddRange(lstRom.Select(x => x.Rom.DungLuong));
-            itemDetailViewModel.lstRamRom = lstRamRom;
+            itemDetailViewModel.LstRamRom = lstRamRom;
 
             return itemDetailViewModel;
 

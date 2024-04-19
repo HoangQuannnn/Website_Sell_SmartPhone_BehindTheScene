@@ -43,10 +43,20 @@ builder.Services.AddScoped<IAnhRespo, AnhRespo>();
 builder.Services.AddScoped<AnhController>();
 builder.Services.AddScoped<IAllRepo<DanhGia>, AllRepo<DanhGia>>();
 builder.Services.AddScoped<IDanhGiaRepo, DanhGiaRepo>();
+builder.Services.AddScoped<IAllRepo<Hang>, AllRepo<Hang>>();
+builder.Services.AddScoped<IAllRepo<Ram>, AllRepo<Ram>>();
+builder.Services.AddScoped<IAllRepo<Rom>, AllRepo<Rom>>();
+builder.Services.AddScoped<IAllRepo<Pin>, AllRepo<Pin>>();
 builder.Services.AddScoped<IAllRepo<Chip>, AllRepo<Chip>>();
 builder.Services.AddScoped<IAllRepo<ManHinh>, AllRepo<ManHinh>>();
 builder.Services.AddScoped<IAllRepo<CongSac>, AllRepo<CongSac>>();
 builder.Services.AddScoped<IAllRepo<TheNho>, AllRepo<TheNho>>();
+builder.Services.AddScoped<IAllRepo<TheSim>, AllRepo<TheSim>>();
+builder.Services.AddScoped<IAllRepo<TheSimDienThoai>, AllRepo<TheSimDienThoai>>();
+builder.Services.AddScoped<IAllRepo<Camera>, AllRepo<Camera>>();
+builder.Services.AddScoped<IAllRepo<ChiTietCamera>, AllRepo<ChiTietCamera>>();
+builder.Services.AddScoped<IAllRepo<CameraSau>, AllRepo<CameraSau>>();
+builder.Services.AddScoped<IAllRepo<CameraTruoc>, AllRepo<CameraTruoc>>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

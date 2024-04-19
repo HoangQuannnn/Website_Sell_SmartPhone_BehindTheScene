@@ -55,7 +55,7 @@ namespace App_View.IServices
         Task<ItemDetailViewModel?> GetItemDetailViewModelAynsc(string id);
         Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectColorAynsc(string id, string mauSac);
         Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectSizeAynsc(string id, int size);
-        Task<DanhSachDienThoaiViewModel?> DanhSachDienThoaiViewModel();
+        Task<DanhSachDienThoaiViewModel?> GetDanhSachDienThoaiViewModelAynsc();
         Task<List<SanPhamDanhSachViewModel>> GetDanhSachGiayNgungKinhDoanhAynsc();
         Task<bool> NgungKinhDoanhSanPhamAynsc(ListGuildDTO lstGuid);
         Task<bool> KinhDoanhLaiSanPhamAynsc(ListGuildDTO lstGuid);

@@ -262,7 +262,7 @@ namespace App_View.Areas.Admin.Controllers
                 //.Where(x => x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DuocApDungSale|| x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DaApDungSale)
                 var getallProductDT = (await SanPhamChiTietservice.GetListSanPhamChiTietAsync()).Where(x => (x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DuocApDungSale || x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DaApDungSale) && x.TrangThai == (int)TrangThaiCoBan.HoatDong).Select(item => CreateSanPhamDanhSachViewModel(item));
                 var model = new DanhSachDienThoaiViewModel();
-                model = SanPhamChiTietservice.DanhSachDienThoaiViewModel().Result;
+                model = SanPhamChiTietservice.GetDanhSachDienThoaiViewModelAynsc().Result;
                 var lstSpDuocApDungKhuyenMai = model.LstAllSanPham.GroupBy(x => x.TenSanPham).Select(x => x.First()).ToList();
 
 
@@ -301,7 +301,7 @@ namespace App_View.Areas.Admin.Controllers
             var saledetailVM = KhuyenMaiChiTietservices.GetAllKhuyenMaiChiTiet();
             var nameSale = _context.KhuyenMais.FirstOrDefault(x => x.IdKhuyenMai == idSale);
             var model = new DanhSachDienThoaiViewModel();
-            model = SanPhamChiTietservice.DanhSachDienThoaiViewModel().Result;
+            model = SanPhamChiTietservice.GetDanhSachDienThoaiViewModelAynsc().Result;
             var lstSpct = model.LstAllSanPham;
             try
             {
@@ -447,7 +447,7 @@ namespace App_View.Areas.Admin.Controllers
             var km = (await _KhuyenMaiservices.GetAllKhuyenMai()).FirstOrDefault(x => x.IdKhuyenMai == id);
             var getallProductDT = (await SanPhamChiTietservice.GetListSanPhamChiTietAsync()).Where(x => (x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DuocApDungSale || x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DaApDungSale) && x.TrangThai == (int)TrangThaiCoBan.HoatDong).Select(item => CreateSanPhamDanhSachViewModel(item));
             var model = new DanhSachDienThoaiViewModel();
-            model = SanPhamChiTietservice.DanhSachDienThoaiViewModel().Result;
+            model = SanPhamChiTietservice.GetDanhSachDienThoaiViewModelAynsc().Result;
             var lstSpDuocApDungKhuyenMai = model.LstAllSanPham.GroupBy(x=>x.TenSanPham).Select(x=>x.First()).ToList();
            
            

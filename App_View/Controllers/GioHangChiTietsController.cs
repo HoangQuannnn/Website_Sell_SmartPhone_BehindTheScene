@@ -372,7 +372,7 @@ namespace App_View.Controllers
                     {
                         Item = item,
                         SanPhamChiTiet = sanPhamChiTiet,
-                        Message = $"{sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} size {sanPhamChiTiet.KichCo} đã hết hàng, Vui lòng chọn sản phẩm khác!",
+                        Message = $"{sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} ram {sanPhamChiTiet.Ram} rom {sanPhamChiTiet.Rom} đã hết hàng, Vui lòng chọn sản phẩm khác!",
                         Idsanpham = sanPhamChiTiet.IdChiTietSp
                     };
                 }
@@ -382,7 +382,7 @@ namespace App_View.Controllers
                     {
                         Item = item,
                         SanPhamChiTiet = sanPhamChiTiet,
-                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} size {sanPhamChiTiet.KichCo} số lượng chỉ còn {sanPhamChiTiet.SoLuongTon}, Vui lòng chọn lại số lượng sản phẩm!",
+                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} ram {sanPhamChiTiet.Ram} rom {sanPhamChiTiet.Rom} số lượng chỉ còn {sanPhamChiTiet.SoLuongTon}, Vui lòng chọn lại số lượng sản phẩm!",
                         Idsanpham = sanPhamChiTiet.IdChiTietSp
                     };
                 }
@@ -392,7 +392,7 @@ namespace App_View.Controllers
                     {
                         Item = item,
                         SanPhamChiTiet = sanPhamChiTiet,
-                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} size {sanPhamChiTiet.KichCo} đã ngừng bán, Vui lòng chọn sản phẩm khác!",
+                        Message = $"Sản phẩm {sanPhamChiTiet.SanPham} màu {sanPhamChiTiet.MauSac} ram {sanPhamChiTiet.Ram} rom {sanPhamChiTiet.Rom} đã ngừng bán, Vui lòng chọn sản phẩm khác!",
                         Idsanpham = sanPhamChiTiet.IdChiTietSp
                     };
                 }

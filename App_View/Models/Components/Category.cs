@@ -14,7 +14,7 @@ namespace App_View.Models.Components
 
         public IViewComponentResult Invoke()
         {
-            return View(bazaizaiContext.ThuongHieus.ToList());
+            return View(bazaizaiContext.Hangs.ToList());
         }
     }
 }

@@ -10,7 +10,7 @@
     var saleChuaBatDau =  (await _KhuyenMaiservice.GetAllKhuyenMai()).FirstOrDefault(x => x.MucGiam == max && x.TrangThai == (int)TrangThaiSale.ChuaBatDau);
     var khuyenMai = (await _KhuyenMaiservice.GetAllKhuyenMai()).Where(x => x.TrangThai==(int)TrangThaiSale.DangBatDau);
     var kmct = (await khuyenMaiChiTiet.GetAllKhuyenMaiChiTiet()).Where(x => x.TrangThai == (int)TrangThaiSaleDetail.DangKhuyenMai);
-    var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachGiayViewModel();
+    var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachDienThoaiViewModel();
     model = SanPhamChiTietservice.GetDanhSachGiayViewModelAynsc().Result;
     var lstSpDuocApDungKhuyenMai = model.LstAllSanPham.Where(x => x.GiaThucTe < x.GiaGoc).ToList();
 }

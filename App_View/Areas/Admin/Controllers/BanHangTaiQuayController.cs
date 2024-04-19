@@ -48,7 +48,7 @@ namespace App_View.Areas.Admin.Controllers
                 foreach (var item2 in item.hoaDonChiTietDTOs)
                 {
                     var sanpham = listsanpham.FirstOrDefault(c => c.IdChiTietSp == item2.IdSanPhamChiTiet);
-                    item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.KichCo;
+                    item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.Ram;
                     //item2.masanpham  = sanpham
                 }
             }
@@ -111,7 +111,7 @@ namespace App_View.Areas.Admin.Controllers
                 SoLuong = hoaDonChiTietTraLai.SoLuong,
                 GiaBan = hoaDonChiTietTraLai.GiaBan,
                 GiaGoc = hoaDonChiTietTraLai.GiaGoc,
-                TenSanPham = sanPham.TenSanPham + "/" + sanPham.MauSac + "/" + sanPham.KichCo,
+                TenSanPham = sanPham.TenSanPham + "/" + sanPham.MauSac + "/" + sanPham.Ram,
                 MaSanPham = sanPham.MaSanPham,
                 TongTienThayDoi = tongTienThayDoi,
                 SoTienTraLaiThayDoi = soTienTraLaiThayDoi,
@@ -295,7 +295,7 @@ namespace App_View.Areas.Admin.Controllers
             foreach (var item2 in hoaDonDuocChon)
             {
                 var sanpham = listsanpham.FirstOrDefault(c => c.IdChiTietSp == item2.IdSanPhamChiTiet);
-                item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.KichCo;
+                item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.Ram;
                 item2.MaSanPham = sanpham.MaSanPham;
             }
             return PartialView("_HoaDonChiTietPartialView", hoaDonDuocChon);

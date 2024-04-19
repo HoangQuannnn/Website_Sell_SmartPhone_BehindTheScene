@@ -308,9 +308,9 @@ namespace App_View.Services
             return (await _httpClient.GetFromJsonAsync<List<SanPhamDanhSachViewModel>>("/api/SanPhamChiTiet/Get-List-SanPhamNgungKinhDoanhViewModel"))!;
         }
 
-        public Task<DanhSachGiayViewModel?> GetDanhSachGiayViewModelAynsc()
+        public Task<DanhSachDienThoaiViewModel?> GetDanhSachDienThoaiViewModelAynsc()
         {
-            return _httpClient.GetFromJsonAsync<DanhSachGiayViewModel?>("/api/SanPhamChiTiet/Get-DanhSachGiayViewModel");
+            return _httpClient.GetFromJsonAsync<DanhSachDienThoaiViewModel?>("/api/SanPhamChiTiet/Get-DanhSachGiayViewModel");
         }
 
         public async Task<ItemDetailViewModel?> GetItemDetailViewModelAynsc(string id)

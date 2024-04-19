@@ -13,10 +13,10 @@ namespace App_Data.ViewModels.FilterDTO
         public int length { get; set; }
         public string? searchValue { get; set; }
         public string? SanPham { get; set; }
-        public string? ThuongHieu { get; set; }
+        public string? Hang { get; set; }
+        public string? Ram { get; set; }
+        public string? Rom { get; set; }
         public string? MauSac { get; set; }
-        public string? TheLoai { get; set; }
-        public string? KichCo { get; set; }
         public string? Sort { get; set; }
     }
 }

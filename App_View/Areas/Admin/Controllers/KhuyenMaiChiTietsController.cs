@@ -218,19 +218,19 @@ namespace App_View.Areas.Admin.Controllers
             return new SanPhamDanhSachViewModel()
             {
                 IdChiTietSp = sanPham.IdChiTietSp,
-                ChatLieu = _context.ChatLieus.ToList().FirstOrDefault(x => x.IdChatLieu == sanPham.IdChatLieu)?.TenChatLieu,
-                SanPham = _context.ThuongHieus.ToList().FirstOrDefault(x => x.IdThuongHieu == sanPham.IdThuongHieu)?.TenThuongHieu + " " + _context.SanPhams.ToList().FirstOrDefault(x => x.IdSanPham == sanPham.IdSanPham)?.TenSanPham,
+                MauSac = _context.MauSacs.ToList().FirstOrDefault(x => x.IdMauSac == sanPham.IdMauSac)?.TenMauSac,
+                SanPham = _context.Hangs.ToList().FirstOrDefault(x => x.IdHang == sanPham.IdHang)?.TenHang + " " + _context.SanPhams.ToList().FirstOrDefault(x => x.IdSanPham == sanPham.IdSanPham)?.TenSanPham,
                 GiaBan = sanPham.GiaBan,
                 GiaNhap = sanPham.GiaNhap,
-                KichCo = _context.KichCos.ToList().FirstOrDefault(x => x.IdKichCo == sanPham.IdKichCo)?.SoKichCo,
+                Ram = _context.Rams.ToList().FirstOrDefault(x => x.IdRam == sanPham.IdRam)?.DungLuong,
                 Anh = _context.Anh.ToList().Where(x => x.IdSanPhamChiTiet == sanPham.IdChiTietSp && x.TrangThai == 0).FirstOrDefault()?.Url,
-                KieuDeGiay = _context.KieuDeGiays.ToList().FirstOrDefault(x => x.IdKieuDeGiay == sanPham.IdKieuDeGiay)?.TenKieuDeGiay,
-                LoaiGiay = _context.LoaiGiays.ToList().FirstOrDefault(x => x.IdLoaiGiay == sanPham.IdLoaiGiay)?.TenLoaiGiay,
+                Chip = _context.Chips.ToList().FirstOrDefault(x => x.IdChip == sanPham.IdChip)?.TenChip,
+                Hang = _context.Hangs.ToList().FirstOrDefault(x => x.IdHang == sanPham.IdHang)?.TenHang,
                 SoLuongTon = sanPham.SoLuongTon
             };
         }
         [HttpGet]
-        public async Task<IActionResult> ApllySale(string id,string? idThuongHieu,string? idLoaiGiay,string? idMauSac)
+        public async Task<IActionResult> ApllySale(string id,string? idRam,string? idMauSac,string? idHang)
         {
             try
             {
@@ -255,32 +255,32 @@ namespace App_View.Areas.Admin.Controllers
 
                     ViewData["IdSale"] = new SelectList(_context.KhuyenMais.Where(x => x.IdKhuyenMai == id), "IdKhuyenMai", "TenKhuyenMai");
                 }
-                ViewData["IdLoaiGiay"] = new SelectList(await SanPhamChiTietservice.GetListModelLoaiGiayAsync(), "IdLoaiGiay", "TenLoaiGiay");
+                ViewData["IdRam"] = new SelectList(await SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "TenRam");
                 ViewData["IdMauSac"] = new SelectList(await SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
-                ViewData["IdThuongHieu"] = new SelectList(await SanPhamChiTietservice.GetListModelThuongHieuAsync(), "IdThuongHieu", "TenThuongHieu");
+                ViewData["IdHang"] = new SelectList(await SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
 
                 //.Where(x => x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DuocApDungSale|| x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DaApDungSale)
                 var getallProductDT = (await SanPhamChiTietservice.GetListSanPhamChiTietAsync()).Where(x => (x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DuocApDungSale || x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DaApDungSale) && x.TrangThai == (int)TrangThaiCoBan.HoatDong).Select(item => CreateSanPhamDanhSachViewModel(item));
-                var model = new DanhSachGiayViewModel();
-                model = SanPhamChiTietservice.GetDanhSachGiayViewModelAynsc().Result;
+                var model = new DanhSachDienThoaiViewModel();
+                model = SanPhamChiTietservice.GetDanhSachDienThoaiViewModelAynsc().Result;
                 var lstSpDuocApDungKhuyenMai = model.LstAllSanPham.GroupBy(x => x.TenSanPham).Select(x => x.First()).ToList();
 
 
 
-                if (idThuongHieu!=null && idThuongHieu!="")
+                if (idRam != null && idRam != "")
                 {
-                    var tenThuongHieu = _context.ThuongHieus.Find(idThuongHieu).TenThuongHieu;
-                    lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.ThuongHieu.ToUpper() == tenThuongHieu.ToUpper()).ToList();           
-                }
-                if (idLoaiGiay != null && idLoaiGiay != "")
-                {
-                    var tenLoaiGiay = _context.LoaiGiays.Find(idLoaiGiay).TenLoaiGiay;
-                    lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.TheLoai.ToUpper() == tenLoaiGiay.ToUpper()).ToList();
+                    var Ram = _context.Rams.Find(idRam).DungLuong;
+                    lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.Ram.ToUpper() == Ram.ToUpper()).ToList();           
                 }
                 if (idMauSac != null && idMauSac != "")
                 {
-                    var tenMauSac = _context.MauSacs.Find(idMauSac).TenMauSac;
-                    lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.MauSac.ToUpper() == tenMauSac.ToUpper()).ToList();
+                    var mausac = _context.MauSacs.Find(idMauSac).TenMauSac;
+                    lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.MauSac.ToUpper() == mausac.ToUpper()).ToList();
+                }
+                if (idHang != null && idHang != "")
+                {
+                    var hang = _context.Hangs.Find(idHang).TenHang;
+                    lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.Hang.ToUpper() == hang.ToUpper()).ToList();
                 }
                 return View(lstSpDuocApDungKhuyenMai);
             }
@@ -300,8 +300,8 @@ namespace App_View.Areas.Admin.Controllers
             var successApllySale = "";
             var saledetailVM = KhuyenMaiChiTietservices.GetAllKhuyenMaiChiTiet();
             var nameSale = _context.KhuyenMais.FirstOrDefault(x => x.IdKhuyenMai == idSale);
-            var model = new DanhSachGiayViewModel();
-            model = SanPhamChiTietservice.GetDanhSachGiayViewModelAynsc().Result;
+            var model = new DanhSachDienThoaiViewModel();
+            model = SanPhamChiTietservice.GetDanhSachDienThoaiViewModelAynsc().Result;
             var lstSpct = model.LstAllSanPham;
             try
             {
@@ -442,25 +442,25 @@ namespace App_View.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> viewSanPhamFilter(string id, string? idThuongHieu, string? idLoaiGiay, string? idMauSac)
+        public async Task<IActionResult> viewSanPhamFilter(string id, string? idRam, string? idMauSac, string? idHang)
         {
             var km = (await _KhuyenMaiservices.GetAllKhuyenMai()).FirstOrDefault(x => x.IdKhuyenMai == id);
             var getallProductDT = (await SanPhamChiTietservice.GetListSanPhamChiTietAsync()).Where(x => (x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DuocApDungSale || x.TrangThaiSale == (int)TrangThaiSaleInProductDetail.DaApDungSale) && x.TrangThai == (int)TrangThaiCoBan.HoatDong).Select(item => CreateSanPhamDanhSachViewModel(item));
-            var model = new DanhSachGiayViewModel();
-            model = SanPhamChiTietservice.GetDanhSachGiayViewModelAynsc().Result;
+            var model = new DanhSachDienThoaiViewModel();
+            model = SanPhamChiTietservice.GetDanhSachDienThoaiViewModelAynsc().Result;
             var lstSpDuocApDungKhuyenMai = model.LstAllSanPham.GroupBy(x=>x.TenSanPham).Select(x=>x.First()).ToList();
            
            
             
-            if (idThuongHieu != null && idThuongHieu != "")
+            if (idRam != null && idRam != "")
             {
-                var tenThuongHieu = _context.ThuongHieus.Find(idThuongHieu).TenThuongHieu;
-                lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.ThuongHieu.ToUpper() == tenThuongHieu.ToUpper()).ToList();
+                var ram = _context.Rams.Find(idRam).DungLuong;
+                lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.Ram.ToUpper() == ram.ToUpper()).ToList();
             }
-            if (idLoaiGiay != null && idLoaiGiay != "")
+            if (idMauSac != null && idMauSac != "")
             {
-                var tenLoaiGiay = _context.LoaiGiays.Find(idLoaiGiay).TenLoaiGiay;
-                lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.TheLoai.ToUpper() == tenLoaiGiay.ToUpper()).ToList();
+                var mausac = _context.MauSacs.Find(idMauSac).TenMauSac;
+                lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.MauSac.ToUpper() == mausac.ToUpper()).ToList();
             }
             if (idMauSac != null && idMauSac != "")
             {

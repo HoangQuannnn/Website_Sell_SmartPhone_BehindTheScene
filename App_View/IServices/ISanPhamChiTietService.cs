@@ -16,6 +16,7 @@ using App_Data.ViewModels.SanPhamChiTietDTO;
 using App_Data.ViewModels.SanPhamChiTietViewModel;
 using App_Data.ViewModels.TheNhoDTO;
 using App_Data.ViewModels.TheSimDTO;
+using App_Data.ViewModels.XuatXu;
 using static App_View.Areas.Admin.Controllers.SanPhamChiTietController;
 
 namespace App_View.IServices
@@ -58,6 +59,7 @@ namespace App_View.IServices
         Task<List<SanPhamDanhSachViewModel>> GetDanhSachGiayNgungKinhDoanhAynsc();
         Task<bool> NgungKinhDoanhSanPhamAynsc(ListGuildDTO lstGuid);
         Task<bool> KinhDoanhLaiSanPhamAynsc(ListGuildDTO lstGuid);
+        //Task<DanhSachDienThoaiViewModel?> GetDanhSachGiayViewModelAynsc();
         Task<bool> KhoiPhucKinhDoanhAynsc(string id);
         Task<List<SanPhamChiTietExcelViewModel>> GetListSanPhamExcelAynsc();
         Task<SanPhamChiTietDTO> GetItemExcelAynsc(BienTheDTO bienTheDTO);
@@ -67,7 +69,7 @@ namespace App_View.IServices
         Task<List<Ram>> GetListModelRamAsync();
         Task<List<Rom>> GetListModelRomAsync();
         Task<List<CongSac>> GetListModelCongSacAsync();
-        Task<List<ChiTietCamera>> GetListModelChiTietCameraAsync();
+        Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync();
         Task<List<MauSac>> GetListModelMauSacAsync();
         Task<List<SanPham>> GetListModelSanPhamAsync();
         Task<List<Chip>> GetListModelChipAsync();

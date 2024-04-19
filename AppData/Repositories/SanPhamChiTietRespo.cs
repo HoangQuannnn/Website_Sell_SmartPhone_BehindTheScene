@@ -1262,5 +1262,10 @@ namespace App_Data.Repositories
                 return _context.SanPhamChiTiets.AsNoTracking();
             }
         }
+
+        public Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRamAynsc(string id, string ram)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

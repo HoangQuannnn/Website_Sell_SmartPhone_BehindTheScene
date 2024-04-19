@@ -12,7 +12,7 @@
     AppDbContext context = new AppDbContext();
     _DanhGiaservice = new DanhGiaservice();
     var model = new App_Data.ViewModels.SanPhamChiTietViewModel.DanhSachDienThoaiViewModel();
-    model = SanPhamChiTietservice.DanhSachDienThoaiViewModel().Result;
+    model = SanPhamChiTietservice.GetDanhSachDienThoaiViewModelAynsc().Result;
     var lstSpDuocApDungKhuyenMai = model.LstAllSanPham.Where(x => x.GiaThucTe < x.GiaGoc).GroupBy(x => x.TenSanPham)
     .Select(group => group.First())
     .ToList(); 

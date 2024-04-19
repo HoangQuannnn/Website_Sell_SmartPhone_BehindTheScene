@@ -38,6 +38,7 @@ builder.Services.AddScoped<IAllRepo<VoucherNguoiDung>, AllRepo<VoucherNguoiDung>
 builder.Services.AddScoped<IAllRepo<KhuyenMai>, AllRepo<KhuyenMai>>();
 builder.Services.AddScoped<IAllRepo<KhuyenMaiChiTiet>, AllRepo<KhuyenMaiChiTiet>>();
 builder.Services.AddScoped<ISanPhamChiTietRespo, SanPhamChiTietRespo>();
+builder.Services.AddScoped<IHoaDonRepos, HoaDonRepos>();
 builder.Services.AddScoped<IMauSacRespo, MauSacRespo>();
 builder.Services.AddScoped<IAnhRespo, AnhRespo>();
 builder.Services.AddScoped<AnhController>();
@@ -57,6 +58,8 @@ builder.Services.AddScoped<IAllRepo<Camera>, AllRepo<Camera>>();
 builder.Services.AddScoped<IAllRepo<ChiTietCamera>, AllRepo<ChiTietCamera>>();
 builder.Services.AddScoped<IAllRepo<CameraSau>, AllRepo<CameraSau>>();
 builder.Services.AddScoped<IAllRepo<CameraTruoc>, AllRepo<CameraTruoc>>();
+builder.Services.AddTransient<SanPhamChiTietController>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

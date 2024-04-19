@@ -185,14 +185,14 @@
                     </div>
                 </div>
 
-                <div class="col-4" style="margin-top: 10px" id="thuonghieu">
+                <div class="col-4" style="margin-top: 10px" id="hang">
                     <label class="font-weight-semibold">
-                        <span> Thương hiệu</span>
+                        <span> Hãng</span>
                     </label>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                        <select class="select2-active w-100" asp-for="IdThuongHieu">
-                            @foreach (var item in (SelectList)ViewData["IdThuongHieu"]!)
+                        <select class="select2-active w-100" asp-for="IdHang">
+                            @foreach (var item in (SelectList)ViewData["IdHang"]!)
                             {
                                 <option value="@item.Value">@item.Text</option>
                             }
@@ -200,12 +200,12 @@
                     </div>
                 </div>
 
-                <div class="col-4" style="margin-top: 10px" id="xuatxu">
-                    <label class="font-weight-semibold">Xuất xứ</label>
+                <div class="col-4" style="margin-top: 10px" id="chip">
+                    <label class="font-weight-semibold">Chip</label>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                        <select class="select2-active w-100" asp-for="IdXuatXu">
-                            @foreach (var item in (SelectList)ViewData["IdXuatXu"]!)
+                        <select class="select2-active w-100" asp-for="IdChip">
+                            @foreach (var item in (SelectList)ViewData["IdChip"]!)
                             {
                                 <option value="@item.Value">@item.Text</option>
                             }
@@ -213,12 +213,12 @@
                     </div>
                 </div>
 
-                <div class="col-4" style="margin-top: 10px" id="chatlieu">
-                    <label class="font-weight-semibold">Chất liệu</label>
+                <div class="col-4" style="margin-top: 10px" id="congsac">
+                    <label class="font-weight-semibold">Cổng sạc</label>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                        <select class="select2-active w-100" asp-for="IdChatLieu">
-                            @foreach (var item in (SelectList)ViewData["IdChatLieu"]!)
+                        <select class="select2-active w-100" asp-for="IdCongSac">
+                            @foreach (var item in (SelectList)ViewData["IdCongSac"]!)
                             {
                                 <option value="@item.Value">@item.Text</option>
                             }
@@ -226,12 +226,12 @@
                     </div>
                 </div>
 
-                <div class="col-4" style="margin-top: 10px" id="loaigiay">
-                    <label class="font-weight-semibold">Loại giầy</label>
+                <div class="col-4" style="margin-top: 10px" id="manhinh">
+                    <label class="font-weight-semibold">Màn hình</label>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                        <select class="select2-active w-100" asp-for="IdLoaiGiay">
-                            @foreach (var item in (SelectList)ViewData["IdLoaiGiay"]!)
+                        <select class="select2-active w-100" asp-for="IdManHinh">
+                            @foreach (var item in (SelectList)ViewData["IdManHinh"]!)
                             {
                                 <option value="@item.Value">@item.Text</option>
                             }
@@ -239,12 +239,24 @@
                     </div>
                 </div>
 
-                <div class="col-4" style="margin-top: 10px" id="kieudegiay">
-                    <label class="font-weight-semibold">Kiểu đế giầy</label>
+                <div class="col-4" style="margin-top: 10px" id="pin">
+                    <label class="font-weight-semibold">Pin</label>
                     <div class="d-flex align-items-center mr-1">
                         <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                        <select class="select2-active w-100" asp-for="IdKieuDeGiay">
-                            @foreach (var item in (SelectList)ViewData["IdKieuDeGiay"]!)
+                        <select class="select2-active w-100" asp-for="IdPin">
+                            @foreach (var item in (SelectList)ViewData["IdPin"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4" style="margin-top: 10px" id="thenho">
+                    <label class="font-weight-semibold">Thẻ nhớ</label>
+                    <div class="d-flex align-items-center mr-1">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select class="select2-active w-100" asp-for="IdTheNho">
+                            @foreach (var item in (SelectList)ViewData["IdTheNho"]!)
                             {
                                 <option value="@item.Value">@item.Text</option>
                             }
@@ -254,7 +266,7 @@
             </div>
 
             <div class="row">
-                <div class="col-6" style="margin-top: 10px" id="mausac">
+                <div class="col-4" style="margin-top: 10px" id="mausac">
                     <label class="font-weight-semibold">Màu Sắc</label>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
@@ -268,13 +280,27 @@
                     </div>
                 </div>
 
-                <div class="col-6" style="margin-top: 10px" id="kichco">
-                    <label class="font-weight-semibold">Kích cỡ</label>
+                <div class="col-4" style="margin-top: 10px" id="ram">
+                    <label class="font-weight-semibold">Ram</label>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
                         <select id="IdSize" class="select2-active w-100"
                                 multiple="multiple">
-                            @foreach (var item in (SelectList)ViewData["IdKichCo"]!)
+                            @foreach (var item in (SelectList)ViewData["IdRam"]!)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4" style="margin-top: 10px" id="rom">
+                    <label class="font-weight-semibold">Rom</label>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                        <select id="IdSize" class="select2-active w-100"
+                                multiple="multiple">
+                            @foreach (var item in (SelectList)ViewData["IdRom"]!)
                             {
                                 <option value="@item.Value">@item.Text</option>
                             }

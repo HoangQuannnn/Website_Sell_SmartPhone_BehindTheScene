@@ -323,9 +323,9 @@
 
                                 <span class="pd-detail__label u-s-m-b-8">Kích cỡ:</span>
                                 <div class="pd-detail__size">
-                                    @foreach (var item in Model.LstKichThuoc!)
+                                    @foreach (var item in Model.lstRamRom!)
                                     {
-                                        if (Model.KichCo == item)
+                                        if (Model.Ram == item)
                                         {
                                             <div class="size__radio">
 
@@ -437,8 +437,8 @@
                                         <table>
                                             <tbody>
                                                 <tr>
-                                                    <td>Thương hiệu</td>
-                                                    <td>@Model.ThuongHieu</td>
+                                                    <td>Hãng</td>
+                                                    <td>@Model.Hang</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Chất liệu chính</td>
@@ -457,8 +457,12 @@
                                                     <td>@Model.MauSac</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Size</td>
-                                                    <td>@Model.KichCo</td>
+                                                    <td>Ram</td>
+                                                    <td>@Model.Ram</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Rom</td>
+                                                    <td>@Model.Rom</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Xuất xứ</td>

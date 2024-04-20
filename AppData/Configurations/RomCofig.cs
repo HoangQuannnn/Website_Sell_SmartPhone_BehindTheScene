@@ -18,6 +18,7 @@ namespace App_Data.Configurations
             builder.Property(e => e.MaRom).HasColumnType("varchar(50)");
             builder.Property(x => x.DungLuong).HasColumnType("varchar(50)");
             builder.Property(c => c.TrangThai).HasColumnType("int");
+            builder.Property(x => x.TenRom).HasColumnType("nvarchar(1000)");
         }
     }
 }

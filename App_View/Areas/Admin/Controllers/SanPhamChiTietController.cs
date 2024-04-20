@@ -982,7 +982,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRam([FromBody] RamDTO ramDOT)
         {
-            return Json(await _SanPhamChiTietservice.CreateRamAynsc(ramDOT));
+            return Json(await _SanPhamChiTietservice.CreateTenRamAynsc(ramDOT));
         }
 
         [HttpPost]

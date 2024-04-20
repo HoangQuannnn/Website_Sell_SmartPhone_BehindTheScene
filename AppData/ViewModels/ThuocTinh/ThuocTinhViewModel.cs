@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App_Data.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,7 @@ namespace App_Data.ViewModels.ThuocTinh
         public string? Ten { get; set; }
         public string? TrangThai { get; set; }
         public int? SoBienTheDangDung { get; set; }
+        public DungLuongRamEnum DungLuongRamEnum { get; set; }
+        public DungLuongRomEnum DungLuongRomEnum { get; set; }
     }
 }

@@ -24,6 +24,12 @@ namespace App_View.IServices
  
     public interface ISanPhamChiTietservice
     {
+        Task<List<Hang>> GetListModelHangAsync();
+        Task<List<Ram>> GetListModelRamAsync();
+        Task<List<Rom>> GetListModelRomAsync();
+        Task<HangDTO?> CreateTenHangAynsc(HangDTO hangDTO);
+        Task<RamDTO?> CreateTenRamAynsc(RamDTO ramDTO);
+        Task<RomDTO?> CreateTenRomAynsc(RomDTO romDTO);
         Task<ResponseCreateDTO> AddAysnc(SanPhamChiTietDTO sanPhamChiTietDTO);
         Task<bool> DeleteAysnc(string id);
         Task<bool> UpdateAynsc(SanPhamChiTietDTO sanPhamChiTietDTO);
@@ -37,9 +43,6 @@ namespace App_View.IServices
         Task CreateAnhAysnc(string IdChiTietSp, List<IFormFile> lstIFormFile);
         Task DeleteAnhAysnc(ImageDTO responseImageDeleteVM);
         Task<SanPhamDTO?> CreateTenSanPhamAynsc(SanPhamDTO sanPhamDTO);
-        Task<HangDTO?> CreateTenHangAynsc(HangDTO hangDTO);
-        Task<RamDTO?> CreateRamAynsc(RamDTO ramDTO);
-        Task<RamDTO?> CreateRomAynsc(RomDTO romDTO);
         Task<ChipDTO?> CreateTenChipAynsc(ChipDTO chipDTO);
         Task<PinDTO?> CreateLoaiPinAynsc(PinDTO pinDTO);
         Task<CongSacDTO?> CreateCongSacAynsc(CongSacDTO congSacDTO);
@@ -65,9 +68,6 @@ namespace App_View.IServices
         Task<SanPhamChiTietDTO> GetItemExcelAynsc(BienTheDTO bienTheDTO);
         Task UpDatSoLuongAynsc(SanPhamSoLuongDTO sanPhamSoLuongDTO);
         #region GetListModelVariants
-        Task<List<Hang>> GetListModelHangAsync();
-        Task<List<Ram>> GetListModelRamAsync();
-        Task<List<Rom>> GetListModelRomAsync();
         Task<List<CongSac>> GetListModelCongSacAsync();
         Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync();
         Task<List<MauSac>> GetListModelMauSacAsync();

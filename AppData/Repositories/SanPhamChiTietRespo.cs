@@ -332,8 +332,6 @@ namespace App_Data.Repositories
                 GiaThucTe = firstItem.GiaThucTe,
                 GiaGoc = firstItem.GiaBan,
                 MauSac = firstItem.MauSac.TenMauSac,
-                Ram = firstItem.Ram.DungLuong,
-                Rom = firstItem.Rom.DungLuong
             };
         }
 
@@ -350,11 +348,9 @@ namespace App_Data.Repositories
                 return new SanPhamDanhSachViewModel()
                 {
                     IdChiTietSp = sanPham.IdChiTietSp,
-                    Ram = context.Rams.ToList().FirstOrDefault(x => x.IdRam == sanPham.IdRam)?.DungLuong,
                     SanPham = context.Hangs.ToList().FirstOrDefault(x => x.IdHang == sanPham.IdHang)?.TenHang + " " + context.SanPhams.ToList().FirstOrDefault(x => x.IdSanPham == sanPham.IdSanPham)?.TenSanPham,
                     GiaBan = sanPham.GiaBan,
                     MauSac = context.MauSacs.ToList().FirstOrDefault(ms => ms.IdMauSac == sanPham.IdMauSac)?.TenMauSac,
-                    Rom = context.Roms.ToList().FirstOrDefault(x => x.IdRom == sanPham.IdRom)?.DungLuong,
                     Anh = context.Anh.ToList().Where(x => x.IdSanPhamChiTiet == sanPham.IdChiTietSp && x.TrangThai == 0).OrderBy(x => x.NgayTao).FirstOrDefault()?.Url,
                     SoLuongDaBan = sanPham.SoLuongDaBan,
                     ManHinh = context.ManHinhs.ToList().FirstOrDefault(x => x.IdManHinh == sanPham.IdManHinh)?.LoaiManHinh + " " + context.ManHinhs.ToList().FirstOrDefault(x => x.IdManHinh == sanPham.IdManHinh)?.KichThuoc + " " + context.ManHinhs.ToList().FirstOrDefault(x => x.IdManHinh == sanPham.IdManHinh)?.TanSoQuet,
@@ -460,8 +456,6 @@ namespace App_Data.Repositories
                     MaSanPham = sp.Ma,
                     GiaKhuyenMai = sp.GiaThucTe,
                     MauSac = sp.MauSac!.TenMauSac,
-                    Ram = sp.Ram!.DungLuong,
-                    Rom = sp.Ram!.DungLuong,
                     ManHinh = sp.ManHinh.LoaiManHinh + " " + sp.ManHinh.KichThuoc + " " + sp.ManHinh.TanSoQuet,
                     CongSac = sp.CongSac!.LoaiCongSac,
                     Chip = sp.Chip!.TenChip,
@@ -503,8 +497,6 @@ namespace App_Data.Repositories
                 GiaGoc = sp.GiaBan,
                 GiaKhuyenMai = sp.GiaThucTe,
                 MauSac = sp.MauSac!.TenMauSac,
-                Ram = sp.Ram.DungLuong,
-                Rom = sp.Rom.DungLuong,
                 IdChiTietSp = sp.IdChiTietSp,
                 SoLanDanhGia = _danhGiaRespo.GetTongSoDanhGia(sp.IdChiTietSp!).Result,
                 SoSao = _danhGiaRespo.SoSaoTB(sp.IdChiTietSp!).Result,
@@ -550,8 +542,6 @@ namespace App_Data.Repositories
                 sp.IdSanPham == sanPhamChiTiet.IdSanPham
                 ).ToListAsync();
             itemDetailViewModel.LstMauSac = lstBienThe.Select(x => x.MauSac.TenMauSac).Distinct().ToList()!;
-            itemDetailViewModel.LstRam = lstBienThe.Where(sp => sp.IdMauSac == sanPhamChiTiet.IdMauSac).Select(x => x.Ram.DungLuong!).Distinct().OrderBy(item => item).ToList();
-            itemDetailViewModel.LstRom = lstBienThe.Where(sp => sp.IdMauSac == sanPhamChiTiet.IdMauSac).Select(x => x.Rom.DungLuong!).Distinct().OrderBy(item => item).ToList();
             return itemDetailViewModel;
         }
 
@@ -611,8 +601,6 @@ namespace App_Data.Repositories
 
             var itemDetailViewModel = _mapper.Map<ItemDetailViewModel>(sanPhamChiTiet);
             var lstRamRom = new List<string>();
-            lstRamRom.AddRange(lstRam.Select(x => x.Ram.DungLuong));
-            lstRamRom.AddRange(lstRom.Select(x => x.Rom.DungLuong));
             itemDetailViewModel.LstRamRom = lstRamRom;
 
             return itemDetailViewModel;
@@ -624,8 +612,6 @@ namespace App_Data.Repositories
         {
             var sanPhamGet = await _context.SanPhamChiTiets.FirstOrDefaultAsync(sp => sp.IdChiTietSp == id);
 
-            var idsRam = (await _context.Rams.FirstOrDefaultAsync(x => x.DungLuong == ram))!.IdRam;
-            var idsRom = (await _context.Roms.FirstOrDefaultAsync(x => x.DungLuong == rom))!.IdRom;
             var sanPhamChiTiet = (await _context.SanPhamChiTiets.Where(sp =>
                 sp.IdManHinh == sanPhamGet!.IdManHinh &&
                 sp.IdMauSac == sanPhamGet.IdMauSac &&
@@ -635,8 +621,7 @@ namespace App_Data.Repositories
                 sp.IdSanPham == sanPhamGet.IdSanPham &&
                 sp.IdChip == sanPhamGet.IdChip &&
                 sp.IdHang == sanPhamGet.IdHang &&
-                sp.IdRom == idsRom &&
-                sp.IdRam == idsRam).
+                sp.IdRam == id).
                 Include(x => x.Anh).
                 Include(x => x.SanPham).
                 Include(x => x.Hang).
@@ -788,21 +773,6 @@ namespace App_Data.Repositories
                     };
                     await _context.ManHinhs.AddAsync(manHinh);
                 }
-
-                var hangLower = bienTheDTO.Hang!.Trim().ToLower();
-                var hang = await _context.Hangs.FirstOrDefaultAsync(cl => cl.TenHang!.Trim().ToLower() == hangLower);
-                if (hang == null)
-                {
-                    hang = new Hang()
-                    {
-                        IdHang = Guid.NewGuid().ToString(),
-                        MaHang = !_context.Hangs.Any() ? "HANG1" : "HANG" + (_context.Hangs.Count() + 1),
-                        TenHang = bienTheDTO.Hang.Trim(),
-                        TrangThai = 0
-                    };
-                    await _context.Hangs.AddAsync(hang);
-                }
-
                 var mauSacLower = bienTheDTO.MauSac!.Trim().ToLower();
                 var mauSac = await _context.MauSacs.FirstOrDefaultAsync(cl => cl.TenMauSac!.Trim().ToLower() == mauSacLower);
                 if (mauSac == null)
@@ -816,33 +786,6 @@ namespace App_Data.Repositories
                     };
                     await _context.MauSacs.AddAsync(mauSac);
                 }
-
-                var ram = await _context.Rams.FirstOrDefaultAsync(cl => cl.DungLuong == bienTheDTO.Ram!.Trim());
-                if (ram == null)
-                {
-                    ram = new Ram()
-                    {
-                        IdRam = Guid.NewGuid().ToString(),
-                        MaRam = !_context.Rams.Any() ? "RAM1" : "RAM" + (_context.Rams.Count() + 1),
-                        DungLuong = bienTheDTO.Ram!.Trim(),
-                        TrangThai = 0
-                    };
-                    await _context.Rams.AddAsync(ram);
-                } 
-
-                var rom = await _context.Roms.FirstOrDefaultAsync(cl => cl.DungLuong == bienTheDTO.Rom!.Trim());
-                if (rom == null)
-                {
-                    rom = new Rom()
-                    {
-                        IdRom = Guid.NewGuid().ToString(),
-                        MaRom = !_context.Rams.Any() ? "ROM1" : "ROM" + (_context.Rams.Count() + 1),
-                        DungLuong = bienTheDTO.Ram!.Trim(),
-                        TrangThai = 0
-                    };
-                    await _context.Roms.AddAsync(rom);
-                }
-
                 var pinLower = bienTheDTO.Pin!.Trim().ToLower();
                 var pin = await _context.Pins.FirstOrDefaultAsync(cl => cl.LoaiPin!.Trim().ToLower() == pinLower);
                 if (pin == null)
@@ -914,12 +857,55 @@ namespace App_Data.Repositories
                 }
 
                 await _context.SaveChangesAsync();
+                var hangLower = bienTheDTO.Hang!.Trim().ToLower();
+                var hang = await _context.Hangs.FirstOrDefaultAsync(cl => cl.TenHang!.Trim().ToLower() == hangLower);
+                if (hang == null)
+                {
+                    hang = new Hang()
+                    {
+                        IdHang = Guid.NewGuid().ToString(),
+                        MaHang = !_context.Hangs.Any() ? "H1" : "H" + (_context.Hangs.Count() + 1),
+                        TenHang = bienTheDTO.Hang.Trim(),
+                        TrangThai = 0
+                    };
+                    await _context.Hangs.AddAsync(hang);
+                }
 
+                await _context.SaveChangesAsync();
+
+                var ramLower = bienTheDTO.Ram!.Trim().ToLower();
+                var ram = await _context.Rams.FirstOrDefaultAsync(cl => cl.TenRam!.Trim().ToLower() == ramLower);
+                if (ram == null)
+                {
+                    ram = new Ram()
+                    {
+                        IdRam = Guid.NewGuid().ToString(),
+                        MaRam = !_context.Rams.Any() ? "R1" : "R" + (_context.Rams.Count() + 1),
+                        TenRam = bienTheDTO.Ram.Trim(),
+                        TrangThai = 0
+                    };
+                    await _context.Rams.AddAsync(ram);
+                }
+
+                await _context.SaveChangesAsync();
+
+                var romLower = bienTheDTO.Rom!.Trim().ToLower();
+                var rom = await _context.Roms.FirstOrDefaultAsync(cl => cl.TenRom!.Trim().ToLower() == romLower);
+                if (rom == null)
+                {
+                    rom = new Rom()
+                    {
+                        IdRom = Guid.NewGuid().ToString(),
+                        MaRom = !_context.Roms.Any() ? "RO1" : "RO" + (_context.Roms.Count() + 1),
+                        TenRom = bienTheDTO.Rom.Trim(),
+                        TrangThai = 0
+                    };
+                    await _context.Roms.AddAsync(rom);
+                }
+
+                await _context.SaveChangesAsync();
                 var spDTO = new SanPhamChiTietDTO()
                 {
-                    IdHang = hang.IdHang,
-                    IdRam = ram.IdRam,
-                    IdRom = rom.IdRom,
                     IdManHinh = manHinh.IdManHinh,
                     IdMauSac = mauSac.IdMauSac,
                     IdPin = pin.IdPin,
@@ -927,6 +913,9 @@ namespace App_Data.Repositories
                     IdChip = chip.IdChip,
                     IdCongSac = congSac.IdCongSac,
                     IdTheNho = theNho.IdTheNho,
+                    IdHang = hang.IdHang,
+                    IdRom = rom.IdRom,
+                    IdRam = ram.IdRam
                 };
                 return spDTO;
             }
@@ -999,7 +988,6 @@ namespace App_Data.Repositories
                     .GroupBy(sp => sp.Ram.DungLuong)
                     .Select(gr => new ItemFilter()
                     {
-                        Ten = gr.Key,
                         SoLuong = data
                         .Where(sp => sp.Ram.DungLuong == gr.Key)
                         .GroupBy(
@@ -1146,8 +1134,6 @@ namespace App_Data.Repositories
                             Anh = sp.Anh.Where(a => a.TrangThai == 0).OrderBy(a => a.NgayTao).FirstOrDefault()!.Url,
                             MauSac = sp.MauSac.TenMauSac,
                             GiaBan = sp.GiaBan.GetValueOrDefault(),
-                            Ram = sp.Ram.DungLuong,
-                            Rom = sp.Rom.DungLuong,
                             SanPham = sp.SanPham.TenSanPham,
                             SoLuong = sp.SoLuongTon.GetValueOrDefault(),
                             SoLuongDaBan = sp.SoLuongDaBan.GetValueOrDefault(),

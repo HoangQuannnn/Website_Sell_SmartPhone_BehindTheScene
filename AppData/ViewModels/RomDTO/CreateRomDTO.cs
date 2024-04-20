@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace App_Data.ViewModels.RomDTO
 {
-    public class RomDTO
+    public class CreateRomDTO
     {
-        public string IdRom { get; set; }
-        public string TenRom { get; set; }
-        public DungLuongRomEnum DungLuong { get; set; }
+        public string tenRom { get; set; }
         public TrangThaiEnum trangThai { get; set; }
+        public DungLuongRomEnum dungLuongRom { get; set; }
     }
 }

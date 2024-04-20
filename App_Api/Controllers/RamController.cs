@@ -39,7 +39,7 @@ namespace App_Api.Controllers
             return allRepo.GetAll().FirstOrDefault(c => c.IdRam == id);
         }
         [HttpPost]
-        public bool AddRam(string ten, int trangthai, string dungluong)
+        public bool AddRam([FromBody] CreateRamDTO createRamDTO)
         {
             string ma;
             if (allRepo.GetAll().Count() == null)
@@ -54,34 +54,43 @@ namespace App_Api.Controllers
             {
                 IdRam = Guid.NewGuid().ToString(),
                 MaRam = ma,
-                TenRam = ten,
-                TrangThai = trangthai,
-                DungLuong = dungluong
+                TenRam = createRamDTO.tenRam,
+                DungLuong = createRamDTO.dungLuongRam,
+                TrangThai = createRamDTO.trangThai
             };
             return allRepo.AddItem(Ram);
         }
 
         [HttpPut("sua-Ram")]
-        public bool SuaChatLieu(RamDTO RamDTO)
+        public bool SuaRam([FromBody] RamDTO ramDTO)
         {
             try
             {
-                var tenRam = RamDTO.TenRam!.Trim().ToLower();
-                var dungLuongRam = RamDTO.DungLuong!.Trim().ToLower();
-                if (!dbContext.Rams.Where(x => x.TenRam!.Trim().ToLower() == tenRam && x.DungLuong!.Trim().ToLower() == dungLuongRam).Any())
+                // Kiểm tra xem DTO có dữ liệu hợp lệ không
+                if (ramDTO != null && !string.IsNullOrEmpty(ramDTO.IdRam) && !string.IsNullOrEmpty(ramDTO.TenRam))
                 {
-                    var Ram = _mapper.Map<Ram>(RamDTO);
-                    dbContext.Attach(Ram);
-                    dbContext.Entry(Ram).Property(sp => sp.TenRam).IsModified = true;
-                    dbContext.Entry(Ram).Property(sp => sp.DungLuong).IsModified = true;
-                    dbContext.SaveChanges();
-                    return true;
+                    // Tìm đối tượng Ram trong cơ sở dữ liệu dựa trên IdRam
+                    var existingRam = dbContext.Rams.FirstOrDefault(x => x.IdRam == ramDTO.IdRam);
+                    if (existingRam != null)
+                    {
+                        // Cập nhật thông tin của đối tượng Ram từ DTO
+                        existingRam.TenRam = ramDTO.TenRam;
+                        existingRam.TrangThai = ramDTO.trangThai;
+                        existingRam.DungLuong = ramDTO.DungLuong;
+
+                        // Cập nhật đối tượng trong cơ sở dữ liệu và lưu thay đổi
+                        dbContext.Rams.Update(existingRam);
+                        dbContext.SaveChanges();
+
+                        return true;
+                    }
                 }
-                return false;    
+
+                return false; // Trả về false nếu không tìm thấy đối tượng Ram hoặc dữ liệu không hợp lệ
             }
             catch (Exception)
             {
-                return false;
+                return false; // Trả về false nếu có lỗi xảy ra trong quá trình cập nhật
             }
         }
 

@@ -52,7 +52,6 @@ namespace App_View.Areas.Admin.Controllers
 
             return PartialView("_DanhSachThuocTinhSanPhamPartialView",lstTenSP);
         }
-
         public IActionResult LoadPartialViewDanhSachHang()
         {
             var lstHang = _context
@@ -67,7 +66,6 @@ namespace App_View.Areas.Admin.Controllers
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhHangPartialView", lstHang);

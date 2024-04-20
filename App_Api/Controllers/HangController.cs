@@ -25,7 +25,7 @@ namespace App_Api.Controllers
             allRepo = all;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         public IEnumerable<Hang> GetAllHang()
         {
@@ -38,7 +38,7 @@ namespace App_Api.Controllers
             return allRepo.GetAll().FirstOrDefault(c => c.IdHang == id);
         }
         [HttpPost]
-        public bool AddHang(string ten, int trangthai)
+        public bool AddHang(CreateHangDTO createHangDTO)
         {
             string ma;
             if (allRepo.GetAll().Count() == null)
@@ -53,31 +53,41 @@ namespace App_Api.Controllers
             {
                 IdHang = Guid.NewGuid().ToString(),
                 MaHang = ma,
-                TenHang = ten,
-                TrangThai = trangthai
+                TenHang = createHangDTO.tenHang,
+                TrangThai = createHangDTO.trangThai
             };
             return allRepo.AddItem(Hang);
         }
 
         [HttpPut("sua-hang")]
-        public bool SuaChatLieu(HangDTO hangDTO)
+        public bool UpdateHang(HangDTO hangDTO)
         {
             try
             {
-                var nameHang = hangDTO.TenHang!.Trim().ToLower();
-                if (!dbContext.Hangs.Where(x => x.TenHang!.Trim().ToLower() == nameHang).Any())
+                // Kiểm tra xem DTO có dữ liệu hợp lệ không
+                if (hangDTO != null && !string.IsNullOrEmpty(hangDTO.IdHang) && !string.IsNullOrEmpty(hangDTO.TenHang))
                 {
-                    var Hang = _mapper.Map<Hang>(hangDTO);
-                    dbContext.Attach(Hang);
-                    dbContext.Entry(Hang).Property(sp => sp.TenHang).IsModified = true;
-                    dbContext.SaveChanges();
-                    return true;
+                    // Tìm đối tượng Hang trong cơ sở dữ liệu dựa trên IdHang
+                    var existingHang = dbContext.Hangs.FirstOrDefault(x => x.IdHang == hangDTO.IdHang);
+                    if (existingHang != null)
+                    {
+                        // Cập nhật thông tin của đối tượng Hang từ DTO
+                        existingHang.TenHang = hangDTO.TenHang;
+                        existingHang.TrangThai = hangDTO.trangThai;
+
+                        // Cập nhật đối tượng trong cơ sở dữ liệu và lưu thay đổi
+                        dbContext.Hangs.Update(existingHang);
+                        dbContext.SaveChanges();
+
+                        return true;
+                    }
                 }
-                return false;
+
+                return false; // Trả về false nếu không tìm thấy đối tượng Hang hoặc dữ liệu không hợp lệ
             }
             catch (Exception)
             {
-                return false;
+                return false; // Trả về false nếu có lỗi xảy ra trong quá trình cập nhật
             }
         }
         [HttpDelete("XoaHang/{id}")]

@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App_Data.ViewModels.RomDTO
+namespace App_Data.ViewModels.RamDTO
 {
-    public class RomDTO
+    public class CreateRamDTO
     {
-        public string IdRom { get; set; }
-        public string TenRom { get; set; }
-        public DungLuongRomEnum DungLuong { get; set; }
+        public string tenRam { get; set; }
         public TrangThaiEnum trangThai { get; set; }
+        public DungLuongRamEnum dungLuongRam { get; set; }
+
     }
 }

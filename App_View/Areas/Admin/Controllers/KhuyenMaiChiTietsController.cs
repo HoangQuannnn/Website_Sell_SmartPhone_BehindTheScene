@@ -222,7 +222,6 @@ namespace App_View.Areas.Admin.Controllers
                 SanPham = _context.Hangs.ToList().FirstOrDefault(x => x.IdHang == sanPham.IdHang)?.TenHang + " " + _context.SanPhams.ToList().FirstOrDefault(x => x.IdSanPham == sanPham.IdSanPham)?.TenSanPham,
                 GiaBan = sanPham.GiaBan,
                 GiaNhap = sanPham.GiaNhap,
-                Ram = _context.Rams.ToList().FirstOrDefault(x => x.IdRam == sanPham.IdRam)?.DungLuong,
                 Anh = _context.Anh.ToList().Where(x => x.IdSanPhamChiTiet == sanPham.IdChiTietSp && x.TrangThai == 0).FirstOrDefault()?.Url,
                 Chip = _context.Chips.ToList().FirstOrDefault(x => x.IdChip == sanPham.IdChip)?.TenChip,
                 Hang = _context.Hangs.ToList().FirstOrDefault(x => x.IdHang == sanPham.IdHang)?.TenHang,
@@ -267,11 +266,6 @@ namespace App_View.Areas.Admin.Controllers
 
 
 
-                if (idRam != null && idRam != "")
-                {
-                    var Ram = _context.Rams.Find(idRam).DungLuong;
-                    lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.Ram.ToUpper() == Ram.ToUpper()).ToList();           
-                }
                 if (idMauSac != null && idMauSac != "")
                 {
                     var mausac = _context.MauSacs.Find(idMauSac).TenMauSac;
@@ -452,11 +446,7 @@ namespace App_View.Areas.Admin.Controllers
            
            
             
-            if (idRam != null && idRam != "")
-            {
-                var ram = _context.Rams.Find(idRam).DungLuong;
-                lstSpDuocApDungKhuyenMai = (List<ItemShopViewModel>?)lstSpDuocApDungKhuyenMai.Where(x => x.Ram.ToUpper() == ram.ToUpper()).ToList();
-            }
+            
             if (idMauSac != null && idMauSac != "")
             {
                 var mausac = _context.MauSacs.Find(idMauSac).TenMauSac;

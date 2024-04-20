@@ -39,7 +39,7 @@ namespace App_Api.Controllers
             return allRepo.GetAll().FirstOrDefault(c => c.IdRom == id);
         }
         [HttpPost]
-        public bool AddRom(string ten, int trangthai, string dungluong)
+        public bool AddRom(CreateRomDTO createRomDTO)
         {
             string ma;
             if (allRepo.GetAll().Count() == null)
@@ -54,31 +54,43 @@ namespace App_Api.Controllers
             {
                 IdRom = Guid.NewGuid().ToString(),
                 MaRom = ma,
-                TrangThai = trangthai,
-                DungLuong = dungluong
+                TenRom = createRomDTO.tenRom,
+                TrangThai = createRomDTO.trangThai,
+                DungLuong = createRomDTO.dungLuongRom
             };
             return allRepo.AddItem(Rom);
         }
 
         [HttpPut("sua-Rom")]
-        public bool SuaChatLieu(RomDTO RomDTO)
+        public bool SuaRom(RomDTO RomDTO)
         {
             try
             {
-                var dungLuongRom = RomDTO.DungLuong!.Trim().ToLower();
-                if (!dbContext.Roms.Where(x => x.DungLuong!.Trim().ToLower() == dungLuongRom).Any())
+                // Kiểm tra xem DTO có dữ liệu hợp lệ không
+                if (RomDTO != null && !string.IsNullOrEmpty(RomDTO.IdRom) && !string.IsNullOrEmpty(RomDTO.TenRom))
                 {
-                    var Rom = _mapper.Map<Rom>(RomDTO);
-                    dbContext.Attach(Rom);
-                    dbContext.Entry(Rom).Property(sp => sp.DungLuong).IsModified = true;
-                    dbContext.SaveChanges();
-                    return true;
+                    // Tìm đối tượng Ram trong cơ sở dữ liệu dựa trên IdRam
+                    var existingRam = dbContext.Roms.FirstOrDefault(x => x.IdRom == RomDTO.IdRom);
+                    if (existingRam != null)
+                    {
+                        // Cập nhật thông tin của đối tượng Ram từ DTO
+                        existingRam.TenRom = RomDTO.TenRom;
+                        existingRam.TrangThai = RomDTO.trangThai;
+                        existingRam.DungLuong = RomDTO.DungLuong;
+
+                        // Cập nhật đối tượng trong cơ sở dữ liệu và lưu thay đổi
+                        dbContext.Roms.Update(existingRam);
+                        dbContext.SaveChanges();
+
+                        return true;
+                    }
                 }
-                return false;
+
+                return false; // Trả về false nếu không tìm thấy đối tượng Ram hoặc dữ liệu không hợp lệ
             }
             catch (Exception)
             {
-                return false;
+                return false; // Trả về false nếu có lỗi xảy ra trong quá trình cập nhật
             }
         }
 

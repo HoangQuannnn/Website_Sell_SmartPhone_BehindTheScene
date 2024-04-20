@@ -180,7 +180,7 @@ namespace App_View.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Xác nhận email của bạn",
-                        $"Bạn đã đăng ký tài khoản trên Web bán giày thể thao Bazaizai. Vui lòng xác nhận(kích hoạt) tài khoản của bạn bằng cách <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>nhấn vào đây</a>.");
+                        $"Bạn đã đăng ký tài khoản trên  Web Bán Điện Thoại Thông Minh BehindTheScene. Vui lòng xác nhận(kích hoạt) tài khoản của bạn bằng cách <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>nhấn vào đây</a>.");
                     await AddCart(userId, 0);
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

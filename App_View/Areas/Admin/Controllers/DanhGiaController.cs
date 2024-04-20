@@ -132,7 +132,7 @@ namespace App_View.Areas.Admin.Controllers
                 if (user != null)
                 {
                     await _emailSender.SendEmailAsync(user.Email, "Thông báo về việc xóa đánh giá của bạn",
-    $"Bạn đã vi phạm điều khoản trên Web bán giày thể thao Bazaizai. Đánh giá vào thời gian: {ngaydanhgia} đã bị xóa. Lí do: {liDo} . Mọi thắc mắc xin vui lòng liên hệ đội ngũ hỗ trợ 0369426223.");
+    $"Bạn đã vi phạm điều khoản trên Web Bán Điện Thoại Thông Minh BehindTheScene. Đánh giá vào thời gian: {ngaydanhgia} đã bị xóa. Lí do: {liDo} . Mọi thắc mắc xin vui lòng liên hệ đội ngũ hỗ trợ 0929068516.");
 
                 }
                 return RedirectToAction("DanhSachDanhGiaChuaDuyet");
@@ -165,7 +165,7 @@ namespace App_View.Areas.Admin.Controllers
                 if (user != null)
                 {
                     await _emailSender.SendEmailAsync(user.Email, "Thông báo về việc xóa đánh giá của bạn",
-   $"Bạn đã vi phạm điều khoản trên Web bán giày thể thao Bazaizai. Đánh giá vào thời gian: {ngaydanhgia} đã bị xóa. Lí do: {liDo} . Mọi thắc mắc xin vui lòng liên hệ đội ngũ hỗ trợ 0369426223.");
+   $"Bạn đã vi phạm điều khoản trên Web Bán Điện Thoại Thông Minh BehindTheScene. Đánh giá vào thời gian: {ngaydanhgia} đã bị xóa. Lí do: {liDo} . Mọi thắc mắc xin vui lòng liên hệ đội ngũ hỗ trợ 0929068516.");
 
                 }
 

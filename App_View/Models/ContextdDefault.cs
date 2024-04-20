@@ -30,9 +30,9 @@ namespace App_View.Models
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = "Admin",
-                Email = "bazaizaistore@gmail.com",
+                Email = "behindthescenestore@gmail.com",
                 TenNguoiDung = "Admin",
-                PhoneNumber = "0369426223",
+                PhoneNumber = "0929068516",
                 EmailConfirmed = true,
                 NgaySinh = DateTime.ParseExact("10-10-2010", "MM-dd-yyyy", null),
                 DiaChi = "Hà Nội",

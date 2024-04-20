@@ -66,7 +66,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "bazaizai");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "BEHINDTHESCENE");
     options.RoutePrefix = string.Empty;
 });
 if (app.Environment.IsDevelopment())

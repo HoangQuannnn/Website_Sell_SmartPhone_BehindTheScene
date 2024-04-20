@@ -141,7 +141,7 @@ namespace App_View.Areas.Admin.Pages.User
             }
             else time = ((DateTimeOffset)Input.LockoutEnd).DateTime;
             await _emailSender.SendEmailAsync(user.Email, "Thông báo về việc khóa tài khoản của bạn",
-                     $"Bạn đã vi phạm điều khoản trên Web bán giày thể thao Bazaizai. Tài khoản của bạn đã bị khóa bởi quản trị web: {NguoiKhoa.UserName} cho đến:{time} . Mọi thắc mắc xin vui lòng liên hệ đội ngũ hỗ trợ 0369426223.");
+                     $"Bạn đã vi phạm điều khoản trên Web Bán Điện Thoại Thông Minh BehindTheScene. Đánh giá vào thời gian: {NguoiKhoa.UserName} cho đến:{time} . Mọi thắc mắc xin vui lòng liên hệ đội ngũ hỗ trợ 0929068516.");
             //await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);         
             //await _signInManager.RefreshSignInAsync(user);
             await _userManager.UpdateSecurityStampAsync(user);

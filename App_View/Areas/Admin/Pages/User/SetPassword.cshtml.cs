@@ -118,7 +118,7 @@ namespace App_View.Areas.Admin.Pages.User
             if (currentUser != null)
             {
                 await _emailSender.SendEmailAsync(user.Email, "Thông báo về việc cập nhật mật khẩu tài khoản của bạn",
-      $"Có phải bạn đã yêu cầu đổi mật khẩu tài khoản trên Web bán giày thể thao Bazaizai. Tài khoản của bạn được đổi mật khẩu bởi quản trị web: {currentUser.UserName} . Mọi thắc mắc xin vui lòng liên hệ đội ngũ hỗ trợ 0369426223.");
+      $"Có phải bạn đã yêu cầu đổi mật khẩu tài khoản trên Web Bán Điện Thoại Thông Minh BehindTheScene. Tài khoản của bạn được đổi mật khẩu bởi quản trị web: {currentUser.UserName} . Mọi thắc mắc xin vui lòng liên hệ đội ngũ hỗ trợ 0929068516.");
 
             }
             //await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);         

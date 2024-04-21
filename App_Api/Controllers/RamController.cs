@@ -66,19 +66,14 @@ namespace App_Api.Controllers
         {
             try
             {
-                // Kiểm tra xem DTO có dữ liệu hợp lệ không
                 if (ramDTO != null && !string.IsNullOrEmpty(ramDTO.IdRam) && !string.IsNullOrEmpty(ramDTO.TenRam))
                 {
-                    // Tìm đối tượng Ram trong cơ sở dữ liệu dựa trên IdRam
                     var existingRam = dbContext.Rams.FirstOrDefault(x => x.IdRam == ramDTO.IdRam);
                     if (existingRam != null)
                     {
-                        // Cập nhật thông tin của đối tượng Ram từ DTO
                         existingRam.TenRam = ramDTO.TenRam;
                         existingRam.TrangThai = ramDTO.trangThai;
                         existingRam.DungLuong = ramDTO.DungLuong;
-
-                        // Cập nhật đối tượng trong cơ sở dữ liệu và lưu thay đổi
                         dbContext.Rams.Update(existingRam);
                         dbContext.SaveChanges();
 
@@ -86,11 +81,11 @@ namespace App_Api.Controllers
                     }
                 }
 
-                return false; // Trả về false nếu không tìm thấy đối tượng Ram hoặc dữ liệu không hợp lệ
+                return false;
             }
             catch (Exception)
             {
-                return false; // Trả về false nếu có lỗi xảy ra trong quá trình cập nhật
+                return false;
             }
         }
 

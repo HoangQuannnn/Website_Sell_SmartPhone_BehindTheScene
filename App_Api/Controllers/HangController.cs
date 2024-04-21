@@ -64,18 +64,13 @@ namespace App_Api.Controllers
         {
             try
             {
-                // Kiểm tra xem DTO có dữ liệu hợp lệ không
                 if (hangDTO != null && !string.IsNullOrEmpty(hangDTO.IdHang) && !string.IsNullOrEmpty(hangDTO.TenHang))
                 {
-                    // Tìm đối tượng Hang trong cơ sở dữ liệu dựa trên IdHang
                     var existingHang = dbContext.Hangs.FirstOrDefault(x => x.IdHang == hangDTO.IdHang);
                     if (existingHang != null)
                     {
-                        // Cập nhật thông tin của đối tượng Hang từ DTO
                         existingHang.TenHang = hangDTO.TenHang;
                         existingHang.TrangThai = hangDTO.trangThai;
-
-                        // Cập nhật đối tượng trong cơ sở dữ liệu và lưu thay đổi
                         dbContext.Hangs.Update(existingHang);
                         dbContext.SaveChanges();
 
@@ -83,11 +78,11 @@ namespace App_Api.Controllers
                     }
                 }
 
-                return false; // Trả về false nếu không tìm thấy đối tượng Hang hoặc dữ liệu không hợp lệ
+                return false;
             }
             catch (Exception)
             {
-                return false; // Trả về false nếu có lỗi xảy ra trong quá trình cập nhật
+                return false;
             }
         }
         [HttpDelete("XoaHang/{id}")]

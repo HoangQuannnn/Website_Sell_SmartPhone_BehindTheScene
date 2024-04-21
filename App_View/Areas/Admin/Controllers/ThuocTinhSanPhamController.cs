@@ -198,12 +198,12 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     Id = it.IdRom,
                     Ma = it.MaRom,
-                    Ten = it.DungLuong.ToString(),
+                    Ten = it.TenRom,
+                    DungLuongRomEnum = it.DungLuong,
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdRom == it.IdRom).Count(),
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhRomPartialView", lstRom);
@@ -217,12 +217,12 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     Id = it.IdRam,
                     Ma = it.MaRam,
-                    Ten = it.DungLuong.ToString(),
+                    Ten = it.TenRam,
+                    DungLuongRamEnum = it.DungLuong,
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdRam == it.IdRam).Count(),
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhRamPartialView", lstRam);
@@ -259,18 +259,35 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteHang(string idHang)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Hang/{idHang}");
+            var response = await _httpClient.DeleteAsync($"api/Hang/XoaHang/{idHang}");
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateHang([FromBody] CreateHangDTO createHangDTO)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/api/Hang", createHangDTO);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> EditHang([FromBody] HangDTO hang)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/hang/sua-hang", hang);
+            var response = await _httpClient.PutAsJsonAsync("/api/Hang/sua-hang", hang);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -280,28 +297,61 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteRam(string idRam)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Ram/Delete?idRam={idRam}");
+            var response = await _httpClient.DeleteAsync($"/api/Ram/XoaRam/{idRam}");
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> EditRam([FromBody] RamDTO ram)
+        public async Task<IActionResult> CreateRam([FromBody] CreateRamDTO createRamDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/ram/sua-ram", ram);
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/api/Ram", createRamDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditRam([FromBody] RamDTO ramDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/Ram/sua-Ram", ramDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateRom([FromBody] CreateRomDTO createRomDTO)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/Rom", createRomDTO);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
         public async Task<IActionResult> DeleteRom(string idRom)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Rom/XoaRom={idRom}");
+            var response = await _httpClient.DeleteAsync($"/api/Rom/XoaRom/{idRom}");
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -312,7 +362,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditRom([FromBody] RomDTO romDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/rom/sua-rom", romDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/Rom/sua-Rom", romDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());

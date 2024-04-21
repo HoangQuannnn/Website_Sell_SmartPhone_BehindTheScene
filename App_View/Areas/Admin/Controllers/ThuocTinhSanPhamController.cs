@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App_Data.ViewModels.PinDTO;
+using App_Data.ViewModels.TheSimDTO;
 
 namespace App_View.Areas.Admin.Controllers
 {

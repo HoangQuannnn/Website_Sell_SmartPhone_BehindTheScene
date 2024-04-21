@@ -232,12 +232,6 @@
                                 <input type="hidden" name="IdSanPhamChiTiet" value="@Model.IdChiTietSp" />
                             </form>
                         </div>
-                        <div class="pd-detail__inline">
-                            <a data-modal="modal" data-modal-id="#show-menu-size" style="
-    color: #9a9add;
-    text-decoration: underline;
-">Hướng dẫn chọn size</a>
-                        </div>
                     </div>
                     @*<div class="u-s-m-b-15">
                             <ul class="pd-social-list">
@@ -321,9 +315,9 @@
                             </div>
                             <div class="u-s-m-b-15">
 
-                                <span class="pd-detail__label u-s-m-b-8">Kích cỡ:</span>
+                                <span class="pd-detail__label u-s-m-b-8">Dung lượng Ram:</span>
                                 <div class="pd-detail__size">
-                                    @foreach (var item in Model.lstRamRom!)
+                                    @foreach (var item in Model.LstRam!)
                                     {
                                         if (Model.Ram == item)
                                         {

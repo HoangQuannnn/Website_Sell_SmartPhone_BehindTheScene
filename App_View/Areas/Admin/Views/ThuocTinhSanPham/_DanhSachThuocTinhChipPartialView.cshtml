@@ -53,9 +53,9 @@
 </div>
 
 <script>
-    function DrawKieuDeGiay() {
+    function DrawChip() {
         $.ajax({
-            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachKieuDeGiay',
+            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachChip',
             type: 'GET',
             success: function (result) {
                 content.empty().append(result);
@@ -80,7 +80,7 @@
         } else {
             Swal.fire({
                 title: 'Xác nhận',
-                text: `Bạn có chắc chắn muốn xóa kiểu đế giày "${name}" không?`,
+                text: `Bạn có chắc chắn muốn xóa Chip "${name}" không?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'OK',
@@ -89,15 +89,15 @@
                 if (result.isConfirmed) {
 
                     var data = {
-                        idKieuDeGiay: id,
+                        idChip: id,
                     };
                     $.ajax({
-                        url: '/admin/thuoctinhsanpham/DeleteKieuDeGiay',
+                        url: '/admin/thuoctinhsanpham/DeleteChip',
                         type: 'GET',
                         data: data,
                         success: function (result) {
                             if (result) {
-                                DrawKieuDeGiay();
+                                DrawChip();
                                 Swal.fire(
                                     'Thông báo',
                                     'Đã xóa thành công',
@@ -120,7 +120,7 @@
 
     function Edit(id, name, soBienTheDangDung) {
         Swal.fire({
-            title: 'Chỉnh sửa kiểu đế giày',
+            title: 'Chỉnh sửa Chip',
             input: 'text',
             inputValue: name,
             inputPlaceholder: 'Nhập giá trị',
@@ -135,7 +135,7 @@
 
                     Swal.fire({
                         title: 'Xác nhận',
-                        text: `Bạn có chắc chắn muốn thay đổi kiểu đế giày, việc thay đổi kiểu đế giày sẽ làm cho kiểu đế giày của ${soBienTheDangDung} biến thể thay đổi theo?`,
+                        text: `Bạn có chắc chắn muốn thay đổi Chip, việc thay đổi Chip sẽ làm cho Chip của ${soBienTheDangDung} biến thể thay đổi theo?`,
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'OK',
@@ -144,17 +144,17 @@
                         if (result.isConfirmed) {
 
                             var data = {
-                                IdKieuDeGiay: id,
-                                TenKieuDeGIay: enteredValue
+                                IdChip: id,
+                                TenChip: enteredValue
                             };
                             $.ajax({
-                                url: '/admin/thuoctinhsanpham/EditKieuDeGiay',
+                                url: '/admin/thuoctinhsanpham/EditChip',
                                 type: 'POST',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        DrawKieuDeGiay();
+                                        DrawChip();
                                         Swal.fire(
                                             'Thông báo!',
                                             'Cập nhật thành công!',

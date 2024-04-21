@@ -80,15 +80,8 @@
         });
     }
     $('#data-table').Datatable();
-    function Delete(id, name, soBienTheDangDung) {
-        if (soBienTheDangDung > 0) {
-            Swal.fire({
-                title: 'Xóa thất bại',
-                text: `"${name}" đang được dùng cho ${soBienTheDangDung} biến thể.`,
-                icon: 'info',
-                confirmButtonText: 'OK'
-            });
-        } else {
+    function Delete(id, name) {
+        {
             Swal.fire({
                 title: 'Xác nhận',
                 text: `Bạn có chắc chắn muốn xóa TheSim "${name}" không?`,
@@ -227,13 +220,20 @@
             preConfirm: () => {
                 const loaiTheSim = document.getElementById('loaiTheSim').value;
                 const soKhaySim = document.getElementById('soKhaySim').value;
+
+                // Kiểm tra xem giá trị nhập vào có phải là số nguyên hay không
+                if (!Number.isInteger(Number(soKhaySim))) {
+                    Swal.showValidationMessage("Số Khay Sim phải là một số nguyên.");
+                    return false;
+                }
+
                 const trangThai = document.getElementById('trangThai').value;
-                return { loaiTheSim: loaiTheSim, soKhaySim: parseInt(soKhaySim), trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
+                return { loaiTheSim: loaiTheSim, soKhaySim: parseInt(soKhaySim), trangThai: parseInt(trangThai) };
             }
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = result.value;
-                if (data.doPhanGiai !== '' && data.trangThai !== '') {
+                if (data.loaiTheSim !== '' && data.soKhaySim !== '' && data.trangThai !== '') {
                     // Gửi dữ liệu thông qua AJAX để thêm TheSim mới vào cơ sở dữ liệu
                     $.ajax({
                         url: '/admin/thuoctinhsanpham/CreateTheSim',

@@ -12,6 +12,7 @@ namespace App_Data.ViewModels.ThuocTinh
         public string? Id { get; set; }
         public string? Ma { get; set; }
         public string? Ten { get; set; }
+        public int? SoKhaySim { get; set; }
         public string? TrangThai { get; set; }
         public string? LoaiPin { get; set; }
         public string? DungLuong { get; set; }

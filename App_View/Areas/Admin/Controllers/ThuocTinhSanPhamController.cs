@@ -143,6 +143,25 @@ namespace App_View.Areas.Admin.Controllers
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhCameraPartialView", lstCamera);
+        }         
+        
+        public IActionResult LoadPartialViewDanhSachTheSim()
+        {
+            var lstTheSim = _context
+                .TheSims
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdTheSim,
+                    Ma = it.MaTheSim,
+                    Ten = it.Loaithesim,
+                    SoKhaySim = it.SoKhaySim,
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhTheSimPartialView", lstTheSim);
         }
 
         public IActionResult LoadPartialViewDanhSachCongSac()
@@ -415,7 +434,40 @@ namespace App_View.Areas.Admin.Controllers
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
+        } 
+        
+        public async Task<IActionResult> CreateTheSim([FromBody] TheSimDTO theSimDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/TheSim/Create-TheSim", theSimDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
         }
+
+        public async Task<IActionResult> DeleteTheSim(string idTheSim)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/TheSim/{idTheSim}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTheSim([FromBody] TheSimDTO chipDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/TheSim", chipDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+
+
 
         public async Task<IActionResult> DeleteMauSac(string idMauSac)
         {

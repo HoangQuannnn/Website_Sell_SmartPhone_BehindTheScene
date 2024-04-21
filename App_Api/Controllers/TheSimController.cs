@@ -2,6 +2,8 @@
 using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
+using App_Data.ViewModels.CameraDTO;
+using App_Data.ViewModels.TheSimDTO;
 using AutoMapper;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc;
@@ -42,52 +44,37 @@ namespace App_Api.Controllers
         }
 
         [HttpPost("Create-TheSim")]
-        public async Task<IActionResult> CreateTheSim(string ma, int Loaithesim, int SoKhaySim , int TrangThai)
+        public bool CreateTheSim(TheSimDTO theSimDTO)
         {
-            try
+            string MaTS;
+            if (repos.GetAll().Count() == 0)
             {
-                string MaTS;
-                if (repos.GetAll().Count() == 0)
-                {
-                    MaTS = "TS1";
-                }
-                else
-                {
-                    MaTS = "TS" + (repos.GetAll().Count() + 1);
-                }
-                
-                TheSim theSim1 = new TheSim();
-                theSim1.IdTheSim = Guid.NewGuid().ToString();
-                theSim1.Loaithesim = Loaithesim;
-                theSim1.SoKhaySim = SoKhaySim;
-                theSim1.TrangThai = TrangThai;
-                repos.AddItem(theSim1 );
-                return Ok();
-
+                MaTS = "TS1";
             }
-            catch (Exception ex)
+            else
             {
-
-                Console.WriteLine(ex);
-                return BadRequest(ex.Message);
+                MaTS = "TS" + (repos.GetAll().Count() + 1);
             }
-
+            TheSim thesim = new TheSim();
+            thesim.IdTheSim = Guid.NewGuid().ToString();
+            thesim.MaTheSim = MaTS;
+            thesim.Loaithesim = theSimDTO.Loaithesim;
+            thesim.SoKhaySim = theSimDTO.SoKhaySim;
+            thesim.TrangThai = theSimDTO.TrangThai;
+            return repos.AddItem(thesim);
         }
 
-        [HttpPut("sua-TheSim")]
-        public async Task<IActionResult> EditTheSim(string ma, int Loaithesim, int SoKhaySim, int TrangThai)
+        [HttpPut]
+        public bool Edit(TheSimDTO theSimDTO)
         {
-           var thesim1 = repos.GetAll().First(p=>p.IdTheSim == ma);
-            thesim1.IdTheSim = ma;
-            thesim1.Loaithesim = Loaithesim;
-            thesim1.SoKhaySim=SoKhaySim;
-            thesim1.TrangThai= TrangThai;
-            repos.EditItem(thesim1 );
-            return Ok();
-            
+            var thesim = repos.GetAll().First(p => p.IdTheSim == theSimDTO.IdTheSim);
+            thesim.Loaithesim = theSimDTO.Loaithesim;
+            thesim.SoKhaySim = theSimDTO.SoKhaySim;
+            thesim.TrangThai = theSimDTO.TrangThai;
+            return repos.EditItem(thesim);
         }
 
-        [HttpDelete("XoaTheSim/{id}")]
+        [HttpDelete("{id}")]
         public bool Delete(string id)
         {
             var theSim = repos.GetAll().FirstOrDefault(c => c.IdTheSim == id);

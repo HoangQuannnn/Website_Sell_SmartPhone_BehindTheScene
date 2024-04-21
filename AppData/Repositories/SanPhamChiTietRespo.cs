@@ -542,6 +542,7 @@ namespace App_Data.Repositories
                 sp.IdSanPham == sanPhamChiTiet.IdSanPham
                 ).ToListAsync();
             itemDetailViewModel.LstMauSac = lstBienThe.Select(x => x.MauSac.TenMauSac).Distinct().ToList()!;
+            itemDetailViewModel.LstRom = lstBienThe.Where(sp => sp.IdMauSac == sanPhamChiTiet.IdMauSac).Select(x => x.Rom.DungLuong!.ToString()).Distinct().OrderBy(item => item).ToList();
             return itemDetailViewModel;
         }
 

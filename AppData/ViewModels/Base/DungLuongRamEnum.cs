@@ -8,11 +8,11 @@ namespace App_Data.ViewModels.Base
 {
     public enum DungLuongRamEnum
     {
-        Ram16GB = 0,
-        Ram32GB = 1,
-        Ram64GB = 2,
-        Ram128GB = 3,
-        Ram256GB = 4,
-        Ram512GB = 5
+        G16 = 0,
+        G32 = 1,
+        G64 = 2,
+        G128 = 3,
+        G256 = 4,
+        G512 = 5
     }
 }

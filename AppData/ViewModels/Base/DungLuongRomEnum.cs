@@ -9,11 +9,11 @@ namespace App_Data.ViewModels.Base
 {
     public enum DungLuongRomEnum
     {
-        Rom16GB = 0,
-        Rom32GB = 1,
-        Rom64GB = 2,
-        Rom128GB = 3,
-        Rom256GB = 4,
-        Rom512GB = 5
+        G16 = 0,
+        G32 = 1,
+        G64 = 2,
+        G128 = 3,
+        G256 = 4,
+        G512 = 5
     }
 }

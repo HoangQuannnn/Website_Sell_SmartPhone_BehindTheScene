@@ -18,6 +18,7 @@ namespace App_Api.Controllers
         private readonly IMapper _mapper;
         private readonly AppDbContext _dbContext;
 
+
         public ChipController(IAllRepo<Chip> chiprepos, IMapper mapper)
         {
             _chiprepos = chiprepos;
@@ -51,7 +52,7 @@ namespace App_Api.Controllers
         }
 
         // PUT api/<ChipController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public bool Put(ChipDTO chipDTO)
         {
             try

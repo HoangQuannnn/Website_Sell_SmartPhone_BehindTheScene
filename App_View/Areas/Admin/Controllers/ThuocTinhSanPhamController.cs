@@ -69,25 +69,6 @@ namespace App_View.Areas.Admin.Controllers
 
             return PartialView("_DanhSachThuocTinhHangPartialView", lstHang);
         }
-        public IActionResult LoadPartialViewDanhSachPin()
-        {
-            var lstPin = _context
-                .Pins
-                .AsNoTracking()
-                .Select(it => new ThuocTinhViewModel()
-                {
-                    Id = it.IdPin,
-                    Ma = it.MaPin,
-                    Ten = it.IdPin,
-                    SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdPin == it.IdPin).Count(),
-                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
-                })
-                .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
-                .ToList();
-
-            return PartialView("_DanhSachThuocTinhPinPartialView", lstPin);
-        }
         public IActionResult LoadPartialViewDanhSachTheNho()
         {
             var lstTheNho = _context

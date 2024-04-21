@@ -49,6 +49,7 @@
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">
                         <div class="btn-group">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))', '@item.SoBienTheDangDung')">
                                 <i class="far fa-edit"></i>
                             </button>
                             <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))','@item.SoBienTheDangDung')">
@@ -97,7 +98,6 @@
                 cancelButtonText: 'Hủy',
             }).then((result) => {
                 if (result.isConfirmed) {
-
                     var data = {
                         idChip: id,
                     };
@@ -124,10 +124,8 @@
                     });
                 }
             });
-
         }
     }
-
     function Edit(id, name, soBienTheDangDung, trangThai) {
         Swal.fire({
             title: 'Chỉnh sửa Chip',
@@ -159,6 +157,8 @@
                         if (result.isConfirmed) {
                             var data = {
                                 IdChip: id,
+                                TenChip: enteredValue,
+                                TrangThai: trangThaiValue
                             };
                             $.ajax({
                                 url: '/admin/thuoctinhsanpham/EditChip',
@@ -200,8 +200,6 @@
             }
         });
     }
-
-
     function ThemChip() {
         Swal.fire({
             title: 'Thêm Chip mới',
@@ -265,7 +263,6 @@
             }
         });
     }
-
 </script>
 <script>
     $('#data-table').Datatable();

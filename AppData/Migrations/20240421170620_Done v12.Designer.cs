@@ -4,6 +4,7 @@ using App_Data.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App_Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppContextModelSnapshot : ModelSnapshot
+    [Migration("20240421170620_Done v12")]
+    partial class Donev12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -814,7 +816,7 @@ namespace App_Data.Migrations
                     b.Property<string>("MaPin")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TrangThai")
+                    b.Property<int?>("TrangThai")
                         .HasColumnType("int");
 
                     b.HasKey("IdPin");

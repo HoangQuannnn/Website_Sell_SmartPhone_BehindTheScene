@@ -15,6 +15,7 @@ namespace App_Data.Configurations
         {
             builder.ToTable("Pin");
             builder.HasKey(c => c.IdPin);
+            builder.Property(c => c.TrangThai).HasColumnType("int");
             builder.Property(c => c.LoaiPin).IsRequired().IsUnicode().HasMaxLength(50);
             
         }

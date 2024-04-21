@@ -662,9 +662,9 @@ namespace App_View.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Pin>> GetListModelPinAsync()
+        public async Task<List<Pin>> GetListModelPinAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<Pin>?>("api/Hang"))!;
         }
 
         public Task<List<TheNho>> GetListModelTheNhoAsync()
@@ -700,6 +700,25 @@ namespace App_View.Services
         public Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<PinDTO?> CreateTenPinAynsc(PinDTO pinDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-Hang", pinDTO);
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<PinDTO>();
+                }
+                Console.WriteLine(await response.Content.ReadAsStringAsync());
+                throw new Exception("Not IsSuccessStatusCode");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("Not IsSuccessStatusCode");
+            }
         }
     }
 }

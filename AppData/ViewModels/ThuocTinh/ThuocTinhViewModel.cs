@@ -13,6 +13,8 @@ namespace App_Data.ViewModels.ThuocTinh
         public string? Ma { get; set; }
         public string? Ten { get; set; }
         public string? TrangThai { get; set; }
+        public string? LoaiPin { get; set; }
+        public string? DungLuong { get; set; }
         public int? SoBienTheDangDung { get; set; }
         public DungLuongRamEnum DungLuongRamEnum { get; set; }
         public DungLuongRomEnum DungLuongRomEnum { get; set; }

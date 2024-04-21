@@ -1,5 +1,4 @@
 ﻿using App_Data.DbContext;
-using App_Data.Models;
 using App_Data.Models.ViewModels.MauSac;
 using App_Data.ViewModels.RamDTO;
 using App_Data.ViewModels.RomDTO;
@@ -7,17 +6,18 @@ using App_Data.ViewModels.CongSacDTO;
 using App_Data.ViewModels.ChipDTO;
 using App_Data.ViewModels.ManHinhDTO;
 using App_Data.ViewModels.TheNhoDTO;
-using App_Data.ViewModels.PinDTO;
+using App_Data.ViewModels.CameraDTO;
 
 //using App_Data.ViewModels.KieuDeGiayDTO;
 //using App_Data.ViewModels.LoaiGiayDTO;
 using App_Data.ViewModels.SanPhamChiTiet.SanPhamDTO;
 using App_Data.ViewModels.HangDTO;
 using App_Data.ViewModels.ThuocTinh;
-using App_Data.ViewModels.XuatXu;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using App_Data.ViewModels.PinDTO;
+using App_Data.ViewModels.TheSimDTO;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -51,7 +51,6 @@ namespace App_View.Areas.Admin.Controllers
 
             return PartialView("_DanhSachThuocTinhSanPhamPartialView", lstTenSP);
         }
-
         public IActionResult LoadPartialViewDanhSachHang()
         {
             var lstHang = _context
@@ -66,7 +65,6 @@ namespace App_View.Areas.Admin.Controllers
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhHangPartialView", lstHang);
@@ -149,6 +147,42 @@ namespace App_View.Areas.Admin.Controllers
 
             return PartialView("_DanhSachThuocTinhChipPartialView", lstChip);
         }
+          public IActionResult LoadPartialViewDanhSachCamera()
+        {
+            var lstCamera = _context
+                .Cameras
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdCamera,
+                    Ma = it.MaCamera,
+                    Ten = it.DoPhanGiai,
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhCameraPartialView", lstCamera);
+        }         
+        
+        public IActionResult LoadPartialViewDanhSachTheSim()
+        {
+            var lstTheSim = _context
+                .TheSims
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdTheSim,
+                    Ma = it.MaTheSim,
+                    Ten = it.Loaithesim,
+                    SoKhaySim = it.SoKhaySim,
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhTheSimPartialView", lstTheSim);
+        }
 
         public IActionResult LoadPartialViewDanhSachCongSac()
         {
@@ -197,12 +231,12 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     Id = it.IdRom,
                     Ma = it.MaRom,
-                    Ten = it.DungLuong.ToString(),
+                    Ten = it.TenRom,
+                    DungLuongRomEnum = it.DungLuong,
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdRom == it.IdRom).Count(),
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhRomPartialView", lstRom);
@@ -216,12 +250,12 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     Id = it.IdRam,
                     Ma = it.MaRam,
-                    Ten = it.DungLuong.ToString(),
+                    Ten = it.TenRam,
+                    DungLuongRamEnum = it.DungLuong,
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdRam == it.IdRam).Count(),
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhRamPartialView", lstRam);
@@ -258,18 +292,35 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteHang(string idHang)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Hang/{idHang}");
+            var response = await _httpClient.DeleteAsync($"api/Hang/XoaHang/{idHang}");
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateHang([FromBody] CreateHangDTO createHangDTO)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/api/Hang", createHangDTO);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> EditHang([FromBody] HangDTO hang)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/hang/sua-hang", hang);
+            var response = await _httpClient.PutAsJsonAsync("/api/Hang/sua-hang", hang);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -279,28 +330,61 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteRam(string idRam)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Ram/Delete?idRam={idRam}");
+            var response = await _httpClient.DeleteAsync($"/api/Ram/XoaRam/{idRam}");
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> EditRam([FromBody] RamDTO ram)
+        public async Task<IActionResult> CreateRam([FromBody] CreateRamDTO createRamDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/ram/sua-ram", ram);
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/api/Ram", createRamDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditRam([FromBody] RamDTO ramDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/Ram/sua-Ram", ramDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateRom([FromBody] CreateRomDTO createRomDTO)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/Rom", createRomDTO);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
         public async Task<IActionResult> DeleteRom(string idRom)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Rom/XoaRom={idRom}");
+            var response = await _httpClient.DeleteAsync($"/api/Rom/XoaRom/{idRom}");
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -311,7 +395,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditRom([FromBody] RomDTO romDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/rom/sua-rom", romDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/Rom/sua-Rom", romDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -350,7 +434,16 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteChip(string idChip)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Chip/XoaChip/{idChip}");
+            var response = await _httpClient.DeleteAsync($"/api/Chip/{idChip}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        public async Task<IActionResult> CreateChip([FromBody] ChipDTO chipDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/Chip", chipDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -361,13 +454,45 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditChip([FromBody] ChipDTO chipDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/chip/sua-chat-lieu", chipDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/Chip", chipDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        } 
+        
+        public async Task<IActionResult> CreateTheSim([FromBody] TheSimDTO theSimDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/TheSim/Create-TheSim", theSimDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
         }
+
+        public async Task<IActionResult> DeleteTheSim(string idTheSim)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/TheSim/{idTheSim}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTheSim([FromBody] TheSimDTO chipDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/TheSim", chipDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+
 
 
         public async Task<IActionResult> DeleteMauSac(string idMauSac)
@@ -449,9 +574,18 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(false);
         }
 
-        public async Task<IActionResult> DeletePin(string idPin)
+        public async Task<IActionResult> DeleteCamera(string idCamera)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Pin/{idPin}");
+            var response = await _httpClient.DeleteAsync($"/api/Camera/{idCamera}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        public async Task<IActionResult> CreateCamera([FromBody] CameraDTO CameraDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/Camera/Create-Camera", CameraDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -460,9 +594,66 @@ namespace App_View.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditPin([FromBody] PinDTO pinDTO)
+        public async Task<IActionResult> EditCamera([FromBody] CameraDTO CameraDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/pin/sua-pin", pinDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/Camera", CameraDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        //Pin
+        public IActionResult LoadPartialViewDanhSachPin()
+        {
+            var lstPin = _context
+                .Pins
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdPin,
+                    Ma = it.MaPin,
+                    DungLuong = it.DungLuong,
+                    LoaiPin = it.LoaiPin,
+                    SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdPin == it.IdPin).Count(),
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhPinPartialView", lstPin);
+        }
+        public async Task<IActionResult> DeletePin(string idPin)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/Pin/XoaPin/{idPin}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreatePin([FromBody] CreatePinDTO createPinDTO)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/api/Pin", createPinDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditPin([FromBody] PinDTO pin)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/Pin/Sua-pin", pin);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());

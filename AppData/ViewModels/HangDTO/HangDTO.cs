@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App_Data.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace App_Data.ViewModels.HangDTO
 {
     public class HangDTO
     {
-        public string? IdHang { get; set; }
-        public string? TenHang { get; set; }
+        public string IdHang { get; set; }
+        public string TenHang { get; set; }
+        public TrangThaiEnum trangThai { get; set; }
     }
 }

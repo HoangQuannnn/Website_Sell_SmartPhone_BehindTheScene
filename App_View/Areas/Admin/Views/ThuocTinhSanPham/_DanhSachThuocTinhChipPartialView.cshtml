@@ -8,8 +8,22 @@
         thead > tr > th {
             color: white !important;
         }
+
+    .text-right .btn-success {
+        float: right;
+        margin-bottom: 10px;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
 </style>
-<div style="padding:20px">
+<div style="padding: 20px;">
+    <div class="text-right mb-3">
+        <button type="button" class="btn btn-success" onclick="ThemChip()">
+            <i class="fas fa-plus"></i> Thêm Chip
+        </button>
+    </div>
     <table id="data-table" class="table table-bordered table-hover">
         <thead>
             <tr>
@@ -35,21 +49,17 @@
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))', '@item.SoBienTheDangDung')
-">
                                 <i class="far fa-edit"></i>
                             </button>
                             <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))','@item.SoBienTheDangDung')">
                                 <i class="anticon anticon-delete"></i>
                             </button>
                         </div>
-
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
 </div>
 
 <script>
@@ -118,21 +128,26 @@
         }
     }
 
-    function Edit(id, name, soBienTheDangDung) {
+    function Edit(id, name, soBienTheDangDung, trangThai) {
         Swal.fire({
             title: 'Chỉnh sửa Chip',
-            input: 'text',
-            inputValue: name,
-            inputPlaceholder: 'Nhập giá trị',
+            html:
+                '<input id="tenChip" class="swal2-input" value="' + name + '" placeholder="Tên Chip">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0" ' + (trangThai == 0 ? "selected" : "") + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai == 1 ? "selected" : "") + '>Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
             showCancelButton: true,
             confirmButtonText: 'Lưu',
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const enteredValue = result.value;
-
+                const enteredValue = document.getElementById('tenChip').value;
+                const trangThaiValue = parseInt(document.getElementById('trangThai').value);
                 if (enteredValue !== '') {
-
                     Swal.fire({
                         title: 'Xác nhận',
                         text: `Bạn có chắc chắn muốn thay đổi Chip, việc thay đổi Chip sẽ làm cho Chip của ${soBienTheDangDung} biến thể thay đổi theo?`,
@@ -142,10 +157,8 @@
                         cancelButtonText: 'Hủy',
                     }).then((result) => {
                         if (result.isConfirmed) {
-
                             var data = {
                                 IdChip: id,
-                                TenChip: enteredValue
                             };
                             $.ajax({
                                 url: '/admin/thuoctinhsanpham/EditChip',
@@ -187,8 +200,76 @@
             }
         });
     }
-</script>
 
+
+    function ThemChip() {
+        Swal.fire({
+            title: 'Thêm Chip mới',
+            html:
+                '<input id="tenChip" class="swal2-input" placeholder="Tên Chip">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0">Hoạt động</option>' +
+                '        <option value="1">Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
+            showCancelButton: true,
+            confirmButtonText: 'Thêm',
+            cancelButtonText: 'Hủy',
+            preConfirm: () => {
+                const tenChip = document.getElementById('tenChip').value;
+                const trangThai = document.getElementById('trangThai').value;
+                return { tenChip: tenChip, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const data = result.value;
+                if (data.tenChip !== '' && data.trangThai !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm Chip mới vào cơ sở dữ liệu
+                    $.ajax({
+                        url: '/admin/thuoctinhsanpham/CreateChip',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                DrawChip();
+                                Swal.fire(
+                                    'Thông báo!',
+                                    'Thêm Chip mới thành công!',
+                                    'success'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Thêm Chip mới thất bại!',
+                                    'info'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        'Vui lòng nhập đầy đủ thông tin.',
+                        'error'
+                    );
+                }
+            }
+        });
+    }
+
+</script>
+<script>
+    $('#data-table').Datatable();
+</script>
 <script src="~/Admin/vendors/datatables/jquery.dataTables.min.js" defer></script>
 <script src="~/Admin/vendors/datatables/dataTables.bootstrap.min.js" defer></script>
 <script src="~/Admin/js/pages/datatables.js" defer></script>

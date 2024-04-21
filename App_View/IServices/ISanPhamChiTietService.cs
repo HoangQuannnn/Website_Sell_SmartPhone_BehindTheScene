@@ -16,14 +16,20 @@ using App_Data.ViewModels.SanPhamChiTietDTO;
 using App_Data.ViewModels.SanPhamChiTietViewModel;
 using App_Data.ViewModels.TheNhoDTO;
 using App_Data.ViewModels.TheSimDTO;
-using App_Data.ViewModels.XuatXu;
 using static App_View.Areas.Admin.Controllers.SanPhamChiTietController;
 
 namespace App_View.IServices
 {
- 
+
     public interface ISanPhamChiTietservice
     {
+        Task<List<Hang>> GetListModelHangAsync();
+        Task<List<Pin>> GetListModelPinAsync();
+        Task<List<Ram>> GetListModelRamAsync();
+        Task<List<Rom>> GetListModelRomAsync();
+        Task<HangDTO?> CreateTenHangAynsc(HangDTO hangDTO);
+        Task<RamDTO?> CreateTenRamAynsc(RamDTO ramDTO);
+        Task<RomDTO?> CreateTenRomAynsc(RomDTO romDTO);
         Task<ResponseCreateDTO> AddAysnc(SanPhamChiTietDTO sanPhamChiTietDTO);
         Task<bool> DeleteAysnc(string id);
         Task<bool> UpdateAynsc(SanPhamChiTietDTO sanPhamChiTietDTO);
@@ -36,12 +42,9 @@ namespace App_View.IServices
         Task<ResponseCheckAddOrUpdate> CheckSanPhamAddOrUpdate(SanPhamChiTietDTO sanPhamChiTietDTO);
         Task CreateAnhAysnc(string IdChiTietSp, List<IFormFile> lstIFormFile);
         Task DeleteAnhAysnc(ImageDTO responseImageDeleteVM);
+        Task<PinDTO?> CreateTenPinAynsc(PinDTO pinDTO);
         Task<SanPhamDTO?> CreateTenSanPhamAynsc(SanPhamDTO sanPhamDTO);
-        Task<HangDTO?> CreateTenHangAynsc(HangDTO hangDTO);
-        Task<RamDTO?> CreateRamAynsc(RamDTO ramDTO);
-        Task<RamDTO?> CreateRomAynsc(RomDTO romDTO);
         Task<ChipDTO?> CreateTenChipAynsc(ChipDTO chipDTO);
-        Task<PinDTO?> CreateLoaiPinAynsc(PinDTO pinDTO);
         Task<CongSacDTO?> CreateCongSacAynsc(CongSacDTO congSacDTO);
         Task<TheNhoDTO?> CreateTheNhoAynsc(TheNhoDTO theNhoDTO);
         Task<TheSimDTO?> CreateTheSimAynsc(TheSimDTO theSimDTO);
@@ -65,15 +68,11 @@ namespace App_View.IServices
         Task<SanPhamChiTietDTO> GetItemExcelAynsc(BienTheDTO bienTheDTO);
         Task UpDatSoLuongAynsc(SanPhamSoLuongDTO sanPhamSoLuongDTO);
         #region GetListModelVariants
-        Task<List<Hang>> GetListModelHangAsync();
-        Task<List<Ram>> GetListModelRamAsync();
-        Task<List<Rom>> GetListModelRomAsync();
         Task<List<CongSac>> GetListModelCongSacAsync();
         Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync();
         Task<List<MauSac>> GetListModelMauSacAsync();
         Task<List<SanPham>> GetListModelSanPhamAsync();
         Task<List<Chip>> GetListModelChipAsync();
-        Task<List<Pin>> GetListModelPinAsync();
         Task<List<TheNho>> GetListModelTheNhoAsync();
         Task<List<TheSim>> GetListModelTheSimAsync();
         Task<List<CameraTruoc>> GetListModelCameraTruocAsync();

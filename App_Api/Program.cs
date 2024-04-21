@@ -44,9 +44,6 @@ builder.Services.AddScoped<IAnhRespo, AnhRespo>();
 builder.Services.AddScoped<AnhController>();
 builder.Services.AddScoped<IAllRepo<DanhGia>, AllRepo<DanhGia>>();
 builder.Services.AddScoped<IDanhGiaRepo, DanhGiaRepo>();
-builder.Services.AddScoped<IAllRepo<Hang>, AllRepo<Hang>>();
-builder.Services.AddScoped<IAllRepo<Ram>, AllRepo<Ram>>();
-builder.Services.AddScoped<IAllRepo<Rom>, AllRepo<Rom>>();
 builder.Services.AddScoped<IAllRepo<Pin>, AllRepo<Pin>>();
 builder.Services.AddScoped<IAllRepo<Chip>, AllRepo<Chip>>();
 builder.Services.AddScoped<IAllRepo<ManHinh>, AllRepo<ManHinh>>();
@@ -58,6 +55,9 @@ builder.Services.AddScoped<IAllRepo<Camera>, AllRepo<Camera>>();
 builder.Services.AddScoped<IAllRepo<ChiTietCamera>, AllRepo<ChiTietCamera>>();
 builder.Services.AddScoped<IAllRepo<CameraSau>, AllRepo<CameraSau>>();
 builder.Services.AddScoped<IAllRepo<CameraTruoc>, AllRepo<CameraTruoc>>();
+builder.Services.AddScoped<IAllRepo<Hang>, AllRepo<Hang>>();
+builder.Services.AddScoped<IAllRepo<Ram>, AllRepo<Ram>>();
+builder.Services.AddScoped<IAllRepo<Rom>, AllRepo<Rom>>();
 builder.Services.AddTransient<SanPhamChiTietController>();
 
 var app = builder.Build();
@@ -66,7 +66,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "bazaizai");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "BEHINDTHESCENE");
     options.RoutePrefix = string.Empty;
 });
 if (app.Environment.IsDevelopment())

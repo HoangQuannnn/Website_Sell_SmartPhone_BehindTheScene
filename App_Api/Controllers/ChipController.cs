@@ -2,6 +2,7 @@
 using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
+using App_Data.ViewModels.CameraDTO;
 using App_Data.ViewModels.ChipDTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace App_Api.Controllers
         private readonly IAllRepo<Chip> _chiprepos;
         private readonly IMapper _mapper;
         private readonly AppDbContext _dbContext;
+
 
         public ChipController(IAllRepo<Chip> chiprepos, IMapper mapper)
         {
@@ -51,26 +53,13 @@ namespace App_Api.Controllers
         }
 
         // PUT api/<ChipController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public bool Put(ChipDTO chipDTO)
         {
-            try
-            {
-                var nameChip = chipDTO.TenChip!.Trim().ToLower();
-                if (!_dbContext.Chips.Where(x => x.TenChip!.Trim().ToLower() == nameChip).Any())
-                {
-                    var chip = _mapper.Map<Chip>(chipDTO);
-                    _dbContext.Attach(chip);
-                    _dbContext.Entry(chip).Property(sp => sp.TenChip).IsModified = true;
-                    _dbContext.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var chip = _chiprepos.GetAll().First(p => p.IdChip == chipDTO.IdChip);
+            chip.TrangThai = chipDTO.TrangThai;
+            chip.TenChip = chipDTO.TenChip;
+            return _chiprepos.EditItem(chip);
         }
 
         // DELETE api/<ChipController>/5

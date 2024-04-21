@@ -285,7 +285,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> InVoucherTaiQuay(string idVoucher, int soLuong)
         {
-            var IdAdmin = await _userManager.FindByEmailAsync("bazaizaistore@gmail.com");
+            var IdAdmin = await _userManager.FindByEmailAsync("behindthescenestore@gmail.com");
             var VoucherKhaDung = await _VouchersV.GetVoucherDTOById(idVoucher);
             if (IdAdmin == null || soLuong <= 0 || VoucherKhaDung == null)
             {
@@ -304,7 +304,7 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> FilterVoucherTaiQuayDaIn(int? trangThai)
         {
-            var IdAdmin = await _userManager.FindByEmailAsync("bazaizaistore@gmail.com");
+            var IdAdmin = await _userManager.FindByEmailAsync("behindthescenestore@gmail.com");
             var voucherTaiQuay = (await _voucherND.GetAllVouCherNguoiDung()).Where(c => c.IdNguoiDung == IdAdmin.Id).ToList();
             List<string> idVoucher = new List<string>();
             foreach (var item in voucherTaiQuay.GroupBy(c => c.IdVouCher).Select(c => c.First()).ToList())

@@ -38,11 +38,11 @@ namespace App_Data.Configurations
             HasForeignKey(c => c.IdChip);
 
             builder.HasOne(x => x.ManHinh).WithMany(y => y.SanPhamChiTiets).
-            HasForeignKey(c => c.IdManHinh); 
-            
+            HasForeignKey(c => c.IdManHinh);
+
             builder.HasOne(x => x.TheNho).WithMany(y => y.SanPhamChiTiets).
             HasForeignKey(c => c.IdTheNho);
-            
+
             builder.HasOne(x => x.Pin).WithMany(y => y.SanPhamChiTiets).
             HasForeignKey(c => c.IdPin);
 

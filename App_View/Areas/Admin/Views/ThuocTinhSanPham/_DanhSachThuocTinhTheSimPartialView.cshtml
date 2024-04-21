@@ -1,0 +1,283 @@
+﻿@using System.Web
+@model List<App_Data.ViewModels.ThuocTinh.ThuocTinhViewModel>
+<style>
+    thead {
+        background: #0eabe7;
+    }
+
+        thead > tr > th {
+            color: white !important;
+        }
+
+    .text-right .btn-success {
+        float: right;
+        margin-bottom: 10px;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+</style>
+<div style="padding: 20px;">
+    <div class="text-right mb-3">
+        <button type="button" class="btn btn-success" onclick="ThemTheSim()">
+            <i class="fas fa-plus"></i> Thêm Thẻ Sim
+        </button>
+    </div>
+    <table id="data-table" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">STT</th>
+                <th class="text-center">Mã</th>
+                <th class="text-center">Loại Thẻ Sim</th>
+                <th class="text-center">Số Khay Sim</th>
+                <th class="text-center">Trạng thái</th>
+                <th class="text-center">###</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var STT = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@(STT++)</td>
+                    <td class="text-center">@item.Ma!.ToUpper()</td>
+                    <td class="text-center">@item.Ten!.ToUpper()</td>
+                    <td class="text-center">@item.SoKhaySim</td>
+                    <td class="text-center">@item.TrangThai</td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))', '@item.SoKhaySim')">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))','@item.SoKhaySim')">
+                                <i class="anticon anticon-delete"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function DrawTheSim() {
+        $.ajax({
+            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachTheSim',
+            type: 'GET',
+            success: function (result) {
+                content.empty().append(result);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+            }
+        });
+    }
+    $('#data-table').Datatable();
+    function Delete(id, name) {
+        {
+            Swal.fire({
+                title: 'Xác nhận',
+                text: `Bạn có chắc chắn muốn xóa TheSim "${name}" không?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Hủy',
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var data = {
+                        idTheSim: id,
+                    };
+                    $.ajax({
+                        url: '/admin/thuoctinhsanpham/DeleteTheSim',
+                        type: 'GET',
+                        data: data,
+                        success: function (result) {
+                            if (result) {
+                                DrawTheSim();
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Đã xóa thành công',
+                                    'success'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            });
+
+        }
+    }
+
+    function Edit(id, loaiTheSim, soKhaySim, soBienTheDangDung, trangThai) {
+        Swal.fire({
+            title: 'Chỉnh sửa TheSim',
+            html:
+                '<input id="loaiTheSim" class="swal2-input" value="' + loaiTheSim + '" placeholder="Loại Thẻ Sim">' +
+                '<input id="soKhaySim" class="swal2-input" value="' + soKhaySim + '" placeholder="Số Khay Sim">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0" ' + (trangThai == 0 ? "selected" : "") + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai == 1 ? "selected" : "") + '>Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
+            showCancelButton: true,
+            confirmButtonText: 'Lưu',
+            cancelButtonText: 'Hủy',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const enteredValue = document.getElementById('loaiTheSim').value;
+                const enteredValue1 = document.getElementById('soKhaySim').value;
+                const trangThaiValue = parseInt(document.getElementById('trangThai').value);
+                if (enteredValue !== '') {
+                    Swal.fire({
+                        title: 'Xác nhận',
+                        text: `Bạn có chắc chắn muốn thay đổi TheSim, việc thay đổi TheSim sẽ làm cho TheSim của ${soBienTheDangDung} biến thể thay đổi theo?`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Hủy',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var data = {
+                                IdTheSim: id,
+                                LoaiTheSim: enteredValue,
+                                SoKhaySim: enteredValue1,
+                                TrangThai: trangThaiValue
+                            };
+                            $.ajax({
+                                url: '/admin/thuoctinhsanpham/EditTheSim',
+                                type: 'POST',
+                                data: JSON.stringify(data),
+                                contentType: 'application/json',
+                                success: function (result) {
+                                    if (result) {
+                                        DrawTheSim();
+                                        Swal.fire(
+                                            'Thông báo!',
+                                            'Cập nhật thành công!',
+                                            'success'
+                                        );
+                                    } else {
+                                        Swal.fire(
+                                            'Thông báo',
+                                            'Cập nhật thất bại!',
+                                            'info'
+                                        );
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log(xhr.responseText);
+                                    console.log(status);
+                                    console.log(error);
+                                    console.log(xhr);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        'Vui lòng nhập giá trị.',
+                        'error'
+                    );
+                }
+            }
+        });
+    }
+
+
+    function ThemTheSim() {
+        Swal.fire({
+            title: 'Thêm Thẻ Sim Mới',
+            html:
+                '<input id="loaiTheSim" class="swal2-input" placeholder="Loại Thẻ Sim">' +
+                '<input id="soKhaySim" class="swal2-input" placeholder="Số Khay Sim">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0">Hoạt động</option>' +
+                '        <option value="1">Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
+            showCancelButton: true,
+            confirmButtonText: 'Thêm',
+            cancelButtonText: 'Hủy',
+            preConfirm: () => {
+                const loaiTheSim = document.getElementById('loaiTheSim').value;
+                const soKhaySim = document.getElementById('soKhaySim').value;
+
+                // Kiểm tra xem giá trị nhập vào có phải là số nguyên hay không
+                if (!Number.isInteger(Number(soKhaySim))) {
+                    Swal.showValidationMessage("Số Khay Sim phải là một số nguyên.");
+                    return false;
+                }
+
+                const trangThai = document.getElementById('trangThai').value;
+                return { loaiTheSim: loaiTheSim, soKhaySim: parseInt(soKhaySim), trangThai: parseInt(trangThai) };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const data = result.value;
+                if (data.loaiTheSim !== '' && data.soKhaySim !== '' && data.trangThai !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm TheSim mới vào cơ sở dữ liệu
+                    $.ajax({
+                        url: '/admin/thuoctinhsanpham/CreateTheSim',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                DrawTheSim();
+                                Swal.fire(
+                                    'Thông báo!',
+                                    'Thêm TheSim mới thành công!',
+                                    'success'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Thêm TheSim mới thất bại!',
+                                    'info'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        'Vui lòng nhập đầy đủ thông tin.',
+                        'error'
+                    );
+                }
+            }
+        });
+    }
+
+</script>
+<script>
+    $('#data-table').Datatable();
+</script>
+<script src="~/Admin/vendors/datatables/jquery.dataTables.min.js" defer></script>
+<script src="~/Admin/vendors/datatables/dataTables.bootstrap.min.js" defer></script>
+<script src="~/Admin/js/pages/datatables.js" defer></script>

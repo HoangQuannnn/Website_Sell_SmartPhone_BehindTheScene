@@ -1,0 +1,299 @@
+﻿@using System.Web
+@model List<App_Data.ViewModels.ThuocTinh.ThuocTinhViewModel>
+<style>
+    thead {
+        background: #0eabe7;
+    }
+
+        thead > tr > th {
+            color: white !important;
+        }
+
+    .text-right .btn-success {
+        float: right;
+        margin-bottom: 10px;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+</style>
+<div style="padding: 20px;">
+    <div class="text-right mb-3">
+        <button type="button" class="btn btn-success" onclick="ThemRom()">
+            <i class="fas fa-plus"></i> Thêm Rom
+        </button>
+    </div>
+    <table id="data-table" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">STT</th>
+                <th class="text-center">Mã</th>
+                <th class="text-center">Tên</th>
+                <th class="text-center">Trạng thái</th>
+                <th class="text-center">Biến thể liên quan</th>
+                <th class="text-center">Dung lượng rom</th>
+                <th class="text-center">###</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var STT = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@(STT++)</td>
+                    <td class="text-center">@item.Ma!.ToUpper()</td>
+                    <td class="text-center">@item.Ten!.ToUpper()</td>
+                    <td class="text-center">@item.TrangThai</td>
+                    <td class="text-center">@item.SoBienTheDangDung</td>
+                    <td class="text-center">@item.DungLuongRomEnum</td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))', '@item.SoBienTheDangDung')">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))','@item.SoBienTheDangDung')">
+                                <i class="anticon anticon-delete"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function DrawThuongHieu() {
+        $.ajax({
+            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachRom',
+            type: 'GET',
+            success: function (result) {
+                content.empty().append(result);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+            }
+        });
+    }
+    $('#data-table').Datatable();
+    function Delete(id, name, soBienTheDangDung) {
+        if (soBienTheDangDung > 0) {
+            Swal.fire({
+                title: 'Xóa thất bại',
+                text: `"${name}" đang được dùng cho ${soBienTheDangDung} biến thể.`,
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            Swal.fire({
+                title: 'Xác nhận',
+                text: `Bạn có chắc chắn muốn xóa rom "${name}" không?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Hủy',
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var data = {
+                        idRom: id,
+                    };
+                    $.ajax({
+                        url: '/admin/thuoctinhsanpham/DeleteRom',
+                        type: 'GET',
+                        data: data,
+                        success: function (result) {
+                            if (result) {
+                                DrawThuongHieu();
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Đã xóa thành công',
+                                    'success'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            });
+
+        }
+    }
+
+    function Edit(id, name, soBienTheDangDung, dungLuong, trangThai) {
+        Swal.fire({
+            title: 'Chỉnh sửa Rom',
+            html:
+                '<input id="tenRom" class="swal2-input" placeholder="Tên Ram" value="' + name + '">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0" ' + (trangThai === 0 ? 'selected' : '') + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai === 1 ? 'selected' : '') + '>Không hoạt động</option>' +
+                '    </select>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '    <label for="dungLuongRam">Dung Lượng Rom:</label>' +
+                '    <select class="form-control" id="dungLuongRam">' +
+                '        <option value="0" ' + (dungLuong === 0 ? 'selected' : '') + '>16GB</option>' +
+                '        <option value="1" ' + (dungLuong === 1 ? 'selected' : '') + '>32GB</option>' +
+                '        <option value="2" ' + (dungLuong === 2 ? 'selected' : '') + '>64GB</option>' +
+                '        <option value="3" ' + (dungLuong === 3 ? 'selected' : '') + '>128GB</option>' +
+                '        <option value="4" ' + (dungLuong === 4 ? 'selected' : '') + '>256GB</option>' +
+                '        <option value="5" ' + (dungLuong === 5 ? 'selected' : '') + '>512GB</option>' +
+                '    </select>' +
+                '</div>',
+
+            showCancelButton: true,
+            confirmButtonText: 'Lưu',
+            cancelButtonText: 'Hủy',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const tenRom = document.getElementById('tenRom').value;
+                const trangThai = document.getElementById('trangThai').value;
+                const dungLuongRam = document.getElementById('dungLuongRam').value;
+
+                if (tenRom !== '') {
+                    // Gửi dữ liệu thông qua AJAX để chỉnh sửa ram
+                    var data = {
+                        IdRom: id,
+                        TenRom: tenRom,
+                        DungLuong: parseInt(dungLuongRam),
+                        trangThai: parseInt(trangThai)
+                    };
+
+                    $.ajax({
+                        url: '/admin/thuoctinhsanpham/EditRom',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                DrawThuongHieu();
+                                Swal.fire(
+                                    'Thông báo!',
+                                    'Cập nhật rom thành công!',
+                                    'success'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Cập nhật rom thất bại!',
+                                    'info'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        'Vui lòng nhập giá trị.',
+                        'error'
+                    );
+                }
+            }
+        });
+    }
+
+    function ThemRom() {
+        Swal.fire({
+            title: 'Thêm rom mới',
+            html:
+                '<input id="tenRom" class="swal2-input" placeholder="Tên Rom">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0">Hoạt động</option>' +
+                '        <option value="1">Không hoạt động</option>' +
+                '    </select>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '    <label for="dungLuongRom">Dung Lượng Rom:</label>' +
+                '    <select class="form-control" id="dungLuongRom">' +
+                '        <option value="0">16GB</option>' +
+                '        <option value="1">32GB</option>' +
+                '        <option value="2">64GB</option>' +
+                '        <option value="3">128GB</option>' +
+                '        <option value="4">256GB</option>' +
+                '        <option value="5">512GB</option>' +
+                '    </select>' +
+                '</div>',
+
+            showCancelButton: true,
+            confirmButtonText: 'Thêm',
+            cancelButtonText: 'Hủy',
+            preConfirm: () => {
+                const tenRom = document.getElementById('tenRom').value;
+                const trangThai = document.getElementById('trangThai').value;
+                const dungLuongRom = document.getElementById('dungLuongRom').value;
+                return { tenRom: tenRom, trangThai: parseInt(trangThai), dungLuongRom: parseInt(dungLuongRom) }; // Chuyển đổi giá trị sang kiểu số nguyên
+
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const data = result.value;
+                if (data.tenRom !== '' && data.trangThai !== '' && data.dungLuongRom !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm hãng mới vào cơ sở dữ liệu
+                    $.ajax({
+                        url: '/admin/thuoctinhsanpham/CreateRom',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                DrawThuongHieu();
+                                Swal.fire(
+                                    'Thông báo!',
+                                    'Thêm rom mới thành công!',
+                                    'success'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Thêm ram mới thất bại!',
+                                    'info'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        'Vui lòng nhập đầy đủ thông tin.',
+                        'error'
+                    );
+                }
+            }
+        });
+    }
+
+</script>
+<script>
+    $('#data-table').Datatable();
+</script>
+<script src="~/Admin/vendors/datatables/jquery.dataTables.min.js" defer></script>
+<script src="~/Admin/vendors/datatables/dataTables.bootstrap.min.js" defer></script>
+<script src="~/Admin/js/pages/datatables.js" defer></script>

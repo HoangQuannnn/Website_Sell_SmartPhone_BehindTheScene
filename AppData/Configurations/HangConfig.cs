@@ -16,7 +16,7 @@ namespace App_Data.Configurations
             builder.ToTable("Hang");
             builder.HasKey(e => e.IdHang);
             builder.Property(e => e.MaHang).HasColumnType("varchar(50)");
-            builder.Property(c => c.TenHang).HasColumnType("nvarchar(50)");
+            builder.Property(c => c.TenHang).HasColumnType("nvarchar(1000)");
             builder.Property(c => c.TrangThai).HasColumnType("int");
         }
     }

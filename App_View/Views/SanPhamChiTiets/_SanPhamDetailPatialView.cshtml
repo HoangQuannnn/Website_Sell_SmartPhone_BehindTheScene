@@ -315,26 +315,26 @@
                             </div>
                             <div class="u-s-m-b-15">
 
-                                <span class="pd-detail__label u-s-m-b-8">Dung lượng Ram:</span>
-                                <div class="pd-detail__size">
-                                    @foreach (var item in Model.LstRam!)
+                                <span class="pd-detail__label u-s-m-b-8">Dung lượng:</span>
+                                <div class="pd-detail__Rom">
+                                    @foreach (var item in Model.LstRom!)
                                     {
-                                        if (Model.Ram == item)
+                                        if (Model.Rom == item)
                                         {
-                                            <div class="size__radio">
+                                            <div class="Rom__radio">
 
-                                                <input type="radio" id="@item" value="@item" name="size" checked>
+                                                <input type="radio" id="@item" value="@item" name="Rom" checked>
 
-                                                <label class="size__radio-label" for="@item">@item</label>
+                                                <label class="Rom__radio-label" for="@item">@item</label>
                                             </div>
                                         }
                                         else
                                         {
-                                            <div class="size__radio">
+                                            <div class="Rom__radio">
 
-                                                <input type="radio" id="@item" value="@item" name="size">
+                                                <input type="radio" id="@item" value="@item" name="Rom">
 
-                                                <label class="size__radio-label" for="@item">@item</label>
+                                                <label class="Rom__radio-label" for="@item">@item</label>
                                             </div>
                                         }
 

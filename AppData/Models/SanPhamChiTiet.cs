@@ -28,16 +28,16 @@ namespace App_Data.Models
         public string IdMauSac { get; set; }
         public string IdRam { get; set; }
         public string IdRom { get; set; }
-        public string IdCongSac { get; set; }
         public string IdHang { get; set; }
+        public string IdCongSac { get; set; }
         public string IdChip { get; set; }
         public string IdManHinh { get; set; }
         public string IdTheNho { get; set; }
         public string IdPin { get; set; }
+        public virtual Hang Hang { get; set; }
         public virtual Ram Ram { get; set; }
         public virtual Rom Rom { get; set; }
         public virtual CongSac CongSac { get; set; }
-        public virtual Hang Hang { get; set; }
         public virtual Chip Chip { get; set; }
         public virtual ManHinh ManHinh { get; set; }
         public virtual TheNho TheNho { get; set; }

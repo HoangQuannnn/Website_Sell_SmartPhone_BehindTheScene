@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App_Data.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace App_Data.Models
         public string? MaPin { get; set; }
         public string? LoaiPin { get; set; }
         public string? DungLuong { get; set; }
-        public int? TrangThai { get; set; }
+        public TrangThaiEnum TrangThai { get; set; }
         public virtual ICollection<SanPhamChiTiet>? SanPhamChiTiets { get; set; }
     }
 }

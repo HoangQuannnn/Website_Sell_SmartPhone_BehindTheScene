@@ -39,10 +39,9 @@ namespace App_Api.Controllers
     [ApiController]
     public class SanPhamChiTietController : ControllerBase
     {
-
-        private readonly IAllRepo<Hang> _hangRes;
-        private readonly IAllRepo<Ram> _ramRes;
-        private readonly IAllRepo<Rom> _romRes;
+        private readonly IAllRepo<Hang> _hangs;
+        private readonly IAllRepo<Ram> _ram;
+        private readonly IAllRepo<Rom> _rom;
         private readonly IAllRepo<Pin> _pinRes;
         private readonly IAllRepo<Chip> _chipRes;
         private readonly IAllRepo<TheNho> _theNhoRes;
@@ -60,9 +59,9 @@ namespace App_Api.Controllers
 
         public SanPhamChiTietController(IAllRepo<Hang> hangRes, IAllRepo<Ram> ramRes, IAllRepo<Rom> romRes, IAllRepo<Pin> pinRes, IAllRepo<Chip> chipRes, IAllRepo<TheNho> theNhoRes, IAllRepo<CongSac> congSacRes, IAllRepo<TheSim> theSimRes, IAllRepo<CameraTruoc> cameraTruocRes, IAllRepo<CameraSau> cameraSauRes, IAllRepo<ManHinh> manHinhRes, IAllRepo<SanPham> sanPhamRes, IAllRepo<MauSac> mauSacRes, ISanPhamChiTietRespo sanPhamChiTietRes, IMapper mapper, IAllRepo<Anh> anhRes, AnhController anhController)
         {
-            _hangRes = hangRes;
-            _ramRes = ramRes;
-            _romRes = romRes;
+            _hangs = hangRes;
+            _ram = ramRes;
+            _rom = romRes;
             _pinRes = pinRes;
             _chipRes = chipRes;
             _theNhoRes = theNhoRes;
@@ -84,16 +83,16 @@ namespace App_Api.Controllers
         {
             var productDetails = (await _sanPhamChiTietRes.GetListAsync())
                 .FirstOrDefault(x =>
-                x.IdHang == sanPhamChiTietDTO.IdHang &&
                 x.IdMauSac == sanPhamChiTietDTO.IdMauSac &&
-                x.IdRam == sanPhamChiTietDTO.IdRam &&
-                x.IdRom == sanPhamChiTietDTO.IdRom &&
                 x.IdSanPham == sanPhamChiTietDTO.IdSanPham &&
                 x.IdPin == sanPhamChiTietDTO.IdPin &&
                 x.IdChip == sanPhamChiTietDTO.IdChip &&
                 x.IdTheNho == sanPhamChiTietDTO.IdTheNho && 
                 x.IdCongSac == sanPhamChiTietDTO.IdCongSac && 
-                x.IdManHinh == sanPhamChiTietDTO.IdManHinh
+                x.IdManHinh == sanPhamChiTietDTO.IdManHinh &&
+                x.IdHang == sanPhamChiTietDTO.IdHang &&
+                x.IdRam == sanPhamChiTietDTO.IdRam &&
+                x.IdRom == sanPhamChiTietDTO.IdRom
                 );
 
             if (productDetails != null)
@@ -231,9 +230,7 @@ namespace App_Api.Controllers
                     var sanPhamChiTiet = _mapper.Map<SanPhamChiTiet>(sanPhamChiTietDTO);
                     sanPhamChiTiet.IdChiTietSp = Guid.NewGuid().ToString();
                     var mauSac = _mauSacRes.GetAll().FirstOrDefault(ms => ms.IdMauSac == sanPhamChiTietDTO.IdMauSac)!.TenMauSac!.Substring(0, 2);
-                    var ram = _ramRes.GetAll().FirstOrDefault(kc => kc.IdRam == sanPhamChiTietDTO.IdRam)!.DungLuong;
-                    var rom = _romRes.GetAll().FirstOrDefault(kc => kc.IdRom == sanPhamChiTietDTO.IdRom)!.DungLuong;
-                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac + "-" + ram + "/" + rom;
+                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac + "-" + _ram + "/" + _rom;
                     sanPhamChiTiet.TrangThai = 0;
                     sanPhamChiTiet.SoLuongDaBan = 0;
                     sanPhamChiTiet.NgayTao = DateTime.Now;
@@ -300,9 +297,7 @@ namespace App_Api.Controllers
                     var sanPhamChiTiet = _mapper.Map<SanPhamChiTiet>(sanPhamChiTietCopyDTO.SanPhamChiTietData);
                     sanPhamChiTiet.IdChiTietSp = Guid.NewGuid().ToString();
                     var mauSac = _mauSacRes.GetAll().FirstOrDefault(ms => ms.IdMauSac == sanPhamChiTiet.IdMauSac)!.TenMauSac!.Substring(0, 2);
-                    var ram = _ramRes.GetAll().FirstOrDefault(kc => kc.IdRam == sanPhamChiTiet.IdRam)!.DungLuong;
-                    var rom = _romRes.GetAll().FirstOrDefault(kc => kc.IdRom == sanPhamChiTiet.IdRom)!.DungLuong;
-                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac + "-" + ram + "/" + rom;
+                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac + "-" + _ram + "/" + _rom;
                     sanPhamChiTiet.TrangThai = 0;
                     sanPhamChiTiet.SoLuongDaBan = 0;
                     sanPhamChiTiet.NgayTao = DateTime.Now;
@@ -458,63 +453,59 @@ namespace App_Api.Controllers
             }
             return null;
         }
-
-        //Hang
         [HttpPost("Create-Hang")]
         public HangDTO? CreateHang(HangDTO hangDTO)
         {
-            var nameBrand = hangDTO.TenHang!.Trim();
-            if (!_hangRes.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.TenHang).Contains(nameBrand, StringComparer.OrdinalIgnoreCase))
+            var nameHang = hangDTO.TenHang!.Trim();
+
+            if (!_hangs.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.TenHang).Contains(nameHang, StringComparer.OrdinalIgnoreCase))
             {
                 var hang = _mapper.Map<Hang>(hangDTO);
                 hang.IdHang = Guid.NewGuid().ToString();
-                hang.MaHang = !_hangRes.GetAll().Any() ? "H1" : "H" + (_hangRes.GetAll().Count() + 1);
+                hang.MaHang = !_hangs.GetAll().Any() ? "H1" : "H" + (_hangs.GetAll().Count() + 1);
                 hang.TrangThai = 0;
-                _hangRes.AddItem(hang);
+                _hangs.AddItem(hang);
                 hangDTO.IdHang = hang.IdHang;
                 return hangDTO;
             }
             return null;
         }
-
         //Ram
         [HttpPost("Create-Ram")]
         public RamDTO? CreateRam(RamDTO ramDTO)
         {
-            var dungLuongRam = ramDTO.DungLuong!.Trim();
+            var nameRam = ramDTO.TenRam!.Trim();
 
-            if (!_ramRes.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.DungLuong).Contains(dungLuongRam, StringComparer.OrdinalIgnoreCase))
+            if (!_ram.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.TenRam).Contains(nameRam, StringComparer.OrdinalIgnoreCase))
             {
                 var ram = _mapper.Map<Ram>(ramDTO);
                 ram.IdRam = Guid.NewGuid().ToString();
-                ram.MaRam = !_ramRes.GetAll().Any() ? "RAM1" : "RAM" + (_ramRes.GetAll().Count() + 1);
+                ram.MaRam = !_ram.GetAll().Any() ? "R1" : "R" + (_ram.GetAll().Count() + 1);
                 ram.TrangThai = 0;
-                _ramRes.AddItem(ram);
+                _ram.AddItem(ram);
                 ramDTO.IdRam = ram.IdRam;
                 return ramDTO;
             }
             return null;
         }
-
         //Rom
         [HttpPost("Create-Rom")]
         public RomDTO? CreateRom(RomDTO romDTO)
         {
-            var dungLuongRom = romDTO.DungLuong!.Trim();
+            var nameRom = romDTO.TenRom!.Trim();
 
-            if (!_romRes.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.DungLuong).Contains(dungLuongRom, StringComparer.OrdinalIgnoreCase))
+            if (!_rom.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.TenRom).Contains(nameRom, StringComparer.OrdinalIgnoreCase))
             {
                 var rom = _mapper.Map<Rom>(romDTO);
                 rom.IdRom = Guid.NewGuid().ToString();
-                rom.MaRom = !_romRes.GetAll().Any() ? "ROM1" : "ROM" + (_romRes.GetAll().Count() + 1);
+                rom.MaRom = !_rom.GetAll().Any() ? "RO1" : "RO" + (_rom.GetAll().Count() + 1);
                 rom.TrangThai = 0;
-                _romRes.AddItem(rom);
+                _rom.AddItem(rom);
                 romDTO.IdRom = rom.IdRom;
                 return romDTO;
             }
             return null;
         }
-
         //Pin
         [HttpPost("Create-Pin")]
         public PinDTO? CreatePin(PinDTO pinDTO)
@@ -631,13 +622,13 @@ namespace App_Api.Controllers
         [HttpGet("Get-List-Ram")]
         public List<Ram>? GetListRam()
         {
-            return _ramRes.GetAll().ToList();
+            return _ram.GetAll().ToList();
         }
         
         [HttpGet("Get-List-Rom")]
         public List<Rom>? GetListRom()
         {
-            return _romRes.GetAll().ToList();
+            return _rom.GetAll().ToList();
         }
 
         [HttpGet("Get-List-Pin")]
@@ -685,7 +676,7 @@ namespace App_Api.Controllers
         [HttpGet("Get-List-Hang")]
         public List<Hang>? GetListModelHang()
         {
-            return _hangRes.GetAll().ToList();
+            return _hangs.GetAll().ToList();
         }
         #endregion
 

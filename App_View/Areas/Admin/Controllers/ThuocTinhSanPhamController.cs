@@ -8,6 +8,7 @@ using App_Data.ViewModels.ChipDTO;
 using App_Data.ViewModels.ManHinhDTO;
 using App_Data.ViewModels.TheNhoDTO;
 using App_Data.ViewModels.PinDTO;
+using App_Data.ViewModels.CameraDTO;
 
 //using App_Data.ViewModels.KieuDeGiayDTO;
 //using App_Data.ViewModels.LoaiGiayDTO;
@@ -143,10 +144,26 @@ namespace App_View.Areas.Admin.Controllers
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhChipPartialView", lstChip);
+        }
+          public IActionResult LoadPartialViewDanhSachCamera()
+        {
+            var lstCamera = _context
+                .Cameras
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdCamera,
+                    Ma = it.MaCamera,
+                    Ten = it.DoPhanGiai,
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhCameraPartialView", lstCamera);
         }
 
         public IActionResult LoadPartialViewDanhSachCongSac()
@@ -393,7 +410,16 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteChip(string idChip)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Chip/XoaChip/{idChip}");
+            var response = await _httpClient.DeleteAsync($"/api/Chip/{idChip}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        public async Task<IActionResult> CreateChip([FromBody] ChipDTO chipDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/Chip", chipDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -404,7 +430,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditChip([FromBody] ChipDTO chipDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/chip/sua-chat-lieu", chipDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/Chip", chipDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -489,6 +515,36 @@ namespace App_View.Areas.Admin.Controllers
         public async Task<IActionResult> EditPin([FromBody] PinDTO pinDTO)
         {
             var response = await _httpClient.PutAsJsonAsync("/api/pin/sua-pin", pinDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+
+        public async Task<IActionResult> DeleteCamera(string idCamera)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/Camera/{idCamera}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        public async Task<IActionResult> CreateCamera([FromBody] CameraDTO CameraDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/Camera/Create-Camera", CameraDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCamera([FromBody] CameraDTO CameraDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/Camera", CameraDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());

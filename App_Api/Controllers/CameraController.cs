@@ -2,6 +2,8 @@
 using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
+using App_Data.ViewModels.CameraDTO;
+using App_Data.ViewModels.ChipDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,45 +41,34 @@ namespace App_Api.Controllers
 
         // POST api/<CameraController>
         [HttpPost("Create-Camera")]
-        public async Task<IActionResult> CreateCameraAsync(string ma, string doPhanGiai, int trangThai)
+        public bool CreateCamera(CameraDTO cameraDTO)
         {
-            try
+            string MaTS;
+            if (repos.GetAll().Count() == 0)
             {
-                string MaTS;
-                if (repos.GetAll().Count() == 0)
-                {
-                    MaTS = "C1";
-                }
-                else
-                {
-                    MaTS = "C" + (repos.GetAll().Count() + 1);
-                }
-                Camera camera1 = new Camera();
-                camera1.IdCamera = Guid.NewGuid().ToString();
-                camera1.MaCamera = ma;
-                camera1.DoPhanGiai = doPhanGiai;
-                camera1.TrangThai = trangThai;
-                repos.AddItem(camera1);
-                return Ok();
+                MaTS = "CAM1";
             }
-            catch (Exception ex)
+            else
             {
-
-                Console.WriteLine(ex);
-                return BadRequest(ex.Message);
+                MaTS = "CAM" + (repos.GetAll().Count() + 1);
             }
+            Camera camera1 = new Camera();
+            camera1.IdCamera = Guid.NewGuid().ToString();
+            camera1.MaCamera = MaTS;
+            camera1.DoPhanGiai = cameraDTO.DoPhanGiai;
+            camera1.TrangThai = cameraDTO.TrangThai;
+            return repos.AddItem(camera1);
         }
 
+
         // PUT api/<CameraController>/5
-        [HttpPut("Edit")]
-        public async Task<IActionResult> EditCameraAsync(string id, string ma, string doPhanGiai, int trangThai)
+        [HttpPut]
+        public bool EditCameraAsync(CameraDTO cameraDTO)
         {
-            var camera1 = repos.GetAll().First(p => p.IdCamera == id);
-            camera1.MaCamera = ma;
-            camera1.TrangThai = trangThai;
-            camera1.DoPhanGiai = doPhanGiai;
-            repos.EditItem(camera1);
-            return Ok();
+            var camera1 = repos.GetAll().First(p => p.IdCamera == cameraDTO.IdCamera);
+            camera1.TrangThai = cameraDTO.TrangThai;
+            camera1.DoPhanGiai = cameraDTO.DoPhanGiai;
+            return repos.EditItem(camera1);
         }
 
         // DELETE api/<CameraController>/5

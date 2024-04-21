@@ -77,7 +77,7 @@ namespace App_Data.DbContext
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=PHƯƠNG;Initial Catalog=Website_Sell_SmartPhone_BehindTheScene;Integrated Security=True;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=Website_Sell_SmartPhone_BehindTheScene;Integrated Security=True;TrustServerCertificate=true;");
 
             //cái này là db online
             //optionsBuilder.UseSqlServer("Server = tcp:bazaizaidb.database.windows.net,1433; Initial Catalog = bazaizaidb; Persist Security Info = False; User ID = bazaizai; Password = Trinhanh0311; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;");

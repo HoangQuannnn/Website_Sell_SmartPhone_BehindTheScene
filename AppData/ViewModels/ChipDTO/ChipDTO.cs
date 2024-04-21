@@ -10,5 +10,6 @@ namespace App_Data.ViewModels.ChipDTO
     {
         public string? IdChip { get; set; }
         public string? TenChip { get; set; }
+        public int? TrangThai { get; set; }
     }
 }

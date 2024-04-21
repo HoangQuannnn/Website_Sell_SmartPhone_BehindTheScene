@@ -11,7 +11,8 @@ namespace App_Data.Models
     {
         [Key]
         public string? IdTheSim { get; set; }
-        public int? Loaithesim { get; set; }
+        public string? MaTheSim { get; set; }
+        public string? Loaithesim { get; set; }
         public int? SoKhaySim { get; set; }
         public int? TrangThai {  get; set; }
         public virtual ICollection<TheSimDienThoai> TheSimDienThoais { get; set; }

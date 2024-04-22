@@ -232,12 +232,7 @@
                                 <input type="hidden" name="IdSanPhamChiTiet" value="@Model.IdChiTietSp" />
                             </form>
                         </div>
-                        <div class="pd-detail__inline">
-                            <a data-modal="modal" data-modal-id="#show-menu-size" style="
-    color: #9a9add;
-    text-decoration: underline;
-">Hướng dẫn chọn size</a>
-                        </div>
+                        
                     </div>
                     @*<div class="u-s-m-b-15">
                             <ul class="pd-social-list">
@@ -273,47 +268,21 @@
                                     {
                                         if (Model.MauSac == item)
                                         {
-                                            if (item == "white")
-                                            {
-                                                <div class="color__radio">
+                                            <div class="size__radio">
 
-                                                    <input type="radio" id="@item" value="@item" name="color" checked>
+                                                <input type="radio" id="@item" value="@item" name="color" checked>
 
-                                                    <label class="color__radio-label" for="@item" style="background-color: #8af0ff"></label>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="color__radio">
-
-                                                    <input type="radio" id="@item" value="@item" name="color" checked>
-
-                                                    <label class="color__radio-label" for="@item" style="background-color: @item"></label>
-                                                </div>
-                                            }
-
+                                                <label class="size__radio-label" for="@item">@item</label>
+                                            </div>
                                         }
                                         else
                                         {
-                                            if (item == "white")
-                                            {
-                                                <div class="color__radio">
+                                            <div class="size__radio">
 
-                                                    <input type="radio" id="@item" value="@item" name="color">
+                                                <input type="radio" id="@item" value="@item" name="color">
 
-                                                    <label class="color__radio-label" for="@item" style="background-color: #8af0ff"></label>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="color__radio">
-
-                                                    <input type="radio" id="@item" value="@item" name="color">
-
-                                                    <label class="color__radio-label" for="@item" style="background-color: @item"></label>
-                                                </div>
-                                            }
-
+                                                <label class="size__radio-label" for="@item">@item</label>
+                                            </div>
                                         }
 
                                     }
@@ -321,26 +290,26 @@
                             </div>
                             <div class="u-s-m-b-15">
 
-                                <span class="pd-detail__label u-s-m-b-8">Dung lượng:</span>
-                                <div class="pd-detail__Rom">
+                                <span class="pd-detail__label u-s-m-b-8">Dung lượng bộ nhớ:</span>
+                                <div class="pd-detail__size">
                                     @foreach (var item in Model.LstRom!)
                                     {
                                         if (Model.Rom == item)
                                         {
-                                            <div class="Rom__radio">
+                                            <div class="size__radio">
 
                                                 <input type="radio" id="@item" value="@item" name="Rom" checked>
 
-                                                <label class="Rom__radio-label" for="@item">@item</label>
+                                                <label class="size__radio-label" for="@item">@item GB</label>
                                             </div>
                                         }
                                         else
                                         {
-                                            <div class="Rom__radio">
+                                            <div class="size__radio">
 
                                                 <input type="radio" id="@item" value="@item" name="Rom">
 
-                                                <label class="Rom__radio-label" for="@item">@item</label>
+                                                <label class="size__radio-label" for="@item">@item GB</label>
                                             </div>
                                         }
 

@@ -16,10 +16,6 @@ namespace App_Data.ViewModels.SanPhamChiTietViewModel
         public List<string>? LstRamRom { get; set; }
         public List<string>? DanhSachAnh { get; set; }
         public bool IsYeuThich { get; set; }
-        public string? XuatXu { get; set; }
-        public string? LoaiGiay { get; set; }
-        public string? ChatLieu { get; set; }
-        public string? KieuDeGiay { get; set; }
         public double? KhoiLuong { get; set; }
         public string? Ram { get; set; }
         public string? Rom { get; set; }

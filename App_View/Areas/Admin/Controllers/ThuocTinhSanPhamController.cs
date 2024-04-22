@@ -1,5 +1,4 @@
 ﻿using App_Data.DbContext;
-using App_Data.Models;
 using App_Data.Models.ViewModels.MauSac;
 using App_Data.ViewModels.RamDTO;
 using App_Data.ViewModels.RomDTO;
@@ -7,7 +6,6 @@ using App_Data.ViewModels.CongSacDTO;
 using App_Data.ViewModels.ChipDTO;
 using App_Data.ViewModels.ManHinhDTO;
 using App_Data.ViewModels.TheNhoDTO;
-using App_Data.ViewModels.PinDTO;
 using App_Data.ViewModels.CameraDTO;
 
 //using App_Data.ViewModels.KieuDeGiayDTO;
@@ -15,10 +13,10 @@ using App_Data.ViewModels.CameraDTO;
 using App_Data.ViewModels.SanPhamChiTiet.SanPhamDTO;
 using App_Data.ViewModels.HangDTO;
 using App_Data.ViewModels.ThuocTinh;
-using App_Data.ViewModels.XuatXu;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using App_Data.ViewModels.PinDTO;
 using App_Data.ViewModels.TheSimDTO;
 
 namespace App_View.Areas.Admin.Controllers
@@ -49,10 +47,9 @@ namespace App_View.Areas.Admin.Controllers
                     TrangThai = it.Trangthai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
-            return PartialView("_DanhSachThuocTinhSanPhamPartialView",lstTenSP);
+            return PartialView("_DanhSachThuocTinhSanPhamPartialView", lstTenSP);
         }
         public IActionResult LoadPartialViewDanhSachHang()
         {
@@ -72,25 +69,6 @@ namespace App_View.Areas.Admin.Controllers
 
             return PartialView("_DanhSachThuocTinhHangPartialView", lstHang);
         }
-        public IActionResult LoadPartialViewDanhSachPin()
-        {
-            var lstPin = _context
-                .Pins
-                .AsNoTracking()
-                .Select(it => new ThuocTinhViewModel()
-                {
-                    Id = it.IdPin,
-                    Ma = it.MaPin,
-                    Ten = it.IdPin,
-                    SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdPin == it.IdPin).Count(),
-                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
-                })
-                .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
-                .ToList();
-
-            return PartialView("_DanhSachThuocTinhPinPartialView", lstPin);
-        }
         public IActionResult LoadPartialViewDanhSachTheNho()
         {
             var lstTheNho = _context
@@ -100,12 +78,12 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     Id = it.IdTheNho,
                     Ma = it.MaTheNho,
-                    Ten = it.DungLuong,
+                    LoaiTheNho = it.LoaiTheNho,
+                    DungLuong = it.DungLuong,
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdTheNho == it.IdTheNho).Count(),
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhTheNhoPartialView", lstTheNho);
@@ -120,12 +98,13 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     Id = it.IdManHinh,
                     Ma = it.MaManHinh,
-                    Ten = it.LoaiManHinh+ " " + it.KichThuoc.ToString(),
+                    KichThuoc = it.KichThuoc,
+                    LoaiManHinh = it.LoaiManHinh,
+                    TanSoQuet = it.TanSoQuet,
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdManHinh == it.IdManHinh).Count(),
                     
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(3)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhManHinhPartialView", lstManHinh);
@@ -195,12 +174,11 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     Id = it.IdCongSac,
                     Ma = it.MaCongSac,
-                    Ten = it.LoaiCongSac,
+                    LoaiCongSac = it.LoaiCongSac,
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdCongSac == it.IdCongSac).Count(),
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
                 })
                 .AsEnumerable()
-                .OrderBy(it => int.Parse(it.Ma!.Substring(2)))
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhCongSacPartialView", lstCongSac);
@@ -225,7 +203,6 @@ namespace App_View.Areas.Admin.Controllers
 
             return PartialView("_DanhSachThuocTinhMauSacPartialView", lstMauSac);
         }
-
         public IActionResult LoadPartialViewDanhSachRom()
         {
             var lstRom = _context
@@ -416,7 +393,15 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
-
+        public async Task<IActionResult> CreateCongSac([FromBody] CongSacDTO congSacDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/CongSac", congSacDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
         [HttpPost]
         public async Task<IActionResult> EditCongSac([FromBody] CongSacDTO congSacDTO)
         {
@@ -521,7 +506,15 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
-
+        public async Task<IActionResult> CreateManHinh([FromBody] ManHinhDTO manHinhDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/ManHinh", manHinhDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
         [HttpPost]
         public async Task<IActionResult> EditManHinh([FromBody] ManHinhDTO ManHinhDTO)
         {
@@ -542,32 +535,19 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
-
+        public async Task<IActionResult> CreateTheNho([FromBody] TheNhoDTO theNhoDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/TheNho", theNhoDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
         [HttpPost]
         public async Task<IActionResult> EditTheNho([FromBody] TheNhoDTO TheNhoDTO)
         {
             var response = await _httpClient.PutAsJsonAsync("/api/theNho/sua-the-nho", TheNhoDTO);
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok(await response.Content.ReadAsAsync<bool>());
-            }
-            return Ok(false);
-        }
-
-        public async Task<IActionResult> DeletePin(string idPin)
-        {
-            var response = await _httpClient.DeleteAsync($"/api/Pin/{idPin}");
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok(await response.Content.ReadAsAsync<bool>());
-            }
-            return Ok(false);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditPin([FromBody] PinDTO pinDTO)
-        {
-            var response = await _httpClient.PutAsJsonAsync("/api/pin/sua-pin", pinDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -598,6 +578,63 @@ namespace App_View.Areas.Admin.Controllers
         public async Task<IActionResult> EditCamera([FromBody] CameraDTO CameraDTO)
         {
             var response = await _httpClient.PutAsJsonAsync("/api/Camera", CameraDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        //Pin
+        public IActionResult LoadPartialViewDanhSachPin()
+        {
+            var lstPin = _context
+                .Pins
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdPin,
+                    Ma = it.MaPin,
+                    DungLuong = it.DungLuong,
+                    LoaiPin = it.LoaiPin,
+                    SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdPin == it.IdPin).Count(),
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhPinPartialView", lstPin);
+        }
+        public async Task<IActionResult> DeletePin(string idPin)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/Pin/XoaPin/{idPin}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreatePin([FromBody] CreatePinDTO createPinDTO)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/api/Pin", createPinDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditPin([FromBody] PinDTO pin)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/Pin/Sua-pin", pin);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());

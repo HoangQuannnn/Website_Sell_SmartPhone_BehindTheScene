@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "CheckOut";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var thongTinGH = ViewData["ThongTinGH"] as List<App_Data.Models.ThongTinGiaoHang>; 
+    var thongTinGH = ViewData["ThongTinGH"] as List<App_Data.Models.ThongTinGiaoHang>;
     var VoucherFreeShip = ViewData["VoucherFreeShip"] as List<App_Data.ViewModels.VoucherNguoiDung.VoucherNguoiDungDTO>;
     var voucher = ViewData["Voucher"] as List<App_Data.ViewModels.VoucherNguoiDung.VoucherNguoiDungDTO>;
 }
@@ -36,20 +36,20 @@
                                 <a class="gl-link" data-modal="modal" data-modal-id="#voucher-modal" @* href="#have-coupon" *@ data-toggle="collapse">Ấn vào đây để sử dụng Voucher</a>
                             </span>
                             @* <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
-                                <div class="c-f u-s-m-b-16">
+                            <div class="c-f u-s-m-b-16">
 
-                                    <form class="c-f__form" asp-action="GetVoucherByMa" asp-controller="Voucher">
-                                        <div class="u-s-m-b-16">
-                                            <div class="u-s-m-b-15">
+                            <form class="c-f__form" asp-action="GetVoucherByMa" asp-controller="Voucher">
+                            <div class="u-s-m-b-16">
+                            <div class="u-s-m-b-15">
 
-                                                <label for="coupon"></label>
+                            <label for="coupon"></label>
 
-                                                <input class="input-text input-text--primary-style" type="text" id="voucherinput" placeholder="Nhập phiếu giảm giá của bạn ở đây" name="voucher">
-                                            <label id="textvoucher" style="color:red"></label>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                            <input class="input-text input-text--primary-style" type="text" id="voucherinput" placeholder="Nhập phiếu giảm giá của bạn ở đây" name="voucher">
+                            <label id="textvoucher" style="color:red"></label>
+                            </div>
+                            </div>
+                            </form>
+                            </div>
                             </div> *@
                             <div class="modal fade" id="voucher-modal">
                                 <div class="modal-dialog modal-dialog-centered justify-content-center" style="min-width:550px">
@@ -227,7 +227,8 @@
                                                                                                     <span> @hiddenvc.MucUuDai %</span>
                                                                                                 }
                                                                                                 else
-                                                                                                {@string.Format("{0:N0}đ", hiddenvc.MucUuDai)
+                                                                                                {
+                                                                                                    @string.Format("{0:N0}đ", hiddenvc.MucUuDai)
                                                                                                 }
                                                                                             </p>
                                                                                             <p width:40px>Đơn tối thiểu: @string.Format("{0:N0}đ", hiddenvc.DieuKien)</p>
@@ -293,9 +294,9 @@
                                 <div class="u-s-m-b-15">
                                     <!--====== Check Box ======-->
                                     <div class="check-box">
-                                            <input type="checkbox" id="get-address">
+                                        <input type="checkbox" id="get-address">
                                         <div class="check-box__state check-box__state--primary">
-                                            @if (thongTinGH.Count>0)
+                                            @if (thongTinGH.Count > 0)
                                             {
                                                 <label class="check-box__label" for="get-address">Sử dụng địa chỉ mặc định theo tài khoản</label>
                                             }
@@ -406,7 +407,7 @@
                                 </div>
                                 @* <div class="u-s-m-b-10">
 
-                                    <a class="gl-link" href="#create-account" data-toggle="collapse">Tạo tài khoản mới?</a>
+                                <a class="gl-link" href="#create-account" data-toggle="collapse">Tạo tài khoản mới?</a>
                                 </div> *@
                                 <div class="collapse u-s-m-b-15" id="create-account">
 
@@ -424,7 +425,7 @@
                                 </div>
                                 @* <div>
 
-                                    <button class="btn btn--e-transparent-brand-b-2" id="luu" type="submit">LƯU</button>
+                                <button class="btn btn--e-transparent-brand-b-2" id="luu" type="submit">LƯU</button>
                                 </div> *@
                             </div>
                         </form>
@@ -505,17 +506,17 @@
                                                 <tr>
                                                     <td>TIỀN GIẢM</td>
                                                     <td id="TienGiam">0đ</td>
-                                                    <input hidden name="TienGiam"/>
+                                                    <input hidden name="TienGiam" />
                                                 </tr>
                                                 <tr>
                                                     <td>TẠM TÍNH</td>
                                                     <td id="tamtinh">@string.Format("{0:N0}đ", Model.Sum(x => x.SoLuong * x.GiaBan))</td>
-                                                    
+
                                                 </tr>
                                                 <tr>
                                                     <td>TỔNG TIỀN</td>
                                                     <td id="tongtien">@string.Format("{0:N0}đ", Model.Sum(x => x.SoLuong * x.GiaBan))</td>
-                                                    <input hidden name="TongTien"/>
+                                                    <input hidden name="TongTien" />
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -524,9 +525,9 @@
                                     </div>
                                 </div>
                                 <div class="o-summary__section u-s-m-b-30">
-                                <div class="o-summary__box">
-                                    <h1 class="checkout-f__h1">PHƯƠNG THỨC THANH TOÁN</h1>
-                                    
+                                    <div class="o-summary__box">
+                                        <h1 class="checkout-f__h1">PHƯƠNG THỨC THANH TOÁN</h1>
+
                                         <div class="u-s-m-b-10">
 
                                             <!--====== Radio Box ======-->
@@ -544,18 +545,18 @@
                                         </div>
                                         @* <div class="u-s-m-b-10">
 
-                                            <!--====== Radio Box ======-->
-                                            <div class="radio-box">
+                                        <!--====== Radio Box ======-->
+                                        <div class="radio-box">
 
-                                                <input type="radio" value="Momo" id="direct-bank-transfer" name="Payment">
-                                                <div class="radio-box__state radio-box__state--primary">
+                                        <input type="radio" value="Momo" id="direct-bank-transfer" name="Payment">
+                                        <div class="radio-box__state radio-box__state--primary">
 
-                                                    <label class="radio-box__label" for="direct-bank-transfer">Momo</label>
-                                                </div>
-                                            </div>
-                                            <!--====== End - Radio Box ======-->
+                                        <label class="radio-box__label" for="direct-bank-transfer">Momo</label>
+                                        </div>
+                                        </div>
+                                        <!--====== End - Radio Box ======-->
 
-                                            <span class="gl-text u-s-m-t-6">Khi bạn nhấp vào "Đặt hàng" bên dưới, chúng tôi sẽ chuyển hướng bạn đến trang web của Momo để thiết lập thông tin thanh toán của bạn.</span>
+                                        <span class="gl-text u-s-m-t-6">Khi bạn nhấp vào "Đặt hàng" bên dưới, chúng tôi sẽ chuyển hướng bạn đến trang web của Momo để thiết lập thông tin thanh toán của bạn.</span>
                                         </div> *@
                                         <div class="u-s-m-b-10">
 
@@ -590,12 +591,12 @@
                                         <input hidden name="LoaiThanhToan" />
                                         <input hidden name="IdVoucher" />
                                         <input hidden name="NgayGiaoDuKien" />
-                                            <div>
+                                        <div>
                                             <button id="placeOrderButton" class="btn btn--e-brand-b-2" type="submit">ĐẶT HÀNG</button>
-                                            </div>
-                                    
+                                        </div>
+
+                                    </div>
                                 </div>
-                            </div>
                             </form>
                         </div>
                         <!--====== End - Order Summary ======-->
@@ -629,7 +630,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (thongTinGH==null)
+                                        @if (thongTinGH == null)
                                         {
                                             <tr>
                                                 <td>
@@ -673,7 +674,7 @@
                                                     <td id="sdt">@item.SDT</td>
                                                     <td id="diachi">@item.DiaChi</td>
                                                     <td>
-                                                        @if (item.TrangThai==0)
+                                                        @if (item.TrangThai == 0)
                                                         {
                                                             <div class="gl-text" style="color:#ff4500;font-weight:600">Địa chỉ giao hàng mặc định</div>
                                                         }
@@ -729,7 +730,7 @@
 
             }
 
-             // }
+            // }
 
             var inputs = document.querySelectorAll('input[name="default-address"]');
             inputs.forEach(function (input) {
@@ -750,7 +751,7 @@
                 });
             });
 
-            
+
 
             function updateThongTin(selectedAddress) {
                 var selectedRow = selectedAddress.closest('tr');
@@ -939,11 +940,11 @@
                 });
 
                 $('#wards1').on('change', function () {
-                   if ($('#wards1').val() != null && phiship == null) {
-                      isCalculatingShippingFee = true;
-                      calculateShippingFee();
-                      isCalculatingShippingFee = false;
-                   }
+                    if ($('#wards1').val() != null && phiship == null) {
+                        isCalculatingShippingFee = true;
+                        calculateShippingFee();
+                        isCalculatingShippingFee = false;
+                    }
                 });
             }
 
@@ -1086,13 +1087,13 @@
 
         //         totalAmountElement.innerText = tongtienSanPham.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
         //         totalAmountElement.value = tongtienSanPham.toString();
-            
+
 
         //     // calculateShippingFee();
         // });
         // Hàm tính phí ship
-        var serviceid=null
-        function availableservices(){
+        var serviceid = null
+        function availableservices() {
             var ApiUrl = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services';
             var token = '1194852d-fde8-11ed-8a8c-6e4795e6d902';
             var shop_id = 705899;
@@ -1175,24 +1176,24 @@
             var shop_id = 705899;
             var toWardCode = isDefaultAddress ? selectedWardCode : $('#wards').val();
             var toDistrictId = isDefaultAddress ? selectedDistrictID : $('#district').val();
-                axios.get(shippingApiUrl, {
-                    headers: {
-                        'Token': token,
-                        'shop_id': shop_id
-                    },
-                    params: {
-                        service_type_id: 2,
-                        insurance_value: $('#tamtinh').text().replace(/\D/g, ''),
-                        coupon: null,
-                        to_ward_code: toWardCode,
-                        to_district_id: toDistrictId,
-                        from_district_id: 3440,
-                        weight: weight,
-                        length: length,
-                        width: width,
-                        height: height
-                    }
-                })
+            axios.get(shippingApiUrl, {
+                headers: {
+                    'Token': token,
+                    'shop_id': shop_id
+                },
+                params: {
+                    service_type_id: 2,
+                    insurance_value: $('#tamtinh').text().replace(/\D/g, ''),
+                    coupon: null,
+                    to_ward_code: toWardCode,
+                    to_district_id: toDistrictId,
+                    from_district_id: 3440,
+                    weight: weight,
+                    length: length,
+                    width: width,
+                    height: height
+                }
+            })
                 .then(response => {
                     // Gán tiền ship vào id phiship
                     phiship = response.data.data.service_fee;
@@ -1201,7 +1202,7 @@
                     // Lấy ra tổng tiền của sản phẩm có trong giỏ hàng
                     if (MucUuDai !== null || MucUuDai !== "") {
                         console.log(MucUuDai);
-                        var tongTien = tongtienSanPham-MucUuDai + phiship;
+                        var tongTien = tongtienSanPham - MucUuDai + phiship;
                         document.querySelector('input[name="TongTien"]').value = tongtienSanPham;
                     }
                     else {
@@ -1214,7 +1215,7 @@
                     // Gán giá trị vào input
                     document.querySelector('input[name="TienShip"]').value = phiship;
                     calculateDayShip();
-                    isCalculatingShippingFee = false; 
+                    isCalculatingShippingFee = false;
                 })
                 .catch(error => {
                     console.error(error);
@@ -1261,7 +1262,7 @@
                                         }
                                     });
                                 }
-                            } 
+                            }
                             if (loaiuudai != 2) {
                                 toast({
                                     title: result.mess,
@@ -1273,7 +1274,7 @@
                             $('#textvoucher').text("");
                             loaiuudai = result.loaiuudai;
                             // Áp dụng giảm giá từ voucher
-                            if (phiship==0 && loaiuudai == 2) {
+                            if (phiship == 0 && loaiuudai == 2) {
                                 toast({
                                     title: "Vui lòng nhập địa chỉ trước khi áp dụng freeship!",
                                     type: "warning",
@@ -1434,7 +1435,7 @@
                 var billingEmailInput = document.getElementById("billing-email");
                 var billingPhoneInput = document.getElementById("billing-phone");
                 var billingStreetInput = document.getElementById("billing-street");
-                
+
                 var isValid = true;
                 isValid = isValid && cityInput.value !== "";
                 isValid = isValid && districtInput.value !== "";
@@ -1470,7 +1471,7 @@
                 if (kiemTraTuyChon()) {
                     hideLoadingOverlay();
                     return;
-                } 
+                }
                 if (!paymentMethod) {
                     hideLoadingOverlay();
                     toast({
@@ -1519,16 +1520,16 @@
                         url: '/HoaDon/ThanhToan',
                         data: paymentFormData,
                         success: function (paymentResponse) {
-                            if(paymentResponse.idHoaDon != null) {
+                            if (paymentResponse.idHoaDon != null) {
                                 if (IdVoucher != "") {
                                     UpdateVoucher();
                                 }
                                 if (paymentResponse.url != null) {
                                     window.location.href = paymentResponse.url;
-                                }else{
+                                } else {
                                     window.location.href = "/HoaDon/Order?idHoaDon=" + paymentResponse.idHoaDon;
                                 }
-                            }else{
+                            } else {
                                 hideLoadingOverlay();
                                 Swal.fire({
                                     title: "Sản phẩm lỗi",
@@ -1542,7 +1543,7 @@
                             // Xử lý lỗi nếu cần
                         }
                     });
-                } 
+                }
                 else {
 
                     inputAddressBill = $('#billing-street').val();
@@ -1560,8 +1561,7 @@
                         success: function (deliveryResponse) {
                             // Thực hiện Ajax để gửi dữ liệu đến action ThanhToan trong controller TenControllerKhac
                             if (deliveryResponse.idThongTinGH != null) {
-                                if (defaultAddressCheckbox.checked) 
-                                {
+                                if (defaultAddressCheckbox.checked) {
                                     $.ajax({
                                         type: 'PUT',
                                         url: '/ThongTinGH/UpdateTrangThai',
@@ -1591,8 +1591,8 @@
                                             }
                                             if (paymentResponse.url != null) {
                                                 window.location.href = paymentResponse.url;
-                                            }else{
-                                                window.location.href = "/HoaDon/Order?idHoaDon=" +                              paymentResponse.idHoaDon;
+                                            } else {
+                                                window.location.href = "/HoaDon/Order?idHoaDon=" + paymentResponse.idHoaDon;
                                             }
                                         } else {
                                             hideLoadingOverlay();
@@ -1608,7 +1608,7 @@
                                         // Xử lý lỗi nếu cần
                                     }
                                 });
-                            }else{
+                            } else {
                                 hideLoadingOverlay();
                                 $('#billing-street').val(inputAddressBill);
                                 Swal.fire({
@@ -1617,7 +1617,7 @@
                                     html: deliveryResponse.message.join('<br/>'),
                                 })
                             }
-                            
+
                         },
                         error: function (deliveryError) {
                             hideLoadingOverlay();

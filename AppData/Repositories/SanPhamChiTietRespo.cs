@@ -456,6 +456,8 @@ namespace App_Data.Repositories
                     MaSanPham = sp.Ma,
                     GiaKhuyenMai = sp.GiaThucTe,
                     MauSac = sp.MauSac!.TenMauSac,
+                    Ram = sp.Ram!.DungLuong.ToString(),
+                    Rom = sp.Rom!.DungLuong.ToString(),
                     ManHinh = sp.ManHinh.LoaiManHinh + " " + sp.ManHinh.KichThuoc + " " + sp.ManHinh.TanSoQuet,
                     CongSac = sp.CongSac!.LoaiCongSac,
                     Chip = sp.Chip!.TenChip,
@@ -542,7 +544,7 @@ namespace App_Data.Repositories
                 sp.IdSanPham == sanPhamChiTiet.IdSanPham
                 ).ToListAsync();
             itemDetailViewModel.LstMauSac = lstBienThe.Select(x => x.MauSac.TenMauSac).Distinct().ToList()!;
-            itemDetailViewModel.LstRom = lstBienThe.Select(x => x.Rom.DungLuong.ToString()).Distinct().ToList()!;
+            itemDetailViewModel.LstRom = lstBienThe/*.Where(sp => sp.IdMauSac == sanPhamChiTiet.IdMauSac)*/.Select(x => x.Rom.DungLuong!.ToString()).Distinct()/*.OrderBy(item => item)*/.ToList();
             return itemDetailViewModel;
         }
 

@@ -27,7 +27,7 @@ namespace App_View.Controllers
         private readonly HttpClient _httpclient;
         private readonly SignInManager<NguoiDung> _signInManager;
         private readonly UserManager<NguoiDung> _userManager;
-        private readonly AppDbContext _bazaizaiContext;
+        private readonly AppDbContext _appContext;
         private readonly IHoaDonServices hoaDonServices;
         private ISanPhamChiTietservice _SanPhamChiTietservice;
         private IGioHangChiTietservices GioHangChiTietservices;
@@ -40,7 +40,7 @@ namespace App_View.Controllers
             _httpclient = httpclient;
             _signInManager = signInManager;
             _userManager = userManager;
-            _bazaizaiContext = new AppDbContext();
+            _appContext = new AppDbContext();
             hoaDonServices = new HoaDonServices();
             _SanPhamChiTietservice = SanPhamChiTietservice;
             GioHangChiTietservices = new GioHangChiTietservices();

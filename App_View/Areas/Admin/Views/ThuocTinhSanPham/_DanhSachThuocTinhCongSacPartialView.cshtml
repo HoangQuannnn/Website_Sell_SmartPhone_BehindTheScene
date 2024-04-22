@@ -8,20 +8,11 @@
         thead > tr > th {
             color: white !important;
         }
-
-    .text-right .btn-success {
-        float: right;
-        margin-bottom: 10px;
-    }
-
-    .table {
-        margin-bottom: 0;
-    }
 </style>
-<div style="padding: 20px;">
+<div style="padding:20px">
     <div class="text-right mb-3">
-        <button type="button" class="btn btn-success" onclick="ThemChip()">
-            <i class="fas fa-plus"></i> Thêm Chip
+        <button type="button" class="btn btn-success" onclick="ThemCongSac()">
+            <i class="fas fa-plus"></i> Thêm Cổng Sạc
         </button>
     </div>
     <table id="data-table" class="table table-bordered table-hover">
@@ -29,7 +20,7 @@
             <tr>
                 <th class="text-center">STT</th>
                 <th class="text-center">Mã</th>
-                <th class="text-center">Tên</th>
+                <th class="text-center">Loại Cổng Sạc</th>
                 <th class="text-center">Trạng thái</th>
                 <th class="text-center">Biến thể liên quan</th>
                 <th class="text-center">###</th>
@@ -44,29 +35,32 @@
                 <tr>
                     <td class="text-center">@(STT++)</td>
                     <td class="text-center">@item.Ma!.ToUpper()</td>
-                    <td class="text-center">@item.Ten!.ToUpper()</td>
+                    <td class="text-center">@item.LoaiCongSac!.ToUpper()</td>
                     <td class="text-center">@item.TrangThai</td>
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))', '@item.SoBienTheDangDung')">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiCongSac))', '@item.SoBienTheDangDung')
+">
                                 <i class="far fa-edit"></i>
                             </button>
-                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))','@item.SoBienTheDangDung')">
+                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiCongSac))','@item.SoBienTheDangDung')">
                                 <i class="anticon anticon-delete"></i>
                             </button>
                         </div>
+
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
 </div>
 
 <script>
-    function DrawChip() {
+    function DrawCongSac() {
         $.ajax({
-            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachChip',
+            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachCongSac',
             type: 'GET',
             success: function (result) {
                 content.empty().append(result);
@@ -91,23 +85,24 @@
         } else {
             Swal.fire({
                 title: 'Xác nhận',
-                text: `Bạn có chắc chắn muốn xóa Chip "${name}" không?`,
+                text: `Bạn có chắc chắn muốn xóa cổng sạc "${name}" không?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Hủy',
             }).then((result) => {
                 if (result.isConfirmed) {
+
                     var data = {
-                        idChip: id,
+                        IdCongSac: id,
                     };
                     $.ajax({
-                        url: '/admin/thuoctinhsanpham/DeleteChip',
+                        url: '/admin/thuoctinhsanpham/DeleteCongSac',
                         type: 'GET',
                         data: data,
                         success: function (result) {
                             if (result) {
-                                DrawChip();
+                                DrawCongSac();
                                 Swal.fire(
                                     'Thông báo',
                                     'Đã xóa thành công',
@@ -124,44 +119,41 @@
                     });
                 }
             });
+
         }
     }
-    function Edit(id, name, soBienTheDangDung, trangThai) {
+
+    function Edit(id, name, soBienTheDangDung) {
         Swal.fire({
-            title: 'Chỉnh sửa Chip',
-            html:
-                '<input id="tenChip" class="swal2-input" value="' + name + '" placeholder="Tên Chip">' +
-                '<div class="form-group">' +
-                '    <label for="trangThai">Trạng thái:</label>' +
-                '    <select class="form-control" id="trangThai">' +
-                '        <option value="0" ' + (trangThai == 0 ? "selected" : "") + '>Hoạt động</option>' +
-                '        <option value="1" ' + (trangThai == 1 ? "selected" : "") + '>Không hoạt động</option>' +
-                '    </select>' +
-                '</div>',
+            title: 'Chỉnh sửa Cổng Sạc',
+            input: 'text',
+            inputValue: name,
+            inputPlaceholder: 'Nhập giá trị',
             showCancelButton: true,
             confirmButtonText: 'Lưu',
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const enteredValue = document.getElementById('tenChip').value;
-                const trangThaiValue = parseInt(document.getElementById('trangThai').value);
+                const enteredValue = result.value;
+
                 if (enteredValue !== '') {
+
                     Swal.fire({
                         title: 'Xác nhận',
-                        text: `Bạn có chắc chắn muốn thay đổi Chip, việc thay đổi Chip sẽ làm cho Chip của ${soBienTheDangDung} biến thể thay đổi theo?`,
+                        text: `Bạn có chắc chắn muốn thay đổi Cổng Sạc, việc thay đổi Cổng Sạc sẽ làm cho Cổng Sạc của ${soBienTheDangDung} biến thể thay đổi theo?`,
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'OK',
                         cancelButtonText: 'Hủy',
                     }).then((result) => {
                         if (result.isConfirmed) {
+
                             var data = {
-                                IdChip: id,
-                                TenChip: enteredValue,
-                                TrangThai: trangThaiValue
+                                IdCongSac: id,
+                                LoaiCongSac: enteredValue
                             };
                             $.ajax({
-                                url: '/admin/thuoctinhsanpham/EditChip',
+                                url: '/admin/thuoctinhsanpham/EditCongSac',
                                 type: 'POST',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
@@ -200,11 +192,12 @@
             }
         });
     }
-    function ThemChip() {
+    function ThemCongSac() {
         Swal.fire({
-            title: 'Thêm Chip mới',
+            title: 'Thêm Cổng Sạc mới',
             html:
-                '<input id="tenChip" class="swal2-input" placeholder="Tên Chip">' +
+                '<input id="maCongSac" class="swal2-input" placeholder="Mã Cổng Sạc">' +
+                '<input id="loaiCongSac" class="swal2-input" placeholder="Loại Cổng Sạc">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
@@ -216,32 +209,33 @@
             confirmButtonText: 'Thêm',
             cancelButtonText: 'Hủy',
             preConfirm: () => {
-                const tenChip = document.getElementById('tenChip').value;
+                const maCongSac = document.getElementById('maCongSac').value;
+                const loaiCongSac = document.getElementById('loaiCongSac').value;
                 const trangThai = document.getElementById('trangThai').value;
-                return { tenChip: tenChip, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
+                return { loaiCongSac: loaiCongSac, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
             }
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = result.value;
-                if (data.tenChip !== '' && data.trangThai !== '') {
+                if (data.loaiCongSac !== '' && data.trangThai !== '' && data.maCongSac !== '') {
                     // Gửi dữ liệu thông qua AJAX để thêm Chip mới vào cơ sở dữ liệu
                     $.ajax({
-                        url: '/admin/thuoctinhsanpham/CreateChip',
+                        url: '/admin/thuoctinhsanpham/CreateCongSac',
                         type: 'POST',
                         data: JSON.stringify(data),
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                DrawChip();
+                                DrawCongSac();
                                 Swal.fire(
                                     'Thông báo!',
-                                    'Thêm Chip mới thành công!',
+                                    'Thêm Cổng Sạc mới thành công!',
                                     'success'
                                 );
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm Chip mới thất bại!',
+                                    'Thêm Cổng Sạc mới thất bại!',
                                     'info'
                                 );
                             }
@@ -263,9 +257,6 @@
             }
         });
     }
-</script>
-<script>
-    $('#data-table').Datatable();
 </script>
 <script src="~/Admin/vendors/datatables/jquery.dataTables.min.js" defer></script>
 <script src="~/Admin/vendors/datatables/dataTables.bootstrap.min.js" defer></script>

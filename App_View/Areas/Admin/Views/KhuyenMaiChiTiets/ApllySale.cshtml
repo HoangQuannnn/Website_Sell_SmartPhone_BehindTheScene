@@ -32,34 +32,22 @@
                     <option value="@item.Value">@item.Text</option>
                 }
             </select>
-            <div class="col-4" style="margin-top: 10px" id="thuonghieu">
+            <div class="col-4" style="margin-top: 10px" id="hang">
                 <label class="font-weight-semibold">
-                    <span> Thương hiệu</span>
+                    <span> Hãng</span>
                 </label>
                 <div class="d-flex align-items-center">
                     <i class="fas fa-trademark mr-1"></i>
-                    <select id="idThuongHieu" class="select2-active w-100" onchange="timKiem()">
-                        <option value="">Thương Hiệu</option>
-                        @foreach (var item in (SelectList)ViewData["IdThuongHieu"]!)
+                    <select id="idHang" class="select2-active w-100" onchange="timKiem()">
+                        <option value="">Hãng</option>
+                        @foreach (var item in (SelectList)ViewData["IdHang"]!)
                         {
                             <option value="@item.Value">@item.Text</option>
                         }
                     </select>
                 </div>
             </div>
-            <div class="col-4" style="margin-top: 10px" id="loaigiay">
-                <label class="font-weight-semibold">Loại giầy</label>
-                <div class="d-flex align-items-center">
-                    <i class="fab fa-magento mr-1"></i>
-                    <select id="idLoaiGiay" class="select2-active w-100" onchange="timKiem()">
-                        <option value="">Loại giày</option>
-                        @foreach (var item in (SelectList)ViewData["IdLoaiGiay"]!)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }
-                    </select>
-                </div>
-            </div>
+            
             <div class="col-4" style="margin-top: 10px" id="mausac">
                 <label class="font-weight-semibold">Màu Sắc</label>
                 <div class="d-flex align-items-center">
@@ -190,16 +178,15 @@
         });
     }
     function timKiem() {
-        var idThuongHieu = document.getElementById('idThuongHieu').value;
+        var idHang = document.getElementById('idHang').value;
         var idMauSac = document.getElementById('idMauSac').value;
-        var idLoaiGiay = document.getElementById('idLoaiGiay').value;
         var select = document.getElementById('selectSale');
         var selectValue = select.value;
         $('#preloader').show();
         $.ajax({
             url: "@Url.Action("viewSanPhamFilter", "KhuyenMaiChiTiets")",
             type: "GET",
-            data: { id: selectValue, idThuongHieu: idThuongHieu, idLoaiGiay: idLoaiGiay, idMauSac: idMauSac},
+            data: { id: selectValue, idHang: idHang, idMauSac: idMauSac },
             success: function (partialViewHtml) {
                 $('#preloader').hide();
                 document.getElementById('sanPham').innerHTML = partialViewHtml;

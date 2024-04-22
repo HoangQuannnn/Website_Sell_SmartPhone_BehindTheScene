@@ -12,6 +12,7 @@
 		<Content Remove="wwwroot\Admin\css\banHangTaiQuay.css" />
 		<Content Remove="wwwroot\Admin\css\Knorke.ttf" />
 		<Content Remove="wwwroot\AnhSale\z4376551283630_1d1d6c1a9b01210441bb54a3df5d3e40.jpg" />
+		<Content Remove="wwwroot\AnhSanPham\Phonee1.jpg" />
 		<Content Remove="wwwroot\CONS_ILLUSTRATION_o.gif" />
 		<Content Remove="wwwroot\css\ForgotPassword.css" />
 		<Content Remove="wwwroot\excel\template.xlsx" />
@@ -82,7 +83,6 @@
 	<ItemGroup>
 		<Folder Include="mailssave\" />
 		<Folder Include="Views\DanhGia\" />
-		<Folder Include="wwwroot\AnhSanPham\" />
 		<Folder Include="wwwroot\images\VoucherNguoiDungQRCode\" />
 		<Folder Include="wwwroot\images\VoucherQRCode\" />
 		<Folder Include="wwwroot\images\QRCode\" />

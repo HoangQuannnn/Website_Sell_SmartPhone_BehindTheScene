@@ -246,18 +246,18 @@
                                     </select>
                                 </div>
                                 <div class="m-b-10 ml-1">
-                                    <select class="select2_active" style="min-width: 180px;" id="filterThuongHieu">
+                                    <select class="select2_active" style="min-width: 180px;" id="filterHang">
                                         <option value="" selected="">Thương hiệu</option>
-                                        @foreach (var item in (SelectList)ViewData["ThuongHieu"]!)
+                                        @foreach (var item in (SelectList)ViewData["Hang"]!)
                                         {
                                             <option value="@item.Value">@item.Text</option>
                                         }
                                     </select>
                                 </div>
                                 <div class="m-b-10 ml-1">
-                                    <select class="select2_active" style="min-width: 180px;" id="filterLoaiGiay">
+                                    <select class="select2_active" style="min-width: 180px;" id="filterRam">
                                         <option value="" selected="">Thể loại</option>
-                                        @foreach (var item in (SelectList)ViewData["LoaiGiay"]!)
+                                        @foreach (var item in (SelectList)ViewData["Ram"]!)
                                         {
                                             <option value="@item.Value">@item.Text</option>
                                         }
@@ -273,9 +273,9 @@
                                     </select>
                                 </div>
                                 <div class="m-b-10 ml-1">
-                                    <select class="select2_active" style="min-width: 180px;" id="filterKichCo">
+                                    <select class="select2_active" style="min-width: 180px;" id="filterPin">
                                         <option value="" selected="">Kích cỡ</option>
-                                        @foreach (var item in (SelectList)ViewData["KichCo"]!)
+                                        @foreach (var item in (SelectList)ViewData["Pin"]!)
                                         {
                                             <option value="@item.Value">@item.Text</option>
                                         }
@@ -328,10 +328,10 @@
 <script>
     var table;
     var sanpham;
-    var thuongHieu;
+    var hang;
     var mauSac;
-    var kichCo;
-    var theLoai;
+    var ram;
+    var pin;
     var sort;
     var selectedCheckboxes = {};
 
@@ -392,9 +392,9 @@
                         searchValue: e.search.value,
                         SanPham: sanpham,
                         MauSac: mauSac,
-                        KichCo: kichCo,
-                        TheLoai: theLoai,
-                        ThuongHieu: thuongHieu,
+                        Ram: ram,
+                        Pin: pin,
+                        Hang: hang,
                         Sort: sort
                     });
                 },
@@ -476,28 +476,28 @@
                     orderable: false
                 },
                 {
-                    data: 'KieuDeGiay',
-                    title: 'Kiểu đế',
+                    data: 'Pin',
+                    title: 'Pin',
                     orderable: false
                 },
                 {
-                    data: 'ChatLieu',
-                    title: 'Chất liệu',
+                    data: 'Ram',
+                    title: 'Ram',
                     orderable: false
                 },
                 {
-                    data: 'LoaiGiay',
-                    title: 'Thể loại',
+                    data: 'Rom',
+                    title: 'Rom',
                     orderable: false
                 },
                 {
-                    data: 'XuatXu',
-                    title: 'Xuất xứ',
+                    data: 'Hang',
+                    title: 'Hãng',
                     orderable: false
                 },
                 {
-                    data: 'KichCo',
-                    title: 'Size',
+                    data: 'Chip',
+                    title: 'Chip',
                     orderable: false
                 },
                 {
@@ -602,8 +602,8 @@
                     table.draw();
                 });
 
-                $('#filterThuongHieu').on('change', function () {
-                    thuongHieu = $(this).val();
+                $('#filterHang').on('change', function () {
+                    hang = $(this).val();
                     table.draw();
                 });
 
@@ -612,14 +612,14 @@
                     table.draw();
                 });
 
-                $('#filterKichCo').on('change', function () {
-                    kichCo = $(this).val();
+                $('#filterRam').on('change', function () {
+                    ram = $(this).val();
                     table.draw();
                 });
 
-                $('#filterLoaiGiay').on('change', function () {
-                    theLoai = $(this).val();
-                    console.log(theLoai);
+                $('#filterPin').on('change', function () {
+                    pin = $(this).val();
+                    console.log(pin);
                     table.draw();
                 });
 

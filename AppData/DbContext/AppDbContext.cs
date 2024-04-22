@@ -78,7 +78,6 @@ namespace App_Data.DbContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=Website_Sell_SmartPhone_BehindTheScene;Integrated Security=True;TrustServerCertificate=true;");
-
         }
     }
 }

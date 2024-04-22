@@ -146,7 +146,7 @@ namespace App_View.Areas.Admin.Controllers
                     {
                         var userKhachHang = await _userManager.FindByIdAsync(userId);
 
-                        var subject = "Bạn đã nhận được Voucher từ Bazaizai Store";
+                        var subject = "Bạn đã nhận được Voucher từ BehindTheScene Store";
                         string html = await _viewRenderService.RenderToStringAsync("Voucher/MailVoucher");
 
                         await _emailSender.SendEmailAsync(userKhachHang.Email, subject, html);

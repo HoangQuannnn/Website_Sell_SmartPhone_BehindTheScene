@@ -395,7 +395,7 @@ namespace App_View.Areas.Admin.Controllers
         {
             if (_context.KhuyenMais == null)
             {
-                return Problem("Entity set 'BazaizaiContext.KhuyenMais'  is null.");
+                return Problem("Entity set 'BehindTheSceneContext.KhuyenMais'  is null.");
             }
             var khuyenMai = await _context.KhuyenMais.FindAsync(id);
             if (khuyenMai != null)

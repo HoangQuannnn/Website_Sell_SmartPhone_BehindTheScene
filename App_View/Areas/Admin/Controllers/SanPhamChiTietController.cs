@@ -43,6 +43,7 @@ using App_Data.ViewModels.HangDTO;
 using App_Data.ViewModels.ChiTietCameraDTO;
 using App_Data.ViewModels.CongSacDTO;
 using App_Data.ViewModels.PinDTO;
+using App_Data.IRepositories;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -53,13 +54,18 @@ namespace App_View.Areas.Admin.Controllers
         private readonly ISanPhamChiTietservice _SanPhamChiTietservice;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly HttpClient _httpClient;
-
-        public SanPhamChiTietController(ISanPhamChiTietservice SanPhamChiTietservice, IWebHostEnvironment webHostEnvironment, HttpClient httpClient)
+        private readonly IAllRepo<Hang> _hangs;
+        private readonly IAllRepo<Ram> _ram;
+        private readonly IAllRepo<Rom> _rom;
+        public SanPhamChiTietController(IAllRepo<Rom> rom, IAllRepo<Ram> ram, IAllRepo<Hang> hangs,ISanPhamChiTietservice SanPhamChiTietservice, IWebHostEnvironment webHostEnvironment, HttpClient httpClient)
         {
             _SanPhamChiTietservice = SanPhamChiTietservice;
             _webHostEnvironment = webHostEnvironment;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             _httpClient = httpClient;
+            _hangs = hangs;
+            _ram = ram;
+            _rom = rom;
         }
         [HttpGet]
         // GET: Admin/SanPhamChiTiet/DanhSachSanPham
@@ -998,15 +1004,15 @@ namespace App_View.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTenMauSac([FromBody] MauSacDTO kieuDeGiayDTO)
+        public async Task<IActionResult> CreateTenMauSac([FromBody] MauSacDTO mauSacDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateTenMauSacAynsc(kieuDeGiayDTO));
+            return Json(await _SanPhamChiTietservice.CreateTenMauSacAynsc(mauSacDTO));
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateLoaiPin([FromBody] PinDTO pinDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateLoaiPinAynsc(pinDTO));
+            return Json(await _SanPhamChiTietservice.CreateTenPinAynsc(pinDTO));
         }
 
         [HttpPost]

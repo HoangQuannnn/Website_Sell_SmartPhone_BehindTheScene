@@ -9,12 +9,12 @@ namespace App_View.Models.Components
 {
     public class DashBox : ViewComponent
     {
-        private readonly AppDbContext _bazaizaiContext;
+        private readonly AppDbContext _appContext;
         private readonly SignInManager<NguoiDung> _signInManager;
         private readonly UserManager<NguoiDung> _userManager;
         public DashBox(UserManager<NguoiDung> userManager, SignInManager<NguoiDung> signInManager = null)
         {
-            _bazaizaiContext = new AppDbContext();
+            _appContext = new AppDbContext();
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -23,9 +23,9 @@ namespace App_View.Models.Components
             var idNguoiDung = _userManager.GetUserId(HttpContext.User);
             var dashbox = new DashBoxViewModel()
             {
-                SoHoaDonCho = _bazaizaiContext.HoaDons.Where(hd=>hd.IdNguoiDung==idNguoiDung && hd.TrangThaiGiaoHang == (int)TrangThai.TrangThaiGiaoHang.ChoXacNhan).ToList().Count(),
-                SoHoaDonHuy = _bazaizaiContext.HoaDons.Where(hd=>hd.IdNguoiDung==idNguoiDung && hd.TrangThaiGiaoHang == (int)TrangThai.TrangThaiGiaoHang.DaHuy).ToList().Count(),
-                SoSanPhamYeuThich = _bazaizaiContext.SanPhamYeuThichs.Where(spyt=>spyt.IdNguoiDung==idNguoiDung).ToList().Count(),
+                SoHoaDonCho = _appContext.HoaDons.Where(hd=>hd.IdNguoiDung==idNguoiDung && hd.TrangThaiGiaoHang == (int)TrangThai.TrangThaiGiaoHang.ChoXacNhan).ToList().Count(),
+                SoHoaDonHuy = _appContext.HoaDons.Where(hd=>hd.IdNguoiDung==idNguoiDung && hd.TrangThaiGiaoHang == (int)TrangThai.TrangThaiGiaoHang.DaHuy).ToList().Count(),
+                SoSanPhamYeuThich = _appContext.SanPhamYeuThichs.Where(spyt=>spyt.IdNguoiDung==idNguoiDung).ToList().Count(),
             };
             return View(dashbox);
         }

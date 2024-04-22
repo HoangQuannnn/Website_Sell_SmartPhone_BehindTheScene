@@ -20,8 +20,8 @@
 </style>
 <div style="padding: 20px;">
     <div class="text-right mb-3">
-        <button type="button" class="btn btn-success" onclick="ThemChip()">
-            <i class="fas fa-plus"></i> Thêm Chip
+        <button type="button" class="btn btn-success" onclick="ThemPin()">
+            <i class="fas fa-plus"></i> Thêm pin
         </button>
     </div>
     <table id="data-table" class="table table-bordered table-hover">
@@ -29,7 +29,8 @@
             <tr>
                 <th class="text-center">STT</th>
                 <th class="text-center">Mã</th>
-                <th class="text-center">Tên</th>
+                <th class="text-center">Loại pin</th>
+                <th class="text-center">Dung lượng</th>
                 <th class="text-center">Trạng thái</th>
                 <th class="text-center">Biến thể liên quan</th>
                 <th class="text-center">###</th>
@@ -44,15 +45,16 @@
                 <tr>
                     <td class="text-center">@(STT++)</td>
                     <td class="text-center">@item.Ma!.ToUpper()</td>
-                    <td class="text-center">@item.Ten!.ToUpper()</td>
+                    <td class="text-center">@item.LoaiPin</td>
+                    <td class="text-center">@item.DungLuong</td>
                     <td class="text-center">@item.TrangThai</td>
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))', '@item.SoBienTheDangDung')">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiPin))', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DungLuong))', '@item.SoBienTheDangDung', '@item.TrangThai')">
                                 <i class="far fa-edit"></i>
                             </button>
-                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))','@item.SoBienTheDangDung')">
+                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiPin))', '@item.SoBienTheDangDung')">
                                 <i class="anticon anticon-delete"></i>
                             </button>
                         </div>
@@ -64,9 +66,9 @@
 </div>
 
 <script>
-    function DrawChip() {
+    function DrawThuongHieu() {
         $.ajax({
-            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachChip',
+            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachPin',
             type: 'GET',
             success: function (result) {
                 content.empty().append(result);
@@ -80,18 +82,18 @@
         });
     }
     $('#data-table').Datatable();
-    function Delete(id, name, soBienTheDangDung) {
+    function Delete(id, loaiPin, soBienTheDangDung) {
         if (soBienTheDangDung > 0) {
             Swal.fire({
                 title: 'Xóa thất bại',
-                text: `"${name}" đang được dùng cho ${soBienTheDangDung} biến thể.`,
+                text: `"${loaiPin}" đang được dùng cho ${soBienTheDangDung} biến thể.`,
                 icon: 'info',
                 confirmButtonText: 'OK'
             });
         } else {
             Swal.fire({
                 title: 'Xác nhận',
-                text: `Bạn có chắc chắn muốn xóa Chip "${name}" không?`,
+                text: `Bạn có chắc chắn muốn xóa pin "${loaiPin}" không?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'OK',
@@ -99,15 +101,15 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var data = {
-                        idChip: id,
+                        idPin: id,
                     };
                     $.ajax({
-                        url: '/admin/thuoctinhsanpham/DeleteChip',
+                        url: '/admin/thuoctinhsanpham/DeletePin',
                         type: 'GET',
                         data: data,
                         success: function (result) {
                             if (result) {
-                                DrawChip();
+                                DrawThuongHieu();
                                 Swal.fire(
                                     'Thông báo',
                                     'Đã xóa thành công',
@@ -126,16 +128,18 @@
             });
         }
     }
-    function Edit(id, name, soBienTheDangDung, trangThai) {
+
+    function Edit(id, loaiPin, dungLuong, soBienTheDangDung, trangThai) {
         Swal.fire({
-            title: 'Chỉnh sửa Chip',
+            title: 'Chỉnh sửa pin',
             html:
-                '<input id="tenChip" class="swal2-input" value="' + name + '" placeholder="Tên Chip">' +
+                '<input id="loaiPin" class="swal2-input" value="' + loaiPin + '" placeholder="Loại pin">' +
+                '<input id="dungLuong" class="swal2-input" value="' + dungLuong + '" placeholder="Dung lượng">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
-                '        <option value="0" ' + (trangThai == 0 ? "selected" : "") + '>Hoạt động</option>' +
-                '        <option value="1" ' + (trangThai == 1 ? "selected" : "") + '>Không hoạt động</option>' +
+                '        <option value="0" ' + (trangThai == "Hoạt động" ? "selected" : "") + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai == "Không hoạt động" ? "selected" : "") + '>Không hoạt động</option>' +
                 '    </select>' +
                 '</div>',
             showCancelButton: true,
@@ -143,12 +147,13 @@
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const enteredValue = document.getElementById('tenChip').value;
-                const trangThaiValue = parseInt(document.getElementById('trangThai').value);
-                if (enteredValue !== '') {
+                const loaiPinValue = document.getElementById('loaiPin').value;
+                const dungLuongValue = document.getElementById('dungLuong').value;
+                const trangThaiValue = document.getElementById('trangThai').value;
+                if (loaiPinValue !== '' && dungLuongValue !== '') {
                     Swal.fire({
                         title: 'Xác nhận',
-                        text: `Bạn có chắc chắn muốn thay đổi Chip, việc thay đổi Chip sẽ làm cho Chip của ${soBienTheDangDung} biến thể thay đổi theo?`,
+                        text: `Bạn có chắc chắn muốn thay đổi pin, việc thay đổi pin sẽ làm cho pin của ${soBienTheDangDung} biến thể thay đổi theo?`,
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'OK',
@@ -156,18 +161,19 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             var data = {
-                                IdChip: id,
-                                TenChip: enteredValue,
-                                TrangThai: trangThaiValue
+                                IdPin: id,
+                                LoaiPin: loaiPinValue,
+                                DungLuong: dungLuongValue,
+                                TrangThai: trangThaiValue == "0" ? 0 : 1
                             };
                             $.ajax({
-                                url: '/admin/thuoctinhsanpham/EditChip',
+                                url: '/admin/thuoctinhsanpham/EditPin',
                                 type: 'POST',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        DrawChip();
+                                        DrawThuongHieu();
                                         Swal.fire(
                                             'Thông báo!',
                                             'Cập nhật thành công!',
@@ -193,18 +199,20 @@
                 } else {
                     Swal.fire(
                         'Lỗi!',
-                        'Vui lòng nhập giá trị.',
+                        'Vui lòng nhập đầy đủ thông tin.',
                         'error'
                     );
                 }
             }
         });
     }
-    function ThemChip() {
+
+    function ThemPin() {
         Swal.fire({
-            title: 'Thêm Chip mới',
+            title: 'Thêm pin mới',
             html:
-                '<input id="tenChip" class="swal2-input" placeholder="Tên Chip">' +
+                '<input id="loaiPin" class="swal2-input" placeholder="Loại pin">' +
+                '<input id="dungLuong" class="swal2-input" placeholder="Dung lượng">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
@@ -216,32 +224,33 @@
             confirmButtonText: 'Thêm',
             cancelButtonText: 'Hủy',
             preConfirm: () => {
-                const tenChip = document.getElementById('tenChip').value;
+                const loaiPin = document.getElementById('loaiPin').value;
+                const dungLuong = document.getElementById('dungLuong').value;
                 const trangThai = document.getElementById('trangThai').value;
-                return { tenChip: tenChip, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
+                return { loaiPin: loaiPin, dungLuong: dungLuong, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
             }
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = result.value;
-                if (data.tenChip !== '' && data.trangThai !== '') {
-                    // Gửi dữ liệu thông qua AJAX để thêm Chip mới vào cơ sở dữ liệu
+                if (data.loaiPin !== '' && data.dungLuong !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm pin mới vào cơ sở dữ liệu
                     $.ajax({
-                        url: '/admin/thuoctinhsanpham/CreateChip',
+                        url: '/admin/thuoctinhsanpham/CreatePin',
                         type: 'POST',
                         data: JSON.stringify(data),
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                DrawChip();
+                                DrawThuongHieu();
                                 Swal.fire(
                                     'Thông báo!',
-                                    'Thêm Chip mới thành công!',
+                                    'Thêm pin mới thành công!',
                                     'success'
                                 );
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm Chip mới thất bại!',
+                                    'Thêm pin mới thất bại!',
                                     'info'
                                 );
                             }

@@ -36,7 +36,7 @@
                         <br />
                         -Bạn nên đặt tên các file ảnh khác nhau để tránh gặp lỗi!
                         <br />
-                        -Ví dụ: Tên giày_Màu sắc_Kích cỡ_STT.
+                        -Ví dụ: Tên điện thoại_Màu sắc_Ram_Rom_STT.
                     </span>
                 </div>
                 <div class="modal-footer" style="background: #d0dae3">
@@ -177,45 +177,72 @@
                             </select>
                         </div>
                         <div class="m-b-10 ml-1">
-                            <select class="select2_active" style="min-width: 180px;" id="filterThuongHieu">
-                                <option value="" selected="">Thương hiệu</option>
-                                @foreach (var item in (SelectList)ViewData["IdThuongHieu"]!)
+                            <select class="select2_active" style="min-width: 180px;" id="filterHang">
+                                <option value="" selected="">Hãng</option>
+                                @foreach (var item in (SelectList)ViewData["IdHang"]!)
                                 {
                                     <option value="@item.Value">@item.Text</option>
                                 }
                             </select>
                         </div>
                         <div class="m-b-10 ml-1">
-                            <select class="select2_active" style="min-width: 180px;" id="filterKieuDeGiay">
-                                <option value="" selected="">Kiểu đế giày</option>
-                                @foreach (var item in (SelectList)ViewData["IdKieuDeGiay"]!)
+                            <select class="select2_active" style="min-width: 180px;" id="filterChip">
+                                <option value="" selected="">Chip</option>
+                                @foreach (var item in (SelectList)ViewData["IdChip"]!)
                                 {
                                     <option value="@item.Value">@item.Text</option>
                                 }
                             </select>
                         </div>
                         <div class="m-b-10 ml-1">
-                            <select class="select2_active" style="min-width: 180px;" id="filterChatLieu">
-                                <option value="" selected="">Chất liệu</option>
-                                @foreach (var item in (SelectList)ViewData["IdChatLieu"]!)
+                            <select class="select2_active" style="min-width: 180px;" id="filterCongSac">
+                                <option value="" selected="">Cổng sạc</option>
+                                @foreach (var item in (SelectList)ViewData["IdCongSac"]!)
                                 {
                                     <option value="@item.Value">@item.Text</option>
                                 }
                             </select>
                         </div>
                         <div class="m-b-10 ml-1">
-                            <select class="select2_active" style="min-width: 180px;" id="filterLoaiGiay">
-                                <option value="" selected="">Loại giày</option>
-                                @foreach (var item in (SelectList)ViewData["IdLoaiGiay"]!)
+                            <select class="select2_active" style="min-width: 180px;" id="filterManHinh">
+                                <option value="" selected="">Màn hình</option>
+                                @foreach (var item in (SelectList)ViewData["IdManHinh"]!)
                                 {
                                     <option value="@item.Value">@item.Text</option>
                                 }
                             </select>
                         </div>
                         <div class="m-b-10 ml-1">
-                            <select class="select2_active" style="min-width: 180px;" id="filterXuatXu">
-                                <option value="" selected="">Xuất xứ</option>
-                                @foreach (var item in (SelectList)ViewData["IdXuatXu"]!)
+                            <select class="select2_active" style="min-width: 180px;" id="filterPin">
+                                <option value="" selected="">Pin</option>
+                                @foreach (var item in (SelectList)ViewData["IdPin"]!)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="m-b-10 ml-1">
+                            <select class="select2_active" style="min-width: 180px;" id="filterTheNho">
+                                <option value="" selected="">Thẻ Nhớ</option>
+                                @foreach (var item in (SelectList)ViewData["IdTheNho"]!)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="m-b-10 ml-1">
+                            <select class="select2_active" style="min-width: 180px;" id="filterCamera">
+                                <option value="" selected="">Camera</option>
+                                @foreach (var item in (SelectList)ViewData["IdCamera"]!)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="m-b-10 ml-1">
+                            <select class="select2_active" style="min-width: 180px;" id="filterTheSim">
+                                <option value="" selected="">Thẻ Sim</option>
+                                @foreach (var item in (SelectList)ViewData["IdTheSim"]!)
                                 {
                                     <option value="@item.Value">@item.Text</option>
                                 }
@@ -241,11 +268,14 @@
 <script>
     var soLuongUpdate;
     var idSanPham;
-    var idXuatXu;
-    var idKieuDeGiay;
-    var idChatLieu;
-    var idLoaiGiay;
-    var idThuongHieu;
+    var idCamera;
+    var idChip;
+    var idCongSac;
+    var idManHinh;
+    var idPin;
+    var idTheNho;
+    var idTheSim;
+    var idHang;
     var tableDSTongQuan;
 
     $(document).off('click', '#btn_skip')
@@ -267,11 +297,14 @@
                     Length: e.length,
                     SearchValue: e.search.value,
                     IdSanPham: idSanPham,
-                    IdThuongHieu: idThuongHieu,
-                    IdKieuDeGiay: idKieuDeGiay,
-                    IdChatLieu: idChatLieu,
-                    IdLoaiGiay: idLoaiGiay,
-                    IdXuatXu: idXuatXu
+                    IdHang: idHang,
+                    IdCamera: idCamera,
+                    IdChip: idChip,
+                    IdCongSac: idCongSac,
+                    IdManHinh: idManHinh,
+                    IdPin: idPin,
+                    IdTheNho: idTheNho,
+                    IdTheSim: idTheSim
                 }
             )
         },
@@ -295,28 +328,43 @@
             orderable: false
         },
         {
-            data: 'ThuongHieu',
-            title: 'Thương hiệu',
+            data: 'Hang',
+            title: 'Hãng',
             orderable: false
         },
         {
-            data: 'KieuDeGiay',
-            title: 'Kiểu đế',
+            data: 'Camera',
+            title: 'Camera',
             orderable: false
         },
         {
-            data: 'ChatLieu',
-            title: 'Chất liệu',
+            data: 'Chip',
+            title: 'Chip',
             orderable: false
         },
         {
-            data: 'XuatXu',
-            title: 'Xuất xứ',
+            data: 'CongSac',
+            title: 'Cổng sạc',
             orderable: false
         },
         {
-            data: 'LoaiGiay',
-            title: 'Loại giày',
+            data: 'ManHinh',
+            title: 'Màn hình',
+            orderable: false
+        },
+        {
+            data: 'Pin',
+            title: 'Pin',
+            orderable: false
+        },
+        {
+            data: 'TheNho',
+            title: 'Thẻ nhớ',
+            orderable: false
+        },
+        {
+            data: 'TheSim',
+            title: 'Thẻ sim',
             orderable: false
         },
         {
@@ -325,8 +373,13 @@
             orderable: false
         },
         {
-            data: 'SoSize',
-            title: 'Số size',
+            data: 'SoRam',
+            title: 'Số ram',
+            orderable: false
+        },
+        {
+            data: 'SoRom',
+            title: 'Số rom',
             orderable: false
         },
         {
@@ -350,7 +403,7 @@
                     "sumGuid": data.SumGuild
                 },
                 success: function (result) {
-                    $('#ModalLabelDanhSach').text(`${data.ThuongHieu.toUpperCase()} - ${data.SanPham.toUpperCase()} - ${data.KieuDeGiay.toUpperCase()} - ${data.ChatLieu.toUpperCase()} - ${data.LoaiGiay.toUpperCase()} - ${data.XuatXu.toUpperCase()}`);
+                            $('#ModalLabelDanhSach').text(`${data.Hang.toUpperCase()} - ${data.SanPham.toUpperCase()} - ${data.Camera.toUpperCase()} - ${data.Chip.toUpperCase()} - ${data.CongSac.toUpperCase()} - ${data.ManHinh.toUpperCase()} - ${data.Pin.toUpperCase()} - ${data.TheNho.toUpperCase()} - ${data.TheSim.toUpperCase()}`);
                     $('#modal-dssanpham').empty().html(result);
                     $('#exampleModal').modal('show');
                 },
@@ -372,28 +425,43 @@
             tableDSTongQuan.draw();
         });
 
-        $('#filterThuongHieu').on('change', function () {
-            idThuongHieu = $(this).val();
+        $('#filterHang').on('change', function () {
+            idHang = $(this).val();
+            tableDSTongQuan.draw();
+        });
+        
+        $('#filterCamera').on('change', function () {
+            idCamera = $(this).val();
             tableDSTongQuan.draw();
         });
 
-        $('#filterKieuDeGiay').on('change', function () {
-            idKieuDeGiay = $(this).val();
+        $('#filterChip').on('change', function () {
+                    idChip = $(this).val();
             tableDSTongQuan.draw();
         });
 
-        $('#filterChatLieu').on('change', function () {
-            idChatLieu = $(this).val();
+        $('#filterCongSac').on('change', function () {
+            idCongSac = $(this).val();
             tableDSTongQuan.draw();
         });
 
-        $('#filterLoaiGiay').on('change', function () {
-            idLoaiGiay = $(this).val();
+        $('#filterManHinh').on('change', function () {
+            idManHinh = $(this).val();
             tableDSTongQuan.draw();
         });
 
-        $('#filterXuatXu').on('change', function () {
-            idXuatXu = $(this).val();
+        $('#filterPin').on('change', function () {
+            idPin = $(this).val();
+            tableDSTongQuan.draw();
+        });
+        
+        $('#filterTheNho').on('change', function () {
+            idTheNho = $(this).val();
+            tableDSTongQuan.draw();
+        });
+        
+        $('#filterTheSim').on('change', function () {
+            idTheSim = $(this).val();
             tableDSTongQuan.draw();
         });
     }

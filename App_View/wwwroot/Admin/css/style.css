@@ -4,7 +4,7 @@
 }
 
 #preloader {
-    background: #000 url('../images/load/loader.gif') no-repeat center center;
+    background: #000 url('../images/load/load.gif') no-repeat center center;
     background-size: 15%;
     height: 100%;
     width: 100%;

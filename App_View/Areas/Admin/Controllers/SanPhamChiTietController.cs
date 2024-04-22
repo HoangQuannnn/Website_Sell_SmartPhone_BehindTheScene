@@ -54,18 +54,12 @@ namespace App_View.Areas.Admin.Controllers
         private readonly ISanPhamChiTietservice _SanPhamChiTietservice;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly HttpClient _httpClient;
-        private readonly IAllRepo<Hang> _hangs;
-        private readonly IAllRepo<Ram> _ram;
-        private readonly IAllRepo<Rom> _rom;
-        public SanPhamChiTietController(IAllRepo<Rom> rom, IAllRepo<Ram> ram, IAllRepo<Hang> hangs,ISanPhamChiTietservice SanPhamChiTietservice, IWebHostEnvironment webHostEnvironment, HttpClient httpClient)
+        public SanPhamChiTietController(ISanPhamChiTietservice SanPhamChiTietservice, IWebHostEnvironment webHostEnvironment, HttpClient httpClient)
         {
             _SanPhamChiTietservice = SanPhamChiTietservice;
             _webHostEnvironment = webHostEnvironment;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             _httpClient = httpClient;
-            _hangs = hangs;
-            _ram = ram;
-            _rom = rom;
         }
         [HttpGet]
         // GET: Admin/SanPhamChiTiet/DanhSachSanPham

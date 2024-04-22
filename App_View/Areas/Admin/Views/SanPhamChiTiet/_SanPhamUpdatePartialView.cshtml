@@ -257,7 +257,7 @@
                                                         <label class="font-weight-semibold" for="productBrand">Khối lượng*</label>
                                                         <div class="d-flex align-items-center">
                                                             <i class="fas fa-weight mr-1"></i>
-                                                            <input type="text" class="form-control formatKhoiLuong" name="KhoiLuong" value="@sp.KhoiLuong">
+                                                            <input type="text" class="form-control formatRam" name="Ram" value="@sp.IdRam">
                                                         </div>
                                                     </div>
 
@@ -313,7 +313,7 @@
                                                     Lưu ý:
                                                     <br />
                                                     <span>
-                                                         -Việc thay đổi thông tin các trường tên sản phẩm, thương hiệu, xuất xứ, chất liệu, loại giày, kiểu đế giày có thể gây ra việc thêm mới một nhóm sản phẩm khác!
+                                                         -Việc thay đổi thông tin các trường tên sản phẩm, Hãng, Camera, chíp, Cổng sạc, màm hình , thẻ nhớ , thẻ sim có thể gây ra việc thêm mới một nhóm sản phẩm khác!
                                                     </span>
                                                 </div>
                                             </div>
@@ -412,20 +412,20 @@
 
             $(".select2-active").select2();
 
-            $('.thuonghieu').each(function () {
-                const $thuonghieu = $(this);
-                var $thuonghieuInput = $(this).find('input.select2-input');
-                $thuonghieuInput.on('keyup', function (e) {
+            $('.Hang').each(function () {
+                const $Hang = $(this);
+                var $HangInput = $(this).find('input.select2-input');
+                $HangInput.on('keyup', function (e) {
                     if (e.key === 'Enter') {
                         var inputValue = $(this).val();
                         if (inputValue.trim() !== "") {
                             var data = {
-                                TenThuongHieu: inputValue,
+                                TenHang: inputValue,
                             };
-                            var $select2 = $thuonghieu.find("[name='IdThuongHieu']");
+                            var $select2 = $Hang.find("[name='IdHang']");
 
                             $.ajax({
-                                url: 'CreateTenThuongHieu',
+                                url: 'CreateTenHang',
                                 type: 'POST',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
@@ -435,12 +435,12 @@
                                         if (selectedValue && selectedValue.length > 0) {
                                             $select2.val(null).trigger('change');
                                         }
-                                        var newOption = new Option(result.tenThuongHieu, result.idThuongHieu, true, true);
+                                        var newOption = new Option(result.tenHang, result.idHang, true, true);
                                         $select2.append(newOption).trigger('change');
 
-                                        $thuonghieuInput.val('');
+                                        $HangInput.val('');
                                     } else {
-                                        showToastTonTai('Thương hiệu')
+                                        showToastTonTai('Hang')
                                     }
                                 },
                                 error: function (xhr, status, error) {
@@ -454,10 +454,10 @@
                     }
                 });
             });
-            $('.xuatxu').each(function () {
-                const $xuatxu = $(this);
-                var $xuatxuInput = $(this).find('input.select2-input');
-                $xuatxuInput.on('keyup', function (e) {
+            $('.Camera').each(function () {
+                const $Camera = $(this);
+                var $CameraInput = $(this).find('input.select2-input');
+                $CameraInput.on('keyup', function (e) {
                     if (e.key === 'Enter') {
                         var inputValue = $(this).val();
                         if (inputValue.trim() !== "") {
@@ -465,23 +465,23 @@
                                 Ten: inputValue,
                             };
                             $.ajax({
-                                url: 'CreateTenXuatXu',
+                                url: 'CreateTenCamera',
                                 type: 'POST',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        var $select2 = $xuatxu.find("[name='IdXuatXu']");
+                                        var $select2 = $Camera.find("[name='IdCamera']");
                                         var selectedValue = $select2.val();
                                         if (selectedValue && selectedValue.length > 0) {
                                             $select2.val(null).trigger('change');
                                         }
-                                        var newOption = new Option(result.ten, result.idXuatXu, true, true);
+                                        var newOption = new Option(result.ten, result.idCamera, true, true);
                                         $select2.append(newOption).trigger('change');
 
                                         $(this).val('');
                                     } else {
-                                        showToastTonTai('Xuất xứ')
+                                        showToastTonTai('Camera')
                                     }
                                     
                                 },
@@ -537,34 +537,34 @@
                     }
                 });
             });
-            $('.loaigiay').each(function () {
-                const $loaigiay = $(this);
-                var $loaigiayInput = $(this).find('input.select2-input');
-                $loaigiayInput.on('keyup', function (e) {
+            $('.chip').each(function () {
+                const $chip = $(this);
+                var $chipInput = $(this).find('input.select2-input');
+                $chipInput.on('keyup', function (e) {
                     if (e.key === 'Enter') {
                         var inputValue = $(this).val();
                         if (inputValue.trim() !== "") {
                             var data = {
-                                TenLoaiGiay: inputValue,
+                                Tenchip: inputValue,
                             };
                             $.ajax({
-                                url: 'CreateTenLoaiGiay',
+                                url: 'CreateTenchip',
                                 type: 'POST',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        var $select2 = $loaigiay.find("[name='IdLoaiGiay']");
+                                        var $select2 = $chip.find("[name='Idchip']");
                                         var selectedValue = $select2.val();
                                         if (selectedValue && selectedValue.length > 0) {
                                             $select2.val(null).trigger('change');
                                         }
-                                        var newOption = new Option(result.tenLoaiGiay, result.idLoaiGiay, true, true);
+                                        var newOption = new Option(result.tenchip, result.idchip, true, true);
                                         $select2.append(newOption).trigger('change');
 
                                         $(this).val('');
                                     } else {
-                                        showToastTonTai('Loại giày')
+                                        showToastTonTai('Chip')
                                     }
                                 },
                                 error: function (xhr, status, error) {
@@ -578,34 +578,34 @@
                     }
                 });
             });
-            $('.chatlieu').each(function () {
-                const $chatlieu = $(this);
-                var $chatlieuInput = $(this).find('input.select2-input');
-                $chatlieuInput.on('keyup', function (e) {
+            $('.congsac').each(function () {
+                const $congsac = $(this);
+                var $congsacInput = $(this).find('input.select2-input');
+                $congsacInput.on('keyup', function (e) {
                     if (e.key === 'Enter') {
                         var inputValue = $(this).val();
                         if (inputValue.trim() !== "") {
                             var data = {
-                                TenChatLieu: inputValue,
+                                Tencongsac: inputValue,
                             };
                             $.ajax({
-                                url: 'CreateTenChatLieu',
+                                url: 'CreateTencongsac',
                                 type: 'POST',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        var $select2 = $chatlieu.find("[name='IdChatLieu']");
+                                        var $select2 = $congsac.find("[name='Idcongsac']");
                                         var selectedValue = $select2.val();
                                         if (selectedValue && selectedValue.length > 0) {
                                             $select2.val(null).trigger('change');
                                         }
-                                        var newOption = new Option(result.tenChatLieu, result.idChatLieu, true, true);
+                                        var newOption = new Option(result.tencongsac, result.idcongsac, true, true);
                                         $select2.append(newOption).trigger('change');
 
                                         $(this).val('');
                                     } else {
-                                        showToastTonTai('Chất liệu')
+                                        showToastTonTai('Cong Sac')
                                     }
                                 },
                                 error: function (xhr, status, error) {
@@ -619,29 +619,29 @@
                     }
                 });
             });
-            $('.kieudegiay').each(function () {
-                const $kieudegiay = $(this);
-                var $kieudegiayInput = $(this).find('input.select2-input');
-                $kieudegiayInput.on('keyup', function (e) {
+            $('.manhinh').each(function () {
+                const $manhinh = $(this);
+                var $manhinhInput = $(this).find('input.select2-input');
+                $manhinhInput.on('keyup', function (e) {
                     if (e.key === 'Enter') {
                         var inputValue = $(this).val();
                         if (inputValue.trim() !== "") {
                             var data = {
-                                TenKieuDeGiay: inputValue,
+                                Tenmanhinh: inputValue,
                             };
                             $.ajax({
-                                url: 'CreateTenKieuDeGiay',
+                                url: 'CreateTenmanhinh',
                                 type: 'POST',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        var $select2 = $kieudegiay.find("[name='IdKieuDeGiay']");
+                                        var $select2 = $manhinh.find("[name='Idmanhinh']");
                                         var selectedValue = $select2.val();
                                         if (selectedValue && selectedValue.length > 0) {
                                             $select2.val(null).trigger('change');
                                         }
-                                        var newOption = new Option(result.tenKieuDeGiay, result.idKieuDeGiay, true, true);
+                                        var newOption = new Option(result.tenmanhinh, result.idmanhinh, true, true);
                                         $select2.append(newOption).trigger('change');
 
                                         $(this).val('');
@@ -701,10 +701,10 @@
                     }
                 });
             })
-            $('.kichco').each(function () {
-                const $kichco = $(this);
-                var $kichcoInput = $(this).find('input.select2-input');
-                $kichcoInput.on('keyup', function (e) {
+            $('.pin').each(function () {
+                const $pin = $(this);
+                var $pinInput = $(this).find('input.select2-input');
+                $pinInput.on('keyup', function (e) {
                     if (e.key === 'Enter') {
                         var inputValue = $(this).val();
                         if (inputValue.trim() !== "") {
@@ -730,22 +730,22 @@
                                 }, 3000);
                             } else {
                                 var data = {
-                                    soKichCo: inputValue.trim(),
+                                    sopin: inputValue.trim(),
                                 };
                                 $.ajax({
-                                    url: 'CreateTenKichCo',
+                                    url: 'CreateTenpin',
                                     type: 'POST',
                                     data: JSON.stringify(data),
                                     contentType: 'application/json',
                                     success: function (result) {
                                         if (result) {
-                                            var $select2 = $kichco.find("[name='IdKichCo']");
+                                            var $select2 = $pin.find("[name='Idpin']");
 
                                             var selectedValue = $select2.val();
                                             if (selectedValue && selectedValue.length > 0) {
                                                 $select2.val(null).trigger('change');
                                             }
-                                            var newOption = new Option(result.soKichCo, result.idKichCo, true, true);
+                                            var newOption = new Option(result.sopin, result.idpin, true, true);
                                             $select2.append(newOption).trigger('change');
 
                                             $(this).val('');
@@ -794,7 +794,7 @@
                 }
             });
 
-            $(".formatKhoiLuong").each(function () {
+            $(".formatRam").each(function () {
                 if (!this.autoNumericInitialized) {
                     new AutoNumeric(this, {
                         decimalCharacter: ".",
@@ -1032,7 +1032,7 @@
                                             var fieldValue = $(this).val();
                                             fieldValue = BigInt(fieldValue.replace(/₫|,|\s/g, '')).toString();
                                         }
-                                        else if ($(this).hasClass("formatKhoiLuong")) {
+                                        else if ($(this).hasClass("formatRam")) {
                                             var doubleValue = parseFloat($(this).val().replace(/,/g, ''));
                                             fieldValue = doubleValue;
                                         }
@@ -1049,12 +1049,12 @@
 
                             if (parseFloat(data.GiaBan) !== 0 &&
                                 parseFloat(data.GiaNhap) !== 0 &&
-                                parseFloat(data.KhoiLuong) !== 0 &&
-                                !isNaN(data.KhoiLuong) &&
+                                parseFloat(data.Ram) !== 0 &&
+                                !isNaN(data.Ram) &&
                                 data.GiaBan.trim() !== "" &&
                                 data.GiaNhap.trim() !== "" &&
                                 data.SoLuongTon.trim() !== "" &&
-                                data.KhoiLuong.toString().trim() !== ""
+                                data.Ram.toString().trim() !== ""
                             ) {
                                 const updateProduct = $.ajax({
                                     url: URL_UPDATE_PRODUCT_DETAIL,

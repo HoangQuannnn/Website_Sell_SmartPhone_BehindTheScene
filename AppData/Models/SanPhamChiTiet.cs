@@ -12,7 +12,6 @@ namespace App_Data.Models
         [Key]
         public string? IdChiTietSp { get; set; }
         public string? Ma { get; set; }
-        public bool? Day { get; set; }
         public string? MoTa { get; set; }
         public int? SoLuongTon { get; set; }
         public int? SoLuongDaBan { get; set; }

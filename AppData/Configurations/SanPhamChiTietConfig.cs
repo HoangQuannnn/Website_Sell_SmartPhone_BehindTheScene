@@ -47,7 +47,6 @@ namespace App_Data.Configurations
             HasForeignKey(c => c.IdPin);
 
             builder.Property(x => x.Ma).HasColumnType("varchar(50)");
-            builder.Property(x => x.Day).HasColumnType("bit");
             builder.Property(x => x.NoiBat).HasColumnType("bit");
         }
     }

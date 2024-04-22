@@ -1004,9 +1004,9 @@ namespace App_View.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTenMauSac([FromBody] MauSacDTO kieuDeGiayDTO)
+        public async Task<IActionResult> CreateTenMauSac([FromBody] MauSacDTO mauSacDTO)
         {
-            return Json(await _SanPhamChiTietservice.CreateTenMauSacAynsc(kieuDeGiayDTO));
+            return Json(await _SanPhamChiTietservice.CreateTenMauSacAynsc(mauSacDTO));
         }
 
         [HttpPost]

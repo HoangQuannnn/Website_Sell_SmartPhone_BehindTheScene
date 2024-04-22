@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App_Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240419160546_test")]
-    partial class test
+    [Migration("20240422145104_Database")]
+    partial class Database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -328,7 +328,7 @@ namespace App_Data.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("TenHang")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("TrangThai")
                         .HasColumnType("int");
@@ -816,7 +816,7 @@ namespace App_Data.Migrations
                     b.Property<string>("MaPin")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TrangThai")
+                    b.Property<int>("TrangThai")
                         .HasColumnType("int");
 
                     b.HasKey("IdPin");
@@ -830,15 +830,16 @@ namespace App_Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DungLuong")
+                        .IsRequired()
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("MaRam")
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("TenRam")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int?>("TrangThai")
+                    b.Property<int>("TrangThai")
                         .HasColumnType("int");
 
                     b.HasKey("IdRam");
@@ -852,12 +853,16 @@ namespace App_Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DungLuong")
+                        .IsRequired()
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("MaRom")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("TrangThai")
+                    b.Property<string>("TenRom")
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("TrangThai")
                         .HasColumnType("int");
 
                     b.HasKey("IdRom");
@@ -888,9 +893,6 @@ namespace App_Data.Migrations
                 {
                     b.Property<string>("IdChiTietSp")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool?>("Day")
-                        .HasColumnType("bit");
 
                     b.Property<double?>("GiaBan")
                         .HasColumnType("float");
@@ -1045,6 +1047,9 @@ namespace App_Data.Migrations
 
                     b.Property<string>("Loaithesim")
                         .HasColumnType("varchar(10)");
+
+                    b.Property<string>("MaTheSim")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SoKhaySim")
                         .HasColumnType("int");

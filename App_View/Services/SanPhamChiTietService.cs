@@ -112,17 +112,17 @@ namespace App_View.Services
 
         public async Task<List<Hang>> GetListModelHangAsync()
         {
-            return (await _httpClient.GetFromJsonAsync<List<Hang>?>("api/Hang"))!;
+            return (await _httpClient.GetFromJsonAsync<List<Hang>?>("/api/SanPhamChiTiet/Get-List-Hang"))!;
         }
 
         public async Task<List<Ram>> GetListModelRamAsync()
         {
-            return (await _httpClient.GetFromJsonAsync<List<Ram>?>("/api/Ram"))!;
+            return (await _httpClient.GetFromJsonAsync<List<Ram>?>("/api/SanPhamChiTiet/Get-List-Ram"))!;
         }
 
         public async Task<List<Rom>> GetListModelRomAsync()
         {
-            return (await _httpClient.GetFromJsonAsync<List<Rom>?>("api/Rom"))!;
+            return (await _httpClient.GetFromJsonAsync<List<Rom>?>("/api/SanPhamChiTiet/Get-List-Rom"))!;
         }
         public async Task<ResponseCheckAddOrUpdate> CheckSanPhamAddOrUpdate(SanPhamChiTietDTO sanPhamChiTietDTO)
         {
@@ -647,9 +647,9 @@ namespace App_View.Services
         {
             throw new NotImplementedException();
         }
-        public Task<List<CongSac>> GetListModelCongSacAsync()
+        public async Task<List<CongSac>> GetListModelCongSacAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<CongSac>?>("/api/SanPhamChiTiet/Get-List-CongSac"))!;
         }
 
         public Task<List<ChiTietCamera>> GetListModelChiTietCameraAsync()
@@ -657,19 +657,19 @@ namespace App_View.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Chip>> GetListModelChipAsync()
+        public async Task<List<Chip>> GetListModelChipAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<Chip>?>("/api/SanPhamChiTiet/Get-List-Chip"))!;
         }
 
         public async Task<List<Pin>> GetListModelPinAsync()
         {
-            return (await _httpClient.GetFromJsonAsync<List<Pin>?>("api/Hang"))!;
+            return (await _httpClient.GetFromJsonAsync<List<Pin>?>("/api/SanPhamChiTiet/Get-List-Pin"))!;
         }
 
-        public Task<List<TheNho>> GetListModelTheNhoAsync()
+        public async Task<List<TheNho>> GetListModelTheNhoAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<TheNho>?>("/api/SanPhamChiTiet/Get-List-TheNho"))!;
         }
 
         public Task<List<TheSim>> GetListModelTheSimAsync()
@@ -687,9 +687,9 @@ namespace App_View.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<ManHinh>> GetListModelManHinhAsync()
+        public async Task<List<ManHinh>> GetListModelManHinhAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<ManHinh>?>("/api/SanPhamChiTiet/Get-List-ManHinh"))!;
         }
 
         public Task<DanhSachDienThoaiViewModel?> DanhSachDienThoaiViewModel()

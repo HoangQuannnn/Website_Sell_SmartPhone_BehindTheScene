@@ -65,11 +65,16 @@ namespace App_View.Areas.Admin.Controllers
         // GET: Admin/SanPhamChiTiet/DanhSachSanPham
         public async Task<IActionResult> DanhSachSanPham()
         {
-            ViewData["Hang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
-            ViewData["Chip"] = new SelectList((await _SanPhamChiTietservice.GetListModelChipAsync()), "IdChip", "TenChip");
-            ViewData["MauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
-            ViewData["SanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
-            ViewData["ChiTietCameras"] = new SelectList(await _SanPhamChiTietservice.GetListChiTietCamerasModelAsync(), "IdChiTietCamera", "LoaiCamera");
+            ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
+            ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
+            ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
+            ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
+            ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
+            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
             return View();
         }
 
@@ -781,13 +786,16 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetPartialViewListUpdate([FromBody] ListGuildDTO listGuildDTO)
         {
-            ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
-            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
+            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
             var model = await _SanPhamChiTietservice.GetListSanPhamChiTietDTOAsync(listGuildDTO);
             return PartialView("_DanhSachSanPhamUpdate", model);
         }
@@ -795,13 +803,16 @@ namespace App_View.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPartialViewSanPhamCopy(string IdSanPhamChiTiet)
         {
-            ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
-            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
+            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
 
             var model = (await _SanPhamChiTietservice
                 .GetListSanPhamChiTietDTOAsync(new ListGuildDTO()
@@ -923,13 +934,16 @@ namespace App_View.Areas.Admin.Controllers
         // GET: Admin/SanPhamChiTiet/ManageSanPham
         public async Task<IActionResult> ManageSanPham()
         {
-            ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
-            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
+            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
             return View();
         }
 
@@ -1036,11 +1050,15 @@ namespace App_View.Areas.Admin.Controllers
         public async Task<IActionResult> DanhSachTongQuanSanPham()
         {
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
-            ViewData["IdChiTietCamera"] = new SelectList(await _SanPhamChiTietservice.GetListChiTietCamerasModelAsync(), "IdChiTietCamera", "LoaiCamera");
+            ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
             ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
+            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
             return PartialView();
         }
 
@@ -1101,14 +1119,16 @@ namespace App_View.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> LoadPartialViewUpdate(string idSanPhamChiTiet)
         {
-            ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
-            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
+            ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
             ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
+            ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
+            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
             var model = await _SanPhamChiTietservice.GetListSanPhamChiTietDTOAsync(new ListGuildDTO()
             {
                 listGuild = new List<string>() { idSanPhamChiTiet }

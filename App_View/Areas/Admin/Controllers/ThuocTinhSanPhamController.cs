@@ -101,6 +101,7 @@ namespace App_View.Areas.Admin.Controllers
                     KichThuoc = it.KichThuoc,
                     LoaiManHinh = it.LoaiManHinh,
                     TanSoQuet = it.TanSoQuet,
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động",
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdManHinh == it.IdManHinh).Count(),
                     
                 })
@@ -386,7 +387,7 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteCongSac(string idCongSac)
         {
-            var response = await _httpClient.DeleteAsync($"/api/CongSac/DeleteCongSac/{idCongSac}");
+            var response = await _httpClient.DeleteAsync($"/api/CongSac/{idCongSac}");
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -405,7 +406,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCongSac([FromBody] CongSacDTO congSacDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/congSac/sua-cong-sac", congSacDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/congSac", congSacDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -518,7 +519,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditManHinh([FromBody] ManHinhDTO ManHinhDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/manHinh/sua-man-hinh", ManHinhDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/manHinh/", ManHinhDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -547,7 +548,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditTheNho([FromBody] TheNhoDTO TheNhoDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/theNho/sua-the-nho", TheNhoDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/theNho", TheNhoDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());

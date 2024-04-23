@@ -2,6 +2,7 @@
 using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
+using App_Data.ViewModels.ChipDTO;
 using App_Data.ViewModels.CongSacDTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -51,26 +52,13 @@ namespace App_Api.Controllers
         }
 
         // PUT api/<CongSacController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public bool Put(CongSacDTO congSacDTO)
         {
-            try
-            {
-                var loaiCongSac = congSacDTO.LoaiCongSac!.Trim().ToLower();
-                if (!_dbcontext.CongSacs.Where(x => x.LoaiCongSac!.Trim().ToLower() == loaiCongSac).Any())
-                {
-                    var congSac = _mapper.Map<CongSacDTO>(congSacDTO);
-                    _dbcontext.Attach(congSac);
-                    _dbcontext.Entry(congSac).Property(sp => sp.LoaiCongSac).IsModified = true;
-                    _dbcontext.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var chip = _congSacRepos.GetAll().First(p => p.IdCongSac == congSacDTO.IdCongSac);
+            chip.TrangThai = congSacDTO.TrangThai;
+            chip.LoaiCongSac = congSacDTO.LoaiCongSac;
+            return _congSacRepos.EditItem(chip);
         }
 
         // DELETE api/<CongSacController>/5

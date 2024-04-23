@@ -11,5 +11,6 @@ namespace App_Data.ViewModels.TheNhoDTO
         public string? IdTheNho { get; set; }
         public string? LoaiTheNho { get; set; }
         public string? DungLuong { get; set; }
+        public int? TrangThai { get; set; }
     }
 }

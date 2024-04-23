@@ -42,7 +42,7 @@ namespace App_Api.Controllers
 
         // POST api/<SanPhamController>
         [HttpPost]
-        public bool AddSanPham(string ten, int trangthai)
+        public bool AddSanPham(SanPhamDTO sanPhamDTO)
         {
             string ma;
             if (allRepo.GetAll().Count() == null)
@@ -57,8 +57,8 @@ namespace App_Api.Controllers
             {
                 IdSanPham = Guid.NewGuid().ToString(),
                 MaSanPham = ma,
-                TenSanPham = ten,
-                Trangthai = trangthai
+                TenSanPham = sanPhamDTO.TenSanPham,
+                Trangthai = sanPhamDTO.TrangThai
             };
             return allRepo.AddItem(SanPham);
         }

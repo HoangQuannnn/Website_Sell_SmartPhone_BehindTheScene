@@ -251,6 +251,7 @@ namespace App_View.Areas.Admin.Controllers
 
         #region ThaoTac
         //Xoa San Pham
+
         public async Task<IActionResult> DeleteSanPham(string idSanPham)
         {
             var response = await _httpClient.DeleteAsync($"/api/SanPham/XoaSanPham={idSanPham}");
@@ -272,6 +273,24 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(false);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateSanPham([FromBody] SanPhamDTO createSanPhamDTO)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/api/SanPham", createSanPhamDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
         public async Task<IActionResult> DeleteHang(string idHang)
         {
             var response = await _httpClient.DeleteAsync($"api/Hang/XoaHang/{idHang}");

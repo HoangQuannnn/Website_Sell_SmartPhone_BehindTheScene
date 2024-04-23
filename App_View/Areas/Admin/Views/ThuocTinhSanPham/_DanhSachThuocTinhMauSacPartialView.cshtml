@@ -8,8 +8,22 @@
         thead > tr > th {
             color: white !important;
         }
+
+    .text-right .btn-success {
+        float: right;
+        margin-bottom: 10px;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
 </style>
-<div style="padding:20px">
+<div style="padding: 20px;">
+    <div class="text-right mb-3">
+        <button type="button" class="btn btn-success" onclick="ThemMauSac()">
+            <i class="fas fa-plus"></i> Thêm Màu Sắc
+        </button>
+    </div>
     <table id="data-table" class="table table-bordered table-hover">
         <thead>
             <tr>
@@ -35,25 +49,22 @@
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))', '@item.SoBienTheDangDung')
-">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))', '@item.SoBienTheDangDung')">
                                 <i class="far fa-edit"></i>
                             </button>
                             <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))','@item.SoBienTheDangDung')">
                                 <i class="anticon anticon-delete"></i>
                             </button>
                         </div>
-
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
 </div>
 
 <script>
-    function DrawMauSac() {
+    function DrawThuongHieu() {
         $.ajax({
             url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachMauSac',
             type: 'GET',
@@ -80,7 +91,7 @@
         } else {
             Swal.fire({
                 title: 'Xác nhận',
-                text: `Bạn có chắc chắn muốn xóa màu sắc "${name}" không?`,
+                text: `Bạn có chắc chắn muốn xóa Màu Sắc "${name}" không?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'OK',
@@ -97,7 +108,7 @@
                         data: data,
                         success: function (result) {
                             if (result) {
-                                DrawMauSac();
+                                DrawThuongHieu();
                                 Swal.fire(
                                     'Thông báo',
                                     'Đã xóa thành công',
@@ -118,34 +129,39 @@
         }
     }
 
-    function Edit(id, name, soBienTheDangDung) {
+    function Edit(id, name, soBienTheDangDung, trangThai) {
         Swal.fire({
-            title: 'Chỉnh sửa màu sắc',
-            input: 'text',
-            inputValue: name,
-            inputPlaceholder: 'Nhập giá trị',
+            title: 'Chỉnh sửa Màu Sắc',
+            html:
+                '<input id="tenMauSac" class="swal2-input" value="' + name + '" placeholder="Tên Màu Sắc">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0" ' + (trangThai == 0 ? "selected" : "") + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai == 1 ? "selected" : "") + '>Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
             showCancelButton: true,
             confirmButtonText: 'Lưu',
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const enteredValue = result.value;
-
+                const enteredValue = document.getElementById('tenMauSac').value;
+                const trangThaiValue = parseInt(document.getElementById('trangThai').value);
                 if (enteredValue !== '') {
-
                     Swal.fire({
                         title: 'Xác nhận',
-                        text: `Bạn có chắc chắn muốn thay đổi màu sắc, việc thay đổi màu sắc sẽ làm cho màu sắc của ${soBienTheDangDung} biến thể thay đổi theo?`,
+                        text: `Bạn có chắc chắn muốn thay đổi Màu Sắc, việc thay đổi Màu Sắc sẽ làm cho Màu Sắc của ${soBienTheDangDung} biến thể thay đổi theo?`,
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'OK',
                         cancelButtonText: 'Hủy',
                     }).then((result) => {
                         if (result.isConfirmed) {
-
                             var data = {
                                 IdMauSac: id,
-                                TenMauSac: enteredValue
+                                TenMauSac: enteredValue,
+                                TrangThai: trangThaiValue
                             };
                             $.ajax({
                                 url: '/admin/thuoctinhsanpham/EditMauSac',
@@ -154,7 +170,7 @@
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        DrawMauSac();
+                                        DrawThuongHieu();
                                         Swal.fire(
                                             'Thông báo!',
                                             'Cập nhật thành công!',
@@ -187,6 +203,75 @@
             }
         });
     }
+
+
+    function ThemMauSac() {
+        Swal.fire({
+            title: 'Thêm Màu Sắc mới',
+            html:
+                '<input id="tenMauSac" class="swal2-input" placeholder="Tên Màu Sắc">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0">Hoạt động</option>' +
+                '        <option value="1">Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
+            showCancelButton: true,
+            confirmButtonText: 'Thêm',
+            cancelButtonText: 'Hủy',
+            preConfirm: () => {
+                const tenMauSac = document.getElementById('tenMauSac').value;
+                const trangThai = document.getElementById('trangThai').value;
+                return { tenMauSac: tenMauSac, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const data = result.value;
+                if (data.tenMauSac !== '' && data.trangThai !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm Màu Sắc mới vào cơ sở dữ liệu
+                    $.ajax({
+                        url: '/admin/thuoctinhsanpham/CreateMauSac',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                DrawThuongHieu();
+                                Swal.fire(
+                                    'Thông báo!',
+                                    'Thêm Màu Sắc mới thành công!',
+                                    'success'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Thêm Màu Sắc mới thất bại!',
+                                    'info'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        'Vui lòng nhập đầy đủ thông tin.',
+                        'error'
+                    );
+                }
+            }
+        });
+    }
+
+</script>
+<script>
+    $('#data-table').Datatable();
 </script>
 <script src="~/Admin/vendors/datatables/jquery.dataTables.min.js" defer></script>
 <script src="~/Admin/vendors/datatables/dataTables.bootstrap.min.js" defer></script>

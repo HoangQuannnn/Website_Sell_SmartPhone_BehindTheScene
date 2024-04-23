@@ -103,7 +103,7 @@ namespace App_View.Areas.Admin.Controllers
                     TanSoQuet = it.TanSoQuet,
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động",
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdManHinh == it.IdManHinh).Count(),
-                    
+
                 })
                 .AsEnumerable()
                 .ToList();
@@ -129,7 +129,7 @@ namespace App_View.Areas.Admin.Controllers
 
             return PartialView("_DanhSachThuocTinhChipPartialView", lstChip);
         }
-          public IActionResult LoadPartialViewDanhSachCamera()
+        public IActionResult LoadPartialViewDanhSachCamera()
         {
             var lstCamera = _context
                 .Cameras
@@ -145,8 +145,8 @@ namespace App_View.Areas.Admin.Controllers
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhCameraPartialView", lstCamera);
-        }         
-        
+        }
+
         public IActionResult LoadPartialViewDanhSachTheSim()
         {
             var lstTheSim = _context
@@ -262,9 +262,9 @@ namespace App_View.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditSanPham([FromBody]SanPhamDTO sanPham)
+        public async Task<IActionResult> EditSanPham([FromBody] SanPhamDTO sanPham)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/SanPham/SuaSanPham",sanPham);
+            var response = await _httpClient.PutAsJsonAsync("/api/SanPham/SuaSanPham", sanPham);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -442,8 +442,8 @@ namespace App_View.Areas.Admin.Controllers
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
-        } 
-        
+        }
+
         public async Task<IActionResult> CreateTheSim([FromBody] TheSimDTO theSimDTO)
         {
             var response = await _httpClient.PostAsJsonAsync($"/api/TheSim/Create-TheSim", theSimDTO);
@@ -476,7 +476,15 @@ namespace App_View.Areas.Admin.Controllers
         }
 
 
-
+        public async Task<IActionResult> CreateMauSac([FromBody] MauSacDTO mauSacDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/MauSac/CreateMauSac", mauSacDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
         public async Task<IActionResult> DeleteMauSac(string idMauSac)
         {
             var response = await _httpClient.DeleteAsync($"/api/MauSac/DeleteMauSac/{idMauSac}");

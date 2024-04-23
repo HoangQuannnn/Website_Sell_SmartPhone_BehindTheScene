@@ -10,5 +10,6 @@ namespace App_Data.ViewModels.MauSac
     {
         public string? IdMauSac { get; set; }
         public string TenMauSac { get; set; }
+        public int TrangThai { get; set; }
     }
 }

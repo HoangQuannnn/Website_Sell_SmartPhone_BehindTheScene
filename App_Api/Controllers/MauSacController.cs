@@ -1,7 +1,9 @@
 ﻿using App_Data.DbContext;
 using App_Data.IRepositories;
 using App_Data.Models;
+using App_Data.Repositories;
 using App_Data.ViewModels.MauSac;
+using App_Data.ViewModels.SanPhamChiTiet.SanPhamDTO;
 using App_Data.ViewModels.TheSimDTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -40,11 +42,23 @@ namespace App_Api.Controllers
         [HttpPost("CreateMauSac")]
         public bool Create(MauSacDTO mauSacDTO)
         {
-            mauSacDTO.IdMauSac = Guid.NewGuid().ToString();
-            var mauSac = _mapper.Map<MauSac>(mauSacDTO);
-            mauSac.TrangThai = 0;
-            mauSac.MaMauSac = !_mauSacRespo.GetAll().Any() ? "MS1" : "MS" + (_mauSacRespo.GetAll().Count() + 1);
-            return _mauSacRespo.AddItem(mauSac);
+            string ma;
+            if (_mauSacRespo.GetAll().Count() == null)
+            {
+                ma = "MS1";
+            }
+            else
+            {
+                ma = "MS" + (_mauSacRespo.GetAll().Count() + 1);
+            }
+            var MauSac = new MauSac()
+            {
+                IdMauSac = Guid.NewGuid().ToString(),
+                MaMauSac = ma,
+                TenMauSac = mauSacDTO.TenMauSac,
+                TrangThai = mauSacDTO.TrangThai
+            };
+            return _mauSacRespo.AddItem(MauSac);
         }
 
         [HttpDelete("DeleteMauSac/{id}")]

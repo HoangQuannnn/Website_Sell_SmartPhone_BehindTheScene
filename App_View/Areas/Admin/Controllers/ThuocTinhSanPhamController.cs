@@ -7,9 +7,6 @@ using App_Data.ViewModels.ChipDTO;
 using App_Data.ViewModels.ManHinhDTO;
 using App_Data.ViewModels.TheNhoDTO;
 using App_Data.ViewModels.CameraDTO;
-
-//using App_Data.ViewModels.KieuDeGiayDTO;
-//using App_Data.ViewModels.LoaiGiayDTO;
 using App_Data.ViewModels.SanPhamChiTiet.SanPhamDTO;
 using App_Data.ViewModels.HangDTO;
 using App_Data.ViewModels.ThuocTinh;

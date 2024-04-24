@@ -3,6 +3,7 @@ using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
 using App_Data.ViewModels.ManHinhDTO;
+using App_Data.ViewModels.TheSimDTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,36 +41,37 @@ namespace App_Api.Controllers
 
         // POST api/<ManHinhController>
         [HttpPost]
-        public bool Post(ManHinhDTO manHinhDTO)
+        public bool Create(ManHinhDTO manHinhDTO)
         {
-            manHinhDTO.IdManHinh = Guid.NewGuid().ToString();
-            var manhinh = _mapper.Map<ManHinh>(manHinhDTO);
-            manhinh.TrangThai = 0;
-            manhinh.MaManHinh = !_mhRepos.GetAll().Any() ? "MH1" : "MH" + (_mhRepos.GetAll().Count() + 1);
+            string MaTS;
+            if (_mhRepos.GetAll().Count() == 0)
+            {
+                MaTS = "MH1";
+            }
+            else
+            {
+                MaTS = "MH" + (_mhRepos.GetAll().Count() + 1);
+            }
+            ManHinh manhinh = new ManHinh();
+            manhinh.IdManHinh = Guid.NewGuid().ToString();
+            manhinh.MaManHinh = MaTS;
+            manhinh.LoaiManHinh = manHinhDTO.LoaiManHinh;
+            manhinh.KichThuoc = manHinhDTO.KichThuoc;
+            manhinh.TanSoQuet = manHinhDTO.TanSoQuet;
+            manhinh.TrangThai = manHinhDTO.TrangThai;
             return _mhRepos.AddItem(manhinh);
         }
 
         // PUT api/<ManHinhController>/5
-        [HttpPut("{id}")]
-        public bool Put(ManHinhDTO manHinhDTO)
+        [HttpPut]
+        public bool Edit(ManHinhDTO manHinhDTO)
         {
-            try
-            {
-                var loaiManHinh = manHinhDTO.LoaiManHinh!.Trim().ToLower();
-                if (!_dbContext.ManHinhs.Where(x => x.LoaiManHinh!.Trim().ToLower() == loaiManHinh).Any())
-                {
-                    var manHinh = _mapper.Map<ManHinhDTO>(manHinhDTO);
-                    _dbContext.Attach(manHinh);
-                    _dbContext.Entry(manHinh).Property(sp => sp.IdManHinh).IsModified = true;
-                    _dbContext.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var manhinh = _mhRepos.GetAll().First(p => p.IdManHinh == manHinhDTO.IdManHinh);
+            manhinh.LoaiManHinh = manHinhDTO.LoaiManHinh;
+            manhinh.KichThuoc = manHinhDTO.KichThuoc;
+            manhinh.TanSoQuet = manHinhDTO.TanSoQuet;
+            manhinh.TrangThai = manHinhDTO.TrangThai;
+            return _mhRepos.EditItem(manhinh);
         }
 
         // DELETE api/<ManHinhController>/5

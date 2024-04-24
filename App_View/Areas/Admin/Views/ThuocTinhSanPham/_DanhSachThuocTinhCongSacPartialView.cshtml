@@ -8,8 +8,17 @@
         thead > tr > th {
             color: white !important;
         }
+
+    .text-right .btn-success {
+        float: right;
+        margin-bottom: 10px;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
 </style>
-<div style="padding:20px">
+<div style="padding: 20px;">
     <div class="text-right mb-3">
         <button type="button" class="btn btn-success" onclick="ThemCongSac()">
             <i class="fas fa-plus"></i> Thêm Cổng Sạc
@@ -35,30 +44,27 @@
                 <tr>
                     <td class="text-center">@(STT++)</td>
                     <td class="text-center">@item.Ma!.ToUpper()</td>
-                    <td class="text-center">@item.LoaiCongSac!.ToUpper()</td>
+                    <td class="text-center">@item.LoaiCongSac</td>
                     <td class="text-center">@item.TrangThai</td>
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiCongSac))', '@item.SoBienTheDangDung')
-">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiCongSac))', '@item.SoBienTheDangDung', '@item.TrangThai')">
                                 <i class="far fa-edit"></i>
                             </button>
-                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiCongSac))','@item.SoBienTheDangDung')">
+                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiCongSac))', '@item.SoBienTheDangDung')">
                                 <i class="anticon anticon-delete"></i>
                             </button>
                         </div>
-
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
 </div>
 
 <script>
-    function DrawCongSac() {
+    function DrawThuongHieu() {
         $.ajax({
             url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachCongSac',
             type: 'GET',
@@ -74,27 +80,26 @@
         });
     }
     $('#data-table').Datatable();
-    function Delete(id, name, soBienTheDangDung) {
+    function Delete(id, loaiCongSac, soBienTheDangDung) {
         if (soBienTheDangDung > 0) {
             Swal.fire({
                 title: 'Xóa thất bại',
-                text: `"${name}" đang được dùng cho ${soBienTheDangDung} biến thể.`,
+                text: `"${loaiCongSac}" đang được dùng cho ${soBienTheDangDung} biến thể.`,
                 icon: 'info',
                 confirmButtonText: 'OK'
             });
         } else {
             Swal.fire({
                 title: 'Xác nhận',
-                text: `Bạn có chắc chắn muốn xóa cổng sạc "${name}" không?`,
+                text: `Bạn có chắc chắn muốn xóa congSac "${loaiCongSac}" không?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Hủy',
             }).then((result) => {
                 if (result.isConfirmed) {
-
                     var data = {
-                        IdCongSac: id,
+                        idCongSac: id,
                     };
                     $.ajax({
                         url: '/admin/thuoctinhsanpham/DeleteCongSac',
@@ -102,7 +107,7 @@
                         data: data,
                         success: function (result) {
                             if (result) {
-                                DrawCongSac();
+                                DrawThuongHieu();
                                 Swal.fire(
                                     'Thông báo',
                                     'Đã xóa thành công',
@@ -119,25 +124,29 @@
                     });
                 }
             });
-
         }
     }
 
-    function Edit(id, name, soBienTheDangDung) {
+    function Edit(id, loaiCongSac, soBienTheDangDung, trangThai) {
         Swal.fire({
             title: 'Chỉnh sửa Cổng Sạc',
-            input: 'text',
-            inputValue: name,
-            inputPlaceholder: 'Nhập giá trị',
+            html:
+                '<input id="loaiCongSac" class="swal2-input" value="' + loaiCongSac + '" placeholder="Loại Cổng Sạc">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0" ' + (trangThai == "Hoạt động" ? "selected" : "") + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai == "Không hoạt động" ? "selected" : "") + '>Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
             showCancelButton: true,
             confirmButtonText: 'Lưu',
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const enteredValue = result.value;
-
-                if (enteredValue !== '') {
-
+                const loaiCongSacValue = document.getElementById('loaiCongSac').value;
+                const trangThaiValue = document.getElementById('trangThai').value;
+                if (loaiCongSacValue !== '') {
                     Swal.fire({
                         title: 'Xác nhận',
                         text: `Bạn có chắc chắn muốn thay đổi Cổng Sạc, việc thay đổi Cổng Sạc sẽ làm cho Cổng Sạc của ${soBienTheDangDung} biến thể thay đổi theo?`,
@@ -147,10 +156,10 @@
                         cancelButtonText: 'Hủy',
                     }).then((result) => {
                         if (result.isConfirmed) {
-
                             var data = {
                                 IdCongSac: id,
-                                LoaiCongSac: enteredValue
+                                LoaiCongSac: loaiCongSacValue,
+                                TrangThai: trangThaiValue == "0" ? 0 : 1
                             };
                             $.ajax({
                                 url: '/admin/thuoctinhsanpham/EditCongSac',
@@ -159,7 +168,7 @@
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        DrawChip();
+                                        DrawThuongHieu();
                                         Swal.fire(
                                             'Thông báo!',
                                             'Cập nhật thành công!',
@@ -185,18 +194,18 @@
                 } else {
                     Swal.fire(
                         'Lỗi!',
-                        'Vui lòng nhập giá trị.',
+                        'Vui lòng nhập đầy đủ thông tin.',
                         'error'
                     );
                 }
             }
         });
     }
+
     function ThemCongSac() {
         Swal.fire({
             title: 'Thêm Cổng Sạc mới',
             html:
-                '<input id="maCongSac" class="swal2-input" placeholder="Mã Cổng Sạc">' +
                 '<input id="loaiCongSac" class="swal2-input" placeholder="Loại Cổng Sạc">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
@@ -209,7 +218,6 @@
             confirmButtonText: 'Thêm',
             cancelButtonText: 'Hủy',
             preConfirm: () => {
-                const maCongSac = document.getElementById('maCongSac').value;
                 const loaiCongSac = document.getElementById('loaiCongSac').value;
                 const trangThai = document.getElementById('trangThai').value;
                 return { loaiCongSac: loaiCongSac, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
@@ -217,8 +225,8 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = result.value;
-                if (data.loaiCongSac !== '' && data.trangThai !== '' && data.maCongSac !== '') {
-                    // Gửi dữ liệu thông qua AJAX để thêm Chip mới vào cơ sở dữ liệu
+                if (data.loaiCongSac !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm congSac mới vào cơ sở dữ liệu
                     $.ajax({
                         url: '/admin/thuoctinhsanpham/CreateCongSac',
                         type: 'POST',
@@ -226,16 +234,16 @@
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                DrawCongSac();
+                                DrawThuongHieu();
                                 Swal.fire(
                                     'Thông báo!',
-                                    'Thêm Cổng Sạc mới thành công!',
+                                    'Thêm congSac mới thành công!',
                                     'success'
                                 );
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm Cổng Sạc mới thất bại!',
+                                    'Thêm congSac mới thất bại!',
                                     'info'
                                 );
                             }
@@ -257,6 +265,9 @@
             }
         });
     }
+</script>
+<script>
+    $('#data-table').Datatable();
 </script>
 <script src="~/Admin/vendors/datatables/jquery.dataTables.min.js" defer></script>
 <script src="~/Admin/vendors/datatables/dataTables.bootstrap.min.js" defer></script>

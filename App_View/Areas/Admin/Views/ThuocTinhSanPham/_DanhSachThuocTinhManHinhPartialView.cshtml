@@ -44,8 +44,8 @@
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id','@item.Ma' ,'@item.TanSoQuet','@item.KichThuoc', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiManHinh))', '@item.SoBienTheDangDung')
-">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id',  '@item.KichThuoc', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiManHinh))',  '@item.TanSoQuet')">
+
                                 <i class="far fa-edit"></i>
                             </button>
                             <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiManHinh))','@item.SoBienTheDangDung')">
@@ -126,21 +126,29 @@
         }
     }
 
-    function Edit(id, maManHinh, kichThuoc, loaiManHinh, tanSoQuet, soBienTheDangDung) {
+    function Edit(id, kichThuoc, loaiManHinh, tanSoQuet, soBienTheDangDung, trangThai) {
         Swal.fire({
-            title: 'Chỉnh sửa màn hình',
-            input: 'text',
-            inputValue: loaiManHinh,
-            inputValue: kichThuoc,
-            inputValue: tanSoQuet,
-            inputPlaceholder: 'Nhập giá trị',
+            title: 'Chỉnh sửa TheSim',
+            html:
+                '<input id="loaiManHinh" class="swal2-input" value="' + loaiManHinh + '" placeholder="Loại màn hình">' +
+                '<input id="kichThuoc" class="swal2-input" value="' + kichThuoc + '" placeholder="Kích thước">' +
+                '<input id="tanSoQuet" class="swal2-input" value="' + tanSoQuet + '" placeholder="Tần số quét">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0" ' + (trangThai == 0 ? "selected" : "") + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai == 1 ? "selected" : "") + '>Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
             showCancelButton: true,
             confirmButtonText: 'Lưu',
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const enteredValue = result.value;
-
+                const enteredValue = document.getElementById('loaiManHinh').value;
+                const enteredValue1 = document.getElementById('kichThuoc').value;
+                const enteredValue2 = document.getElementById('tanSoQuet').value;
+                const trangThaiValue = parseInt(document.getElementById('trangThai').value);
                 if (enteredValue !== '') {
 
                     Swal.fire({
@@ -155,10 +163,10 @@
 
                             var data = {
                                 IdManHinh: id,
-                                maManHinh: maManHinh,
                                 LoaiManHinh: enteredValue,
-                                tanSoQuet: enteredValue,
-                                kichThuoc: enteredValue
+                                tanSoQuet: enteredValue1,
+                                kichThuoc: enteredValue2,
+                                TrangThai: trangThaiValue
                             };
                             $.ajax({
                                 url: '/admin/thuoctinhsanpham/EditManHinh',
@@ -202,9 +210,8 @@
     }
     function ThemManHinh() {
         Swal.fire({
-            title: 'Thêm Màn Hình mới',
+            title: 'Thêm Màn Hình Mới',
             html:
-                '<input id="maManHinh" class="swal2-input" placeholder="Mã Màn Hình">' +
                 '<input id="loaiManHinh" class="swal2-input" placeholder="Loại Màn Hình">' +
                 '<input id="kichThuoc" class="swal2-input" placeholder="Kích Thước">' +
                 '<input id="tanSoQuet" class="swal2-input" placeholder="Tần Số Quét">' +
@@ -219,11 +226,11 @@
             confirmButtonText: 'Thêm',
             cancelButtonText: 'Hủy',
             preConfirm: () => {
-                const maManHinh = document.getElementById('maManHinh').value;
                 const loaiManHinh = document.getElementById('loaiManHinh').value;
                 const kichThuoc = document.getElementById('kichThuoc').value;
+                const tanSoQuet = document.getElementById('tanSoQuet').value;
                 const trangThai = document.getElementById('trangThai').value;
-                return { loaiManHinh: loaiManHinh, kichThuoc: kichThuoc, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
+                return { loaiManHinh: loaiManHinh, kichThuoc: kichThuoc, tanSoQuet: tanSoQuet, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
             }
         }).then((result) => {
             if (result.isConfirmed) {

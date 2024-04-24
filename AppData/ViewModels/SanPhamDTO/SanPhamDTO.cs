@@ -10,5 +10,6 @@ namespace App_Data.ViewModels.SanPhamChiTiet.SanPhamDTO
     {
         public string? IdSanPham { get; set; }
         public string? TenSanPham { get; set; }
+        public int? TrangThai { get; set; }
     }
 }

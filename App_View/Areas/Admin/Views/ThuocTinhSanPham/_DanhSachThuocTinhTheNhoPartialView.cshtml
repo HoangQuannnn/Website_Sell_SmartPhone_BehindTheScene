@@ -8,8 +8,17 @@
         thead > tr > th {
             color: white !important;
         }
+
+    .text-right .btn-success {
+        float: right;
+        margin-bottom: 10px;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
 </style>
-<div style="padding:20px">
+<div style="padding: 20px;">
     <div class="text-right mb-3">
         <button type="button" class="btn btn-success" onclick="ThemTheNho()">
             <i class="fas fa-plus"></i> Thêm Thẻ Nhớ
@@ -21,7 +30,7 @@
                 <th class="text-center">STT</th>
                 <th class="text-center">Mã</th>
                 <th class="text-center">Loại Thẻ Nhớ</th>
-                <th class="text-center">Dung Lượng</th>
+                <th class="text-center">Dung lượng</th>
                 <th class="text-center">Trạng thái</th>
                 <th class="text-center">Biến thể liên quan</th>
                 <th class="text-center">###</th>
@@ -36,30 +45,28 @@
                 <tr>
                     <td class="text-center">@(STT++)</td>
                     <td class="text-center">@item.Ma!.ToUpper()</td>
-                    <td class="text-center">@item.LoaiTheNho!.ToUpper()</td>
-                    <td class="text-center">@item.DungLuong!.ToUpper()</td>
+                    <td class="text-center">@item.LoaiTheNho</td>
+                    <td class="text-center">@item.DungLuong</td>
                     <td class="text-center">@item.TrangThai</td>
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiTheNho))', '@item.SoBienTheDangDung')
-">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiTheNho))', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DungLuong))', '@item.SoBienTheDangDung', '@item.TrangThai')">
                                 <i class="far fa-edit"></i>
                             </button>
-                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiTheNho))','@item.SoBienTheDangDung')">
+                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.LoaiTheNho))', '@item.SoBienTheDangDung')">
                                 <i class="anticon anticon-delete"></i>
                             </button>
                         </div>
-
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
 </div>
+
 <script>
-    function DrawTheNho() {
+    function DrawThuongHieu() {
         $.ajax({
             url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachTheNho',
             type: 'GET',
@@ -75,25 +82,24 @@
         });
     }
     $('#data-table').Datatable();
-    function Delete(id, name, soBienTheDangDung) {
+    function Delete(id, loaiTheNho, soBienTheDangDung) {
         if (soBienTheDangDung > 0) {
             Swal.fire({
                 title: 'Xóa thất bại',
-                text: `"${name}" đang được dùng cho ${soBienTheDangDung} biến thể.`,
+                text: `"${loaiTheNho}" đang được dùng cho ${soBienTheDangDung} biến thể.`,
                 icon: 'info',
                 confirmButtonText: 'OK'
             });
         } else {
             Swal.fire({
                 title: 'Xác nhận',
-                text: `Bạn có chắc chắn muốn xóa thẻ nhớ "${name}" không?`,
+                text: `Bạn có chắc chắn muốn xóa Thẻ Nhớ "${loaiTheNho}" không?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Hủy',
             }).then((result) => {
                 if (result.isConfirmed) {
-
                     var data = {
                         idTheNho: id,
                     };
@@ -103,7 +109,7 @@
                         data: data,
                         success: function (result) {
                             if (result) {
-                                DrawTheNho();
+                                DrawThuongHieu();
                                 Swal.fire(
                                     'Thông báo',
                                     'Đã xóa thành công',
@@ -120,40 +126,45 @@
                     });
                 }
             });
-
         }
     }
 
-    function Edit(id, maTheNho, loaiTheNho, dungLuong, soBienTheDangDung) {
+    function Edit(id, loaiTheNho, dungLuong, soBienTheDangDung, trangThai) {
         Swal.fire({
-            title: 'Chỉnh sửa thẻ nhớ',
-            input: 'text',
-            inputValue: loaiTheNho,
-            inputPlaceholder: 'Nhập giá trị',
+            title: 'Chỉnh sửa Thẻ Nhớ',
+            html:
+                '<input id="loaiTheNho" class="swal2-input" value="' + loaiTheNho + '" placeholder="Loại Thẻ Nhớ">' +
+                '<input id="dungLuong" class="swal2-input" value="' + dungLuong + '" placeholder="Dung lượng">' +
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0" ' + (trangThai == "Hoạt động" ? "selected" : "") + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai == "Không hoạt động" ? "selected" : "") + '>Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
             showCancelButton: true,
             confirmButtonText: 'Lưu',
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const enteredValue = result.value;
-
-                if (enteredValue !== '') {
-
+                const loaiTheNhoValue = document.getElementById('loaiTheNho').value;
+                const dungLuongValue = document.getElementById('dungLuong').value;
+                const trangThaiValue = document.getElementById('trangThai').value;
+                if (loaiTheNhoValue !== '' && dungLuongValue !== '') {
                     Swal.fire({
                         title: 'Xác nhận',
-                        text: `Bạn có chắc chắn muốn thay đổi thẻ nhớ, việc thay đổi thẻ nhớ sẽ làm cho thẻ nhớ của ${soBienTheDangDung} biến thể thay đổi theo?`,
+                        text: `Bạn có chắc chắn muốn thay đổi Thẻ Nhớ, việc thay đổi Thẻ Nhớ sẽ làm cho Thẻ Nhớ của ${soBienTheDangDung} biến thể thay đổi theo?`,
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'OK',
                         cancelButtonText: 'Hủy',
                     }).then((result) => {
                         if (result.isConfirmed) {
-
                             var data = {
                                 IdTheNho: id,
-                                maTheNho: maTheNho,
-                                loaiTheNho: enteredValue,
-                                dungLuong: enteredValue
+                                LoaiTheNho: loaiTheNhoValue,
+                                DungLuong: dungLuongValue,
+                                TrangThai: trangThaiValue == "0" ? 0 : 1
                             };
                             $.ajax({
                                 url: '/admin/thuoctinhsanpham/EditTheNho',
@@ -162,7 +173,7 @@
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        DrawTheNho();
+                                        DrawThuongHieu();
                                         Swal.fire(
                                             'Thông báo!',
                                             'Cập nhật thành công!',
@@ -188,20 +199,20 @@
                 } else {
                     Swal.fire(
                         'Lỗi!',
-                        'Vui lòng nhập giá trị.',
+                        'Vui lòng nhập đầy đủ thông tin.',
                         'error'
                     );
                 }
             }
         });
     }
+
     function ThemTheNho() {
         Swal.fire({
             title: 'Thêm Thẻ Nhớ mới',
             html:
-                '<input id="maTheNho" class="swal2-input" placeholder="Mã Thẻ Nhớ">' +
                 '<input id="loaiTheNho" class="swal2-input" placeholder="Loại Thẻ Nhớ">' +
-                '<input id="dungLuong" class="swal2-input" placeholder="Dung Lượng">' +
+                '<input id="dungLuong" class="swal2-input" placeholder="Dung lượng">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
@@ -213,17 +224,16 @@
             confirmButtonText: 'Thêm',
             cancelButtonText: 'Hủy',
             preConfirm: () => {
-                const maTheNho = document.getElementById('maTheNho').value;
                 const loaiTheNho = document.getElementById('loaiTheNho').value;
                 const dungLuong = document.getElementById('dungLuong').value;
                 const trangThai = document.getElementById('trangThai').value;
-                return { loaiTheNho: loaiTheNho,dungLuong: dungLuong, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
+                return { loaiTheNho: loaiTheNho, dungLuong: dungLuong, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
             }
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = result.value;
-                if (data.loaiTheNho !== '' && data.trangThai !== '' && data.maTheNho !== '' && data.dungLuong != '') {
-                    // Gửi dữ liệu thông qua AJAX để thêm Chip mới vào cơ sở dữ liệu
+                if (data.loaiTheNho !== '' && data.dungLuong !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm Thẻ Nhớ mới vào cơ sở dữ liệu
                     $.ajax({
                         url: '/admin/thuoctinhsanpham/CreateTheNho',
                         type: 'POST',
@@ -231,7 +241,7 @@
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                DrawTheNho();
+                                DrawThuongHieu();
                                 Swal.fire(
                                     'Thông báo!',
                                     'Thêm Thẻ Nhớ mới thành công!',

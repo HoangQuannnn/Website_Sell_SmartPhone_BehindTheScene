@@ -67,7 +67,7 @@ namespace App_Data.Repositories
                 .Include(x => x.SanPhamChiTiet).ThenInclude(spct => spct.Rom)
                 .Include(x => x.HoaDon).ThenInclude(hd => hd.ThongTinGiaoHang)
                 .Include(x => x.HoaDon).ThenInclude(hd => hd.Voucher)
-                .Include(x => x.ImeiDaBans).ThenInclude(idb => idb.SoImei)
+                .Include(x => x.ImeiDaBans)
                 .FirstOrDefault(x => x.IdHoaDon == idHoaDon);
             return _mapper.Map<HoaDonChiTietViewModel>(hoadon);
         }

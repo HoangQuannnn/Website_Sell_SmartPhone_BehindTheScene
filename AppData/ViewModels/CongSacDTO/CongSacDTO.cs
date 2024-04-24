@@ -10,5 +10,6 @@ namespace App_Data.ViewModels.CongSacDTO
     {
         public string? IdCongSac { get; set; }
         public string? LoaiCongSac { get; set; }
+        public int? TrangThai { get; set; }
     }
 }

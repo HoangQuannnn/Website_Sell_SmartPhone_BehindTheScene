@@ -2,8 +2,10 @@
 using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
+using App_Data.ViewModels.PinDTO;
 using App_Data.ViewModels.TheNhoDTO;
 using AutoMapper;
+using DocumentFormat.OpenXml.InkML;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
 
@@ -52,20 +54,26 @@ namespace App_Api.Controllers
         }
 
         // PUT api/<TheNhoController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public bool Put(TheNhoDTO theNhoDTO)
         {
             try
             {
-                var loaiTheNho = theNhoDTO.LoaiTheNho!.Trim().ToLower();
-                if (!_dbContext.TheNhos.Where(x => x.LoaiTheNho!.Trim().ToLower() == loaiTheNho).Any())
+                if (theNhoDTO != null && !string.IsNullOrEmpty(theNhoDTO.IdTheNho) && !string.IsNullOrEmpty(theNhoDTO.LoaiTheNho))
                 {
-                    var theNho = _mapper.Map<TheNhoDTO>(theNhoDTO);
-                    _dbContext.Attach(theNho);
-                    _dbContext.Entry(theNho).Property(sp => sp.LoaiTheNho).IsModified = true;
-                    _dbContext.SaveChanges();
-                    return true;
+                    var existingHang = _dbContext.TheNhos.FirstOrDefault(x => x.IdTheNho == theNhoDTO.IdTheNho);
+                    if (existingHang != null)
+                    {
+                        existingHang.LoaiTheNho = theNhoDTO.LoaiTheNho;
+                        existingHang.TrangThai = theNhoDTO.TrangThai;
+                        existingHang.DungLuong = theNhoDTO.DungLuong;
+                        _dbContext.TheNhos.Update(existingHang);
+                        _dbContext.SaveChanges();
+
+                        return true;
+                    }
                 }
+
                 return false;
             }
             catch (Exception)

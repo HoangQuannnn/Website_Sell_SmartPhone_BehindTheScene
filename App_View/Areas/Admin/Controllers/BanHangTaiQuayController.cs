@@ -295,7 +295,7 @@ namespace App_View.Areas.Admin.Controllers
             foreach (var item2 in hoaDonDuocChon)
             {
                 var sanpham = listsanpham.FirstOrDefault(c => c.IdChiTietSp == item2.IdSanPhamChiTiet);
-                item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.Ram;
+                item2.TenSanPham = sanpham.TenSanPham + "/" + sanpham.MauSac + "/" + sanpham.Ram+"GB" + "/" + sanpham.Rom + "GB";
                 item2.MaSanPham = sanpham.MaSanPham;
             }
             return PartialView("_HoaDonChiTietPartialView", hoaDonDuocChon);

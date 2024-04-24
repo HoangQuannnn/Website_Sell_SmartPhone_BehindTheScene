@@ -7,9 +7,6 @@ using App_Data.ViewModels.ChipDTO;
 using App_Data.ViewModels.ManHinhDTO;
 using App_Data.ViewModels.TheNhoDTO;
 using App_Data.ViewModels.CameraDTO;
-
-//using App_Data.ViewModels.KieuDeGiayDTO;
-//using App_Data.ViewModels.LoaiGiayDTO;
 using App_Data.ViewModels.SanPhamChiTiet.SanPhamDTO;
 using App_Data.ViewModels.HangDTO;
 using App_Data.ViewModels.ThuocTinh;
@@ -101,8 +98,9 @@ namespace App_View.Areas.Admin.Controllers
                     KichThuoc = it.KichThuoc,
                     LoaiManHinh = it.LoaiManHinh,
                     TanSoQuet = it.TanSoQuet,
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động",
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdManHinh == it.IdManHinh).Count(),
-                    
+
                 })
                 .AsEnumerable()
                 .ToList();
@@ -128,7 +126,7 @@ namespace App_View.Areas.Admin.Controllers
 
             return PartialView("_DanhSachThuocTinhChipPartialView", lstChip);
         }
-          public IActionResult LoadPartialViewDanhSachCamera()
+        public IActionResult LoadPartialViewDanhSachCamera()
         {
             var lstCamera = _context
                 .Cameras
@@ -144,8 +142,8 @@ namespace App_View.Areas.Admin.Controllers
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhCameraPartialView", lstCamera);
-        }         
-        
+        }
+
         public IActionResult LoadPartialViewDanhSachTheSim()
         {
             var lstTheSim = _context
@@ -248,6 +246,7 @@ namespace App_View.Areas.Admin.Controllers
 
         #region ThaoTac
         //Xoa San Pham
+
         public async Task<IActionResult> DeleteSanPham(string idSanPham)
         {
             var response = await _httpClient.DeleteAsync($"/api/SanPham/XoaSanPham={idSanPham}");
@@ -259,9 +258,9 @@ namespace App_View.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditSanPham([FromBody]SanPhamDTO sanPham)
+        public async Task<IActionResult> EditSanPham([FromBody] SanPhamDTO sanPham)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/SanPham/SuaSanPham",sanPham);
+            var response = await _httpClient.PutAsJsonAsync("/api/SanPham/SuaSanPham", sanPham);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -269,6 +268,24 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(false);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateSanPham([FromBody] SanPhamDTO createSanPhamDTO)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/api/SanPham", createSanPhamDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
         public async Task<IActionResult> DeleteHang(string idHang)
         {
             var response = await _httpClient.DeleteAsync($"api/Hang/XoaHang/{idHang}");
@@ -384,7 +401,7 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteCongSac(string idCongSac)
         {
-            var response = await _httpClient.DeleteAsync($"/api/CongSac/DeleteCongSac/{idCongSac}");
+            var response = await _httpClient.DeleteAsync($"/api/CongSac/{idCongSac}");
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -403,7 +420,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCongSac([FromBody] CongSacDTO congSacDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/congSac/sua-cong-sac", congSacDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/congSac", congSacDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -439,8 +456,8 @@ namespace App_View.Areas.Admin.Controllers
                 return Ok(await response.Content.ReadAsAsync<bool>());
             }
             return Ok(false);
-        } 
-        
+        }
+
         public async Task<IActionResult> CreateTheSim([FromBody] TheSimDTO theSimDTO)
         {
             var response = await _httpClient.PostAsJsonAsync($"/api/TheSim/Create-TheSim", theSimDTO);
@@ -473,7 +490,15 @@ namespace App_View.Areas.Admin.Controllers
         }
 
 
-
+        public async Task<IActionResult> CreateMauSac([FromBody] MauSacDTO mauSacDTO)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/MauSac/CreateMauSac", mauSacDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
         public async Task<IActionResult> DeleteMauSac(string idMauSac)
         {
             var response = await _httpClient.DeleteAsync($"/api/MauSac/DeleteMauSac/{idMauSac}");
@@ -516,7 +541,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditManHinh([FromBody] ManHinhDTO ManHinhDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/manHinh/sua-man-hinh", ManHinhDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/manHinh/", ManHinhDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -545,7 +570,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditTheNho([FromBody] TheNhoDTO TheNhoDTO)
         {
-            var response = await _httpClient.PutAsJsonAsync("/api/theNho/sua-the-nho", TheNhoDTO);
+            var response = await _httpClient.PutAsJsonAsync("/api/theNho", TheNhoDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());

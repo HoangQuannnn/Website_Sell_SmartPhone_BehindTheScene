@@ -12,8 +12,8 @@ namespace App_Data.ViewModels.HoaDon
         public string? IdSanPhamChiTiet { get; set; }
         public string? TenSanPham { get; set; }
         public string? TenMauSac { get; set; }
-        public int? DungLuongRam { get; set; }
-        public int? DungLuongRom { get; set; }
+        public string? DungLuongRam { get; set; }
+        public string? DungLuongRom { get; set; }
         public string? TenHang { get; set; }
         public int? SoLuong { get; set; }
         public double? GiaBan { get; set; }

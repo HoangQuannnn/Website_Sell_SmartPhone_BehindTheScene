@@ -42,7 +42,7 @@ namespace App_Api.Controllers
 
         // POST api/<SanPhamController>
         [HttpPost]
-        public bool AddSanPham(string ten, int trangthai)
+        public bool AddSanPham(SanPhamDTO sanPhamDTO)
         {
             string ma;
             if (allRepo.GetAll().Count() == null)
@@ -57,32 +57,19 @@ namespace App_Api.Controllers
             {
                 IdSanPham = Guid.NewGuid().ToString(),
                 MaSanPham = ma,
-                TenSanPham = ten,
-                Trangthai = trangthai
+                TenSanPham = sanPhamDTO.TenSanPham,
+                Trangthai = sanPhamDTO.TrangThai
             };
             return allRepo.AddItem(SanPham);
         }
 
         [HttpPut("SuaSanPham")]
-        public bool SuaSanPham(SanPhamDTO sanPham)
+        public bool SuaSanPham(SanPhamDTO sanPhamDTO)
         {
-            try
-            {
-                var nameSanPhamLower = sanPham.TenSanPham!.Trim().ToLower();
-                if (!dbContext.SanPhams.Where(x => x.TenSanPham!.Trim().ToLower() == nameSanPhamLower).Any())
-                {
-                    var sanPhamGet = _mapper.Map<SanPham>(sanPham);
-                    dbContext.Attach(sanPhamGet);
-                    dbContext.Entry(sanPhamGet).Property(sp => sp.TenSanPham).IsModified = true;
-                    dbContext.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var sanpham = allRepo.GetAll().First(p => p.IdSanPham == sanPhamDTO.IdSanPham);
+            sanpham.TenSanPham = sanPhamDTO.TenSanPham;
+            sanpham.Trangthai = sanPhamDTO.TrangThai;
+            return allRepo.EditItem(sanpham);
         }
 
         // DELETE api/<SanPhamController>/5

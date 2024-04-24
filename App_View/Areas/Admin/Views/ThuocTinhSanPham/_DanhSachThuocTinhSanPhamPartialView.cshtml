@@ -21,7 +21,7 @@
 <div style="padding: 20px;">
     <div class="text-right mb-3">
         <button type="button" class="btn btn-success" onclick="ThemSanPham()">
-            <i class="fas fa-plus"></i> Thêm SanPham
+            <i class="fas fa-plus"></i> Thêm Sản Phẩm
         </button>
     </div>
     <table id="data-table" class="table table-bordered table-hover">
@@ -66,7 +66,7 @@
 <script>
     function DrawSanPham() {
         $.ajax({
-            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachSanPham',
+            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachTenSanPham',
             type: 'GET',
             success: function (result) {
                 content.empty().append(result);
@@ -91,7 +91,7 @@
         } else {
             Swal.fire({
                 title: 'Xác nhận',
-                text: `Bạn có chắc chắn muốn xóa SanPham "${name}" không?`,
+                text: `Bạn có chắc chắn muốn xóa Sản Phẩm "${name}" không?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'OK',
@@ -128,9 +128,9 @@
     }
     function Edit(id, name, soBienTheDangDung, trangThai) {
         Swal.fire({
-            title: 'Chỉnh sửa SanPham',
+            title: 'Chỉnh sửa Sản Phẩm',
             html:
-                '<input id="tenSanPham" class="swal2-input" value="' + name + '" placeholder="Tên SanPham">' +
+                '<input id="tenSanPham" class="swal2-input" value="' + name + '" placeholder="Tên Sản Phẩm">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
@@ -148,7 +148,7 @@
                 if (enteredValue !== '') {
                     Swal.fire({
                         title: 'Xác nhận',
-                        text: `Bạn có chắc chắn muốn thay đổi SanPham, việc thay đổi SanPham sẽ làm cho SanPham của ${soBienTheDangDung} biến thể thay đổi theo?`,
+                        text: `Bạn có chắc chắn muốn thay đổi Sản Phẩm, việc thay đổi Sản Phẩm sẽ làm cho Sản Phẩm của ${soBienTheDangDung} biến thể thay đổi theo?`,
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'OK',
@@ -202,7 +202,7 @@
     }
     function ThemSanPham() {
         Swal.fire({
-            title: 'Thêm SanPham mới',
+            title: 'Thêm Sản Phẩm mới',
             html:
                 '<input id="tenSanPham" class="swal2-input" placeholder="Tên SanPham">' +
                 '<div class="form-group">' +
@@ -235,13 +235,13 @@
                                 DrawSanPham();
                                 Swal.fire(
                                     'Thông báo!',
-                                    'Thêm SanPham mới thành công!',
+                                    'Thêm Sản Phẩm mới thành công!',
                                     'success'
                                 );
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm SanPham mới thất bại!',
+                                    'Thêm Sản Phẩm mới thất bại!',
                                     'info'
                                 );
                             }

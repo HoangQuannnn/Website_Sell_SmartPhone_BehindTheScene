@@ -44,6 +44,8 @@ using App_Data.ViewModels.ChiTietCameraDTO;
 using App_Data.ViewModels.CongSacDTO;
 using App_Data.ViewModels.PinDTO;
 using App_Data.IRepositories;
+using App_Data.ViewModels.ManHinhDTO;
+using App_Data.ViewModels.TheNhoDTO;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -310,7 +312,6 @@ namespace App_View.Areas.Admin.Controllers
                                         sanPhamDTO.SoLuongTon = string.IsNullOrEmpty(giaNhap) ? null : Convert.ToInt32(soLuong);
                                         sanPhamDTO.GiaBan = Convert.ToDouble(giaBan);
                                         sanPhamDTO.KhoiLuong = Convert.ToDouble(khoiLuong);
-                                        sanPhamDTO.Day = day == "1" ? true : false;
                                         sanPhamDTO.TrangThaiKhuyenMai = trangThaiSale == "1" ? true : false;
                                         sanPhamDTO.NoiBat = noiBat == "1" ? true : false;
                                         sanPhamDTO.MoTa = moTa;
@@ -964,7 +965,8 @@ namespace App_View.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                return Json(await _SanPhamChiTietservice.AddAysnc(sanPhamChiTietDTO));
+                var test = await _SanPhamChiTietservice.AddAysnc(sanPhamChiTietDTO);
+                return Json(test);
             }
             return BadRequest();
         }
@@ -986,19 +988,31 @@ namespace App_View.Areas.Admin.Controllers
         {
             return Json(await _SanPhamChiTietservice.CreateTenSanPhamAynsc(sanPhamDTO));
         }
-
+        [HttpPost]
+        public async Task<IActionResult> CreateTenTheNho([FromBody] TheNhoDTO theNhoDTO)
+        {
+            return Json(await _SanPhamChiTietservice.CreateTheNhoAynsc(theNhoDTO));
+        }
         [HttpPost]
         public async Task<IActionResult> CreateTenHang([FromBody] HangDTO hangDOT)
         {
             return Json(await _SanPhamChiTietservice.CreateTenHangAynsc(hangDOT));
         }
-
+        [HttpPost]
+        public async Task<IActionResult> CreateTenManHinh([FromBody] ManHinhDTO manHinhDTO)
+        {
+            return Json(await _SanPhamChiTietservice.CreateManHinhAynsc(manHinhDTO));
+        }
         [HttpPost]
         public async Task<IActionResult> CreateRam([FromBody] RamDTO ramDOT)
         {
             return Json(await _SanPhamChiTietservice.CreateTenRamAynsc(ramDOT));
         }
-
+        [HttpPost]
+        public async Task<IActionResult> CreateRom([FromBody] RomDTO romDOT)
+        {
+            return Json(await _SanPhamChiTietservice.CreateTenRomAynsc(romDOT));
+        }
         [HttpPost]
         public async Task<IActionResult> CreateChitietCamera([FromBody] ChiTietCameraDTO chiTietCameraDTO)
         {
@@ -1014,6 +1028,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTenMauSac([FromBody] MauSacDTO mauSacDTO)
         {
+            
             return Json(await _SanPhamChiTietservice.CreateTenMauSacAynsc(mauSacDTO));
         }
 

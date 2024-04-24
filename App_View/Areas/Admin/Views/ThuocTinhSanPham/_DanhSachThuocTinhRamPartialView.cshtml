@@ -29,7 +29,6 @@
             <tr>
                 <th class="text-center">STT</th>
                 <th class="text-center">Mã</th>
-                <th class="text-center">Tên</th>
                 <th class="text-center">Trạng thái</th>
                 <th class="text-center">Biến thể liên quan</th>
                 <th class="text-center">Dung lượng ram</th>
@@ -45,7 +44,6 @@
                 <tr>
                     <td class="text-center">@(STT++)</td>
                     <td class="text-center">@item.Ma!.ToUpper()</td>
-                    <td class="text-center">@item.Ten!.ToUpper()</td>
                     <td class="text-center">@item.TrangThai</td>
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">@item.DungLuongRamEnum</td>
@@ -93,7 +91,7 @@
         } else {
             Swal.fire({
                 title: 'Xác nhận',
-                text: `Bạn có chắc chắn muốn xóa hãng "${name}" không?`,
+                text: `Bạn có chắc chắn muốn xóa ram "${name}" không?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'OK',
@@ -135,23 +133,12 @@
         Swal.fire({
             title: 'Chỉnh sửa Ram',
             html:
-                '<input id="tenRam" class="swal2-input" placeholder="Tên Ram" value="' + name + '">' +
+                '<input id="dungLuongRam" class="swal2-input" placeholder="Dung Lượng Ram" value="' + dungLuong + '">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
                 '        <option value="0" ' + (trangThai === 0 ? 'selected' : '') + '>Hoạt động</option>' +
                 '        <option value="1" ' + (trangThai === 1 ? 'selected' : '') + '>Không hoạt động</option>' +
-                '    </select>' +
-                '</div>' +
-                '<div class="form-group">' +
-                '    <label for="dungLuongRam">Dung Lượng Ram:</label>' +
-                '    <select class="form-control" id="dungLuongRam">' +
-                '        <option value="0" ' + (dungLuong === 0 ? 'selected' : '') + '>16GB</option>' +
-                '        <option value="1" ' + (dungLuong === 1 ? 'selected' : '') + '>32GB</option>' +
-                '        <option value="2" ' + (dungLuong === 2 ? 'selected' : '') + '>64GB</option>' +
-                '        <option value="3" ' + (dungLuong === 3 ? 'selected' : '') + '>128GB</option>' +
-                '        <option value="4" ' + (dungLuong === 4 ? 'selected' : '') + '>256GB</option>' +
-                '        <option value="5" ' + (dungLuong === 5 ? 'selected' : '') + '>512GB</option>' +
                 '    </select>' +
                 '</div>',
 
@@ -160,16 +147,14 @@
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const tenRam = document.getElementById('tenRam').value;
                 const trangThai = document.getElementById('trangThai').value;
                 const dungLuongRam = document.getElementById('dungLuongRam').value;
 
-                if (tenRam !== '') {
+                if (dungLuongRam !== '') {
                     // Gửi dữ liệu thông qua AJAX để chỉnh sửa ram
                     var data = {
                         IdRam: id,
-                        TenRam: tenRam,
-                        DungLuong: parseInt(dungLuongRam),
+                        DungLuong: dungLuongRam,
                         trangThai: parseInt(trangThai)
                     };
 
@@ -217,41 +202,30 @@
         Swal.fire({
             title: 'Thêm ram mới',
             html:
-                '<input id="tenRam" class="swal2-input" placeholder="Tên Ram">' +
+                '<input id="dungLuongRam" class="swal2-input" placeholder="Dung Lượng Ram">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
                 '        <option value="0">Hoạt động</option>' +
                 '        <option value="1">Không hoạt động</option>' +
                 '    </select>' +
-                '</div>' +
-                '<div class="form-group">' +
-                '    <label for="dungLuongRam">Dung Lượng Ram:</label>' +
-                '    <select class="form-control" id="dungLuongRam">' +
-                '        <option value="0">16GB</option>' +
-                '        <option value="1">32GB</option>' +
-                '        <option value="2">64GB</option>' +
-                '        <option value="3">128GB</option>' +
-                '        <option value="4">256GB</option>' +
-                '        <option value="5">512GB</option>' +
-                '    </select>' +
                 '</div>',
 
             showCancelButton: true,
             confirmButtonText: 'Thêm',
             cancelButtonText: 'Hủy',
-            preConfirm: () => {
-                const tenRam = document.getElementById('tenRam').value;
-                const trangThai = document.getElementById('trangThai').value;
-                const dungLuongRam = document.getElementById('dungLuongRam').value;
-                return { tenRam: tenRam, trangThai: parseInt(trangThai), dungLuongRam: parseInt(dungLuongRam) }; // Chuyển đổi giá trị sang kiểu số nguyên
-
-            }
         }).then((result) => {
             if (result.isConfirmed) {
-                const data = result.value;
-                if (data.tenRam !== '' && data.trangThai !== '' && data.dungLuongRam !== '') {
-                    // Gửi dữ liệu thông qua AJAX để thêm hãng mới vào cơ sở dữ liệu
+                const dungLuongRam = document.getElementById('dungLuongRam').value;
+                const trangThai = document.getElementById('trangThai').value;
+
+                if (dungLuongRam !== '') {
+                    const data = {
+                        dungLuongRam: dungLuongRam,
+                        trangThai: parseInt(trangThai)
+                    };
+
+                    // Gửi dữ liệu thông qua AJAX để thêm ram mới vào cơ sở dữ liệu
                     $.ajax({
                         url: '/admin/thuoctinhsanpham/CreateRam',
                         type: 'POST',
@@ -290,6 +264,7 @@
             }
         });
     }
+
 
 </script>
 <script>

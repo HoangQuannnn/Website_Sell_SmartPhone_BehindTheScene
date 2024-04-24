@@ -10,8 +10,7 @@ namespace App_Data.ViewModels.RamDTO
     public class RamDTO
     {
         public string IdRam { get; set; }
-        public string TenRam { get; set; }
-        public DungLuongRamEnum DungLuong { get; set; }
+        public string DungLuong { get; set; }
         public TrangThaiEnum trangThai { get; set; }
     }
 }

@@ -336,17 +336,21 @@
 
 <script>
     function generate_confirm() {
-        const lstColor = Array.from($('#IdColor option:checked')).map(option => ({ text: option.text, value: option.value }))
+        const lstColor = Array.from($('#ram option:checked')).map(option => ({ text: option.text, value: option.value }))
 
-        const lstSize = Array.from($('#IdSize option:checked')).map(option => ({ text: option.text, value: option.value }))
+        const lstRam = Array.from($('#rom option:checked')).map(option => ({ text: option.text, value: option.value }))
 
-        console.log("IdXuatXu:", $('[name="IdXuatXu"]').val());
-        console.log("IdChatLieu:", $('[name="IdChatLieu"]').val());
-        console.log("IdLoaiGiay:", $('[name="IdLoaiGiay"]').val());
-        console.log("IdKieuDeGiay:", $('[name="IdKieuDeGiay"]').val());
+        console.log("IdHang:", $('[name="IdHang"]').val());
+        console.log("IdChip:", $('[name="IdChip"]').val());
+        console.log("IdCongSac:", $('[name="IdCongSac"]').val());
+        console.log("IdManHinh:", $('[name="IdManHinh"]').val());
+        console.log("IdPin:", $('[name="IdPin"]').val());
+        console.log("IdTheNho:", $('[name="IdTheNho"]').val());
+        console.log("IdMauSac:", $('[name="IdMauSac"]').val());
+        console.log("IdRam:", $('[name="IdRam"]').val());
+        console.log("IdRom:", $('[name="IdRom"]').val());
 
-
-        if (!lstSize.length || !lstColor.length || $('[name="IdSanPham"]').val() === null || $('[name="IdThuongHieu"]').val() === null || $('[name="IdXuatXu"]').val() === null || $('[name="IdChatLieu"]').val() === null || $('[name="IdLoaiGiay"]').val() === null || $('[name="IdKieuDeGiay"]').val() === null) {
+        if (!lstRam.length || !lstColor.length || $('[name="IdSanPham"]').val() === null || $('[name="IdHang"]').val() === null || $('[name="IdChip"]').val() === null || $('[name="IdCongSac"]').val() === null || $('[name="IdManHinh"]').val() === null || $('[name="IdPin"]').val() === null || $('[name="IdTheNho"]').val() === null || $('[name="IdMauSac"]').val() === null || $('[name="IdRam"]').val() === null || $('[name="IdRom"]').val() === null) {
             var toastHTML = `<div class="toast fade hide" data-delay="3000">
               <div class="toast-header">
                   <i class="anticon anticon-info-circle text-primary m-r-5"></i>
@@ -588,32 +592,32 @@
 
     $(() => {
         $(".select2-active").select2();
-        $('#thuonghieu').find('input.select2-input').on('keyup', function (e) {
+        $('#hang').find('input.select2-input').on('keyup', function (e) {
             if (e.key === 'Enter') {
                 var inputValue = $(this).val();
                 if (inputValue.trim() !== "") {
                     var data = {
-                        TenThuongHieu: inputValue,
+                        TenHang: inputValue,
                     };
                     $.ajax({
-                        url: 'CreateTenThuongHieu',
+                        url: 'CreateTenHang',
                         type: 'POST',
                         data: JSON.stringify(data),
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                var $select2 = $("[name='IdThuongHieu']");
+                                var $select2 = $("[name='IdHang']");
                                 var selectedValue = $select2.val();
                                 if (selectedValue && selectedValue.length > 0) {
                                     $select2.val(null).trigger('change');
                                 }
-                                var newOption = new Option(result.tenThuongHieu, result.idThuongHieu, true, true);
+                                var newOption = new Option(result.tenHang, result.idHang, true, true);
                                 $select2.append(newOption).trigger('change');
 
                                 $(this).val('');
 
                             } else {
-                                showToastTonTai('Thương hiệu');
+                                showToastTonTai('Hãng');
                             }
                         },
                         error: function (xhr, status, error) {
@@ -626,32 +630,32 @@
                 }
             }
         });
-        $('#xuatxu').find('input.select2-input').on('keyup', function (e) {
+        $('#chip').find('input.select2-input').on('keyup', function (e) {
             if (e.key === 'Enter') {
                 var inputValue = $(this).val();
                 if (inputValue.trim() !== "") {
                     var data = {
-                        Ten: inputValue,
+                        TenChip: inputValue,
                     };
                     $.ajax({
-                        url: 'CreateTenXuatXu',
+                        url: 'CreateTenChip',
                         type: 'POST',
                         data: JSON.stringify(data),
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                var $select2 = $("[name='IdXuatXu']");
+                                var $select2 = $("[name='IdChip']");
                                 var selectedValue = $select2.val();
                                 if (selectedValue && selectedValue.length > 0) {
                                     $select2.val(null).trigger('change');
                                 }
 
-                                var newOption = new Option(result.ten, result.idXuatXu, true, true);
+                                var newOption = new Option(result.tenChip, result.idChip, true, true);
                                 $select2.append(newOption).trigger('change');
 
                                 $(this).val('');
                             } else {
-                                showToastTonTai('Xuất xứ');
+                                showToastTonTai('Chip');
                             }
                         },
                         error: function (xhr, status, error) {
@@ -701,31 +705,31 @@
                 }
             }
         });
-        $('#loaigiay').find('input.select2-input').on('keyup', function (e) {
+        $('#congsac').find('input.select2-input').on('keyup', function (e) {
             if (e.key === 'Enter') {
                 var inputValue = $(this).val();
                 if (inputValue.trim() !== "") {
                     var data = {
-                        TenLoaiGiay: inputValue,
+                        LoaiCongSac: inputValue,
                     };
                     $.ajax({
-                        url: 'CreateTenLoaiGiay',
+                        url: 'CreateCongSac',
                         type: 'POST',
                         data: JSON.stringify(data),
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                var $select2 = $("[name='IdLoaiGiay']");
+                                var $select2 = $("[name='IdCongSac']");
                                 var selectedValue = $select2.val();
                                 if (selectedValue && selectedValue.length > 0) {
                                     $select2.val(null).trigger('change');
                                 }
-                                var newOption = new Option(result.tenLoaiGiay, result.idLoaiGiay, true, true);
+                                var newOption = new Option(result.loaiCongSac, result.idCongSac, true, true);
                                 $select2.append(newOption).trigger('change');
 
                                 $(this).val('');
                             } else {
-                                showToastTonTai('Loại giày')
+                                showToastTonTai('Cổng Sạc')
                             }
                         },
                         error: function (xhr, status, error) {
@@ -738,31 +742,31 @@
                 }
             }
         });
-        $('#chatlieu').find('input.select2-input').on('keyup', function (e) {
+        $('#manhinh').find('input.select2-input').on('keyup', function (e) {
             if (e.key === 'Enter') {
                 var inputValue = $(this).val();
                 if (inputValue.trim() !== "") {
                     var data = {
-                        TenChatLieu: inputValue,
+                        LoaiManHinh: inputValue,
                     };
                     $.ajax({
-                        url: 'CreateTenChatLieu',
+                        url: 'CreateTenManHinh',
                         type: 'POST',
                         data: JSON.stringify(data),
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                var $select2 = $("[name='IdChatLieu']");
+                                var $select2 = $("[name='IdManHinh']");
                                 var selectedValue = $select2.val();
                                 if (selectedValue && selectedValue.length > 0) {
                                     $select2.val(null).trigger('change');
                                 }
-                                var newOption = new Option(result.tenChatLieu, result.idChatLieu, true, true);
+                                var newOption = new Option(result.loaiManHinh, result.idManHinh, true, true);
                                 $select2.append(newOption).trigger('change');
 
                                 $(this).val('');
                             } else {
-                                showToastTonTai('Chất liệu')
+                                showToastTonTai('Màn Hình')
                             }
                         },
                         error: function (xhr, status, error) {
@@ -775,31 +779,68 @@
                 }
             }
         });
-        $('#kieudegiay').find('input.select2-input').on('keyup', function (e) {
+        $('#pin').find('input.select2-input').on('keyup', function (e) {
             if (e.key === 'Enter') {
                 var inputValue = $(this).val();
                 if (inputValue.trim() !== "") {
                     var data = {
-                        TenKieuDeGiay: inputValue,
+                        LoaiPin: inputValue,
                     };
                     $.ajax({
-                        url: 'CreateTenKieuDeGiay',
+                        url: 'CreateLoaiPin',
                         type: 'POST',
                         data: JSON.stringify(data),
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                var $select2 = $("[name='IdKieuDeGiay']");
+                                var $select2 = $("[name='IdPin']");
                                 var selectedValue = $select2.val();
                                 if (selectedValue && selectedValue.length > 0) {
                                     $select2.val(null).trigger('change');
                                 }
-                                var newOption = new Option(result.tenKieuDeGiay, result.idKieuDeGiay, true, true);
+                                var newOption = new Option(result.loaiPin, result.idPin, true, true);
                                 $select2.append(newOption).trigger('change');
 
                                 $(this).val('');
                             } else {
-                                showToastTonTai("Kiểu đế giày")
+                                showToastTonTai("Pin")
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
+                }
+                else {
+                    showErrKhoangTrang();
+                }
+            }
+        });
+        $('#thenho').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    var data = {
+                        LoaiTheNho: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateTenTheNho',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("[name='IdTheNho']");
+                                var selectedValue = $select2.val();
+                                if (selectedValue && selectedValue.length > 0) {
+                                    $select2.val(null).trigger('change');
+                                }
+                                var newOption = new Option(result.loaiTheNho, result.idTheNho, true, true);
+                                $select2.append(newOption).trigger('change');
+
+                                $(this).val('');
+                            } else {
+                                showToastTonTai("Thẻ nhớ")
                             }
                         },
                         error: function (xhr, status, error) {
@@ -826,14 +867,17 @@
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                var $select2 = $("#IdColor");
-
+                                var $select2 = $("[name='IdMauSac']");
+                                var selectedValue = $select2.val();
+                                if (selectedValue && selectedValue.length > 0) {
+                                    $select2.val(null).trigger('change');
+                                }
                                 var newOption = new Option(result.tenMauSac, result.idMauSac, true, true);
                                 $select2.append(newOption).trigger('change');
 
                                 $(this).val('');
                             } else {
-                                showToastTonTai("Màu sắc")
+                                showToastTonTai("Pin")
                             }
                         },
                         error: function (xhr, status, error) {
@@ -846,60 +890,71 @@
                 }
             }
         });
-        $('#kichco').find('input.select2-input').on('keyup', function (e) {
+        $('#ram').find('input.select2-input').on('keyup', function (e) {
             if (e.key === 'Enter') {
                 var inputValue = $(this).val();
                 if (inputValue.trim() !== "") {
-                    if (Number.isInteger(parseFloat(inputValue.trim())) && parseInt(inputValue) < 0) {
-                        var toastHTML = `<div class="toast fade hide" data-delay="3000">
-                            <div class="toast-header">
-                                <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                                <strong class="mr-auto">Thông báo</strong>
-                                <small>1 seconds ago</small>
-                                <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="toast-body">
-                                <span>Kích cỡ phải là số nguyên dương</span>
-                            </div>
-                        </div>`
+                    var data = {
+                        DungLuong: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateRam',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("#IdRam");
 
-                        $('#notification-toast').append(toastHTML)
-                        $('#notification-toast .toast').toast('show');
-                        setTimeout(function () {
-                            $('#notification-toast .toast:first-child').remove();
-                        }, 3000);
-                    } else {
-                        var data = {
-                            soKichCo: inputValue.trim(),
-                        };
-                        $.ajax({
-                            url: 'CreateTenKichCo',
-                            type: 'POST',
-                            data: JSON.stringify(data),
-                            contentType: 'application/json',
-                            success: function (result) {
-                                if (result) {
-                                    console.log(result);
-                                    var $select2 = $("#IdSize");
+                                var newOption = new Option(result.dungLuong, result.idRam, true, true);
+                                $select2.append(newOption).trigger('change');
 
-                                    var newOption = new Option(result.soKichCo, result.idKichCo, true, true);
-                                    $select2.append(newOption).trigger('change');
-
-                                    $(this).val('');
-                                } else {
-                                    showToastTonTai("Kích cỡ")
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                showDauVaoKhongHopLe();
+                                $(this).val('');
+                            } else {
+                                showToastTonTai("Ram")
                             }
-                        });
-                    }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
                 }
                 else {
-                    showErrKhoangTrang()
+                    showErrKhoangTrang();
+                }
+            }
+        });
+        $('#rom').find('input.select2-input').on('keyup', function (e) {
+            if (e.key === 'Enter') {
+                var inputValue = $(this).val();
+                if (inputValue.trim() !== "") {
+                    var data = {
+                        DungLuong: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateRom',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                var $select2 = $("#IdRom");
+
+                                var newOption = new Option(result.dungLuong, result.idRom, true, true);
+                                $select2.append(newOption).trigger('change');
+
+                                $(this).val('');
+                            } else {
+                                showToastTonTai("Rom")
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showDauVaoKhongHopLe();
+                        }
+                    });
+                }
+                else {
+                    showErrKhoangTrang();
                 }
             }
         });
@@ -1125,7 +1180,7 @@
 
         const lstColor = Array.from($('#IdColor option:checked')).map(option => ({ text: option.text, value: option.value }))
 
-        const lstSize = Array.from($('#IdSize option:checked')).map(option => ({ text: option.text, value: option.value }))
+        const lstRam = Array.from($('#IdRam option:checked')).map(option => ({ text: option.text, value: option.value }))
 
         disabledFormMain();
         $('#preloader').show();
@@ -1136,13 +1191,13 @@
         const container = $('#accordion-borderless');
 
         for (let i = 0; i < lstColor.length; i++) {
-            for (let j = 0; j < lstSize.length; j++) {
-                const index = i * lstSize.length + j;
-                const data = { ...GetDataMain(), ...{ 'IdKichCo': lstSize[j].value, 'IdMauSac': lstColor[i].value } }
+            for (let j = 0; j < lstRam.length; j++) {
+                const index = i * lstRam.length + j;
+                const data = { ...GetDataMain(), ...{ 'IdMauSac': lstColor[i].value, 'IdRam': lstColor[i].value, 'IdRom': lstColor[i].value } }
                 const promise = getProductDetail(data);
                 promise.then((respose) => {
                     if (respose.success) {
-                        const itemAppend = $(ItemTemplate(index, true, respose.data.idChiTietSp, lstColor[i].value, lstSize[j].value, lstColor[i].text + ' - ' + lstSize[j].text, respose.data.giaNhap, respose.data.giaBan, respose.data.soLuongTon, respose.data.moTa, respose.data.khoiLuong, "           <<---BIẾN THỂ ĐÃ TỒN TẠI. MỌI THAY ĐỔI SẼ ĐƯỢC LƯU KHI CẬP NHẬT!!!--->>"))
+                        const itemAppend = $(ItemTemplate(index, true, respose.data.idChiTietSp, lstColor[i].value, lstRam[j].value, lstColor[i].text + ' - ' + lstRam[j].text, respose.data.giaNhap, respose.data.giaBan, respose.data.soLuongTon, respose.data.moTa, respose.data.khoiLuong, "           <<---BIẾN THỂ ĐÃ TỒN TẠI. MỌI THAY ĐỔI SẼ ĐƯỢC LƯU KHI CẬP NHẬT!!!--->>"))
                         container.append(itemAppend)
                         if (respose.data.day = "true") {
                             itemAppend.find('.switch-2-day').prop('checked', true);
@@ -1197,7 +1252,7 @@
                         });
 
                     } else {
-                        const item = $(ItemTemplate(index, false, "", lstColor[i].value, lstSize[j].value, lstColor[i].text + ' - ' + lstSize[j].text, $('#giaNhap').val().replace(/₫|,|\s/g, ''), $('#giaBan').val().replace(/₫|,|\s/g, ''), $('#soLuongTon').val().replace(/₫|,|\s/g, ''), $('#MoTaCauHinh').summernote('code'), $('#khoiLuong').val().replace(/₫|,|\s/g, ''), ''))
+                        const item = $(ItemTemplate(index, false, "", lstColor[i].value, lstRam[j].value, lstColor[i].text + ' - ' + lstRam[j].text, $('#giaNhap').val().replace(/₫|,|\s/g, ''), $('#giaBan').val().replace(/₫|,|\s/g, ''), $('#soLuongTon').val().replace(/₫|,|\s/g, ''), $('#MoTaCauHinh').summernote('code'), $('#khoiLuong').val().replace(/₫|,|\s/g, ''), ''))
 
                         item.find('.switch-2-day').prop('checked', $('#switch-1-day').prop('checked'))
                         item.find('.switch-2-noibat').prop('checked', $('#switch-1-noibat').prop('checked'))
@@ -1437,18 +1492,18 @@
                         $('#preloader').hide();
                         if (checkSS > 0) {
                             var toastHTML = `<div class="toast fade hide" data-delay="3000">
-                                     <div class="toast-header">
-                                         <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                                         <strong class="mr-auto">Bootstrap</strong>
-                                         <small>1 second ago</small>
-                                         <button type="button" class="ml-2 btn btn-tone close" data-dismiss="toast" aria-label="Close">
-                                             <span aria-hidden="true">&times;</span>
-                                         </button>
-                                     </div>
-                                     <div class="toast-body">
-                                         ${checkSS} thực thể được cập nhật thành công
-                                     </div>
-                             </div>`
+                                         <div class="toast-header">
+                                             <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                             <strong class="mr-auto">Bootstrap</strong>
+                                             <small>1 second ago</small>
+                                             <button type="button" class="ml-2 btn btn-tone close" data-dismiss="toast" aria-label="Close">
+                                                 <span aria-hidden="true">&times;</span>
+                                             </button>
+                                         </div>
+                                         <div class="toast-body">
+                                             ${checkSS} thực thể được cập nhật thành công
+                                         </div>
+                                 </div>`
 
                             $('#notification-toast').append(toastHTML)
                             $('#notification-toast .toast').toast('show');
@@ -1461,19 +1516,19 @@
 
                         if (checkErr > 0) {
                             var toastHTML = `<div class="toast fade hide" data-delay="3000">
-                                 <div class="toast-header">
-                                     <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                                     <strong class="mr-auto">Thông báo</strong>
-                                     <small>1 second ago</small>
-                                     <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-                                         <span aria-hidden="true">&times;</span>
-                                     </button>
-                                 </div>
-                                 <div class="toast-body">
-                                     Một vài thực thể dữ liệu chưa được nhập.
-                                     Vui lòng nhập các trường cần thiết và chọn ảnh để tiếp tục!
-                                 </div>
-                             </div>`
+                                     <div class="toast-header">
+                                         <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                         <strong class="mr-auto">Thông báo</strong>
+                                         <small>1 second ago</small>
+                                         <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                         </button>
+                                     </div>
+                                     <div class="toast-body">
+                                         Một vài thực thể dữ liệu chưa được nhập.
+                                         Vui lòng nhập các trường cần thiết và chọn ảnh để tiếp tục!
+                                     </div>
+                                 </div>`
                             $('#notification-toast').append(toastHTML)
                             $('#notification-toast .toast').toast('show');
                             setTimeout(function () {
@@ -1518,7 +1573,7 @@
 
                     const DataInDataset = {}
 
-                    Array.from(["IdMauSac", "IdKichCo"]).forEach(name => {
+                    Array.from(["IdMauSac","IdRam","IdRom"]).forEach(name => {
                         let value = currentItem.attr('data-' + name) || currentItem.find('[data-' + name + ']').attr('data-' + name);
                         if (value !== undefined) {
                             DataInDataset[name] = value;

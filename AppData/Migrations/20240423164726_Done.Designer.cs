@@ -4,6 +4,7 @@ using App_Data.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App_Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240423164726_Done")]
+    partial class Done
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -834,9 +836,11 @@ namespace App_Data.Migrations
                     b.Property<string>("MaRam")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("TrangThai")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<string>("TenRam")
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
 
                     b.HasKey("IdRam");
 
@@ -855,9 +859,11 @@ namespace App_Data.Migrations
                     b.Property<string>("MaRom")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("TrangThai")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<string>("TenRom")
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
 
                     b.HasKey("IdRom");
 

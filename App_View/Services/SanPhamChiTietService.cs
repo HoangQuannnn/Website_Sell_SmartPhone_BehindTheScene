@@ -252,12 +252,12 @@ namespace App_View.Services
                 throw new Exception("Not IsSuccessStatusCode");
             }
         }
-
+        //mausac
         public async Task<MauSacDTO?> CreateTenMauSacAynsc(MauSacDTO mauSac)
         {
             var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-MauSac", mauSac);
             try
-            {
+            { 
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadAsAsync<MauSacDTO>();

@@ -9,8 +9,7 @@ namespace App_Data.ViewModels.RomDTO
 {
     public class CreateRomDTO
     {
-        public string tenRom { get; set; }
         public TrangThaiEnum trangThai { get; set; }
-        public DungLuongRomEnum dungLuongRom { get; set; }
+        public string dungLuongRom { get; set; }
     }
 }

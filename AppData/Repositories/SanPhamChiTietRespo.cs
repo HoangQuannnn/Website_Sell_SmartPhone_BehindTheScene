@@ -337,7 +337,8 @@ namespace App_Data.Repositories
 
         public async Task<IEnumerable<SanPhamChiTiet>> GetListAsync()
         {
-            return await _context.SanPhamChiTiets.ToListAsync();
+            var test = await _context.SanPhamChiTiets.ToListAsync();
+            return test;
         }
 
 
@@ -877,14 +878,14 @@ namespace App_Data.Repositories
                 await _context.SaveChangesAsync();
 
                 var ramLower = bienTheDTO.Ram!.Trim().ToLower();
-                var ram = await _context.Rams.FirstOrDefaultAsync(cl => cl.TenRam!.Trim().ToLower() == ramLower);
+                var ram = await _context.Rams.FirstOrDefaultAsync(cl => cl.DungLuong!.Trim().ToLower() == ramLower);
                 if (ram == null)
                 {
                     ram = new Ram()
                     {
                         IdRam = Guid.NewGuid().ToString(),
                         MaRam = !_context.Rams.Any() ? "R1" : "R" + (_context.Rams.Count() + 1),
-                        TenRam = bienTheDTO.Ram.Trim(),
+                        DungLuong = bienTheDTO.Ram.Trim(),
                         TrangThai = 0
                     };
                     await _context.Rams.AddAsync(ram);
@@ -893,14 +894,14 @@ namespace App_Data.Repositories
                 await _context.SaveChangesAsync();
 
                 var romLower = bienTheDTO.Rom!.Trim().ToLower();
-                var rom = await _context.Roms.FirstOrDefaultAsync(cl => cl.TenRom!.Trim().ToLower() == romLower);
+                var rom = await _context.Roms.FirstOrDefaultAsync(cl => cl.DungLuong!.Trim().ToLower() == romLower);
                 if (rom == null)
                 {
                     rom = new Rom()
                     {
                         IdRom = Guid.NewGuid().ToString(),
                         MaRom = !_context.Roms.Any() ? "RO1" : "RO" + (_context.Roms.Count() + 1),
-                        TenRom = bienTheDTO.Rom.Trim(),
+                        DungLuong = bienTheDTO.Rom.Trim(),
                         TrangThai = 0
                     };
                     await _context.Roms.AddAsync(rom);

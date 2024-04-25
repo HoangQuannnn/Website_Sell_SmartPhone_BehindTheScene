@@ -359,7 +359,11 @@ namespace App_Data.Repositories
                     Chip = context.Chips.ToList().FirstOrDefault(x => x.IdChip == sanPham.IdChip)?.TenChip,
                     TheNho = context.TheNhos.ToList().FirstOrDefault(x => x.IdTheNho == sanPham.IdTheNho)?.LoaiTheNho,
                     Pin = context.Pins.ToList().FirstOrDefault(x => x.IdPin == sanPham.IdPin)?.LoaiPin,
-                    SoLuongTon = context.Imeis.Where(x => x.IdSanPhamChiTiet == sanPham.IdChiTietSp).Count(),
+                    Ram = context.Rams.ToList().FirstOrDefault(x => x.IdRam == sanPham.IdRam)?.DungLuong,
+                    Rom = context.Roms.ToList().FirstOrDefault(x => x.IdRom == sanPham.IdRom)?.DungLuong,
+                    Hang = context.Hangs.ToList().FirstOrDefault(x => x.IdHang == sanPham.IdHang)?.TenHang,
+                    //SoLuongTon = context.Imeis.Where(x => x.IdSanPhamChiTiet == sanPham.IdChiTietSp).Count(),
+                    SoLuongTon = sanPham.SoLuongTon,
                     Ma = sanPham.Ma
                 };
             }

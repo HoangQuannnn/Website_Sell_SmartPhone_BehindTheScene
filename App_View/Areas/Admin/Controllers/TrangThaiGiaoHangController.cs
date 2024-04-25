@@ -125,7 +125,7 @@ namespace App_View.Areas.Admin.Controllers
 					foreach(var item in hoadonchitiet)
 					{
                         var spct = sanPhamCT.FirstOrDefault(x => x.IdChiTietSp == item.IdSanPhamChiTiet);
-						if (spct.SoLuongTon< item.SoLuong)
+						if (spct.SoLuongTon < item.SoLuong)
 						{
                             return Ok(new { thongBao = $"Sản phẩm {spct.SanPham} không đủ trong giỏ hàng", trangThai = false }
                         );

@@ -230,7 +230,7 @@ namespace App_Api.Controllers
                     var sanPhamChiTiet = _mapper.Map<SanPhamChiTiet>(sanPhamChiTietDTO);
                     sanPhamChiTiet.IdChiTietSp = Guid.NewGuid().ToString();
                     var mauSac = _mauSacRes.GetAll().FirstOrDefault(ms => ms.IdMauSac == sanPhamChiTietDTO.IdMauSac)!.TenMauSac!.Substring(0, 2);
-                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac + "-" + _ram + "/" + _rom;
+                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac + "-";
                     sanPhamChiTiet.TrangThai = 0;
                     sanPhamChiTiet.SoLuongDaBan = 0;
                     sanPhamChiTiet.NgayTao = DateTime.Now;
@@ -474,9 +474,9 @@ namespace App_Api.Controllers
         [HttpPost("Create-Ram")]
         public RamDTO? CreateRam(RamDTO ramDTO)
         {
-            var nameRam = ramDTO.TenRam!.Trim();
+            var nameRam = ramDTO.DungLuong!.Trim();
 
-            if (!_ram.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.TenRam).Contains(nameRam, StringComparer.OrdinalIgnoreCase))
+            if (!_ram.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.DungLuong).Contains(nameRam, StringComparer.OrdinalIgnoreCase))
             {
                 var ram = _mapper.Map<Ram>(ramDTO);
                 ram.IdRam = Guid.NewGuid().ToString();
@@ -492,9 +492,9 @@ namespace App_Api.Controllers
         [HttpPost("Create-Rom")]
         public RomDTO? CreateRom(RomDTO romDTO)
         {
-            var nameRom = romDTO.TenRom!.Trim();
+            var nameRom = romDTO.DungLuong!.Trim();
 
-            if (!_rom.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.TenRom).Contains(nameRom, StringComparer.OrdinalIgnoreCase))
+            if (!_rom.GetAll().Where(sp => sp.TrangThai == 0).Select(i => i.DungLuong).Contains(nameRom, StringComparer.OrdinalIgnoreCase))
             {
                 var rom = _mapper.Map<Rom>(romDTO);
                 rom.IdRom = Guid.NewGuid().ToString();

@@ -54,7 +54,6 @@ namespace App_Api.Controllers
             {
                 IdRam = Guid.NewGuid().ToString(),
                 MaRam = ma,
-                TenRam = createRamDTO.tenRam,
                 DungLuong = createRamDTO.dungLuongRam,
                 TrangThai = createRamDTO.trangThai
             };
@@ -66,12 +65,11 @@ namespace App_Api.Controllers
         {
             try
             {
-                if (ramDTO != null && !string.IsNullOrEmpty(ramDTO.IdRam) && !string.IsNullOrEmpty(ramDTO.TenRam))
+                if (ramDTO != null && !string.IsNullOrEmpty(ramDTO.IdRam) && !string.IsNullOrEmpty(ramDTO.DungLuong))
                 {
                     var existingRam = dbContext.Rams.FirstOrDefault(x => x.IdRam == ramDTO.IdRam);
                     if (existingRam != null)
                     {
-                        existingRam.TenRam = ramDTO.TenRam;
                         existingRam.TrangThai = ramDTO.trangThai;
                         existingRam.DungLuong = ramDTO.DungLuong;
                         dbContext.Rams.Update(existingRam);

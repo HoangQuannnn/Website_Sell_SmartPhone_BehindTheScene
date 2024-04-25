@@ -210,7 +210,6 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     Id = it.IdRom,
                     Ma = it.MaRom,
-                    Ten = it.TenRom,
                     DungLuongRomEnum = it.DungLuong,
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdRom == it.IdRom).Count(),
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
@@ -229,7 +228,6 @@ namespace App_View.Areas.Admin.Controllers
                 {
                     Id = it.IdRam,
                     Ma = it.MaRam,
-                    Ten = it.TenRam,
                     DungLuongRamEnum = it.DungLuong,
                     SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdRam == it.IdRam).Count(),
                     TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"

@@ -29,7 +29,6 @@
             <tr>
                 <th class="text-center">STT</th>
                 <th class="text-center">Mã</th>
-                <th class="text-center">Tên</th>
                 <th class="text-center">Trạng thái</th>
                 <th class="text-center">Biến thể liên quan</th>
                 <th class="text-center">Dung lượng rom</th>
@@ -45,7 +44,6 @@
                 <tr>
                     <td class="text-center">@(STT++)</td>
                     <td class="text-center">@item.Ma!.ToUpper()</td>
-                    <td class="text-center">@item.Ten!.ToUpper()</td>
                     <td class="text-center">@item.TrangThai</td>
                     <td class="text-center">@item.SoBienTheDangDung</td>
                     <td class="text-center">@item.DungLuongRomEnum</td>
@@ -131,27 +129,16 @@
         }
     }
 
-    function Edit(id, name, soBienTheDangDung, dungLuong, trangThai) {
+    function Edit(id, soBienTheDangDung, dungLuong, trangThai) {
         Swal.fire({
             title: 'Chỉnh sửa Rom',
             html:
-                '<input id="tenRom" class="swal2-input" placeholder="Tên Ram" value="' + name + '">' +
+                '<input id="dungLuongRom" class="swal2-input" placeholder="Dung Lượng Rom" value="' + dungLuong + '">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
-                '        <option value="0" ' + (trangThai === 0 ? 'selected' : '') + '>Hoạt động</option>' +
-                '        <option value="1" ' + (trangThai === 1 ? 'selected' : '') + '>Không hoạt động</option>' +
-                '    </select>' +
-                '</div>' +
-                '<div class="form-group">' +
-                '    <label for="dungLuongRam">Dung Lượng Rom:</label>' +
-                '    <select class="form-control" id="dungLuongRam">' +
-                '        <option value="0" ' + (dungLuong === 0 ? 'selected' : '') + '>16GB</option>' +
-                '        <option value="1" ' + (dungLuong === 1 ? 'selected' : '') + '>32GB</option>' +
-                '        <option value="2" ' + (dungLuong === 2 ? 'selected' : '') + '>64GB</option>' +
-                '        <option value="3" ' + (dungLuong === 3 ? 'selected' : '') + '>128GB</option>' +
-                '        <option value="4" ' + (dungLuong === 4 ? 'selected' : '') + '>256GB</option>' +
-                '        <option value="5" ' + (dungLuong === 5 ? 'selected' : '') + '>512GB</option>' +
+                '        <option value="0" ' + (trangThai === "0" ? 'selected' : '') + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai === "1" ? 'selected' : '') + '>Không hoạt động</option>' +
                 '    </select>' +
                 '</div>',
 
@@ -160,16 +147,14 @@
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const tenRom = document.getElementById('tenRom').value;
+                const dungLuongRom = document.getElementById('dungLuongRom').value;
                 const trangThai = document.getElementById('trangThai').value;
-                const dungLuongRam = document.getElementById('dungLuongRam').value;
 
-                if (tenRom !== '') {
-                    // Gửi dữ liệu thông qua AJAX để chỉnh sửa ram
+                if (dungLuongRom !== '') {
+                    // Gửi dữ liệu thông qua AJAX để chỉnh sửa Rom
                     var data = {
                         IdRom: id,
-                        TenRom: tenRom,
-                        DungLuong: parseInt(dungLuongRam),
+                        DungLuong: dungLuongRom,
                         trangThai: parseInt(trangThai)
                     };
 
@@ -183,13 +168,13 @@
                                 DrawThuongHieu();
                                 Swal.fire(
                                     'Thông báo!',
-                                    'Cập nhật rom thành công!',
+                                    'Cập nhật Rom thành công!',
                                     'success'
                                 );
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Cập nhật rom thất bại!',
+                                    'Cập nhật Rom thất bại!',
                                     'info'
                                 );
                             }
@@ -214,25 +199,14 @@
 
     function ThemRom() {
         Swal.fire({
-            title: 'Thêm rom mới',
+            title: 'Thêm Rom mới',
             html:
-                '<input id="tenRom" class="swal2-input" placeholder="Tên Rom">' +
+                '<input id="dungLuongRom" class="swal2-input" placeholder="Dung Lượng">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
                 '        <option value="0">Hoạt động</option>' +
                 '        <option value="1">Không hoạt động</option>' +
-                '    </select>' +
-                '</div>' +
-                '<div class="form-group">' +
-                '    <label for="dungLuongRom">Dung Lượng Rom:</label>' +
-                '    <select class="form-control" id="dungLuongRom">' +
-                '        <option value="0">16GB</option>' +
-                '        <option value="1">32GB</option>' +
-                '        <option value="2">64GB</option>' +
-                '        <option value="3">128GB</option>' +
-                '        <option value="4">256GB</option>' +
-                '        <option value="5">512GB</option>' +
                 '    </select>' +
                 '</div>',
 
@@ -240,17 +214,15 @@
             confirmButtonText: 'Thêm',
             cancelButtonText: 'Hủy',
             preConfirm: () => {
-                const tenRom = document.getElementById('tenRom').value;
                 const trangThai = document.getElementById('trangThai').value;
                 const dungLuongRom = document.getElementById('dungLuongRom').value;
-                return { tenRom: tenRom, trangThai: parseInt(trangThai), dungLuongRom: parseInt(dungLuongRom) }; // Chuyển đổi giá trị sang kiểu số nguyên
-
+                return { trangThai: parseInt(trangThai), dungLuongRom: dungLuongRom };
             }
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = result.value;
-                if (data.tenRom !== '' && data.trangThai !== '' && data.dungLuongRom !== '') {
-                    // Gửi dữ liệu thông qua AJAX để thêm hãng mới vào cơ sở dữ liệu
+                if (data.trangThai !== '' && data.dungLuongRom !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm Rom mới
                     $.ajax({
                         url: '/admin/thuoctinhsanpham/CreateRom',
                         type: 'POST',
@@ -261,13 +233,13 @@
                                 DrawThuongHieu();
                                 Swal.fire(
                                     'Thông báo!',
-                                    'Thêm rom mới thành công!',
+                                    'Thêm Rom mới thành công!',
                                     'success'
                                 );
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm ram mới thất bại!',
+                                    'Thêm Rom mới thất bại!',
                                     'info'
                                 );
                             }
@@ -289,6 +261,9 @@
             }
         });
     }
+
+
+
 
 </script>
 <script>

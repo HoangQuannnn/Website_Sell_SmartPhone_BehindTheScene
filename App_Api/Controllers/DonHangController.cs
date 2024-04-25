@@ -95,7 +95,7 @@ namespace App_Api.Controllers
                     GiaSanPham = hdct.SanPhamChiTiet.GiaBan.GetValueOrDefault(),
                     IdSanPhamChiTiet = hdct.SanPhamChiTiet.IdChiTietSp,
                     SoLuong = hdct.SoLuong.GetValueOrDefault(),
-                    TenSanPham = $"{hdct.SanPhamChiTiet.SanPham.TenSanPham} {hdct.SanPhamChiTiet.MauSac.TenMauSac} {hdct.SanPhamChiTiet.Ram.TenRam}",
+                    TenSanPham = $"{hdct.SanPhamChiTiet.SanPham.TenSanPham} {hdct.SanPhamChiTiet.MauSac.TenMauSac} {hdct.SanPhamChiTiet.Ram.DungLuong}",
                 })
                 .ToList(),
                 DiaChiNhanHang = HoaDonChiTiets.FirstOrDefault()?.HoaDon.ThongTinGiaoHang?.DiaChi,

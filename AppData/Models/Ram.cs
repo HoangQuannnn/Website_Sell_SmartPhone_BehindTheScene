@@ -14,8 +14,7 @@ namespace App_Data.Models
         public string? IdRam { get; set; }
         public string? MaRam { get; set; }
         public TrangThaiEnum TrangThai { get; set; }
-        public DungLuongRamEnum DungLuong { get; set; }
-        public string? TenRam { get; set; }
+        public string DungLuong { get; set; }
         public virtual List<SanPhamChiTiet>? SanPhamChiTiets { get; set; }
     }
 }

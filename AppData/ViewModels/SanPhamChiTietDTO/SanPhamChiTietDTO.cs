@@ -14,8 +14,6 @@ namespace App_Data.ViewModels.SanPhamChiTietDTO
 
         public string? FullName { get; set; }
 
-        public bool? Day { get; set; }
-
         public string? MoTa { get; set; }
 
         public int? SoLuongTon { get; set; }

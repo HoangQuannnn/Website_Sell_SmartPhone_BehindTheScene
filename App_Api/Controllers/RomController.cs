@@ -54,7 +54,6 @@ namespace App_Api.Controllers
             {
                 IdRom = Guid.NewGuid().ToString(),
                 MaRom = ma,
-                TenRom = createRomDTO.tenRom,
                 TrangThai = createRomDTO.trangThai,
                 DungLuong = createRomDTO.dungLuongRom
             };
@@ -66,12 +65,11 @@ namespace App_Api.Controllers
         {
             try
             {
-                if (RomDTO != null && !string.IsNullOrEmpty(RomDTO.IdRom) && !string.IsNullOrEmpty(RomDTO.TenRom))
+                if (RomDTO != null && !string.IsNullOrEmpty(RomDTO.IdRom) && !string.IsNullOrEmpty(RomDTO.DungLuong))
                 {
                     var existingRam = dbContext.Roms.FirstOrDefault(x => x.IdRom == RomDTO.IdRom);
                     if (existingRam != null)
                     {
-                        existingRam.TenRom = RomDTO.TenRom;
                         existingRam.TrangThai = RomDTO.trangThai;
                         existingRam.DungLuong = RomDTO.DungLuong;
                         dbContext.Roms.Update(existingRam);

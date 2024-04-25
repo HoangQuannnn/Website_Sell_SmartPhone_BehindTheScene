@@ -380,7 +380,7 @@ namespace App_View.Services
             return await _httpClient.GetFromJsonAsync<SanPhamChiTiet?>($"/api/SanPhamChiTiet/Get-SanPhamChiTiet/{id}");
         }
 
-        public async Task<List<SanPhamDanhSachViewModel>> GetDanhSachGiayNgungKinhDoanhAynsc()
+        public async Task<List<SanPhamDanhSachViewModel>> GetDanhSachDienThoaiNgungKinhDoanhAynsc()
         {
             return (await _httpClient.GetFromJsonAsync<List<SanPhamDanhSachViewModel>>("/api/SanPhamChiTiet/Get-List-SanPhamNgungKinhDoanhViewModel"))!;
         }
@@ -720,5 +720,7 @@ namespace App_View.Services
                 throw new Exception("Not IsSuccessStatusCode");
             }
         }
+
+        
     }
 }

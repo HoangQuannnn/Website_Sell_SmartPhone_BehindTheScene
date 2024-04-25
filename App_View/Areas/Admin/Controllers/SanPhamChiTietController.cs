@@ -901,7 +901,7 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> GetDanhSachSanPhamNgungKinhDoanh(int draw, int start, int length, string searchValue)
         {
-            var query = (await _SanPhamChiTietservice.GetDanhSachGiayNgungKinhDoanhAynsc())
+            var query = (await _SanPhamChiTietservice.GetDanhSachDienThoaiNgungKinhDoanhAynsc())
                 .Skip(start)
                 .Take(length)
                 .ToList();
@@ -909,7 +909,7 @@ namespace App_View.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(searchValue))
             {
                 string searchValueLower = searchValue.ToLower();
-                query = (await _SanPhamChiTietservice.GetDanhSachGiayNgungKinhDoanhAynsc()).Where(x =>
+                query = (await _SanPhamChiTietservice.GetDanhSachDienThoaiNgungKinhDoanhAynsc()).Where(x =>
                 x.SanPham!.ToLower().Contains(searchValueLower) ||
                 x.MauSac!.ToLower().Contains(searchValueLower) ||
                 x.Ram!.ToLower().Contains(searchValueLower) ||
@@ -920,7 +920,7 @@ namespace App_View.Areas.Admin.Controllers
                 .ToList();
             }
 
-            var totalRecords = (await _SanPhamChiTietservice.GetDanhSachGiayNgungKinhDoanhAynsc()).Count;
+            var totalRecords = (await _SanPhamChiTietservice.GetDanhSachDienThoaiNgungKinhDoanhAynsc()).Count;
 
             return Json(new
             {

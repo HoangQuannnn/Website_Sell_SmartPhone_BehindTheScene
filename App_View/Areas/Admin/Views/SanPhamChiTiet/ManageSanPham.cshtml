@@ -284,7 +284,7 @@
                     <label class="font-weight-semibold">Ram</label>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                        <select id="IdSize" class="select2-active w-100"
+                        <select id="IdRam" class="select2-active w-100"
                                 multiple="multiple">
                             @foreach (var item in (SelectList)ViewData["IdRam"]!)
                             {
@@ -298,7 +298,7 @@
                     <label class="font-weight-semibold">Rom</label>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
-                        <select id="IdSize" class="select2-active w-100"
+                        <select id="IdRom" class="select2-active w-100"
                                 multiple="multiple">
                             @foreach (var item in (SelectList)ViewData["IdRom"]!)
                             {
@@ -336,9 +336,9 @@
 
 <script>
     function generate_confirm() {
-        const lstColor = Array.from($('#ram option:checked')).map(option => ({ text: option.text, value: option.value }))
-
-        const lstRam = Array.from($('#rom option:checked')).map(option => ({ text: option.text, value: option.value }))
+        const lstColor = Array.from($('#IdColor option:checked')).map(option => ({ text: option.text, value: option.value }))
+        const lstRam = Array.from($('#IdRam option:checked')).map(option => ({ text: option.text, value: option.value }))
+        const lstRom = Array.from($('#IdRom option:checked')).map(option => ({ text: option.text, value: option.value }))
 
         console.log("IdHang:", $('[name="IdHang"]').val());
         console.log("IdChip:", $('[name="IdChip"]').val());
@@ -350,21 +350,21 @@
         console.log("IdRam:", $('[name="IdRam"]').val());
         console.log("IdRom:", $('[name="IdRom"]').val());
 
-        if (!lstRam.length || !lstColor.length || $('[name="IdSanPham"]').val() === null || $('[name="IdHang"]').val() === null || $('[name="IdChip"]').val() === null || $('[name="IdCongSac"]').val() === null || $('[name="IdManHinh"]').val() === null || $('[name="IdPin"]').val() === null || $('[name="IdTheNho"]').val() === null || $('[name="IdMauSac"]').val() === null || $('[name="IdRam"]').val() === null || $('[name="IdRom"]').val() === null) {
+        if (!lstRam.length || !lstRom.length || !lstColor.length || $('[name="IdSanPham"]').val() === null || $('[name="IdHang"]').val() === null || $('[name="IdChip"]').val() === null || $('[name="IdCongSac"]').val() === null || $('[name="IdManHinh"]').val() === null || $('[name="IdPin"]').val() === null || $('[name="IdTheNho"]').val() === null) {
             var toastHTML = `<div class="toast fade hide" data-delay="3000">
-              <div class="toast-header">
-                  <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                  <strong class="mr-auto">Thông báo</strong>
-                  <small>1 second ago</small>
-                  <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="toast-body">
-                  Một vài trường dữ liệu chưa được nhập/chọn.
-                  Vui lòng nhập/chọn các trường cần thiết để tiếp tục!
-              </div>
-          </div>`
+                  <div class="toast-header">
+                      <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                      <strong class="mr-auto">Thông báo</strong>
+                      <small>1 second ago</small>
+                      <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="toast-body">
+                      Một vài trường dữ liệu chưa được nhập/chọn.
+                      Vui lòng nhập/chọn các trường cần thiết để tiếp tục!
+                  </div>
+              </div>`
             $('#notification-toast').append(toastHTML)
             $('#notification-toast .toast').toast('show');
             setTimeout(function () {
@@ -409,18 +409,18 @@
 
     function showToastTonTai(name) {
         var toastHTML = `<div class="toast fade hide" data-delay="3000">
-     <div class="toast-header">
-         <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-         <strong class="mr-auto">Thông báo</strong>
-         <small>1 seconds ago</small>
-         <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-             <span aria-hidden="true">&times;</span>
-         </button>
-     </div>
-     <div class="toast-body">
-         <span>${name} đã tồn tại!</span>
-     </div>
- </div>`
+         <div class="toast-header">
+             <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+             <strong class="mr-auto">Thông báo</strong>
+             <small>1 seconds ago</small>
+             <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+         </div>
+         <div class="toast-body">
+             <span>${name} đã tồn tại!</span>
+         </div>
+     </div>`
 
         $('#notification-toast').append(toastHTML)
         $('#notification-toast .toast').toast('show');
@@ -431,18 +431,18 @@
 
     function showDauVaoKhongHopLe() {
         var toastHTML = `<div class="toast fade hide" data-delay="3000">
-    <div class="toast-header">
-        <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-        <strong class="mr-auto">Thông báo</strong>
-        <small>1 seconds ago</small>
-        <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="toast-body">
-        <span>Đầu vào không hợp lệ</span>
-    </div>
-</div>`
+        <div class="toast-header">
+            <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+            <strong class="mr-auto">Thông báo</strong>
+            <small>1 seconds ago</small>
+            <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            <span>Đầu vào không hợp lệ</span>
+        </div>
+    </div>`
 
         $('#notification-toast').append(toastHTML)
         $('#notification-toast .toast').toast('show');
@@ -453,18 +453,18 @@
 
     function showErrKhoangTrang() {
         var toastHTML = `<div class="toast fade hide" data-delay="3000">
-                <div class="toast-header">
-                    <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                    <strong class="mr-auto">Thông báo</strong>
-                    <small>1 seconds ago</small>
-                    <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="toast-body">
-                    <span>Vui lòng không để khoảng trắng!</span>
-                </div>
-            </div>`
+                    <div class="toast-header">
+                        <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                        <strong class="mr-auto">Thông báo</strong>
+                        <small>1 seconds ago</small>
+                        <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        <span>Vui lòng không để khoảng trắng!</span>
+                    </div>
+                </div>`
 
         $('#notification-toast').append(toastHTML)
         $('#notification-toast .toast').toast('show');
@@ -476,18 +476,18 @@
     $(document).on('change', '#ChonAnh', function () {
         if (this.files.length > 6) {
             var toastHTML = `<div class="toast fade hide" data-delay="3000">
-                    <div class="toast-header">
-                        <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                        <strong class="mr-auto">Thông báo</strong>
-                        <small>1 second ago</small>
-                        <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="toast-body">
-                        Chỉ được chọn tối đa 6 ảnh!
-                    </div>
-                </div>`
+                        <div class="toast-header">
+                            <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                            <strong class="mr-auto">Thông báo</strong>
+                            <small>1 second ago</small>
+                            <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body">
+                            Chỉ được chọn tối đa 6 ảnh!
+                        </div>
+                    </div>`
             $('#notification-toast').append(toastHTML)
             $('#notification-toast .toast').toast('show');
             setTimeout(function () {
@@ -569,18 +569,18 @@
         $('.item_checkbox').prop('checked', false);
         CheckConfirm();
         var toastHTML = `<div class="toast fade hide" data-delay="3000">
-             <div class="toast-header">
-                 <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                 <strong class="mr-auto">Bootstrap</strong>
-                 <small>1 second ago</small>
-                 <button type="button" class="ml-2 btn btn-tone close" data-dismiss="toast" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                 </button>
-             </div>
-             <div class="toast-body">
-                  Đã chọn ảnh cho phần tử đã chọn!
-             </div>
-     </div>`
+                 <div class="toast-header">
+                     <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                     <strong class="mr-auto">Bootstrap</strong>
+                     <small>1 second ago</small>
+                     <button type="button" class="ml-2 btn btn-tone close" data-dismiss="toast" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
+                 <div class="toast-body">
+                      Đã chọn ảnh cho phần tử đã chọn!
+                 </div>
+         </div>`
 
         $('#notification-toast').append(toastHTML)
         $('#notification-toast .toast').toast('show');
@@ -1012,122 +1012,122 @@
     }
 
     //itemTemplate
-    const ItemTemplate = (index, isUpdate, idProduct, idcolor, idsize, Title, giaNhap, giaBan, soLuong, moTa, khoiLuong, message) => {
+    const ItemTemplate = (index, isUpdate, idProduct, idcolor, idram, idrom, Title, giaNhap, giaBan, soLuong, moTa, khoiLuong, message) => {
         const isUpdateClass = isUpdate ? 'disabled' : '';
         return `
-<div class="card item-accordion" data-update="${isUpdate}" data-idproductdetail="${idProduct}">
-        <div class="card-header border-bottom">
-            <h5 class="card-title d-flex">
-                <div class="checkbox" data-id="${index}"><input id="check-item-${index}" onchange="CheckboxChange()" type="checkbox" ${isUpdateClass} class="item_checkbox"><label for="check-item-${index}" class="m-b-0"></label></div>
-                <a data-toggle="collapse" class="w-100 collapsed" data-IdMauSac="${idcolor}" data-IdKichCo="${idsize}"
-                   href="#collapseOneBorderless${index}">
-                    <span>${Title} ${message}</span>
-                </a>
-                <button class="btn btnn-close border-0">
-                    <i class="anticon anticon-close"></i>
-                </button>
-            </h5>
-        </div>
-        <div id="collapseOneBorderless${index}" class="collapse" data-parent="#accordion-borderless">
+    <div class="card item-accordion" data-update="${isUpdate}" data-idproductdetail="${idProduct}">
+            <div class="card-header border-bottom">
+                <h5 class="card-title d-flex">
+                    <div class="checkbox" data-id="${index}"><input id="check-item-${index}" onchange="CheckboxChange()" type="checkbox" ${isUpdateClass} class="item_checkbox"><label for="check-item-${index}" class="m-b-0"></label></div>
+                        <a data-toggle="collapse" class="w-100 collapsed" data-IdMauSac="${idcolor}" data-IdRam="${idram}"  data-IdRom="${idrom}"
+                       href="#collapseOneBorderless${index}">
+                        <span>${Title} ${message}</span>
+                    </a>
+                    <button class="btn btnn-close border-0">
+                        <i class="anticon anticon-close"></i>
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOneBorderless${index}" class="collapse" data-parent="#accordion-borderless">
 
-            <div class="d-flex">
-                <ul class="nav nav-tabs flex-column" id="myTabVertical" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center active" id="home-tab-vertical" data-toggle="tab" href="#home-vertical${index}"
-                           role="tab" aria-controls="home-vertical${index}" aria-selected="true"><i class="fas fa-info-circle mr-1"></i><span>Information</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center" id="profile-tab-vertical" data-toggle="tab" href="#profile-vertical${index}"
-                           role="tab" aria-controls="profile-${index}" aria-selected="false"><i class="far fa-file-image mr-1"></i><span>Image</span></a>
-                    </li>
-                </ul>
+                <div class="d-flex">
+                    <ul class="nav nav-tabs flex-column" id="myTabVertical" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center active" id="home-tab-vertical" data-toggle="tab" href="#home-vertical${index}"
+                               role="tab" aria-controls="home-vertical${index}" aria-selected="true"><i class="fas fa-info-circle mr-1"></i><span>Information</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" id="profile-tab-vertical" data-toggle="tab" href="#profile-vertical${index}"
+                               role="tab" aria-controls="profile-${index}" aria-selected="false"><i class="far fa-file-image mr-1"></i><span>Image</span></a>
+                        </li>
+                    </ul>
 
-                <div class="tab-content" id="myTabContentVertical">
-                    <div class="tab-pane fade show active" style="height: 650px" id="home-vertical${index}" role="tabpanel"
-                         aria-labelledby="home-tab-vertical${index}">
-                        <div class="card-body">
-                            <div class="row mt-2">
-                                <div class="form-group col-3">
-                                    <label class="font-weight-semibold">Giá Nhập(*)</label>
-                                    <div class="d-flex align-items-center">
-                                        <i class="far fa-money-bill-alt mr-1"></i>
-                                        <input min="1" class="form-control formatPrice" name="GiaNhap" value="${giaNhap}"
-                                        placeholder="">
+                    <div class="tab-content" id="myTabContentVertical">
+                        <div class="tab-pane fade show active" style="height: 650px" id="home-vertical${index}" role="tabpanel"
+                             aria-labelledby="home-tab-vertical${index}">
+                            <div class="card-body">
+                                <div class="row mt-2">
+                                    <div class="form-group col-3">
+                                        <label class="font-weight-semibold">Giá Nhập(*)</label>
+                                        <div class="d-flex align-items-center">
+                                            <i class="far fa-money-bill-alt mr-1"></i>
+                                            <input min="1" class="form-control formatPrice" name="GiaNhap" value="${giaNhap}"
+                                            placeholder="">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label class="font-weight-semibold">Giá Bán(*)</label>
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-money-bill-wave mr-1"></i>
-                                        <input min="1" class="form-control formatPrice" name="GiaBan" value="${giaBan}"
-                                        placeholder="">
+                                    <div class="form-group col-3">
+                                        <label class="font-weight-semibold">Giá Bán(*)</label>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-money-bill-wave mr-1"></i>
+                                            <input min="1" class="form-control formatPrice" name="GiaBan" value="${giaBan}"
+                                            placeholder="">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label class="font-weight-semibold">Số lượng(*)</label>
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-database mr-1"></i>
-                                        <input class="form-control formatNumber" name="SoLuongTon" value="${soLuong}">
+                                    <div class="form-group col-3">
+                                        <label class="font-weight-semibold">Số lượng(*)</label>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-database mr-1"></i>
+                                            <input class="form-control formatNumber" name="SoLuongTon" value="${soLuong}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group col-3">
-                                    <label class="font-weight-semibold">Khối lượng(*)</label>
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-weight mr-1"></i>
-                                        <input class="form-control formatKhoiLuong" name="KhoiLuong" value="${khoiLuong}">(g)
+                                    <div class="form-group col-3">
+                                        <label class="font-weight-semibold">Khối lượng(*)</label>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-weight mr-1"></i>
+                                            <input class="form-control formatKhoiLuong" name="KhoiLuong" value="${khoiLuong}">(g)
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group d-flex align-items-center col-2">
-                                    <div class="switch m-r-10">
-                                        <input type="checkbox" id="switch-${index}" class="switch-2-day">
-                                        <label class="font-weight-semibold" for="switch-${index}"></label>
+                                    <div class="form-group d-flex align-items-center col-2">
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-${index}" class="switch-2-day">
+                                            <label class="font-weight-semibold" for="switch-${index}"></label>
+                                        </div>
+                                        <label class="font-weight-semibold">Dây(Có/Không)</label>
                                     </div>
-                                    <label class="font-weight-semibold">Dây(Có/Không)</label>
-                                </div>
-                                <div class="form-group d-flex align-items-center col-3">
-                                    <div class="switch m-r-10">
-                                        <input type="checkbox" id="switch-${index}-1" class="switch-2-noibat">
-                                        <label class="font-weight-semibold" for="switch-${index}-1"></label>
+                                    <div class="form-group d-flex align-items-center col-3">
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-${index}-1" class="switch-2-noibat">
+                                            <label class="font-weight-semibold" for="switch-${index}-1"></label>
+                                        </div>
+                                        <label class="font-weight-semibold">Hiển thị ở danh sách nổi bật</label>
                                     </div>
-                                    <label class="font-weight-semibold">Hiển thị ở danh sách nổi bật</label>
-                                </div>
-                                 <div class="form-group d-flex align-items-center col-4">
-                                     <div class="switch m-r-10">
-                                         <input type="checkbox" id="switch-${index}-2" class="switch-2-trangthaikhuyenmai" name="TrangThaiKhuyenMai" checked>
-                                         <label class="font-weight-semibold" for="switch-${index}-2"></label>
+                                     <div class="form-group d-flex align-items-center col-4">
+                                         <div class="switch m-r-10">
+                                             <input type="checkbox" id="switch-${index}-2" class="switch-2-trangthaikhuyenmai" name="TrangThaiKhuyenMai" checked>
+                                             <label class="font-weight-semibold" for="switch-${index}-2"></label>
+                                         </div>
+                                         <label class="font-weight-semibold">Cho phép áp dụng khuyến mại</label>
                                      </div>
-                                     <label class="font-weight-semibold">Cho phép áp dụng khuyến mại</label>
-                                 </div>
-                                <div class="form-group col-12">
-                                    <div class="m-b-5" style="margin-top: 10px;">
-                                        <label class="font-weight-semibold" style="display: block; margin-bottom: 5px;">
-                                            Mô tả sản phẩm
-                                        </label>
-                                        <div class="moTa" style="width: 100%; " name="MoTa">${moTa}</div>
+                                    <div class="form-group col-12">
+                                        <div class="m-b-5" style="margin-top: 10px;">
+                                            <label class="font-weight-semibold" style="display: block; margin-bottom: 5px;">
+                                                Mô tả sản phẩm
+                                            </label>
+                                            <div class="moTa" style="width: 100%; " name="MoTa">${moTa}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" style="height: 650px" id="profile-vertical${index}" role="tabpanel"
-                         aria-labelledby="profile-tab-vertical${index}">
-                        <div class="card-body">
-                            <div class="upload mt-2">
-                                <button name="choseFile" class="btn btn-kio mb-2">
-                                    <i class="far fa-file-image m-r-5"></i>
-                                    Chọn Ảnh
-                                </button>
-                                <input type="file" accept="image/*" class="fileInput default-btn 1" multiple hidden>
-                                <div class="container-file" style="display: flex;">
+                        <div class="tab-pane fade" style="height: 650px" id="profile-vertical${index}" role="tabpanel"
+                             aria-labelledby="profile-tab-vertical${index}">
+                            <div class="card-body">
+                                <div class="upload mt-2">
+                                    <button name="choseFile" class="btn btn-kio mb-2">
+                                        <i class="far fa-file-image m-r-5"></i>
+                                        Chọn Ảnh
+                                    </button>
+                                    <input type="file" accept="image/*" class="fileInput default-btn 1" multiple hidden>
+                                    <div class="container-file" style="display: flex;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-</div>
-            `;
+    </div>
+                `;
     }
 
 
@@ -1174,13 +1174,14 @@
         });
     })
 
-    //Check Update or Add to gen Item template
     async function generate() {
         $('#cauHinh').modal('hide');
 
         const lstColor = Array.from($('#IdColor option:checked')).map(option => ({ text: option.text, value: option.value }))
 
         const lstRam = Array.from($('#IdRam option:checked')).map(option => ({ text: option.text, value: option.value }))
+
+        const lstRom = Array.from($('#IdRom option:checked')).map(option => ({ text: option.text, value: option.value }))
 
         disabledFormMain();
         $('#preloader').show();
@@ -1192,79 +1193,81 @@
 
         for (let i = 0; i < lstColor.length; i++) {
             for (let j = 0; j < lstRam.length; j++) {
-                const index = i * lstRam.length + j;
-                const data = { ...GetDataMain(), ...{ 'IdMauSac': lstColor[i].value, 'IdRam': lstColor[i].value, 'IdRom': lstColor[i].value } }
-                const promise = getProductDetail(data);
-                promise.then((respose) => {
-                    if (respose.success) {
-                        const itemAppend = $(ItemTemplate(index, true, respose.data.idChiTietSp, lstColor[i].value, lstRam[j].value, lstColor[i].text + ' - ' + lstRam[j].text, respose.data.giaNhap, respose.data.giaBan, respose.data.soLuongTon, respose.data.moTa, respose.data.khoiLuong, "           <<---BIẾN THỂ ĐÃ TỒN TẠI. MỌI THAY ĐỔI SẼ ĐƯỢC LƯU KHI CẬP NHẬT!!!--->>"))
-                        container.append(itemAppend)
-                        if (respose.data.day = "true") {
-                            itemAppend.find('.switch-2-day').prop('checked', true);
-                        }
-                        if (respose.data.noiBat) {
-                            itemAppend.find('.switch-2-noibat').prop('checked', true);
-                        }
-                        const key = itemAppend.find('.collapse').attr('id');
-                        const containerFile = itemAppend.find('.upload').find('.container-file');
-                        lstAnhRemove[key] = []
-                        Array.from(respose.data.danhSachAnh).map((nameFile) => {
-                            const wrapper = $('<div>').addClass('wrapper-file');
-                            const image = $('<div>').addClass('image');
-                            const imageElement = $('<img>').addClass('file-image').attr('src', '/AnhSanPham/' + nameFile);
+                for (let k = 0; k < lstRom.length; k++) {
+                    const index = i * lstRam.length + j;
+                    const data = { ...GetDataMain(), ...{ 'IdRam': lstRam[j].value, 'IdMauSac': lstColor[i].value, 'IdRom': lstRom[k].value } }
+                    const promise = getProductDetail(data);
+                    promise.then((respose) => {
+                        if (respose.success) {
+                            const itemAppend = $(ItemTemplate(index, true, respose.data.idChiTietSp, lstColor[i].value, lstRam[j].value, lstRom[k].value, lstColor[i].text + ' - ' + lstRam[j].text + ' - ' + lstRom[k].text, respose.data.giaNhap, respose.data.giaBan, respose.data.soLuongTon, respose.data.moTa, respose.data.khoiLuong, "           <<---BIẾN THỂ ĐÃ TỒN TẠI. MỌI THAY ĐỔI SẼ ĐƯỢC LƯU KHI CẬP NHẬT!!!--->>"))
+                            container.append(itemAppend)
+                            if (respose.data.day = "true") {
+                                itemAppend.find('.switch-2-day').prop('checked', true);
+                            }
+                            if (respose.data.noiBat) {
+                                itemAppend.find('.switch-2-noibat').prop('checked', true);
+                            }
+                            const key = itemAppend.find('.collapse').attr('id');
+                            const containerFile = itemAppend.find('.upload').find('.container-file');
+                            lstAnhRemove[key] = []
+                            Array.from(respose.data.danhSachAnh).map((nameFile) => {
+                                const wrapper = $('<div>').addClass('wrapper-file');
+                                const image = $('<div>').addClass('image');
+                                const imageElement = $('<img>').addClass('file-image').attr('src', '/AnhSanPham/' + nameFile);
 
-                            imageElement.on('click', () =>
-                                changeImage(imageElement, nameFile, key)
-                            );
+                                imageElement.on('click', () =>
+                                    changeImage(imageElement, nameFile, key)
+                                );
 
-                            const closeIcon = $('<i>').addClass('fas fa-times close-icon');
+                                const closeIcon = $('<i>').addClass('fas fa-times close-icon');
 
 
-                            image.append(imageElement);
-                            image.append(closeIcon);
+                                image.append(imageElement);
+                                image.append(closeIcon);
 
-                            const content = $('<div>').addClass('content');
-                            const icon = $('<div>').addClass('icon');
-                            icon.html('<i class="fas fa-cloud-upload-alt"></i>');
-                            content.append(icon);
+                                const content = $('<div>').addClass('content');
+                                const icon = $('<div>').addClass('icon');
+                                icon.html('<i class="fas fa-cloud-upload-alt"></i>');
+                                content.append(icon);
 
-                            var cancelBtn = $('<div>').addClass('cancel-btn');
-                            cancelBtn.html('<i class="fas fa-times"></i>');
+                                var cancelBtn = $('<div>').addClass('cancel-btn');
+                                cancelBtn.html('<i class="fas fa-times"></i>');
 
-                            wrapper.append(image);
-                            wrapper.append(content);
-                            wrapper.append(cancelBtn);
-                            containerFile.append(wrapper);
+                                wrapper.append(image);
+                                wrapper.append(content);
+                                wrapper.append(cancelBtn);
+                                containerFile.append(wrapper);
 
-                            closeIcon.on('click', function () {
-                                const fileInput = wrapper.find('input');
-                                if (fileInput.length == 0) {
-                                    lstAnhRemove[key].push(nameFile)
-                                } else {
-                                    const indexDelete = selectedFiles[key].findIndex(item => item.key === nameFile);
-                                    selectedFiles[key].splice(indexDelete, 1);
-                                }
+                                closeIcon.on('click', function () {
+                                    const fileInput = wrapper.find('input');
+                                    if (fileInput.length == 0) {
+                                        lstAnhRemove[key].push(nameFile)
+                                    } else {
+                                        const indexDelete = selectedFiles[key].findIndex(item => item.key === nameFile);
+                                        selectedFiles[key].splice(indexDelete, 1);
+                                    }
 
-                                wrapper.remove();
+                                    wrapper.remove();
+                                });
+
+                                return;
                             });
 
-                            return;
-                        });
+                        } else {
+                            const item = $(ItemTemplate(index, false, "", lstColor[i].value, lstRam[j].value, lstRom[k].value, lstColor[i].text + ' - ' + lstRam[j].text + ' - ' + lstRom[k].text, $('#giaNhap').val().replace(/₫|,|\s/g, ''), $('#giaBan').val().replace(/₫|,|\s/g, ''), $('#soLuongTon').val().replace(/₫|,|\s/g, ''), $('#MoTaCauHinh').summernote('code'), $('#khoiLuong').val().replace(/₫|,|\s/g, ''), ''))
 
-                    } else {
-                        const item = $(ItemTemplate(index, false, "", lstColor[i].value, lstRam[j].value, lstColor[i].text + ' - ' + lstRam[j].text, $('#giaNhap').val().replace(/₫|,|\s/g, ''), $('#giaBan').val().replace(/₫|,|\s/g, ''), $('#soLuongTon').val().replace(/₫|,|\s/g, ''), $('#MoTaCauHinh').summernote('code'), $('#khoiLuong').val().replace(/₫|,|\s/g, ''), ''))
+                            item.find('.switch-2-day').prop('checked', $('#switch-1-day').prop('checked'))
+                            item.find('.switch-2-noibat').prop('checked', $('#switch-1-noibat').prop('checked'))
+                            container.append(item)
+                        }
+                    }).catch((er) => console.log(er))
 
-                        item.find('.switch-2-day').prop('checked', $('#switch-1-day').prop('checked'))
-                        item.find('.switch-2-noibat').prop('checked', $('#switch-1-noibat').prop('checked'))
-                        container.append(item)
+                    ajaxPromises.push(promise);
+
+                    if (ajaxPromises.length >= maxPromise) {
+                        await Promise.all(ajaxPromises);
+                        ajaxPromises.length = 0
                     }
-                }).catch((er) => console.log(er))
-
-                ajaxPromises.push(promise);
-
-                if (ajaxPromises.length >= maxPromise) {
-                    await Promise.all(ajaxPromises);
-                    ajaxPromises.length = 0
                 }
             }
         }
@@ -1374,22 +1377,22 @@
 
         if (this.files.length + countImage > 6) {
             var toastHTML = `<div class="toast fade hide" data-delay="5000">
-        <div class="toast-header">
-            <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-            <strong class="mr-auto">Thông báo</strong>
-            <small>1 second ago</small>
-            <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="toast-body">
-            Chỉ được chọn tối đa 6 ảnh!
-            <br/>
-            S/P đang có ${countImage} ảnh.
-            <br/>
-            Do vậy bạn chỉ có thể chọn tối đa ${6 - countImage} ảnh nữa!!!
-        </div>
-    </div>`
+            <div class="toast-header">
+                <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                <strong class="mr-auto">Thông báo</strong>
+                <small>1 second ago</small>
+                <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Chỉ được chọn tối đa 6 ảnh!
+                <br/>
+                S/P đang có ${countImage} ảnh.
+                <br/>
+                Do vậy bạn chỉ có thể chọn tối đa ${6 - countImage} ảnh nữa!!!
+            </div>
+        </div>`
             $('#notification-toast').append(toastHTML)
             $('#notification-toast .toast').toast('show');
             setTimeout(function () {
@@ -1451,298 +1454,300 @@
         });
     });
 
-    function CapNhat(btn) {
-        const $btn = $(btn)
-        Swal.fire({
-            title: 'Thông báo?',
-            text: 'Bạn có muốn cập nhật các biến thể này không?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Đồng ý'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $btn.addClass('is-loading')
-                var items = $('.item-accordion');
-                var currentIndex = 0;
-                var checkErr = 0;
-                var checkSS = 0
+        function CapNhat(btn) {
+            const $btn = $(btn)
+            Swal.fire({
+                title: 'Thông báo?',
+                text: 'Bạn có muốn cập nhật các biến thể này không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $btn.addClass('is-loading')
+                    var items = $('.item-accordion');
+                    var currentIndex = 0;
+                    var checkErr = 0;
+                    var checkSS = 0
 
-                function processNextItem() {
-                    if (currentIndex >= items.length) {
-                        if ($('.accordion').find($('.item-accordion')).length === 0) {
-                            Swal.fire({
-                                title: 'Thông báo!',
-                                text: 'Quá trình cập nhật đã hoàn tất!',
-                                icon: 'success',
-                                showCancelButton: true,
-                                confirmButtonText: 'D/Sách tổng quan S/P',
-                                cancelButtonText: 'Ở lại màn hiện tại',
-                                allowOutsideClick: false,
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '/Admin/SanPhamChiTiet/TongQuanSanPham'
-                                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    window.location.reload();
-                                }
-                            });
-                            $btn.removeClass('is-loading')
-                        }
-                        $('#preloader').hide();
-                        if (checkSS > 0) {
-                            var toastHTML = `<div class="toast fade hide" data-delay="3000">
+                    function processNextItem() {
+                        if (currentIndex >= items.length) {
+                            if ($('.accordion').find($('.item-accordion')).length === 0) {
+                                Swal.fire({
+                                    title: 'Thông báo!',
+                                    text: 'Quá trình cập nhật đã hoàn tất!',
+                                    icon: 'success',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'D/Sách tổng quan S/P',
+                                    cancelButtonText: 'Ở lại màn hiện tại',
+                                    allowOutsideClick: false,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = '/Admin/SanPhamChiTiet/TongQuanSanPham'
+                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                        window.location.reload();
+                                    }
+                                });
+                                $btn.removeClass('is-loading')
+                            }
+                            $('#preloader').hide();
+                            if (checkSS > 0) {
+                                var toastHTML = `<div class="toast fade hide" data-delay="3000">
+                                             <div class="toast-header">
+                                                 <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                                 <strong class="mr-auto">Bootstrap</strong>
+                                                 <small>1 second ago</small>
+                                                 <button type="button" class="ml-2 btn btn-tone close" data-dismiss="toast" aria-label="Close">
+                                                     <span aria-hidden="true">&times;</span>
+                                                 </button>
+                                             </div>
+                                             <div class="toast-body">
+                                                 ${checkSS} thực thể được cập nhật thành công
+                                             </div>
+                                     </div>`
+
+                                $('#notification-toast').append(toastHTML)
+                                $('#notification-toast .toast').toast('show');
+                                setTimeout(function () {
+                                    $('#notification-toast .toast:first-child').remove();
+                                }, 3000);
+                                checkErr = 0;
+                                $btn.removeClass('is-loading')
+                            }
+
+                            if (checkErr > 0) {
+                                var toastHTML = `<div class="toast fade hide" data-delay="3000">
                                          <div class="toast-header">
                                              <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                                             <strong class="mr-auto">Bootstrap</strong>
+                                             <strong class="mr-auto">Thông báo</strong>
                                              <small>1 second ago</small>
-                                             <button type="button" class="ml-2 btn btn-tone close" data-dismiss="toast" aria-label="Close">
+                                             <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
                                                  <span aria-hidden="true">&times;</span>
                                              </button>
                                          </div>
                                          <div class="toast-body">
-                                             ${checkSS} thực thể được cập nhật thành công
+                                             Một vài thực thể dữ liệu chưa được nhập.
+                                             Vui lòng nhập các trường cần thiết và chọn ảnh để tiếp tục!
                                          </div>
-                                 </div>`
-
-                            $('#notification-toast').append(toastHTML)
-                            $('#notification-toast .toast').toast('show');
-                            setTimeout(function () {
-                                $('#notification-toast .toast:first-child').remove();
-                            }, 3000);
-                            checkErr = 0;
-                            $btn.removeClass('is-loading')
-                        }
-
-                        if (checkErr > 0) {
-                            var toastHTML = `<div class="toast fade hide" data-delay="3000">
-                                     <div class="toast-header">
-                                         <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                                         <strong class="mr-auto">Thông báo</strong>
-                                         <small>1 second ago</small>
-                                         <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-                                             <span aria-hidden="true">&times;</span>
-                                         </button>
-                                     </div>
-                                     <div class="toast-body">
-                                         Một vài thực thể dữ liệu chưa được nhập.
-                                         Vui lòng nhập các trường cần thiết và chọn ảnh để tiếp tục!
-                                     </div>
-                                 </div>`
-                            $('#notification-toast').append(toastHTML)
-                            $('#notification-toast .toast').toast('show');
-                            setTimeout(function () {
-                                $('#notification-toast .toast:first-child').remove();
-                            }, 3000);
-                            checkErr = 0;
-                            $btn.removeClass('is-loading')
-                        }
-                        return
-                    }
-                    const currentItem = items.eq(currentIndex);
-
-                    var isUpdate = currentItem.attr('data-update');
-
-                    var dataBienThe = {};
-
-                    $(currentItem.find('.tab-pane')[0]).find("input, select, textarea").each(function () {
-                        var fieldType = $(this).attr("type");
-                        var fieldName = $(this).attr("name");
-                        var fieldValue;
-
-                        if (fieldType === "checkbox" || fieldType === "radio") {
-                            fieldValue = $(this).is(":checked");
-                        } else {
-                            if ($(this).hasClass("formatPrice") || $(this).hasClass("formatNumber")) {
-                                var fieldValue = $(this).val();
-                                fieldValue = BigInt(fieldValue.replace(/₫|,|\s/g, '')).toString();
+                                     </div>`
+                                $('#notification-toast').append(toastHTML)
+                                $('#notification-toast .toast').toast('show');
+                                setTimeout(function () {
+                                    $('#notification-toast .toast:first-child').remove();
+                                }, 3000);
+                                checkErr = 0;
+                                $btn.removeClass('is-loading')
                             }
-                            else if ($(this).hasClass("formatKhoiLuong")) {
-                                var doubleValue = parseFloat($(this).val().replace(/,/g, ''));
-                                fieldValue = doubleValue;
+                            return
+                        }
+                        const currentItem = items.eq(currentIndex);
+
+                        var isUpdate = currentItem.attr('data-update');
+
+                        var dataBienThe = {};
+
+                        $(currentItem.find('.tab-pane')[0]).find("input, select, textarea").each(function () {
+                            var fieldType = $(this).attr("type");
+                            var fieldName = $(this).attr("name");
+                            var fieldValue;
+
+                            if (fieldType === "checkbox" || fieldType === "radio") {
+                                fieldValue = $(this).is(":checked");
+                            } else {
+                                if ($(this).hasClass("formatPrice") || $(this).hasClass("formatNumber")) {
+                                    var fieldValue = $(this).val();
+                                    fieldValue = BigInt(fieldValue.replace(/₫|,|\s/g, '')).toString();
+                                }
+                                else if ($(this).hasClass("formatKhoiLuong")) {
+                                    var doubleValue = parseFloat($(this).val().replace(/,/g, ''));
+                                    fieldValue = doubleValue;
+                                }
+                                else {
+                                    fieldValue = $(this).val();
+                                }
                             }
-                            else {
-                                fieldValue = $(this).val();
+                            if (fieldName) {
+                                dataBienThe[fieldName] = fieldValue;
                             }
-                        }
-                        if (fieldName) {
-                            dataBienThe[fieldName] = fieldValue;
-                        }
-                    });
+                        });
 
 
-                    const DataInDataset = {}
+                        const DataInDataset = {}
 
-                    Array.from(["IdMauSac","IdRam","IdRom"]).forEach(name => {
-                        let value = currentItem.attr('data-' + name) || currentItem.find('[data-' + name + ']').attr('data-' + name);
-                        if (value !== undefined) {
-                            DataInDataset[name] = value;
-                        }
-                    });
-
-                    const moTa = { MoTa: currentItem.find('.moTa').summernote('code') }
-
-                    var slImage = currentItem.find('.wrapper-file').length;
-
-                    if (isUpdate === 'true') {
-                        var opject = {
-                            ...GetDataMain(),
-                            ...dataBienThe,
-                            ...DataInDataset,
-                            ...{ IdChiTietSp: currentItem.attr('data-idproductdetail') },
-                            ...moTa,
-                            ...{
-                                Day: currentItem.find('.switch-2-day').prop('checked'),
-                                NoiBat: currentItem.find('.switch-2-noibat').prop('checked'),
-                                NoiBat: currentItem.find('.switch-2-trangthaikhuyenmai').prop('checked'),
+                        Array.from(["IdMauSac", "IdRam", "IdRom"]).forEach(name => {
+                            let value = currentItem.attr('data-' + name) || currentItem.find('[data-' + name + ']').attr('data-' + name);
+                            if (value !== undefined) {
+                                DataInDataset[name] = value;
                             }
-                        }
+                        });
 
-                        if (opject.GiaBan !== "0" && opject.GiaNhap !== "0" && opject.KhoiLuong !== "0" && slImage >= 1) {
-                            const key = currentItem.find('.collapse').attr('id');
+                        const moTa = { MoTa: currentItem.find('.moTa').summernote('code') }
+
+                        var slImage = currentItem.find('.wrapper-file').length;
+
+                        if (isUpdate === 'true') {
+                            var opject = {
+                                ...GetDataMain(),
+                                ...dataBienThe,
+                                ...DataInDataset,
+                                ...{ IdChiTietSp: currentItem.attr('data-idproductdetail') },
+                                ...moTa,
+                                ...{
+                                    Day: currentItem.find('.switch-2-day').prop('checked'),
+                                    NoiBat: currentItem.find('.switch-2-noibat').prop('checked'),
+                                    NoiBat: currentItem.find('.switch-2-trangthaikhuyenmai').prop('checked'),
+                                }
+                            }
+
+                            if (opject.GiaBan !== "0" && opject.GiaNhap !== "0" && opject.KhoiLuong !== "0" && slImage >= 1) {
+                                const key = currentItem.find('.collapse').attr('id');
 
 
-                            if (selectedFiles[key] && Array.from(selectedFiles[key]).length > 0) {
-                                var data = new FormData();
-                                Array.from(selectedFiles[key]).map(item => data.append('lstIFormFile', item.data))
-                                data.append('IdChiTietSp', currentItem.attr('data-idproductdetail'));
+                                if (selectedFiles[key] && Array.from(selectedFiles[key]).length > 0) {
+                                    var data = new FormData();
+                                    Array.from(selectedFiles[key]).map(item => data.append('lstIFormFile', item.data))
+                                    data.append('IdChiTietSp', currentItem.attr('data-idproductdetail'));
+                                    $.ajax({
+                                        url: URL_CREATE_IMAGE,
+                                        type: 'POST',
+                                        data: data,
+                                        contentType: false,
+                                        processData: false,
+                                        success: function (result) {
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.log(xhr.responseText);
+                                            console.log(status);
+                                            console.log(error);
+                                            console.log(xhr);
+                                        }
+                                    });
+                                }
+
+                                if (lstAnhRemove[key] && Array.from(lstAnhRemove[key]).length > 0) {
+                                    const data = new FormData();
+                                    lstAnhRemove[key].map(item => data.append('lstImageRemove', item))
+                                    data.append('idProductDetail', currentItem.attr('data-idproductdetail'))
+                                    fetch(URL_DELETE_LIST_IMAGE, {
+                                        method: 'POST',
+                                        body: data
+                                    })
+                                        .then(response => {
+                                            if (response.ok) {
+                                                if (response.headers.get("content-length") !== "0") {
+                                                    return response.json();
+                                                } else {
+                                                    return null;
+                                                }
+                                            }
+                                            throw new Error('Network response was not ok.');
+                                        })
+                                        .then(data => {
+
+                                        })
+                                        .catch(error => {
+                                            console.error(error);
+                                        });
+                                }
+
                                 $.ajax({
-                                    url: URL_CREATE_IMAGE,
+                                    url: URL_UPDATE_PRODUCT_DETAIL,
                                     type: 'POST',
-                                    data: data,
-                                    contentType: false,
-                                    processData: false,
+                                    data: JSON.stringify(opject),
+                                    contentType: 'application/json',
                                     success: function (result) {
+                                        checkSS++;
+                                        currentItem.remove();
+                                        currentIndex++;
+                                        processNextItem();
                                     },
                                     error: function (xhr, status, error) {
+                                        checkErr++;
                                         console.log(xhr.responseText);
                                         console.log(status);
                                         console.log(error);
                                         console.log(xhr);
                                     }
                                 });
+                            } else {
+                                checkErr++;
+                                currentIndex++;
+                                processNextItem();
                             }
+                        } else {
 
-                            if (lstAnhRemove[key] && Array.from(lstAnhRemove[key]).length > 0) {
-                                const data = new FormData();
-                                lstAnhRemove[key].map(item => data.append('lstImageRemove', item))
-                                data.append('idProductDetail', currentItem.attr('data-idproductdetail'))
-                                fetch(URL_DELETE_LIST_IMAGE, {
-                                    method: 'POST',
-                                    body: data
-                                })
-                                    .then(response => {
-                                        if (response.ok) {
-                                            if (response.headers.get("content-length") !== "0") {
-                                                return response.json();
-                                            } else {
-                                                return null;
+                            if (dataBienThe.GiaBan && dataBienThe.GiaNhap && dataBienThe.SoLuongTon && dataBienThe.KhoiLuong && slImage >= 1) {
+                                $.ajax({
+                                    url: URL_CREATE_PRODUCT,
+                                    type: 'POST',
+                                    data: JSON.stringify({
+                                        ...GetDataMain()
+                                        , ...dataBienThe
+                                        , ...DataInDataset
+                                        , ...moTa
+                                        , ...{
+                                            Day: currentItem.find('.switch-2-day').prop('checked')
+                                            , NoiBat: currentItem.find('.switch-2-noibat').prop('checked')
+                                        }
+                                    }),
+                                    contentType: 'application/json',
+                                    success: function (result) {
+                                        if (result.success) {
+                                            const key = currentItem.find('.collapse').attr('id');
+                                            if (selectedFiles[key] && Array.from(selectedFiles[key]).length > 0) {
+                                                var data = new FormData();
+                                                selectedFiles[key].map(item => data.append('lstIFormFile', item.data))
+                                                data.append('IdChiTietSp', result.idChiTietSp);
+                                                $.ajax({
+                                                    url: URL_CREATE_IMAGE,
+                                                    type: 'POST',
+                                                    data: data,
+                                                    contentType: false,
+                                                    processData: false,
+                                                    success: function (result) {
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        console.log(xhr.responseText);
+                                                        console.log(status);
+                                                        console.log(error);
+                                                        console.log(xhr);
+                                                    }
+                                                });
                                             }
+                                            checkSS++;
+                                            currentItem.remove();
+                                            currentIndex++;
+                                            processNextItem();
                                         }
-                                        throw new Error('Network response was not ok.');
-                                    })
-                                    .then(data => {
-
-                                    })
-                                    .catch(error => {
-                                        console.error(error);
-                                    });
+                                    },
+                                    error: function (xhr, status, error) {
+                                        checkErr++;
+                                        console.log(xhr.responseText);
+                                        console.log(status);
+                                        console.log(error);
+                                        console.log(xhr);
+                                    }
+                                });
+                            } else {
+                                checkErr++;
+                                currentIndex++;
+                                processNextItem();
                             }
-
-                            $.ajax({
-                                url: URL_UPDATE_PRODUCT_DETAIL,
-                                type: 'POST',
-                                data: JSON.stringify(opject),
-                                contentType: 'application/json',
-                                success: function (result) {
-                                    checkSS++;
-                                    currentItem.remove();
-                                    currentIndex++;
-                                    processNextItem();
-                                },
-                                error: function (xhr, status, error) {
-                                    checkErr++;
-                                    console.log(xhr.responseText);
-                                    console.log(status);
-                                    console.log(error);
-                                    console.log(xhr);
-                                }
-                            });
-                        } else {
-                            checkErr++;
-                            currentIndex++;
-                            processNextItem();
-                        }
-                    } else {
-
-                        if (dataBienThe.GiaBan && dataBienThe.GiaNhap && dataBienThe.SoLuongTon && dataBienThe.KhoiLuong && slImage >= 1) {
-                            $.ajax({
-                                url: URL_CREATE_PRODUCT,
-                                type: 'POST',
-                                data: JSON.stringify({
-                                    ...GetDataMain()
-                                    , ...dataBienThe
-                                    , ...DataInDataset
-                                    , ...moTa
-                                    , ...{
-                                        Day: currentItem.find('.switch-2-day').prop('checked')
-                                        , NoiBat: currentItem.find('.switch-2-noibat').prop('checked')
-                                    }
-                                }),
-                                contentType: 'application/json',
-                                success: function (result) {
-                                    if (result.success) {
-                                        const key = currentItem.find('.collapse').attr('id');
-                                        if (selectedFiles[key] && Array.from(selectedFiles[key]).length > 0) {
-                                            var data = new FormData();
-                                            selectedFiles[key].map(item => data.append('lstIFormFile', item.data))
-                                            data.append('IdChiTietSp', result.idChiTietSp);
-                                            $.ajax({
-                                                url: URL_CREATE_IMAGE,
-                                                type: 'POST',
-                                                data: data,
-                                                contentType: false,
-                                                processData: false,
-                                                success: function (result) {
-                                                },
-                                                error: function (xhr, status, error) {
-                                                    console.log(xhr.responseText);
-                                                    console.log(status);
-                                                    console.log(error);
-                                                    console.log(xhr);
-                                                }
-                                            });
-                                        }
-                                        checkSS++;
-                                        currentItem.remove();
-                                        currentIndex++;
-                                        processNextItem();
-                                    }
-                                },
-                                error: function (xhr, status, error) {
-                                    checkErr++;
-                                    console.log(xhr.responseText);
-                                    console.log(status);
-                                    console.log(error);
-                                    console.log(xhr);
-                                }
-                            });
-                        } else {
-                            checkErr++;
-                            currentIndex++;
-                            processNextItem();
                         }
                     }
+                    processNextItem();
                 }
-                processNextItem();
-            }
-        });
+            });
 
-    }
+        }
 </script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script src="~/Admin/vendors/select2/select2.min.js" defer></script>
     <script src="~/Admin/js/pages/form-elements.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>

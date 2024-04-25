@@ -6161,7 +6161,7 @@ input::-ms-clear {
 /**
   * Variations
  */
-.pd-detail__color, .pd-detail__size {
+.pd-detail__color, .pd-detail__rom, .pd-detail__ram {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;

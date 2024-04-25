@@ -224,9 +224,9 @@
   * Variations
  */
 // Color
-.pd-detail__color,.pd-detail__size {
-  display: flex;
-  flex-wrap: wrap;
+.pd-detail__color, .pd-detail__rom, .pd-detail__ram {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 // div

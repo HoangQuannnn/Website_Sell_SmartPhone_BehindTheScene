@@ -198,9 +198,14 @@ namespace App_Api.Controllers
         }
 
         [HttpGet("Get-ItemDetailViewModel/idsanpham/{id}/ram/{ram}")]
-        public async Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectSize(string id, string ram)
+        public async Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRam(string id, string ram)
         {
             return await _sanPhamChiTietRes.GetItemDetailViewModelWhenSelectRamAynsc(id, ram);
+        }
+        [HttpGet("Get-ItemDetailViewModel/idsanpham/{id}/rom/{rom}")]
+        public async Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRom(string id, string rom)
+        {
+            return await _sanPhamChiTietRes.GetItemDetailViewModelWhenSelectRomAynsc(id, rom);
         }
 
         [HttpPost("Creat-SanPhamChiTiet")]

@@ -8,7 +8,14 @@
     var SaoTb = await _DanhGiaservice.GetSoSaoTB(@Model.IdChiTietSp);
 
 }
-
+<style>
+    .pd-detail__color, .pd-detail__rom, .pd-detail__ram {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+</style>
 <input hidden name="IdChiTietSp" value="@Model.IdChiTietSp" />
 <div class="u-s-p-t-30">
     <div class="container">
@@ -40,9 +47,9 @@
                             @foreach (var item in Model.DanhSachAnh!)
                             {
 
-                                <div class="pd-o-img-wrap" data-src="/AnhSanPham/ADICROSS_LOW_1.png">
+                                <div class="pd-o-img-wrap" data-src="/AnhSanPham/@item">
 
-                                    <img class="u-img-fluid" src="/AnhSanPham/ADICROSS_LOW_1.png" data-zoom-image="/AnhSanPham/ADICROSS_LOW_1.png" alt="">
+                                    <img class="u-img-fluid" src="/AnhSanPham/@item" data-zoom-image="/AnhSanPham/@item" alt="">
                                 </div>
                             }
 
@@ -290,15 +297,15 @@
                             </div>
                             <div class="u-s-m-b-15">
 
-                                <span class="pd-detail__label u-s-m-b-8">Dung lượng bộ nhớ:</span>
-                                <div class="pd-detail__size">
-                                    @foreach (var item in Model.LstRom!)
+                                <span class="pd-detail__label u-s-m-b-8">Dung lượng ram:</span>
+                                <div class="pd-detail__ram">
+                                    @foreach (var item in Model.LstRam!)
                                     {
-                                        if (Model.Rom == item)
+                                        if (Model.Ram == item)
                                         {
                                             <div class="size__radio">
 
-                                                <input type="radio" id="@item" value="@item" name="Rom" checked>
+                                                <input type="radio" id="@item" value="@item" name="ram" checked>
 
                                                 <label class="size__radio-label" for="@item">@item GB</label>
                                             </div>
@@ -307,7 +314,35 @@
                                         {
                                             <div class="size__radio">
 
-                                                <input type="radio" id="@item" value="@item" name="Rom">
+                                                <input type="radio" id="@item" value="@item" name="ram">
+
+                                                <label class="size__radio-label" for="@item">@item GB</label>
+                                            </div>
+                                        }
+
+                                    }
+                                </div>
+                            </div>
+                            <div class="u-s-m-b-15">
+
+                                <span class="pd-detail__label u-s-m-b-8">Dung lượng bộ nhớ:</span>
+                                <div class="pd-detail__rom">
+                                    @foreach (var item in Model.LstRom!)
+                                    {
+                                        if (Model.Rom == item)
+                                        {
+                                            <div class="size__radio">
+
+                                                <input type="radio" id="@item" value="@item" name="rom" checked>
+
+                                                <label class="size__radio-label" for="@item">@item GB</label>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="size__radio">
+
+                                                <input type="radio" id="@item" value="@item" name="rom">
 
                                                 <label class="size__radio-label" for="@item">@item GB</label>
                                             </div>

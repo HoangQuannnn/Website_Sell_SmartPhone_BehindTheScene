@@ -4542,11 +4542,12 @@ input::-ms-clear {
 /**
   * Variations
  */
-.pd-detail__color, .pd-detail__size {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap; }
+.pd-detail__color, .pd-detail__rom, .pd-detail__ram {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
 
 .color__radio {
   position: relative;

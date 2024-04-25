@@ -169,18 +169,42 @@
         }, 1)
     }
 
-    $(document).off('change', '.pd-detail__size')
-    $(document).on('change', '.pd-detail__size', function () {
+    $(document).off('change', '.pd-detail__ram')
+    $(document).on('change', '.pd-detail__ram', function () {
         //$('.preloader').addClass('is-active');
         const idSpct = $('[name="IdChiTietSp"]').val();
-        const size = $(this).find('input:checked').val();
+        const ram = $(this).find('input:checked').val();
 
         $.ajax({
-            url: '/SanPhamChiTiets/GetItemDetailViewModelWhenSelectSize',
+            url: '/SanPhamChiTiets/GetItemDetailViewModelWhenSelectRam',
             type: 'GET',
             data: {
                 id: idSpct,
-                size: size,
+                ram: ram,
+            },
+            success: function (result) {
+                loadPartialDetailProduct(result.idChiTietSp);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+            }
+        });
+    })
+    $(document).off('change', '.pd-detail__rom')
+    $(document).on('change', '.pd-detail__rom', function () {
+        //$('.preloader').addClass('is-active');
+        const idSpct = $('[name="IdChiTietSp"]').val();
+        const rom = $(this).find('input:checked').val();
+
+        $.ajax({
+            url: '/SanPhamChiTiets/GetItemDetailViewModelWhenSelectRom',
+            type: 'GET',
+            data: {
+                id: idSpct,
+                rom: rom,
             },
             success: function (result) {
                 loadPartialDetailProduct(result.idChiTietSp);

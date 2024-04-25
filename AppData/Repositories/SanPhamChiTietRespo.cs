@@ -545,7 +545,8 @@ namespace App_Data.Repositories
                 sp.IdSanPham == sanPhamChiTiet.IdSanPham
                 ).ToListAsync();
             itemDetailViewModel.LstMauSac = lstBienThe.Select(x => x.MauSac.TenMauSac).Distinct().ToList()!;
-            itemDetailViewModel.LstRom = lstBienThe/*.Where(sp => sp.IdMauSac == sanPhamChiTiet.IdMauSac)*/.Select(x => x.Rom.DungLuong!.ToString()).Distinct()/*.OrderBy(item => item)*/.ToList();
+            itemDetailViewModel.LstRom = lstBienThe.Where(sp => sp.IdMauSac == sanPhamChiTiet.IdMauSac).Select(x => x.Rom.DungLuong!.ToString()).Distinct().OrderBy(item => item).ToList();
+            itemDetailViewModel.LstRam = lstBienThe.Where(sp => sp.IdMauSac == sanPhamChiTiet.IdMauSac).Select(x => x.Ram.DungLuong!.ToString()).Distinct().OrderBy(item => item).ToList();
             return itemDetailViewModel;
         }
 
@@ -601,21 +602,21 @@ namespace App_Data.Repositories
             var idRamGet = lstRam.FirstOrDefault()?.Ram.IdRam;
             var idRomGet = lstRom.FirstOrDefault()?.Rom.IdRom;
 
-            var sanPhamChiTiet = lstBienThe.FirstOrDefault(sp => sp.IdRam == idRamGet && sp.IdRom == idRomGet);
+            var sanPhamChiTiet = lstBienThe.FirstOrDefault(sp => /*sp.IdRam == idRamGet &&*/ sp.IdRom == idRomGet);
 
             var itemDetailViewModel = _mapper.Map<ItemDetailViewModel>(sanPhamChiTiet);
-            var lstRamRom = new List<string>();
-            itemDetailViewModel.LstRamRom = lstRamRom;
+            itemDetailViewModel.LstRam = lstRam.Select(x => x.Ram.DungLuong).ToList();
+            itemDetailViewModel.LstRom = lstRom.Select(x => x.Rom.DungLuong).ToList();
 
             return itemDetailViewModel;
 
 
         }
 
-        public async Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectSizeAynsc(string id, string ram, string rom)
+        public async Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRomAynsc(string id, string rom)
         {
             var sanPhamGet = await _context.SanPhamChiTiets.FirstOrDefaultAsync(sp => sp.IdChiTietSp == id);
-
+            var idsRom = (await _context.Roms.FirstOrDefaultAsync(x => x.DungLuong == rom))!.IdRom;
             var sanPhamChiTiet = (await _context.SanPhamChiTiets.Where(sp =>
                 sp.IdManHinh == sanPhamGet!.IdManHinh &&
                 sp.IdMauSac == sanPhamGet.IdMauSac &&
@@ -625,7 +626,39 @@ namespace App_Data.Repositories
                 sp.IdSanPham == sanPhamGet.IdSanPham &&
                 sp.IdChip == sanPhamGet.IdChip &&
                 sp.IdHang == sanPhamGet.IdHang &&
-                sp.IdRam == id).
+                sp.IdRam == sanPhamGet.IdRam &&
+                sp.IdRom == idsRom).
+                Include(x => x.Anh).
+                Include(x => x.SanPham).
+                Include(x => x.Hang).
+                Include(x => x.ManHinh).
+                Include(x => x.CongSac).
+                Include(x => x.Pin).
+                Include(x => x.TheNho).
+                Include(x => x.Chip).
+                Include(x => x.Ram).
+                Include(x => x.Rom).
+                Include(x => x.MauSac).FirstOrDefaultAsync());
+            if (sanPhamChiTiet == null) return null;
+            var itemDetailViewModel = _mapper.Map<ItemDetailViewModel>(sanPhamChiTiet);
+            return itemDetailViewModel;
+        }
+
+        public async Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRamAynsc(string id, string ram)
+        {
+            var sanPhamGet = await _context.SanPhamChiTiets.FirstOrDefaultAsync(sp => sp.IdChiTietSp == id);
+            var idsRam = (await _context.Rams.FirstOrDefaultAsync(x => x.DungLuong == ram))!.IdRam;
+            var sanPhamChiTiet = (await _context.SanPhamChiTiets.Where(sp =>
+                sp.IdManHinh == sanPhamGet!.IdManHinh &&
+                sp.IdMauSac == sanPhamGet.IdMauSac &&
+                sp.IdPin == sanPhamGet.IdPin &&
+                sp.IdTheNho == sanPhamGet.IdTheNho &&
+                sp.IdCongSac == sanPhamGet.IdCongSac &&
+                sp.IdSanPham == sanPhamGet.IdSanPham &&
+                sp.IdChip == sanPhamGet.IdChip &&
+                sp.IdHang == sanPhamGet.IdHang &&
+                sp.IdRom == sanPhamGet.IdRom &&
+                sp.IdRam == idsRam).
                 Include(x => x.Anh).
                 Include(x => x.SanPham).
                 Include(x => x.Hang).
@@ -1253,9 +1286,6 @@ namespace App_Data.Repositories
             }
         }
 
-        public Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRamAynsc(string id, string ram)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

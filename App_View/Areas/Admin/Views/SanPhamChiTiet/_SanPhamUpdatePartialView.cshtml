@@ -143,6 +143,26 @@
                                                                 }
                                                             </select>
                                                         </div>
+                                                    </div>       
+                                                    
+                                                    <div class="col-4 congsac" style="margin-top: 10px">
+                                                        <label class="font-weight-semibold">Thẻ nhớ*</label>
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-info-circle mr-1" data-toggle="tooltip" data-placement="top" title="Nhấn Enter để thêm vào cơ sở dữ liệu nếu giá trị chưa tồn tại!"></i>
+                                                            <select class="select2-active w-100" name="IdTheNho">
+                                                                @foreach (var item in (SelectList)ViewData["IdTheNho"]!)
+                                                                {
+                                                                    if (item.Value == sp.IdTheNho)
+                                                                    {
+                                                                        <option value="@item.Value" selected>@item.Text</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@item.Value">@item.Text</option>
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
                                                     </div>
 
                                                     <div class="col-4 chip" style="margin-top: 10px">

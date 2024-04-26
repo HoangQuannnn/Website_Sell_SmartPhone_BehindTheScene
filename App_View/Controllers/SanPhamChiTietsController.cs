@@ -137,11 +137,11 @@ namespace App_View.Controllers
             return Ok(await _SanPhamChiTietservice.GetItemDetailViewModelWhenSelectColorAynsc(id, mauSac));
         }
 
-        public async Task<IActionResult> GetItemDetailViewModelWhenSelectRam([FromQuery] string id, [FromQuery] int ram)
+        public async Task<IActionResult> GetItemDetailViewModelWhenSelectRam([FromQuery] string id, [FromQuery] string ram)
         {
             return Ok(await _SanPhamChiTietservice.GetItemDetailViewModelWhenSelectRamAynsc(id, ram));
         }
-        public async Task<IActionResult> GetItemDetailViewModelWhenSelectRom([FromQuery] string id, [FromQuery] int rom)
+        public async Task<IActionResult> GetItemDetailViewModelWhenSelectRom([FromQuery] string id, [FromQuery] string rom)
         {
             return Ok(await _SanPhamChiTietservice.GetItemDetailViewModelWhenSelectRomAynsc(id, rom));
         }

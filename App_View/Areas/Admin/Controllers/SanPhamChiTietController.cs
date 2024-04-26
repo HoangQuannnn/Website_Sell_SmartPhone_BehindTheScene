@@ -613,6 +613,7 @@ namespace App_View.Areas.Admin.Controllers
                 worksheet.Cells[1, 2].Value = "Sản phẩm";
                 worksheet.Cells[1, 3].Value = "Màu";
                 worksheet.Cells[1, 4].Value = "Ram";
+                worksheet.Cells[1, 4].Value = "Rom";
                 worksheet.Cells[1, 5].Value = "G/Nhập";
                 worksheet.Cells[1, 6].Value = "G/Bán";
                 worksheet.Cells[1, 7].Value = "Số lượng";
@@ -626,6 +627,7 @@ namespace App_View.Areas.Admin.Controllers
                     worksheet.Cells[i + 2, 2].Value = listSanPhamChiTietViewModel[i].SanPham;
                     worksheet.Cells[i + 2, 3].Value = listSanPhamChiTietViewModel[i].MauSac;
                     worksheet.Cells[i + 2, 4].Value = listSanPhamChiTietViewModel[i].Ram;
+                    worksheet.Cells[i + 2, 4].Value = listSanPhamChiTietViewModel[i].Rom;
                     worksheet.Cells[i + 2, 5].Value = listSanPhamChiTietViewModel[i].GiaNhap;
                     worksheet.Cells[i + 2, 6].Value = listSanPhamChiTietViewModel[i].GiaBan;
                     worksheet.Cells[i + 2, 7].Value = listSanPhamChiTietViewModel[i].SoLuongTon;
@@ -1090,11 +1092,12 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(await response.Content.ReadAsAsync<bool>());
         }
 
-        public async Task<IActionResult> GetRelatedProducts(string sumGuid, string? mauSac, string? ram1)
+        public async Task<IActionResult> GetRelatedProducts(string sumGuid, string? mauSac, string? ram1, string? rom1)
         {
             var lstRelatedProducts = await _httpClient.GetFromJsonAsync<List<RelatedProductViewModel>>($"/api/SanPhamChiTiet/Get-List-RelatedProduct?sumGuild={sumGuid}");
             ViewData["MauSac"] = new SelectList(lstRelatedProducts!.Select(x => x.MauSac).Distinct());
-            ViewData["ram1"] = new SelectList(lstRelatedProducts!.Select(x => x.Ram).Distinct());
+            ViewData["Ram"] = new SelectList(lstRelatedProducts!.Select(x => x.Ram).Distinct());
+            ViewData["Rom"] = new SelectList(lstRelatedProducts!.Select(x => x.Rom).Distinct());
             if (!string.IsNullOrEmpty(mauSac))
             {
                 ViewData["ValueMauSac"] = mauSac;
@@ -1102,8 +1105,13 @@ namespace App_View.Areas.Admin.Controllers
             }
             if (!string.IsNullOrEmpty(ram1))
             {
-                ViewData["ValueSize"] = ram1;
+                ViewData["ValueRam"] = ram1;
                 lstRelatedProducts = lstRelatedProducts!.Where(it => it.Ram == (ram1)).ToList();
+            } 
+            if (!string.IsNullOrEmpty(rom1))
+            {
+                ViewData["ValueRom"] = rom1;
+                lstRelatedProducts = lstRelatedProducts!.Where(it => it.Rom == (rom1)).ToList();
             }
             return PartialView(lstRelatedProducts!);
         }

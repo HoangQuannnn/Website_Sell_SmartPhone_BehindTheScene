@@ -400,12 +400,12 @@ namespace App_View.Services
             return _httpClient.GetFromJsonAsync<ItemDetailViewModel?>($"/api/SanPhamChiTiet/Get-ItemDetailViewModel/{id}/{mauSac}");
         }
 
-        public Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRamAynsc(string id, int ram)
+        public Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRamAynsc(string id, string ram)
         {
             return _httpClient.GetFromJsonAsync<ItemDetailViewModel?>($"/api/SanPhamChiTiet/Get-ItemDetailViewModel/idsanpham/{id}/ram/{ram}");
         }
 
-        public Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRomAynsc(string id, int rom)
+        public Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRomAynsc(string id, string rom)
         {
             return _httpClient.GetFromJsonAsync<ItemDetailViewModel?>($"/api/SanPhamChiTiet/Get-ItemDetailViewModel/idsanpham/{id}/rom/{rom}");
         }

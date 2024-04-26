@@ -343,6 +343,7 @@ namespace App_Data.Repositories
                     IdChiTietSp = sanPham.IdChiTietSp,
                     SanPham = context.Hangs.ToList().FirstOrDefault(x => x.IdHang == sanPham.IdHang)?.TenHang + " " + context.SanPhams.ToList().FirstOrDefault(x => x.IdSanPham == sanPham.IdSanPham)?.TenSanPham,
                     GiaBan = sanPham.GiaBan,
+                    GiaNhap = sanPham.GiaNhap,
                     MauSac = context.MauSacs.ToList().FirstOrDefault(ms => ms.IdMauSac == sanPham.IdMauSac)?.TenMauSac,
                     Anh = context.Anh.ToList().Where(x => x.IdSanPhamChiTiet == sanPham.IdChiTietSp && x.TrangThai == 0).OrderBy(x => x.NgayTao).FirstOrDefault()?.Url,
                     SoLuongDaBan = sanPham.SoLuongDaBan,
@@ -1128,22 +1129,19 @@ namespace App_Data.Repositories
                 var listGuid = sumGuid.Split('/');
                 var idSanPham = listGuid[0];
                 var idHang = listGuid[1];
-                var idRam = listGuid[2];
-                var idRom = listGuid[3];
-                var idMauSac = listGuid[4];
-                var idTheNho = listGuid[5];
-                var idPin = listGuid[6];
-                var idManHinh = listGuid[7];
-                var idCongSac = listGuid[8];
-                var idChip = listGuid[9];
+                var idChip = listGuid[2];
+                var idManHinh = listGuid[3];
+                var idCongSac = listGuid[4];
+                var idPin = listGuid[5];
+                var idTheNho = listGuid[6];
+                //var idMauSac = listGuid[7];
+                //var idRam = listGuid[8];
+                //var idRom = listGuid[9];
                 return _context
                         .SanPhamChiTiets
                         .Where(sp =>
                         sp.IdSanPham == idSanPham &&
                         sp.IdHang == idHang &&
-                        sp.IdRam == idRam &&
-                        sp.IdRom == idRom &&
-                        sp.IdMauSac == idMauSac &&
                         sp.IdTheNho == idTheNho &&
                         sp.IdPin == idPin &&
                         sp.IdManHinh == idManHinh &&
@@ -1158,7 +1156,7 @@ namespace App_Data.Repositories
                         AsEnumerable().
                         GroupBy(sp => sp.IdMauSac).
                         OrderBy(gr => gr.Key).
-                        SelectMany(gr => gr.OrderBy(sp => sp.Ram.DungLuong).
+                        SelectMany(gr => gr.OrderBy(sp => sp.Rom.DungLuong).
                         Select(sp => new RelatedProductViewModel()
                         {
                             IdSanPham = sp.IdChiTietSp,
@@ -1167,6 +1165,8 @@ namespace App_Data.Repositories
                             Anh = sp.Anh.Where(a => a.TrangThai == 0).OrderBy(a => a.NgayTao).FirstOrDefault()!.Url,
                             MauSac = sp.MauSac.TenMauSac,
                             GiaBan = sp.GiaBan.GetValueOrDefault(),
+                            Ram = sp.Ram.DungLuong,
+                            Rom = sp.Rom.DungLuong,
                             SanPham = sp.SanPham.TenSanPham,
                             SoLuong = sp.SoLuongTon.GetValueOrDefault(),
                             SoLuongDaBan = sp.SoLuongDaBan.GetValueOrDefault(),

@@ -238,7 +238,7 @@
                                 <div class="m-b-10">
                                     <select class="select2_active" style="min-width: 180px;" data-column="1" id="filterSanPham">
                                         <option value="" selected="">Sản phẩm</option>
-                                        @foreach (var item in (SelectList)ViewData["SanPham"]!)
+                                        @foreach (var item in (SelectList)ViewData["IdSanPham"]!)
                                         {
                                             <option value="@item.Value">@item.Text</option>
                                         }
@@ -247,8 +247,8 @@
                                 </div>
                                 <div class="m-b-10 ml-1">
                                     <select class="select2_active" style="min-width: 180px;" id="filterHang">
-                                        <option value="" selected="">Thương hiệu</option>
-                                        @foreach (var item in (SelectList)ViewData["Hang"]!)
+                                        <option value="" selected="">Hãng</option>
+                                        @foreach (var item in (SelectList)ViewData["IdHang"]!)
                                         {
                                             <option value="@item.Value">@item.Text</option>
                                         }
@@ -256,8 +256,17 @@
                                 </div>
                                 <div class="m-b-10 ml-1">
                                     <select class="select2_active" style="min-width: 180px;" id="filterRam">
-                                        <option value="" selected="">Thể loại</option>
-                                        @foreach (var item in (SelectList)ViewData["Ram"]!)
+                                        <option value="" selected="">Ram</option>
+                                        @foreach (var item in (SelectList)ViewData["IdRam"]!)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="m-b-10 ml-1">
+                                    <select class="select2_active" style="min-width: 180px;" id="filterRom">
+                                        <option value="" selected="">Rom</option>
+                                        @foreach (var item in (SelectList)ViewData["IdRom"]!)
                                         {
                                             <option value="@item.Value">@item.Text</option>
                                         }
@@ -266,24 +275,16 @@
                                 <div class="m-b-10 ml-1">
                                     <select class="select2_active" style="min-width: 180px;" id="filterMauSac">
                                         <option value="" selected="">Màu sắc</option>
-                                        @foreach (var item in (SelectList)ViewData["MauSac"]!)
+                                        @foreach (var item in (SelectList)ViewData["IdMauSac"]!)
                                         {
                                             <option value="@item.Value">@item.Text</option>
                                         }
                                     </select>
                                 </div>
-                                <div class="m-b-10 ml-1">
-                                    <select class="select2_active" style="min-width: 180px;" id="filterPin">
-                                        <option value="" selected="">Kích cỡ</option>
-                                        @foreach (var item in (SelectList)ViewData["Pin"]!)
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    </select>
-                                </div>
+
                                 <div class="m-b-10 ml-1">
                                     <select class="custom-select" style="min-width: 180px;" id="filterSort">
-                                        <option value="" selected="">Xắp xếp</option>
+                                        <option value="" selected="">Sắp xếp</option>
                                         <option value="ascending_quantity">Số lượng tăng dần</option>
                                         <option value="descending_quantity">Số lượng giảm dần</option>
                                         <option value="ascending_price">Giá bán tăng dần</option>
@@ -331,7 +332,7 @@
     var hang;
     var mauSac;
     var ram;
-    var pin;
+    var rom;
     var sort;
     var selectedCheckboxes = {};
 
@@ -393,7 +394,7 @@
                         SanPham: sanpham,
                         MauSac: mauSac,
                         Ram: ram,
-                        Pin: pin,
+                        Rom: rom,
                         Hang: hang,
                         Sort: sort
                     });
@@ -476,10 +477,16 @@
                     orderable: false
                 },
                 {
-                    data: 'Pin',
-                    title: 'Pin',
+                    data: 'Hang',
+                    title: 'Hãng',
                     orderable: false
                 },
+                {
+                    data: 'MauSac',
+                    title: 'Màu Sắc',
+                    orderable: false
+                },
+
                 {
                     data: 'Ram',
                     title: 'Ram',
@@ -489,17 +496,13 @@
                     data: 'Rom',
                     title: 'Rom',
                     orderable: false
-                },
-                {
-                    data: 'Hang',
-                    title: 'Hãng',
-                    orderable: false
-                },
+                }, 
                 {
                     data: 'Chip',
                     title: 'Chip',
                     orderable: false
-                },
+                }, 
+
                 {
                     data: 'GiaBan',
                     title: 'Giá bán',
@@ -617,9 +620,9 @@
                     table.draw();
                 });
 
-                $('#filterPin').on('change', function () {
-                    pin = $(this).val();
-                    console.log(pin);
+                $('#filterRom').on('change', function () {
+                    rom = $(this).val();
+                    console.log(rom);
                     table.draw();
                 });
 

@@ -126,9 +126,7 @@ namespace App_Data.Repositories
                       .Where(sp => sp.TrangThai == (int)TrangThaiCoBan.HoatDong && sp.NoiBat == true)
                      .Include(x => x.Anh)
                      .Include(x => x.SanPham)
-                     .Include(x => x.MauSac)
-                     .Include(x => x.Rom)
-                     .Include(x => x.Ram)
+                     
                      .Include(x => x.Hang)
                      .Include(x => x.Pin)
                      .Include(x => x.ManHinh)
@@ -141,9 +139,9 @@ namespace App_Data.Repositories
                     .GroupBy(gr =>
                         new
                         {
-                            gr.IdRam,
+                           
                             gr.IdSanPham,
-                            gr.IdRom,
+                            
                             gr.IdHang,
                             gr.IdManHinh,
                             gr.IdPin,
@@ -161,9 +159,7 @@ namespace App_Data.Repositories
                     .Where(sp => EF.Functions.DateDiffDay(sp.NgayTao, dateTimeNow) < 7 && sp.TrangThai == (int)TrangThaiCoBan.HoatDong)
                      .Include(x => x.Anh)
                      .Include(x => x.SanPham)
-                     .Include(x => x.MauSac)
-                     .Include(x => x.Rom)
-                     .Include(x => x.Ram)
+                     
                      .Include(x => x.Hang)
                      .Include(x => x.Pin)
                      .Include(x => x.ManHinh)
@@ -176,9 +172,9 @@ namespace App_Data.Repositories
                     .GroupBy(gr =>
                         new
                         {
-                            gr.IdRam,
+                            
                             gr.IdSanPham,
-                            gr.IdRom,
+                            
                             gr.IdHang,
                             gr.IdManHinh,
                             gr.IdPin,
@@ -196,9 +192,7 @@ namespace App_Data.Repositories
                    .Where(sp => sp.SoLuongDaBan > 0 && sp.TrangThai == (int)TrangThaiCoBan.HoatDong)
                     .Include(x => x.Anh)
                      .Include(x => x.SanPham)
-                     .Include(x => x.MauSac)
-                     .Include(x => x.Rom)
-                     .Include(x => x.Ram)
+                     
                      .Include(x => x.Hang)
                      .Include(x => x.Pin)
                      .Include(x => x.ManHinh)
@@ -211,9 +205,9 @@ namespace App_Data.Repositories
                    .GroupBy(gr =>
                        new
                        {
-                           gr.IdRam,
+                           
                            gr.IdSanPham,
-                           gr.IdRom,
+                           
                            gr.IdHang,
                            gr.IdManHinh,
                            gr.IdPin,
@@ -234,9 +228,7 @@ namespace App_Data.Repositories
                    .Where(sp => sp.TrangThai == (int)TrangThaiCoBan.HoatDong && lstIDSPDanhGia.Contains(sp.IdChiTietSp))
                     .Include(x => x.Anh)
                      .Include(x => x.SanPham)
-                     .Include(x => x.MauSac)
-                     .Include(x => x.Rom)
-                     .Include(x => x.Ram)
+                     
                      .Include(x => x.Hang)
                      .Include(x => x.Pin)
                      .Include(x => x.ManHinh)
@@ -250,9 +242,9 @@ namespace App_Data.Repositories
                    .GroupBy(gr =>
                        new
                        {
-                           gr.IdRam,
+                          
                            gr.IdSanPham,
-                           gr.IdRom,
+                           
                            gr.IdHang,
                            gr.IdManHinh,
                            gr.IdPin,

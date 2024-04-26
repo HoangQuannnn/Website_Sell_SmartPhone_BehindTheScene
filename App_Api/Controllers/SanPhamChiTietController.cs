@@ -235,7 +235,7 @@ namespace App_Api.Controllers
                     var sanPhamChiTiet = _mapper.Map<SanPhamChiTiet>(sanPhamChiTietDTO);
                     sanPhamChiTiet.IdChiTietSp = Guid.NewGuid().ToString();
                     var mauSac = _mauSacRes.GetAll().FirstOrDefault(ms => ms.IdMauSac == sanPhamChiTietDTO.IdMauSac)!.TenMauSac!.Substring(0, 2);
-                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac + "-";
+                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac;
                     sanPhamChiTiet.TrangThai = 0;
                     sanPhamChiTiet.SoLuongDaBan = 0;
                     sanPhamChiTiet.NgayTao = DateTime.Now;

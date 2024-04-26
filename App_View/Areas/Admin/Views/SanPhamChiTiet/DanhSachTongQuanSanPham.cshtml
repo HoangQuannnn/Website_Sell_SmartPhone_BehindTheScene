@@ -333,11 +333,6 @@
             orderable: false
         },
         {
-            data: 'Camera',
-            title: 'Camera',
-            orderable: false
-        },
-        {
             data: 'Chip',
             title: 'Chip',
             orderable: false
@@ -360,11 +355,6 @@
         {
             data: 'TheNho',
             title: 'Thẻ nhớ',
-            orderable: false
-        },
-        {
-            data: 'TheSim',
-            title: 'Thẻ sim',
             orderable: false
         },
         {
@@ -403,7 +393,7 @@
                     "sumGuid": data.SumGuild
                 },
                 success: function (result) {
-                            $('#ModalLabelDanhSach').text(`${data.Hang.toUpperCase()} - ${data.SanPham.toUpperCase()} - ${data.Camera.toUpperCase()} - ${data.Chip.toUpperCase()} - ${data.CongSac.toUpperCase()} - ${data.ManHinh.toUpperCase()} - ${data.Pin.toUpperCase()} - ${data.TheNho.toUpperCase()} - ${data.TheSim.toUpperCase()}`);
+                            $('#ModalLabelDanhSach').text(`${data.Hang.toUpperCase()} - ${data.SanPham.toUpperCase()} - ${data.Chip.toUpperCase()} - ${data.CongSac.toUpperCase()} - ${data.ManHinh.toUpperCase()} - ${data.Pin.toUpperCase()} - ${data.TheNho.toUpperCase()}`);
                     $('#modal-dssanpham').empty().html(result);
                     $('#exampleModal').modal('show');
                 },

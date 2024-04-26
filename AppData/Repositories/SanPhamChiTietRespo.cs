@@ -351,6 +351,7 @@ namespace App_Data.Repositories
                     IdChiTietSp = sanPham.IdChiTietSp,
                     SanPham = context.Hangs.ToList().FirstOrDefault(x => x.IdHang == sanPham.IdHang)?.TenHang + " " + context.SanPhams.ToList().FirstOrDefault(x => x.IdSanPham == sanPham.IdSanPham)?.TenSanPham,
                     GiaBan = sanPham.GiaBan,
+                    GiaNhap = sanPham.GiaNhap,
                     MauSac = context.MauSacs.ToList().FirstOrDefault(ms => ms.IdMauSac == sanPham.IdMauSac)?.TenMauSac,
                     Anh = context.Anh.ToList().Where(x => x.IdSanPhamChiTiet == sanPham.IdChiTietSp && x.TrangThai == 0).OrderBy(x => x.NgayTao).FirstOrDefault()?.Url,
                     SoLuongDaBan = sanPham.SoLuongDaBan,

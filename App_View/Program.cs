@@ -21,14 +21,13 @@ builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("Mo
 builder.Services.AddScoped<IMomoService, MomoService>();
 builder.Services.AddScoped<IVnPayService, VnPayService>();
 // Add services to the container.
-//BAZAIZAI\SQLEXPRESS
 
 
 
 //builder.Services.AddHangfire(x => x.UseSqlServerStorage(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=DuAnTotNghiep_BehindTheSceneStore;Integrated Security=True"));
 
 //cái này là db online
-//builder.Services.AddHangfire(x => x.UseSqlServerStorage(@"Server = tcp:bazaizaidb.database.windows.net,1433; Initial Catalog = bazaizaidb; Persist Security Info = False; User ID = bazaizai; Password = Trinhanh0311; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;"));
+//builder.Services.AddHangfire(x => x.UseSqlServerStorage(@"Server = tcp:behindthescenedb.database.windows.net,1433; Initial Catalog = behindthescenedb; Persist Security Info = False; User ID = behindthescene; Password = Trinhanh0311; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;"));
 //Đoạn này ai chạy lỗi thì đổi đường dẫn trong này nha
 
 

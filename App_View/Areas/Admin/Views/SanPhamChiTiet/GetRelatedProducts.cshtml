@@ -94,20 +94,46 @@
                 </select>
             </div>
             <div class="m-b-10 ml-1">
-                <select class="select2_active1" onchange="Filter()" style="min-width: 180px;" id="filterSize">
-                    <option value="" selected="">Size</option>
-                    @if (string.IsNullOrEmpty(ViewData["ValueSize"] as string))
+                <select class="select2_active1" onchange="Filter()" style="min-width: 180px;" id="filterRam">
+                    <option value="" selected="">Ram</option>
+                    @if (string.IsNullOrEmpty(ViewData["ValueRam"] as string))
                     {
-                        foreach (var item in (SelectList)ViewData["Size"]!)
+                        foreach (var item in (SelectList)ViewData["Ram"]!)
                         {
                             <option value="@item.Text">@item.Text</option>
                         }
                     }
                     else
                     {
-                        foreach (var item in (SelectList)ViewData["Size"]!)
+                        foreach (var item in (SelectList)ViewData["Ram"]!)
                         {
-                            if (item.Text == ViewData["ValueSize"]!.ToString())
+                            if (item.Text == ViewData["ValueRam"]!.ToString())
+                            {
+                                <option value="@item.Text" selected>@item.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Text">@item.Text</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="m-b-10 ml-1">
+                <select class="select2_active1" onchange="Filter()" style="min-width: 180px;" id="filterRom">
+                    <option value="" selected="">Rom</option>
+                    @if (string.IsNullOrEmpty(ViewData["ValueRom"] as string))
+                    {
+                        foreach (var item in (SelectList)ViewData["Rom"]!)
+                        {
+                            <option value="@item.Text">@item.Text</option>
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in (SelectList)ViewData["Rom"]!)
+                        {
+                            if (item.Text == ViewData["ValueRom"]!.ToString())
                             {
                                 <option value="@item.Text" selected>@item.Text</option>
                             }
@@ -151,7 +177,8 @@
             <th>MSP</th>
             <th>Sản Phẩm</th>
             <th>Màu</th>
-            <th>K/Cỡ</th>
+            <th>Ram</th>
+            <th>Rom</th>
             <th>G/Nhập</th>
             <th>G/Bán</th>
             <th>SL</th>
@@ -181,6 +208,7 @@
                 </td>
                 <td>@item.MauSac</td>
                 <td>@item.Ram</td>
+                <td>@item.Rom</td>
                 <td>@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", item.GiaNhap)</td>
                 <td>
                     <div class="editable-price">
@@ -288,7 +316,8 @@
                     data: {
                         "sumGuid": keyProduct,
                         "mauSac": $('#filterMauSac').val(),
-                        "size": $('#filterSize').val(),
+                        "ram": $('#filterRam').val(),
+                        "rom": $('#filterRom').val(),
                     },
                     success: function (result) {
                         $('#exampleModal .modal-body').fadeOut(450, function () {
@@ -367,7 +396,8 @@
             data: {
                 "sumGuid": keyProduct,
                 "mauSac": $('#filterMauSac').val(),
-                "size": $('#filterSize').val()
+                "ram": $('#filterRam').val(),
+                "rom": $('#filterRom').val(),
             },
             success: function (result) {
                 $('#exampleModal .modal-body').fadeOut(450, function () {
@@ -423,7 +453,8 @@
                                 data: {
                                     "sumGuid": keyProduct,
                                     "mauSac": $('#filterMauSac').val(),
-                                    "size": $('#filterSize').val(),
+                                    "ram": $('#filterRam').val(),
+                                    "rom": $('#filterRom').val(),
                                 },
                                 success: function (result) {
                                     $('#exampleModal .modal-body').fadeOut(450, function () {
@@ -476,7 +507,8 @@
                                 data: {
                                     "sumGuid": keyProduct,
                                     "mauSac": $('#filterMauSac').val(),
-                                    "size": $('#filterSize').val()
+                                    "ram": $('#filterRam').val(),
+                                    "rom": $('#filterRom').val(),
                                 },
                                 success: function (result) {
                                     $('#exampleModal .modal-body').fadeOut(450, function () {
@@ -580,7 +612,8 @@
                                     data: {
                                         "sumGuid": keyProduct,
                                         "mauSac": $('#filterMauSac').val(),
-                                        "size": $('#filterSize').val()
+                                        "ram": $('#filterRam').val(),
+                                        "rom": $('#filterRom').val(),
                                     },
                                     success: function (result) {
                                         $('#modal-dssanpham').empty().html(result);

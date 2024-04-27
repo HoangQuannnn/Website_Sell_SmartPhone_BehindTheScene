@@ -400,9 +400,14 @@ namespace App_View.Services
             return _httpClient.GetFromJsonAsync<ItemDetailViewModel?>($"/api/SanPhamChiTiet/Get-ItemDetailViewModel/{id}/{mauSac}");
         }
 
-        public Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectSizeAynsc(string id, int size)
+        public Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRamAynsc(string id, string ram)
         {
-            return _httpClient.GetFromJsonAsync<ItemDetailViewModel?>($"/api/SanPhamChiTiet/Get-ItemDetailViewModel/idsanpham/{id}/size/{size}");
+            return _httpClient.GetFromJsonAsync<ItemDetailViewModel?>($"/api/SanPhamChiTiet/Get-ItemDetailViewModel/idsanpham/{id}/ram/{ram}");
+        }
+
+        public Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRomAynsc(string id, string rom)
+        {
+            return _httpClient.GetFromJsonAsync<ItemDetailViewModel?>($"/api/SanPhamChiTiet/Get-ItemDetailViewModel/idsanpham/{id}/rom/{rom}");
         }
 
         public async Task<List<ItemShopViewModel>?> GetListItemShopViewModelAynsc()

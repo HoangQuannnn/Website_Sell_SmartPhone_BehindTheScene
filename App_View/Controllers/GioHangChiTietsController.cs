@@ -109,6 +109,8 @@ namespace App_View.Controllers
                     giohang.SoLuong = gioHangChiTietDTOCUD.SoLuong;
                     giohang.TenSanPham = product.SanPham;
                     giohang.TenMauSac = product.MauSac;
+                    giohang.DungLuongRam = product.Ram;
+                    giohang.DungLuongRom = product.Rom;
                     giohang.LinkAnh = product.ListTenAnh;
                     giohang.GiaGoc = product.GiaBan;
                     giohang.GiaBan = product.GiaThucTe;

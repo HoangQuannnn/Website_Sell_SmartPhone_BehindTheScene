@@ -136,36 +136,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="u-s-m-b-30">
-                        <div class="shop-w">
-                            <div class="shop-w__intro-wrap">
-                                <h1 class="shop-w__h">THỂ LOẠI</h1>
-
-                                <span class="fas fa-minus shop-w__toggle" data-target="#s-manufacturer" data-toggle="collapse"></span>
-                            </div>
-                            <div class="shop-w__wrap collapse show" id="s-manufacturer">
-                                <ul class="shop-w__list-2 lst-theloai">
-                                    @if (Model.LstItemFilterRam != null)
-
-                                    {
-                                        @foreach (var item in Model.LstItemFilterRam!)
-                                        {
-                                            <li>
-                                                <div class="list__content">
-
-                                                    <input type="checkbox">
-
-                                                    <span>@item.Ten</span>
-                                                </div>
-
-                                                <span class="shop-w__total-text">(@item.SoLuong)</span>
-                                            </li>
-                                        }
-                                    }
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                
                     <div class="u-s-m-b-30">
                         <div class="shop-w">
                             <div class="shop-w__intro-wrap">
@@ -292,9 +263,7 @@
             });
 
             var filterdata = {
-                LstTheLoai: lstTheLoai,
                 LstMauSac: lstMauSac,
-                lstKichCo: lstKichCo,
                 LstRating: lstRating,
                 Sort: $('#select_price').val(),
                 ...data

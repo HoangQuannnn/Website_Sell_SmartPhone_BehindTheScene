@@ -198,9 +198,14 @@ namespace App_Api.Controllers
         }
 
         [HttpGet("Get-ItemDetailViewModel/idsanpham/{id}/ram/{ram}")]
-        public async Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectSize(string id, string ram)
+        public async Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRam(string id, string ram)
         {
             return await _sanPhamChiTietRes.GetItemDetailViewModelWhenSelectRamAynsc(id, ram);
+        }
+        [HttpGet("Get-ItemDetailViewModel/idsanpham/{id}/rom/{rom}")]
+        public async Task<ItemDetailViewModel?> GetItemDetailViewModelWhenSelectRom(string id, string rom)
+        {
+            return await _sanPhamChiTietRes.GetItemDetailViewModelWhenSelectRomAynsc(id, rom);
         }
 
         [HttpPost("Creat-SanPhamChiTiet")]
@@ -230,7 +235,7 @@ namespace App_Api.Controllers
                     var sanPhamChiTiet = _mapper.Map<SanPhamChiTiet>(sanPhamChiTietDTO);
                     sanPhamChiTiet.IdChiTietSp = Guid.NewGuid().ToString();
                     var mauSac = _mauSacRes.GetAll().FirstOrDefault(ms => ms.IdMauSac == sanPhamChiTietDTO.IdMauSac)!.TenMauSac!.Substring(0, 2);
-                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac + "-";
+                    sanPhamChiTiet.Ma = "SP-" + ((int)1000 + (await _sanPhamChiTietRes.GetListAsync()).Count()).ToString() + "-" + mauSac;
                     sanPhamChiTiet.TrangThai = 0;
                     sanPhamChiTiet.SoLuongDaBan = 0;
                     sanPhamChiTiet.NgayTao = DateTime.Now;

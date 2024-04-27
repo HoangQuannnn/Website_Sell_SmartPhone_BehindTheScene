@@ -209,72 +209,87 @@
         });
     }
     function ThemManHinh() {
-        Swal.fire({
-            title: 'Thêm Màn Hình Mới',
-            html:
-                '<input id="loaiManHinh" class="swal2-input" placeholder="Loại Màn Hình">' +
-                '<input id="kichThuoc" class="swal2-input" placeholder="Kích Thước">' +
-                '<input id="tanSoQuet" class="swal2-input" placeholder="Tần Số Quét">' +
-                '<div class="form-group">' +
-                '    <label for="trangThai">Trạng thái:</label>' +
-                '    <select class="form-control" id="trangThai">' +
-                '        <option value="0">Hoạt động</option>' +
-                '        <option value="1">Không hoạt động</option>' +
-                '    </select>' +
-                '</div>',
-            showCancelButton: true,
-            confirmButtonText: 'Thêm',
-            cancelButtonText: 'Hủy',
-            preConfirm: () => {
-                const loaiManHinh = document.getElementById('loaiManHinh').value;
-                const kichThuoc = document.getElementById('kichThuoc').value;
-                const tanSoQuet = document.getElementById('tanSoQuet').value;
-                const trangThai = document.getElementById('trangThai').value;
-                return { loaiManHinh: loaiManHinh, kichThuoc: kichThuoc, tanSoQuet: tanSoQuet, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const data = result.value;
-                if (data.loaiManHinh !== '' && data.trangThai !== '' && data.maManHinh !== '' && data.kichThuoc) {
-                    // Gửi dữ liệu thông qua AJAX để thêm Chip mới vào cơ sở dữ liệu
-                    $.ajax({
-                        url: '/admin/thuoctinhsanpham/CreateManHinh',
-                        type: 'POST',
-                        data: JSON.stringify(data),
-                        contentType: 'application/json',
-                        success: function (result) {
-                            if (result) {
-                                DrawManHinh();
-                                Swal.fire(
-                                    'Thông báo!',
-                                    'Thêm Màn Hình mới thành công!',
-                                    'success'
-                                );
-                            } else {
-                                Swal.fire(
-                                    'Thông báo',
-                                    'Thêm Màn Hình mới thất bại!',
-                                    'info'
-                                );
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.log(xhr.responseText);
-                            console.log(status);
-                            console.log(error);
-                            console.log(xhr);
-                        }
-                    });
-                } else {
-                    Swal.fire(
-                        'Lỗi!',
-                        'Vui lòng nhập đầy đủ thông tin.',
-                        'error'
-                    );
+            Swal.fire({
+                title: 'Thêm Màn Hình Mới',
+                html:
+                    '<input id="loaiManHinh" class="swal2-input" placeholder="Loại Màn Hình">' +
+                    '<input id="kichThuoc" class="swal2-input" placeholder="Kích Thước">' +
+                    '<input id="tanSoQuet" class="swal2-input" placeholder="Tần Số Quét">' +
+                    '<div class="form-group">' +
+                    '    <label for="trangThai">Trạng thái:</label>' +
+                    '    <select class="form-control" id="trangThai">' +
+                    '        <option value="0">Hoạt động</option>' +
+                    '        <option value="1">Không hoạt động</option>' +
+                    '    </select>' +
+                    '</div>',
+                showCancelButton: true,
+                confirmButtonText: 'Thêm',
+                cancelButtonText: 'Hủy',
+                preConfirm: () => {
+                    const loaiManHinh = document.getElementById('loaiManHinh').value;
+                    const kichThuoc = parseFloat(document.getElementById('kichThuoc').value); // Parse to float
+                    const tanSoQuet = parseInt(document.getElementById('tanSoQuet').value);
+                    const trangThai = document.getElementById('trangThai').value;
+                    return { loaiManHinh: loaiManHinh, kichThuoc: kichThuoc, tanSoQuet: tanSoQuet, trangThai: parseInt(trangThai) };
                 }
-            }
-        });
-    }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const data = result.value;
+                    if (data.loaiManHinh !== '' && !isNaN(data.kichThuoc) && !isNaN(data.tanSoQuet)) { // Check if kichThuoc is a number
+                        $.ajax({
+                            url: '/admin/thuoctinhsanpham/CreateManHinh',
+                            type: 'POST',
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            success: function (result) {
+                                if (result) {
+                                    DrawManHinh();
+                                    Swal.fire(
+                                        'Thông báo!',
+                                        'Thêm Màn Hình mới thành công!',
+                                        'success'
+                                    );
+                                } else {
+                                    Swal.fire(
+                                        'Thông báo',
+                                        'Loại Màn Hình đã tồn tại.',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                if (xhr.status === 400) {
+                                    Swal.fire(
+                                        'Thông báo',
+                                        'Loại Màn Hình đã tồn tại.',
+                                        'error'
+                                    );
+                                } else {
+                                    Swal.fire(
+                                        'Lỗi!',
+                                        'Đã xảy ra lỗi khi thêm Màn Hình mới!',
+                                        'error'
+                                    );
+                                }
+                                console.log(xhr.responseText);
+                                console.log(status);
+                                console.log(error);
+                                console.log(xhr);
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Lỗi!',
+                            'Vui lòng nhập đầy đủ và chính xác thông tin.',
+                            'error'
+                        );
+                    }
+                }
+            });
+        }
+</script>
+<script>
+    $('#data-table').Datatable();
 </script>
 <script src="~/Admin/vendors/datatables/jquery.dataTables.min.js" defer></script>
 <script src="~/Admin/vendors/datatables/dataTables.bootstrap.min.js" defer></script>

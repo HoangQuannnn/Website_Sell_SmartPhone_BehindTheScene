@@ -21,7 +21,6 @@ builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("Mo
 builder.Services.AddScoped<IMomoService, MomoService>();
 builder.Services.AddScoped<IVnPayService, VnPayService>();
 // Add services to the container.
-//BAZAIZAI\SQLEXPRESS
 
 
 

@@ -227,12 +227,12 @@
                 const loaiPin = document.getElementById('loaiPin').value;
                 const dungLuong = document.getElementById('dungLuong').value;
                 const trangThai = document.getElementById('trangThai').value;
-                return { loaiPin: loaiPin, dungLuong: dungLuong, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
+                return { LoaiPin: loaiPin, DungLuong: dungLuong, TrangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
             }
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = result.value;
-                if (data.loaiPin !== '' && data.dungLuong !== '') {
+                if (data.LoaiPin !== '' && data.DungLuong !== '') {
                     // Gửi dữ liệu thông qua AJAX để thêm pin mới vào cơ sở dữ liệu
                     $.ajax({
                         url: '/admin/thuoctinhsanpham/CreatePin',
@@ -250,12 +250,25 @@
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm pin mới thất bại!',
-                                    'info'
+                                    'Thêm pin mới thất bại hoặc loại pin đã tồn tại.',
+                                    'error'
                                 );
                             }
                         },
                         error: function (xhr, status, error) {
+                            if (xhr.status === 400) {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Loại pin đã tồn tại.',
+                                    'error'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Đã xảy ra lỗi khi thêm pin mới!',
+                                    'error'
+                                );
+                            }
                             console.log(xhr.responseText);
                             console.log(status);
                             console.log(error);
@@ -272,6 +285,7 @@
             }
         });
     }
+</script>
 </script>
 <script>
     $('#data-table').Datatable();

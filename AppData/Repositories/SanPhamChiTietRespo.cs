@@ -827,7 +827,7 @@ namespace App_Data.Repositories
                     pin = new Pin()
                     {
                         IdPin = Guid.NewGuid().ToString(),
-                        MaPin = !_context.Pins.Any() ? "PIN1" : "PIN" + (_context.Pins.Count() + 1),
+                        MaPin = !_context.Pins.Any() ? "P1" : "P" + (_context.Pins.Count() + 1),
                         LoaiPin = bienTheDTO.Pin.Trim(),
                         TrangThai = 0
                     };
@@ -841,7 +841,7 @@ namespace App_Data.Repositories
                     chip = new Chip()
                     {
                         IdChip = Guid.NewGuid().ToString(),
-                        MaChip = !_context.Chips.Any() ? "CHIP1" : "CHIP" + (_context.Chips.Count() + 1),
+                        MaChip = !_context.Chips.Any() ? "C1" : "C" + (_context.Chips.Count() + 1),
                         TenChip = bienTheDTO.Chip.Trim(),
                         TrangThai = 0
                     };
@@ -876,7 +876,7 @@ namespace App_Data.Repositories
                     await _context.SanPhams.AddAsync(sanPham);
                 }
 
-                var congSacLower = bienTheDTO.Hang!.Trim().ToLower();
+                var congSacLower = bienTheDTO.CongSac!.Trim().ToLower();
                 var congSac = await _context.CongSacs.FirstOrDefaultAsync(cl => cl.LoaiCongSac!.Trim().ToLower() == congSacLower);
                 if (congSac == null)
                 {
@@ -914,7 +914,7 @@ namespace App_Data.Repositories
                     ram = new Ram()
                     {
                         IdRam = Guid.NewGuid().ToString(),
-                        MaRam = !_context.Rams.Any() ? "R1" : "R" + (_context.Rams.Count() + 1),
+                        MaRam = !_context.Rams.Any() ? "RAM1" : "RAM" + (_context.Rams.Count() + 1),
                         DungLuong = bienTheDTO.Ram.Trim(),
                         TrangThai = 0
                     };
@@ -930,7 +930,7 @@ namespace App_Data.Repositories
                     rom = new Rom()
                     {
                         IdRom = Guid.NewGuid().ToString(),
-                        MaRom = !_context.Roms.Any() ? "RO1" : "RO" + (_context.Roms.Count() + 1),
+                        MaRom = !_context.Roms.Any() ? "ROM1" : "ROM" + (_context.Roms.Count() + 1),
                         DungLuong = bienTheDTO.Rom.Trim(),
                         TrangThai = 0
                     };

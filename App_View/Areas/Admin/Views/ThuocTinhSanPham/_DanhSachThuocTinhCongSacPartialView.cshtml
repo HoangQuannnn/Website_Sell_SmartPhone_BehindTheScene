@@ -243,16 +243,25 @@
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm congSac mới thất bại!',
-                                    'info'
+                                    'Loại cổng sạc đã tồn tại.',
+                                    'error'
                                 );
                             }
                         },
                         error: function (xhr, status, error) {
-                            console.log(xhr.responseText);
-                            console.log(status);
-                            console.log(error);
-                            console.log(xhr);
+                            if (xhr.status === 400) {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Loại cổng sạc đã tồn tại.',
+                                    'error'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Đã xảy ra lỗi khi thêm cổng sạc mới!',
+                                    'error'
+                                );
+                            }
                         }
                     });
                 } else {
@@ -265,6 +274,7 @@
             }
         });
     }
+</script>
 </script>
 <script>
     $('#data-table').Datatable();

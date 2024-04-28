@@ -241,12 +241,25 @@
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm Chip mới thất bại!',
-                                    'info'
+                                    'Thêm Chip mới thất bại hoặc tên Chip đã tồn tại.',
+                                    'error'
                                 );
                             }
                         },
                         error: function (xhr, status, error) {
+                            if (xhr.status === 400) {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Tên Chip đã tồn tại.',
+                                    'error'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Đã xảy ra lỗi khi thêm Chip mới!',
+                                    'error'
+                                );
+                            }
                             console.log(xhr.responseText);
                             console.log(status);
                             console.log(error);
@@ -263,6 +276,8 @@
             }
         });
     }
+
+
 </script>
 <script>
     $('#data-table').Datatable();

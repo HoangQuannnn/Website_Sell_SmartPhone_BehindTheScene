@@ -246,12 +246,25 @@
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm hãng mới thất bại!',
-                                    'info'
+                                    'Thêm Hãng mới thất bại hoặc tên Hãng đã tồn tại.',
+                                    'error'
                                 );
                             }
                         },
                         error: function (xhr, status, error) {
+                            if (xhr.status === 400) {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Tên Hãng đã tồn tại.',
+                                    'error'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Đã xảy ra lỗi khi thêm Hãng mới!',
+                                    'error'
+                                );
+                            }
                             console.log(xhr.responseText);
                             console.log(status);
                             console.log(error);

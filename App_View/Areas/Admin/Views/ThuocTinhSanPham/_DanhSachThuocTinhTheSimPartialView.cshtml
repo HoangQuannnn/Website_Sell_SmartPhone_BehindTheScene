@@ -251,18 +251,32 @@
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm TheSim mới thất bại!',
-                                    'info'
+                                    'Thêm thẻ sim mới thất bại hoặc loại thẻ sim đã tồn tại.',
+                                    'error'
                                 );
                             }
                         },
                         error: function (xhr, status, error) {
+                            if (xhr.status === 400) {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Loại thẻ sim đã tồn tại.',
+                                    'error'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Đã xảy ra lỗi khi thêm Chip mới!',
+                                    'error'
+                                );
+                            }
                             console.log(xhr.responseText);
                             console.log(status);
                             console.log(error);
                             console.log(xhr);
                         }
                     });
+
                 } else {
                     Swal.fire(
                         'Lỗi!',

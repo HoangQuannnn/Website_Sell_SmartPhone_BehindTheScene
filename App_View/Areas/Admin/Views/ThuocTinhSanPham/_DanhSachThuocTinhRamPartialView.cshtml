@@ -225,7 +225,7 @@
                         trangThai: parseInt(trangThai)
                     };
 
-                    // Gửi dữ liệu thông qua AJAX để thêm ram mới vào cơ sở dữ liệu
+                    // Gửi dữ liệu thông qua AJAX để kiểm tra và thêm ram mới vào cơ sở dữ liệu
                     $.ajax({
                         url: '/admin/thuoctinhsanpham/CreateRam',
                         type: 'POST',
@@ -242,12 +242,25 @@
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Thêm ram mới thất bại!',
-                                    'info'
+                                    'Dung lượng RAM đã tồn tại.',
+                                    'error'
                                 );
                             }
                         },
                         error: function (xhr, status, error) {
+                            if (xhr.status === 400) {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Dung lượng RAM đã tồn tại.',
+                                    'error'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Đã xảy ra lỗi khi thêm ram mới!',
+                                    'error'
+                                );
+                            }
                             console.log(xhr.responseText);
                             console.log(status);
                             console.log(error);

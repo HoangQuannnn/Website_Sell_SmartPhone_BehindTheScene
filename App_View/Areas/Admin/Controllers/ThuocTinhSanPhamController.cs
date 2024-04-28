@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App_Data.ViewModels.PinDTO;
 using App_Data.ViewModels.TheSimDTO;
+using App_Data.Models;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -267,12 +268,35 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckSanPhamExists(string tenSanPham)
+        {
+            try
+            {
+                var existingSanPham = await _context.SanPhams.AnyAsync(r => r.TenSanPham == tenSanPham);
+                return existingSanPham;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateSanPham([FromBody] SanPhamDTO createSanPhamDTO)
         {
             try
             {
+                var checkSanPham = new SanPham
+                {
+                    TenSanPham = createSanPhamDTO.TenSanPham
+                };
+                var ramExists = await CheckSanPhamExists(checkSanPham.TenSanPham);
+
+                if (ramExists)
+                {
+                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                }
+
                 var response = await _httpClient.PostAsJsonAsync("/api/SanPham", createSanPhamDTO);
 
                 if (response.IsSuccessStatusCode)
@@ -295,11 +319,35 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckHangExists(string tenHang)
+        {
+            try
+            {
+                var existingHang = await _context.Hangs.AnyAsync(r => r.TenHang == tenHang);
+                return existingHang;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateHang([FromBody] CreateHangDTO createHangDTO)
         {
             try
             {
+                var checkHang = new Hang
+                {
+                    TenHang = createHangDTO.tenHang
+                };
+                var ramExists = await CheckHangExists(checkHang.TenHang);
+
+                if (ramExists)
+                {
+                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                }
+
                 var response = await _httpClient.PostAsJsonAsync("/api/Hang", createHangDTO);
 
                 if (response.IsSuccessStatusCode)
@@ -337,6 +385,17 @@ namespace App_View.Areas.Admin.Controllers
         {
             try
             {
+                var checkRam = new Ram
+                {
+                    DungLuong = createRamDTO.dungLuongRam
+                };
+                var ramExists = await CheckRamExists(checkRam.DungLuong);
+
+                if (ramExists)
+                {
+                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                }
+
                 var response = await _httpClient.PostAsJsonAsync("/api/Ram", createRamDTO);
 
                 if (response.IsSuccessStatusCode)
@@ -350,6 +409,20 @@ namespace App_View.Areas.Admin.Controllers
                 return Ok(false);
             }
         }
+
+        private async Task<bool> CheckRamExists(string dungLuongRam)
+        {
+            try
+            {
+                var existingRam = await _context.Rams.AnyAsync(r => r.DungLuong == dungLuongRam);
+                return existingRam;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> EditRam([FromBody] RamDTO ramDTO)
         {
@@ -360,11 +433,35 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckRomExists(string dungLuongRom)
+        {
+            try
+            {
+                var existingRom = await _context.Roms.AnyAsync(r => r.DungLuong == dungLuongRom);
+                return existingRom;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateRom([FromBody] CreateRomDTO createRomDTO)
         {
             try
             {
+                var checkRom = new Rom
+                {
+                    DungLuong = createRomDTO.dungLuongRom
+                };
+                var ramExists = await CheckRomExists(checkRom.DungLuong);
+
+                if (ramExists)
+                {
+                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                }
+
                 var response = await _httpClient.PostAsJsonAsync("api/Rom", createRomDTO);
 
                 if (response.IsSuccessStatusCode)
@@ -408,8 +505,31 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckCongSacExists(string loaiCongSac)
+        {
+            try
+            {
+                var existingCongSac = await _context.CongSacs.AnyAsync(r => r.LoaiCongSac == loaiCongSac);
+                return existingCongSac;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<IActionResult> CreateCongSac([FromBody] CongSacDTO congSacDTO)
         {
+            var checkCongSac = new CongSac
+            {
+                LoaiCongSac = congSacDTO.LoaiCongSac
+            };
+            var ramExists = await CheckCongSacExists(checkCongSac.LoaiCongSac);
+
+            if (ramExists)
+            {
+                return BadRequest("Dung lượng RAM đã tồn tại.");
+            }
             var response = await _httpClient.PostAsJsonAsync($"/api/CongSac", congSacDTO);
             if (response.IsSuccessStatusCode)
             {
@@ -437,8 +557,32 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckChipExists(string tenChip)
+        {
+            try
+            {
+                var existingChip = await _context.Chips.AnyAsync(r => r.TenChip == tenChip);
+                return existingChip;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<IActionResult> CreateChip([FromBody] ChipDTO chipDTO)
         {
+            var checkChip = new Chip
+            {
+                TenChip = chipDTO.TenChip
+            };
+            var ramExists = await CheckChipExists(checkChip.TenChip);
+
+            if (ramExists)
+            {
+                return BadRequest("Dung lượng RAM đã tồn tại.");
+            }
+
             var response = await _httpClient.PostAsJsonAsync($"/api/Chip", chipDTO);
             if (response.IsSuccessStatusCode)
             {
@@ -457,9 +601,32 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckTheSimExists(string loaiTheSim)
+        {
+            try
+            {
+                var existingTheSim = await _context.TheSims.AnyAsync(r => r.Loaithesim == loaiTheSim);
+                return existingTheSim;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
         public async Task<IActionResult> CreateTheSim([FromBody] TheSimDTO theSimDTO)
         {
+            var checkTheSim = new TheSim
+            {
+                Loaithesim = theSimDTO.Loaithesim
+            };
+            var ramExists = await CheckTheSimExists(checkTheSim.Loaithesim);
+
+            if (ramExists)
+            {
+                return BadRequest("Dung lượng RAM đã tồn tại.");
+            }
+
             var response = await _httpClient.PostAsJsonAsync($"/api/TheSim/Create-TheSim", theSimDTO);
             if (response.IsSuccessStatusCode)
             {
@@ -489,9 +656,33 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(false);
         }
 
+        private async Task<bool> CheckMauSacExists(string tenmausac)
+        {
+            try
+            {
+                var existingMauSac = await _context.MauSacs.AnyAsync(r => r.TenMauSac == tenmausac);
+                return existingMauSac;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
         public async Task<IActionResult> CreateMauSac([FromBody] MauSacDTO mauSacDTO)
         {
+            var checkMauSac = new MauSac
+            {
+                TenMauSac = mauSacDTO.TenMauSac
+            };
+            var ramExists = await CheckMauSacExists(checkMauSac.TenMauSac);
+
+            if (ramExists)
+            {
+                return BadRequest("Dung lượng RAM đã tồn tại.");
+            }
+
+
             var response = await _httpClient.PostAsJsonAsync($"/api/MauSac/CreateMauSac", mauSacDTO);
             if (response.IsSuccessStatusCode)
             {
@@ -529,14 +720,45 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckManHinhExists(string loaiManHinh)
+        {
+            try
+            {
+                var existingManHinh = await _context.ManHinhs.AnyAsync(r => r.LoaiManHinh == loaiManHinh);
+                return existingManHinh;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<IActionResult> CreateManHinh([FromBody] ManHinhDTO manHinhDTO)
         {
-            var response = await _httpClient.PostAsJsonAsync($"/api/ManHinh", manHinhDTO);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                return Ok(await response.Content.ReadAsAsync<bool>());
+                var checkManHinh = new ManHinh
+                {
+                    LoaiManHinh = manHinhDTO.LoaiManHinh
+                };
+                var ramExists = await CheckManHinhExists(checkManHinh.LoaiManHinh);
+
+                if (ramExists)
+                {
+                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                }
+
+                var response = await _httpClient.PostAsJsonAsync($"/api/ManHinh", manHinhDTO);
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
             }
-            return Ok(false);
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
         }
         [HttpPost]
         public async Task<IActionResult> EditManHinh([FromBody] ManHinhDTO ManHinhDTO)
@@ -558,14 +780,47 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckTheNhoExists(string loaiTheNho)
+        {
+            try
+            {
+                var existingTheNho = await _context.TheNhos.AnyAsync(r => r.LoaiTheNho == loaiTheNho);
+                return existingTheNho;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<IActionResult> CreateTheNho([FromBody] TheNhoDTO theNhoDTO)
         {
-            var response = await _httpClient.PostAsJsonAsync($"/api/TheNho", theNhoDTO);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                return Ok(await response.Content.ReadAsAsync<bool>());
+                var checkTheNho = new TheNho
+                {
+                    LoaiTheNho = theNhoDTO.LoaiTheNho
+                };
+                var ramExists = await CheckTheNhoExists(checkTheNho.LoaiTheNho);
+
+                if (ramExists)
+                {
+                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                }
+
+                var response = await _httpClient.PostAsJsonAsync($"/api/TheNho", theNhoDTO);
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
             }
-            return Ok(false);
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+
+            
         }
         [HttpPost]
         public async Task<IActionResult> EditTheNho([FromBody] TheNhoDTO TheNhoDTO)
@@ -587,14 +842,48 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckCameraExists(string dophangiai)
+        {
+            try
+            {
+                var existingCamera = await _context.Cameras.AnyAsync(r => r.DoPhanGiai == dophangiai);
+                return existingCamera;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<IActionResult> CreateCamera([FromBody] CameraDTO CameraDTO)
         {
-            var response = await _httpClient.PostAsJsonAsync($"/api/Camera/Create-Camera", CameraDTO);
-            if (response.IsSuccessStatusCode)
+
+            try
             {
-                return Ok(await response.Content.ReadAsAsync<bool>());
+                var checkCamera = new Camera
+                {
+                    DoPhanGiai = CameraDTO.DoPhanGiai
+                };
+                var ramExists = await CheckCameraExists(checkCamera.DoPhanGiai);
+
+                if (ramExists)
+                {
+                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                }
+
+
+                var response = await _httpClient.PostAsJsonAsync($"/api/Camera/Create-Camera", CameraDTO);
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
             }
-            return Ok(false);
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+
         }
 
         [HttpPost]
@@ -636,11 +925,35 @@ namespace App_View.Areas.Admin.Controllers
             }
             return Ok(false);
         }
+        private async Task<bool> CheckPinExists(string loaiPin)
+        {
+            try
+            {
+                var existingPin = await _context.Pins.AnyAsync(r => r.LoaiPin == loaiPin);
+                return existingPin;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreatePin([FromBody] CreatePinDTO createPinDTO)
         {
             try
             {
+                var checkPin = new Pin
+                {
+                    LoaiPin = createPinDTO.LoaiPin
+                };
+                var ramExists = await CheckPinExists(checkPin.LoaiPin);
+
+                if (ramExists)
+                {
+                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                }
+
                 var response = await _httpClient.PostAsJsonAsync("/api/Pin", createPinDTO);
 
                 if (response.IsSuccessStatusCode)

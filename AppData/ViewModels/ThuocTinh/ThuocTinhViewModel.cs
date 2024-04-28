@@ -21,7 +21,7 @@ namespace App_Data.ViewModels.ThuocTinh
         public string DungLuongRomEnum { get; set; }
         public string? LoaiCongSac { get; set; }
         public string? LoaiTheNho { get; set; }
-        public int? KichThuoc { get;set; }
+        public double? KichThuoc { get;set; }
         public int? TanSoQuet { get; set; }
         public string? LoaiManHinh { get; set; }
     }

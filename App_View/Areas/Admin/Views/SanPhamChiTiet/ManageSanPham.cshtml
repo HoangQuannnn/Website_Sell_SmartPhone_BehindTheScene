@@ -113,13 +113,7 @@
                                 <input id="khoiLuong" class="form-control formatNumber" value="250" name="KhoiLuong">(g)
                             </div>
                         </div>
-                        <div class="form-group d-flex align-items-center col-3">
-                            <div class="switch m-r-10">
-                                <input type="checkbox" id="switch-1-day" class="switch-2-day" checked>
-                                <label class="font-weight-semibold" for="switch-1-day"></label>
-                            </div>
-                            <label class="font-weight-semibold">Dây(Có/Không)</label>
-                        </div>
+                      
                         <div class="form-group d-flex align-items-center col-4">
                             <div class="switch m-r-10">
                                 <input type="checkbox" id="switch-1-noibat" class="switch-2-noibat">
@@ -1040,6 +1034,10 @@
                             <a class="nav-link d-flex align-items-center" id="profile-tab-vertical" data-toggle="tab" href="#profile-vertical${index}"
                                role="tab" aria-controls="profile-${index}" aria-selected="false"><i class="far fa-file-image mr-1"></i><span>Image</span></a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" id="imei-tab-vertical" data-toggle="tab" href="#imei-vertical${index}"
+                                role="tab" aria-controls="imei-${index}" aria-selected="false"><i class=""></i><span>Imei</span></a>
+                         </li>
                     </ul>
 
                     <div class="tab-content" id="myTabContentVertical">
@@ -1077,13 +1075,7 @@
                                             <input class="form-control formatKhoiLuong" name="KhoiLuong" value="${khoiLuong}">(g)
                                         </div>
                                     </div>
-                                    <div class="form-group d-flex align-items-center col-2">
-                                        <div class="switch m-r-10">
-                                            <input type="checkbox" id="switch-${index}" class="switch-2-day">
-                                            <label class="font-weight-semibold" for="switch-${index}"></label>
-                                        </div>
-                                        <label class="font-weight-semibold">Dây(Có/Không)</label>
-                                    </div>
+      
                                     <div class="form-group d-flex align-items-center col-3">
                                         <div class="switch m-r-10">
                                             <input type="checkbox" id="switch-${index}-1" class="switch-2-noibat">
@@ -1118,6 +1110,28 @@
                                         Chọn Ảnh
                                     </button>
                                     <input type="file" accept="image/*" class="fileInput default-btn 1" multiple hidden>
+                                    <div class="container-file" style="display: flex;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" style="height: 650px" id="imei-vertical${index}" role="tabpanel"
+                             aria-labelledby="imei-tab-vertical${index}">
+                            <div class="card-body">
+                                <div class="upload mt-2">
+                                    <div class="row mt-2">
+                                        <div class="form-group col-6">
+                                            <label class="font-weight-semibold">Imei</label>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-database mr-1"></i>
+                                                <input class="form-control formatNumber" name="imei" value="">
+                                                <button name="addImei" class="btn btn-kio" style="height: 45px; width : 200px; margin-left:10px">
+                                                    <i class="bi bi-plus-lg" style="color: black"></i>
+                                                    Thêm Imei
+                                                </button>
+                                             </div>
+                                        </div>
+                                    </div>
                                     <div class="container-file" style="display: flex;">
                                     </div>
                                 </div>
@@ -1194,7 +1208,7 @@
         for (let i = 0; i < lstColor.length; i++) {
             for (let j = 0; j < lstRam.length; j++) {
                 for (let k = 0; k < lstRom.length; k++) {
-                    const index = i * lstRam.length + j;
+                    const index = i * (lstRam.length * lstRom.length) + j * lstRom.length + k;
                     const data = { ...GetDataMain(), ...{ 'IdRam': lstRam[j].value, 'IdMauSac': lstColor[i].value, 'IdRom': lstRom[k].value } }
                     const promise = getProductDetail(data);
                     promise.then((respose) => {

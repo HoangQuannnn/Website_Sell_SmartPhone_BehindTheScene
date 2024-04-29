@@ -44,6 +44,24 @@ namespace App_Api.Helpers.Mapping
     {
         private readonly AppDbContext appContext = new AppDbContext();
         private readonly DanhGiaRepo _danhGiaRepo = new DanhGiaRepo();
+
+        private string GetCameraSauResolution(SanPhamChiTiet src)
+        {
+            List<string> resolutions = new List<string>
+    {
+        src.CameraSau.DoPhanGiaiCamera1,
+        src.CameraSau.DoPhanGiaiCamera2,
+        src.CameraSau.DoPhanGiaiCamera3,
+        src.CameraSau.DoPhanGiaiCamera4,
+        src.CameraSau.DoPhanGiaiCamera5
+    };
+
+            // Loại bỏ các giá trị null hoặc rỗng
+            resolutions.RemoveAll(string.IsNullOrEmpty);
+
+            // Trả về chuỗi các độ phân giải nếu có
+            return string.Join(" - ", resolutions);
+        }
         public MappingProfiles()
         {
             CreateMap<HoaDon, HoaDonDTO>();
@@ -300,22 +318,31 @@ namespace App_Api.Helpers.Mapping
                  .ForMember(
                         dest => dest.TheNho,
                         opt => opt.MapFrom(src => $"{src.TheNho.LoaiTheNho} {src.TheNho.DungLuong}")
-                    ) 
-                 
-                 .ForMember(
-                        dest => dest.TheSim,
-                        opt => opt.MapFrom(src => $"{src.TheSim.LoaiTheSim1}")
                     )
-                 
-                 .ForMember(
-                        dest => dest.CameraTruoc,
-                        opt => opt.MapFrom(src => $"{src.CameraTruoc.DoPhanGiaiCamera1}")
-                    )
-                 
-                 .ForMember(
-                        dest => dest.CameraSau,
-                        opt => opt.MapFrom(src => $"{src.CameraSau.DoPhanGiaiCamera1}")
-                    )
+
+                .ForMember(
+    dest => dest.TheSim,
+    opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.TheSim.LoaiTheSim2) ? $"{src.TheSim.LoaiTheSim1} - {src.TheSim.LoaiTheSim2}" : src.TheSim.LoaiTheSim1)
+)
+
+
+.ForMember(
+    dest => dest.CameraTruoc,
+    opt => opt.MapFrom(src =>
+        !string.IsNullOrEmpty(src.CameraTruoc.DoPhanGiaiCamera2) ?
+        $"{src.CameraTruoc.DoPhanGiaiCamera1} - {src.CameraTruoc.DoPhanGiaiCamera2}" :
+        src.CameraTruoc.DoPhanGiaiCamera1
+    )
+)
+
+
+
+.ForMember(
+    dest => dest.CameraSau,
+    opt => opt.MapFrom(src => GetCameraSauResolution(src))
+)
+
+
                 .ForMember(
                         dest => dest.Chip,
                         opt => opt.MapFrom(src => src.Chip.TenChip)

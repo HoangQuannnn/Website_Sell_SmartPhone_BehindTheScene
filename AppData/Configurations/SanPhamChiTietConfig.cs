@@ -46,6 +46,15 @@ namespace App_Data.Configurations
             builder.HasOne(x => x.Pin).WithMany(y => y.SanPhamChiTiets).
             HasForeignKey(c => c.IdPin);
 
+            builder.HasOne(x => x.CameraSau).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdCameraSau);
+
+            builder.HasOne(x => x.CameraTruoc).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.IdCameraTruoc);
+
+            builder.HasOne(x => x.TheSim).WithMany(y => y.SanPhamChiTiets).
+            HasForeignKey(c => c.TheSim);
+
             builder.Property(x => x.Ma).HasColumnType("varchar(50)");
             builder.Property(x => x.NoiBat).HasColumnType("bit");
         }

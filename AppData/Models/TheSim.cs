@@ -12,10 +12,10 @@ namespace App_Data.Models
         [Key]
         public string? IdTheSim { get; set; }
         public string? MaTheSim { get; set; }
-        public string? Loaithesim { get; set; }
-        public int? SoKhaySim { get; set; }
+        public string? LoaiTheSim1 { get; set; }
+        public string? LoaiTheSim2 { get; set; }
         public int? TrangThai {  get; set; }
-        public virtual ICollection<TheSimDienThoai> TheSimDienThoais { get; set; }
+        public virtual List<SanPhamChiTiet>? SanPhamChiTiets { get; set; }
 
     }
 }

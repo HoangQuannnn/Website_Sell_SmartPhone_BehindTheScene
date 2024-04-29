@@ -536,16 +536,16 @@ namespace App_Api.Helpers.Mapping
                         opt => opt.MapFrom(src => src.SanPhamChiTiet.SanPham.TenSanPham)
                 )
                 .ReverseMap();
-            CreateMap<ChiTietCamera, ChiTietCameraDTO>()
-                .ForMember(
-                        dest => dest.Camera,
-                        opt => opt.MapFrom(src => src.Camera.DoPhanGiai)
-                )
-                .ForMember(
-                        dest => dest.SanPhamChiTiet,
-                        opt => opt.MapFrom(src => src.SanPhamChiTiet.SanPham.TenSanPham)
-                )
-                .ReverseMap();
+            //CreateMap<ChiTietCamera, ChiTietCameraDTO>()
+            //    .ForMember(
+            //            dest => dest.Camera,
+            //            opt => opt.MapFrom(src => src.Camera.DoPhanGiai)
+            //    )
+            //    .ForMember(
+            //            dest => dest.SanPhamChiTiet,
+            //            opt => opt.MapFrom(src => src.SanPhamChiTiet.SanPham.TenSanPham)
+            //    )
+            //    .ReverseMap();
             CreateMap<SanPhamYeuThichDTO, SanPhamYeuThich>();
             CreateMap<SanPhamYeuThich, SanPhamYeuThichViewModel>()
                 .ForMember(

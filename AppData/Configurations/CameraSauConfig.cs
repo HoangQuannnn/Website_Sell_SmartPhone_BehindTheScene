@@ -17,7 +17,7 @@ namespace App_Data.Configurations
             builder.HasKey(x => x.IdCameraSau);
             builder.Property(e => e.MaCameraSau).HasColumnType("varchar(50)");
             builder.Property(c => c.TrangThai).HasColumnType("int");
-            builder.HasOne(x => x.SanPhamChiTiet).WithMany(y => y.CameraSaus).HasForeignKey(g => g.IdSanPhamChiTiet);
+            
 
         }
     }

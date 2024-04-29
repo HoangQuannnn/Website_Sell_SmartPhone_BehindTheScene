@@ -657,10 +657,10 @@ namespace App_View.Services
             return (await _httpClient.GetFromJsonAsync<List<CongSac>?>("/api/SanPhamChiTiet/Get-List-CongSac"))!;
         }
 
-        public Task<List<ChiTietCamera>> GetListModelChiTietCameraAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<List<ChiTietCamera>> GetListModelChiTietCameraAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task<List<Chip>> GetListModelChipAsync()
         {
@@ -702,10 +702,10 @@ namespace App_View.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task<PinDTO?> CreateTenPinAynsc(PinDTO pinDTO)
         {

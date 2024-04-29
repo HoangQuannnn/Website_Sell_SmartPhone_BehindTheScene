@@ -9,7 +9,6 @@ namespace App_Data.ViewModels.CameraSauDTO
     public class CameraSauDTO
     {
         public string? IdCameraSau { get; set; }
-        public string? MaCameraSau { get; set; }
         public string? DoPhanGiaiCamera1 { get; set; }
         public string? DoPhanGiaiCamera2 { get; set; }
         public string? DoPhanGiaiCamera3 { get; set; }

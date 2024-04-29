@@ -5,22 +5,41 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App_Data.Migrations
 {
-    public partial class Database : Migration
+    public partial class fixDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Camera",
+                name: "CameraSau",
                 columns: table => new
                 {
-                    IdCamera = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MaCamera = table.Column<string>(type: "varchar(50)", nullable: true),
-                    DoPhanGiai = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdCameraSau = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MaCameraSau = table.Column<string>(type: "varchar(50)", nullable: true),
+                    DoPhanGiaiCamera1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoPhanGiaiCamera2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoPhanGiaiCamera3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoPhanGiaiCamera4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoPhanGiaiCamera5 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TrangThai = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Camera", x => x.IdCamera);
+                    table.PrimaryKey("PK_CameraSau", x => x.IdCameraSau);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CameraTruoc",
+                columns: table => new
+                {
+                    IdCameraTruoc = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MaCameraTruoc = table.Column<string>(type: "varchar(50)", nullable: true),
+                    DoPhanGiaiCamera1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoPhanGiaiCamera2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TrangThai = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CameraTruoc", x => x.IdCameraTruoc);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,7 +125,7 @@ namespace App_Data.Migrations
                 {
                     IdManHinh = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MaManHinh = table.Column<string>(type: "varchar(50)", nullable: true),
-                    KichThuoc = table.Column<int>(type: "int", nullable: true),
+                    KichThuoc = table.Column<double>(type: "float", nullable: true),
                     LoaiManHinh = table.Column<string>(type: "nvarchar(50)", nullable: true),
                     TanSoQuet = table.Column<int>(type: "int", nullable: true),
                     TrangThai = table.Column<int>(type: "int", nullable: true)
@@ -200,9 +219,8 @@ namespace App_Data.Migrations
                 {
                     IdRam = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MaRam = table.Column<string>(type: "varchar(50)", nullable: true),
-                    TrangThai = table.Column<int>(type: "int", nullable: false),
-                    DungLuong = table.Column<string>(type: "varchar(50)", nullable: false),
-                    TenRam = table.Column<string>(type: "nvarchar(1000)", nullable: true)
+                    TrangThai = table.Column<string>(type: "varchar(50)", nullable: false),
+                    DungLuong = table.Column<string>(type: "varchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,9 +233,8 @@ namespace App_Data.Migrations
                 {
                     IdRom = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MaRom = table.Column<string>(type: "varchar(50)", nullable: true),
-                    TrangThai = table.Column<int>(type: "int", nullable: false),
-                    DungLuong = table.Column<string>(type: "varchar(50)", nullable: false),
-                    TenRom = table.Column<string>(type: "nvarchar(1000)", nullable: true)
+                    TrangThai = table.Column<string>(type: "varchar(50)", nullable: false),
+                    DungLuong = table.Column<string>(type: "varchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,8 +276,8 @@ namespace App_Data.Migrations
                 {
                     IdTheSim = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MaTheSim = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Loaithesim = table.Column<string>(type: "varchar(10)", nullable: true),
-                    SoKhaySim = table.Column<int>(type: "int", nullable: true),
+                    LoaiTheSim1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LoaiTheSim2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TrangThai = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -481,11 +498,26 @@ namespace App_Data.Migrations
                     IdChip = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IdManHinh = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IdTheNho = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IdPin = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IdPin = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IdCameraSau = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IdCameraTruoc = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IdTheSim = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SanPhamChiTiet", x => x.IdChiTietSp);
+                    table.ForeignKey(
+                        name: "FK_SanPhamChiTiet_CameraSau_IdCameraSau",
+                        column: x => x.IdCameraSau,
+                        principalTable: "CameraSau",
+                        principalColumn: "IdCameraSau",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SanPhamChiTiet_CameraTruoc_IdCameraTruoc",
+                        column: x => x.IdCameraTruoc,
+                        principalTable: "CameraTruoc",
+                        principalColumn: "IdCameraTruoc",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SanPhamChiTiet_Chip_IdChip",
                         column: x => x.IdChip,
@@ -545,6 +577,12 @@ namespace App_Data.Migrations
                         column: x => x.IdTheNho,
                         principalTable: "TheNho",
                         principalColumn: "IdTheNho",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SanPhamChiTiet_TheSim_IdTheSim",
+                        column: x => x.IdTheSim,
+                        principalTable: "TheSim",
+                        principalColumn: "IdTheSim",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -639,72 +677,6 @@ namespace App_Data.Migrations
                     table.PrimaryKey("PK_Anh", x => x.IdAnh);
                     table.ForeignKey(
                         name: "FK_Anh_SanPhamChiTiet_IdSanPhamChiTiet",
-                        column: x => x.IdSanPhamChiTiet,
-                        principalTable: "SanPhamChiTiet",
-                        principalColumn: "IdChiTietSp");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CameraSau",
-                columns: table => new
-                {
-                    IdCameraSau = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MaCameraSau = table.Column<string>(type: "varchar(50)", nullable: true),
-                    DoPhanGiai = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LoaiCamera = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TrangThai = table.Column<int>(type: "int", nullable: true),
-                    IdSanPhamChiTiet = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CameraSau", x => x.IdCameraSau);
-                    table.ForeignKey(
-                        name: "FK_CameraSau_SanPhamChiTiet_IdSanPhamChiTiet",
-                        column: x => x.IdSanPhamChiTiet,
-                        principalTable: "SanPhamChiTiet",
-                        principalColumn: "IdChiTietSp");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CameraTruoc",
-                columns: table => new
-                {
-                    IdCameraTruoc = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MaCameraTruoc = table.Column<string>(type: "varchar(50)", nullable: true),
-                    DoPhanGiai = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LoaiCamera = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TrangThai = table.Column<int>(type: "int", nullable: true),
-                    IdSanPhamChiTiet = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CameraTruoc", x => x.IdCameraTruoc);
-                    table.ForeignKey(
-                        name: "FK_CameraTruoc_SanPhamChiTiet_IdSanPhamChiTiet",
-                        column: x => x.IdSanPhamChiTiet,
-                        principalTable: "SanPhamChiTiet",
-                        principalColumn: "IdChiTietSp");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ChiTietCamera",
-                columns: table => new
-                {
-                    IdChiTietCamera = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IdCamera = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IdSanPhamChiTiet = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    LoaiCamera = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChiTietCamera", x => x.IdChiTietCamera);
-                    table.ForeignKey(
-                        name: "FK_ChiTietCamera_Camera_IdCamera",
-                        column: x => x.IdCamera,
-                        principalTable: "Camera",
-                        principalColumn: "IdCamera");
-                    table.ForeignKey(
-                        name: "FK_ChiTietCamera_SanPhamChiTiet_IdSanPhamChiTiet",
                         column: x => x.IdSanPhamChiTiet,
                         principalTable: "SanPhamChiTiet",
                         principalColumn: "IdChiTietSp");
@@ -838,29 +810,6 @@ namespace App_Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TheSimDienThoai",
-                columns: table => new
-                {
-                    IdTheSimDienThoai = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IdTheSim = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IdSanPhamChiTiet = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TheSimDienThoai", x => x.IdTheSimDienThoai);
-                    table.ForeignKey(
-                        name: "FK_TheSimDienThoai_SanPhamChiTiet_IdSanPhamChiTiet",
-                        column: x => x.IdSanPhamChiTiet,
-                        principalTable: "SanPhamChiTiet",
-                        principalColumn: "IdChiTietSp");
-                    table.ForeignKey(
-                        name: "FK_TheSimDienThoai_TheSim_IdTheSim",
-                        column: x => x.IdTheSim,
-                        principalTable: "TheSim",
-                        principalColumn: "IdTheSim");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "HoaDonChiTiet",
                 columns: table => new
                 {
@@ -974,26 +923,6 @@ namespace App_Data.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CameraSau_IdSanPhamChiTiet",
-                table: "CameraSau",
-                column: "IdSanPhamChiTiet");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CameraTruoc_IdSanPhamChiTiet",
-                table: "CameraTruoc",
-                column: "IdSanPhamChiTiet");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChiTietCamera_IdCamera",
-                table: "ChiTietCamera",
-                column: "IdCamera");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChiTietCamera_IdSanPhamChiTiet",
-                table: "ChiTietCamera",
-                column: "IdSanPhamChiTiet");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -1110,6 +1039,16 @@ namespace App_Data.Migrations
                 column: "IdThanhToan");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SanPhamChiTiet_IdCameraSau",
+                table: "SanPhamChiTiet",
+                column: "IdCameraSau");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SanPhamChiTiet_IdCameraTruoc",
+                table: "SanPhamChiTiet",
+                column: "IdCameraTruoc");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SanPhamChiTiet_IdChip",
                 table: "SanPhamChiTiet",
                 column: "IdChip");
@@ -1160,6 +1099,11 @@ namespace App_Data.Migrations
                 column: "IdTheNho");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SanPhamChiTiet_IdTheSim",
+                table: "SanPhamChiTiet",
+                column: "IdTheSim");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SanPhamYeuThich_IdNguoiDung",
                 table: "SanPhamYeuThich",
                 column: "IdNguoiDung");
@@ -1168,16 +1112,6 @@ namespace App_Data.Migrations
                 name: "IX_SanPhamYeuThich_IdSanPhamChiTiet",
                 table: "SanPhamYeuThich",
                 column: "IdSanPhamChiTiet");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TheSimDienThoai_IdSanPhamChiTiet",
-                table: "TheSimDienThoai",
-                column: "IdSanPhamChiTiet");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TheSimDienThoai_IdTheSim",
-                table: "TheSimDienThoai",
-                column: "IdTheSim");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ThongTinGiaoHang_IdNguoiDung",
@@ -1216,15 +1150,6 @@ namespace App_Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CameraSau");
-
-            migrationBuilder.DropTable(
-                name: "CameraTruoc");
-
-            migrationBuilder.DropTable(
-                name: "ChiTietCamera");
-
-            migrationBuilder.DropTable(
                 name: "DanhGia");
 
             migrationBuilder.DropTable(
@@ -1246,16 +1171,10 @@ namespace App_Data.Migrations
                 name: "SanPhamYeuThich");
 
             migrationBuilder.DropTable(
-                name: "TheSimDienThoai");
-
-            migrationBuilder.DropTable(
                 name: "VoucherNguoiDung");
 
             migrationBuilder.DropTable(
                 name: "ChucVu");
-
-            migrationBuilder.DropTable(
-                name: "Camera");
 
             migrationBuilder.DropTable(
                 name: "GioHangChiTiet");
@@ -1268,9 +1187,6 @@ namespace App_Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "PhuongThucThanhToan");
-
-            migrationBuilder.DropTable(
-                name: "TheSim");
 
             migrationBuilder.DropTable(
                 name: "GioHang");
@@ -1289,6 +1205,12 @@ namespace App_Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Voucher");
+
+            migrationBuilder.DropTable(
+                name: "CameraSau");
+
+            migrationBuilder.DropTable(
+                name: "CameraTruoc");
 
             migrationBuilder.DropTable(
                 name: "Chip");
@@ -1319,6 +1241,9 @@ namespace App_Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "TheNho");
+
+            migrationBuilder.DropTable(
+                name: "TheSim");
 
             migrationBuilder.DropTable(
                 name: "NguoiDung");

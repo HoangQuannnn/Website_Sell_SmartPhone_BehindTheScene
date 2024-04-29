@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App_Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240423193559_Done v1")]
-    partial class Donev1
+    [Migration("20240429090420_fixDatabase")]
+    partial class fixDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,37 +48,24 @@ namespace App_Data.Migrations
                     b.ToTable("Anh", (string)null);
                 });
 
-            modelBuilder.Entity("App_Data.Models.Camera", b =>
-                {
-                    b.Property<string>("IdCamera")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("DoPhanGiai")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaCamera")
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<int?>("TrangThai")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdCamera");
-
-                    b.ToTable("Camera", (string)null);
-                });
-
             modelBuilder.Entity("App_Data.Models.CameraSau", b =>
                 {
                     b.Property<string>("IdCameraSau")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DoPhanGiai")
+                    b.Property<string>("DoPhanGiaiCamera1")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdSanPhamChiTiet")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("DoPhanGiaiCamera2")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LoaiCamera")
+                    b.Property<string>("DoPhanGiaiCamera3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoPhanGiaiCamera4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoPhanGiaiCamera5")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaCameraSau")
@@ -89,8 +76,6 @@ namespace App_Data.Migrations
 
                     b.HasKey("IdCameraSau");
 
-                    b.HasIndex("IdSanPhamChiTiet");
-
                     b.ToTable("CameraSau", (string)null);
                 });
 
@@ -99,13 +84,10 @@ namespace App_Data.Migrations
                     b.Property<string>("IdCameraTruoc")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DoPhanGiai")
+                    b.Property<string>("DoPhanGiaiCamera1")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdSanPhamChiTiet")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoaiCamera")
+                    b.Property<string>("DoPhanGiaiCamera2")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaCameraTruoc")
@@ -115,8 +97,6 @@ namespace App_Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("IdCameraTruoc");
-
-                    b.HasIndex("IdSanPhamChiTiet");
 
                     b.ToTable("CameraTruoc", (string)null);
                 });
@@ -138,29 +118,6 @@ namespace App_Data.Migrations
                     b.HasKey("IdChip");
 
                     b.ToTable("Chip", (string)null);
-                });
-
-            modelBuilder.Entity("App_Data.Models.ChiTietCamera", b =>
-                {
-                    b.Property<string>("IdChiTietCamera")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("IdCamera")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("IdSanPhamChiTiet")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoaiCamera")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdChiTietCamera");
-
-                    b.HasIndex("IdCamera");
-
-                    b.HasIndex("IdSanPhamChiTiet");
-
-                    b.ToTable("ChiTietCamera", (string)null);
                 });
 
             modelBuilder.Entity("App_Data.Models.ChucVu", b =>
@@ -618,8 +575,8 @@ namespace App_Data.Migrations
                     b.Property<string>("IdManHinh")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("KichThuoc")
-                        .HasColumnType("int");
+                    b.Property<double?>("KichThuoc")
+                        .HasColumnType("float");
 
                     b.Property<string>("LoaiManHinh")
                         .HasColumnType("nvarchar(50)");
@@ -836,11 +793,9 @@ namespace App_Data.Migrations
                     b.Property<string>("MaRam")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("TenRam")
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int>("TrangThai")
-                        .HasColumnType("int");
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("IdRam");
 
@@ -859,11 +814,9 @@ namespace App_Data.Migrations
                     b.Property<string>("MaRom")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("TenRom")
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int>("TrangThai")
-                        .HasColumnType("int");
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("IdRom");
 
@@ -902,6 +855,14 @@ namespace App_Data.Migrations
 
                     b.Property<double?>("GiaThucTe")
                         .HasColumnType("float");
+
+                    b.Property<string>("IdCameraSau")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("IdCameraTruoc")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("IdChip")
                         .IsRequired()
@@ -943,6 +904,10 @@ namespace App_Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("IdTheSim")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<double?>("KhoiLuong")
                         .HasColumnType("float");
 
@@ -972,6 +937,10 @@ namespace App_Data.Migrations
 
                     b.HasKey("IdChiTietSp");
 
+                    b.HasIndex("IdCameraSau");
+
+                    b.HasIndex("IdCameraTruoc");
+
                     b.HasIndex("IdChip");
 
                     b.HasIndex("IdCongSac");
@@ -991,6 +960,8 @@ namespace App_Data.Migrations
                     b.HasIndex("IdSanPham");
 
                     b.HasIndex("IdTheNho");
+
+                    b.HasIndex("IdTheSim");
 
                     b.ToTable("SanPhamChiTiet", (string)null);
                 });
@@ -1045,14 +1016,14 @@ namespace App_Data.Migrations
                     b.Property<string>("IdTheSim")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Loaithesim")
-                        .HasColumnType("varchar(10)");
+                    b.Property<string>("LoaiTheSim1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LoaiTheSim2")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaTheSim")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SoKhaySim")
-                        .HasColumnType("int");
 
                     b.Property<int?>("TrangThai")
                         .HasColumnType("int");
@@ -1060,26 +1031,6 @@ namespace App_Data.Migrations
                     b.HasKey("IdTheSim");
 
                     b.ToTable("TheSim", (string)null);
-                });
-
-            modelBuilder.Entity("App_Data.Models.TheSimDienThoai", b =>
-                {
-                    b.Property<string>("IdTheSimDienThoai")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("IdSanPhamChiTiet")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("IdTheSim")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("IdTheSimDienThoai");
-
-                    b.HasIndex("IdSanPhamChiTiet");
-
-                    b.HasIndex("IdTheSim");
-
-                    b.ToTable("TheSimDienThoai", (string)null);
                 });
 
             modelBuilder.Entity("App_Data.Models.ThongTinGiaoHang", b =>
@@ -1294,39 +1245,6 @@ namespace App_Data.Migrations
                     b.Navigation("SanPhamChiTiets");
                 });
 
-            modelBuilder.Entity("App_Data.Models.CameraSau", b =>
-                {
-                    b.HasOne("App_Data.Models.SanPhamChiTiet", "SanPhamChiTiet")
-                        .WithMany("CameraSaus")
-                        .HasForeignKey("IdSanPhamChiTiet");
-
-                    b.Navigation("SanPhamChiTiet");
-                });
-
-            modelBuilder.Entity("App_Data.Models.CameraTruoc", b =>
-                {
-                    b.HasOne("App_Data.Models.SanPhamChiTiet", "SanPhamChiTiet")
-                        .WithMany("CameraTruocs")
-                        .HasForeignKey("IdSanPhamChiTiet");
-
-                    b.Navigation("SanPhamChiTiet");
-                });
-
-            modelBuilder.Entity("App_Data.Models.ChiTietCamera", b =>
-                {
-                    b.HasOne("App_Data.Models.Camera", "Camera")
-                        .WithMany("ChiTietCameras")
-                        .HasForeignKey("IdCamera");
-
-                    b.HasOne("App_Data.Models.SanPhamChiTiet", "SanPhamChiTiet")
-                        .WithMany("ChiTietCameras")
-                        .HasForeignKey("IdSanPhamChiTiet");
-
-                    b.Navigation("Camera");
-
-                    b.Navigation("SanPhamChiTiet");
-                });
-
             modelBuilder.Entity("App_Data.Models.DanhGia", b =>
                 {
                     b.HasOne("App_Data.Models.NguoiDung", "NguoiDung")
@@ -1476,6 +1394,18 @@ namespace App_Data.Migrations
 
             modelBuilder.Entity("App_Data.Models.SanPhamChiTiet", b =>
                 {
+                    b.HasOne("App_Data.Models.CameraSau", "CameraSau")
+                        .WithMany("SanPhamChiTiets")
+                        .HasForeignKey("IdCameraSau")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App_Data.Models.CameraTruoc", "CameraTruoc")
+                        .WithMany("SanPhamChiTiets")
+                        .HasForeignKey("IdCameraTruoc")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("App_Data.Models.Chip", "Chip")
                         .WithMany("SanPhamChiTiets")
                         .HasForeignKey("IdChip")
@@ -1536,6 +1466,16 @@ namespace App_Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("App_Data.Models.TheSim", "TheSim")
+                        .WithMany("SanPhamChiTiets")
+                        .HasForeignKey("IdTheSim")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CameraSau");
+
+                    b.Navigation("CameraTruoc");
+
                     b.Navigation("Chip");
 
                     b.Navigation("CongSac");
@@ -1555,6 +1495,8 @@ namespace App_Data.Migrations
                     b.Navigation("SanPham");
 
                     b.Navigation("TheNho");
+
+                    b.Navigation("TheSim");
                 });
 
             modelBuilder.Entity("App_Data.Models.SanPhamYeuThich", b =>
@@ -1570,21 +1512,6 @@ namespace App_Data.Migrations
                     b.Navigation("NguoiDung");
 
                     b.Navigation("SanPhamChiTiet");
-                });
-
-            modelBuilder.Entity("App_Data.Models.TheSimDienThoai", b =>
-                {
-                    b.HasOne("App_Data.Models.SanPhamChiTiet", "SanPhamChiTiet")
-                        .WithMany("TheSimDienThoais")
-                        .HasForeignKey("IdSanPhamChiTiet");
-
-                    b.HasOne("App_Data.Models.TheSim", "Thesim")
-                        .WithMany("TheSimDienThoais")
-                        .HasForeignKey("IdTheSim");
-
-                    b.Navigation("SanPhamChiTiet");
-
-                    b.Navigation("Thesim");
                 });
 
             modelBuilder.Entity("App_Data.Models.ThongTinGiaoHang", b =>
@@ -1662,9 +1589,14 @@ namespace App_Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("App_Data.Models.Camera", b =>
+            modelBuilder.Entity("App_Data.Models.CameraSau", b =>
                 {
-                    b.Navigation("ChiTietCameras");
+                    b.Navigation("SanPhamChiTiets");
+                });
+
+            modelBuilder.Entity("App_Data.Models.CameraTruoc", b =>
+                {
+                    b.Navigation("SanPhamChiTiets");
                 });
 
             modelBuilder.Entity("App_Data.Models.Chip", b =>
@@ -1768,12 +1700,6 @@ namespace App_Data.Migrations
                 {
                     b.Navigation("Anh");
 
-                    b.Navigation("CameraSaus");
-
-                    b.Navigation("CameraTruocs");
-
-                    b.Navigation("ChiTietCameras");
-
                     b.Navigation("DanhGias");
 
                     b.Navigation("GioHangChiTiet");
@@ -1785,8 +1711,6 @@ namespace App_Data.Migrations
                     b.Navigation("KhuyenMaiChiTiet");
 
                     b.Navigation("SanPhamYeuThichs");
-
-                    b.Navigation("TheSimDienThoais");
                 });
 
             modelBuilder.Entity("App_Data.Models.TheNho", b =>
@@ -1796,7 +1720,7 @@ namespace App_Data.Migrations
 
             modelBuilder.Entity("App_Data.Models.TheSim", b =>
                 {
-                    b.Navigation("TheSimDienThoais");
+                    b.Navigation("SanPhamChiTiets");
                 });
 
             modelBuilder.Entity("App_Data.Models.ThongTinGiaoHang", b =>

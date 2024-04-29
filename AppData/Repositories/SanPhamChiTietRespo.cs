@@ -1,6 +1,6 @@
 ﻿using App_Data.DbContext;
 using App_Data.IRepositories;
-using App_Data.Migrations;
+//using App_Data.Migrations;
 using App_Data.Models;
 using App_Data.ViewModels.FilterViewModel;
 using App_Data.ViewModels.SanPhamChiTietDTO;

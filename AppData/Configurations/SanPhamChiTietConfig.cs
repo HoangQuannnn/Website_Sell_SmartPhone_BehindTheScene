@@ -53,7 +53,7 @@ namespace App_Data.Configurations
             HasForeignKey(c => c.IdCameraTruoc);
 
             builder.HasOne(x => x.TheSim).WithMany(y => y.SanPhamChiTiets).
-            HasForeignKey(c => c.TheSim);
+            HasForeignKey(c => c.IdTheSim);
 
             builder.Property(x => x.Ma).HasColumnType("varchar(50)");
             builder.Property(x => x.NoiBat).HasColumnType("bit");

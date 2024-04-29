@@ -122,11 +122,11 @@
         }
     }
 
-    function Edit(id, loaiTheSim, loaiTheSim2, soBienTheDangDung, trangThai) {
+    function Edit(id, loaiTheSim1, loaiTheSim2, soBienTheDangDung, trangThai) {
         Swal.fire({
             title: 'Chỉnh sửa Thẻ Sim',
             html:
-                '<input id="loaiTheSim" class="swal2-input" value="' + loaiTheSim + '" placeholder="Loại Thẻ Sim 1">' +
+                '<input id="loaiTheSim1" class="swal2-input" value="' + loaiTheSim1 + '" placeholder="Loại Thẻ Sim 1">' +
                 '<input id="loaiTheSim2" class="swal2-input" value="' + loaiTheSim2 + '" placeholder="Loại Thẻ Sim 2">' +
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
@@ -140,7 +140,7 @@
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const enteredValue = document.getElementById('loaiTheSim').value;
+                const enteredValue = document.getElementById('loaiTheSim1').value;
                 const enteredValue1 = document.getElementById('loaiTheSim2').value;
                 const trangThaiValue = parseInt(document.getElementById('trangThai').value);
                 if (enteredValue !== '') {
@@ -155,7 +155,7 @@
                         if (result.isConfirmed) {
                             var data = {
                                 IdTheSim: id,
-                                LoaiTheSim: enteredValue,
+                                LoaiTheSim1: enteredValue,
                                 LoaiTheSim2: enteredValue1,
                                 TrangThai: trangThaiValue
                             };

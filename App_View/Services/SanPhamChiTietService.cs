@@ -215,14 +215,14 @@ namespace App_View.Services
             }
         }
 
-        public async Task<ChiTietCameraDTO?> CreateTenKieuDeGiayAynsc(ChiTietCameraDTO ChiTietCamera)
+        public async Task<CameraSauDTO?> CreateTenKieuDeGiayAynsc(CameraSauDTO cameraSauDTO)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-ChiTietCamera", ChiTietCamera);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-CameraSau", cameraSauDTO);
             try
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadAsAsync<ChiTietCameraDTO>();
+                    return await response.Content.ReadAsAsync<CameraSauDTO>();
                 }
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 throw new Exception("Not IsSuccessStatusCode");

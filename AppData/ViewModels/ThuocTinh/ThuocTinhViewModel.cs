@@ -25,5 +25,10 @@ namespace App_Data.ViewModels.ThuocTinh
         public double? KichThuoc { get;set; }
         public int? TanSoQuet { get; set; }
         public string? LoaiManHinh { get; set; }
+        public string? DoPhanGiaiCamera1 { get; set; }
+        public string? DoPhanGiaiCamera2 { get; set; }
+        public string? DoPhanGiaiCamera3 { get; set; }
+        public string? DoPhanGiaiCamera4 { get; set; }
+        public string? DoPhanGiaiCamera5 { get; set; }
     }
 }

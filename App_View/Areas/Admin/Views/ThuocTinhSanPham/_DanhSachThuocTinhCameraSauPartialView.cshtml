@@ -1,0 +1,314 @@
+﻿@using System.Web
+@model List<App_Data.ViewModels.ThuocTinh.ThuocTinhViewModel>
+<style>
+    thead {
+        background: #0eabe7;
+    }
+
+        thead > tr > th {
+            color: white !important;
+        }
+
+    .text-right .btn-success {
+        float: right;
+        margin-bottom: 10px;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+</style>
+<div style="padding: 20px;">
+    <div class="text-right mb-3">
+        <button type="button" class="btn btn-success" onclick="ThemCameraSau()">
+            <i class="fas fa-plus"></i> Thêm Camera Sau
+        </button>
+    </div>
+    <table id="data-table" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">STT</th>
+                <th class="text-center">Mã</th>
+                <th class="text-center">Độ phân giải camera 1</th>
+                <th class="text-center">Độ phân giải camera 2</th>
+                <th class="text-center">Độ phân giải camera 3</th>
+                <th class="text-center">Độ phân giải camera 4</th>
+                <th class="text-center">Độ phân giải camera 5</th>
+                <th class="text-center">Trạng thái</th>
+                <th class="text-center">###</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var STT = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@(STT++)</td>
+                    <td class="text-center">@item.Ma!.ToUpper()</td>
+                    <td class="text-center">@item.DoPhanGiaiCamera1!.ToUpper()</td>
+                    <td class="text-center">@item.DoPhanGiaiCamera2!.ToUpper()</td>
+                    <td class="text-center">@item.DoPhanGiaiCamera3!.ToUpper()</td>
+                    <td class="text-center">@item.DoPhanGiaiCamera4!.ToUpper()</td>
+                    <td class="text-center">@item.DoPhanGiaiCamera5!.ToUpper()</td>
+                    <td class="text-center">@item.TrangThai</td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera1))', '@item.DoPhanGiaiCamera2', '@item.DoPhanGiaiCamera3', '@item.DoPhanGiaiCamera4', '@item.DoPhanGiaiCamera5')">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera1))', '@item.DoPhanGiaiCamera2', '@item.DoPhanGiaiCamera3', '@item.DoPhanGiaiCamera4', '@item.DoPhanGiaiCamera5', '@item.SoBienTheDangDung', '@item.TrangThai')">
+                                <i class="anticon anticon-delete"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function DrawCameraSau() {
+        $.ajax({
+            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachCameraSau',
+            type: 'GET',
+            success: function (result) {
+                content.empty().append(result);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+            }
+        });
+    }
+    $('#data-table').Datatable();
+    function Delete(id) {
+        {
+            Swal.fire({
+                title: 'Xác nhận',
+                text: `Bạn có chắc chắn muốn xóa Camera Sau không?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Hủy',
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var data = {
+                        idCameraSau: id,
+                    };
+                    $.ajax({
+                        url: '/admin/thuoctinhsanpham/DeleteCameraSau',
+                        type: 'GET',
+                        data: data,
+                        success: function (result) {
+                            if (result) {
+                                DrawCameraSau();
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Đã xóa thành công',
+                                    'success'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            });
+
+        }
+    }
+
+    function Edit(id, doPhanGiaiCamera1, doPhanGiaiCamera2, doPhanGiaiCamera3, doPhanGiaiCamera4, doPhanGiaiCamera5, soBienTheDangDung, trangThai) {
+        Swal.fire({
+            title: 'Chỉnh sửa Camera Sau',
+            html:
+                '<input id="doPhanGiaiCamera1" class="swal2-input" value="' + doPhanGiaiCamera1 + '" placeholder="Độ phân giải camera 1">' +
+                '<input id="doPhanGiaiCamera2" class="swal2-input" value="' + doPhanGiaiCamera2 + '" placeholder="Độ phân giải camera 2">' +
+                '<input id="doPhanGiaiCamera3" class="swal2-input" value="' + doPhanGiaiCamera3 + '" placeholder="Độ phân giải camera 3">' +
+                '<input id="doPhanGiaiCamera4" class="swal2-input" value="' + doPhanGiaiCamera4 + '" placeholder="Độ phân giải camera 4">' +
+                '<input id="doPhanGiaiCamera5" class="swal2-input" value="' + doPhanGiaiCamera5 + '" placeholder="Độ phân giải camera 5">' +
+                
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0" ' + (trangThai == 0 ? "selected" : "") + '>Hoạt động</option>' +
+                '        <option value="1" ' + (trangThai == 1 ? "selected" : "") + '>Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
+            showCancelButton: true,
+            confirmButtonText: 'Lưu',
+            cancelButtonText: 'Hủy',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const enteredValue = document.getElementById('doPhanGiaiCamera1').value;
+                const enteredValue1 = document.getElementById('doPhanGiaiCamera2').value;
+                const enteredValue2 = document.getElementById('doPhanGiaiCamera3').value;
+                const enteredValue3 = document.getElementById('doPhanGiaiCamera4').value;
+                const enteredValue4 = document.getElementById('doPhanGiaiCamera5').value;
+                const trangThaiValue = parseInt(document.getElementById('trangThai').value);
+                if (enteredValue !== '') {
+                    Swal.fire({
+                        title: 'Xác nhận',
+                        text: `Bạn có chắc chắn muốn thay đổi camera sau, việc thay đổi camera sau sẽ làm cho camera sau của ${soBienTheDangDung} biến thể thay đổi theo?`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Hủy',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var data = {
+                                IdTheSim: id,
+                                DoPhanGiaiCamera1: enteredValue,
+                                DoPhanGiaiCamera2: enteredValue1,
+                                DoPhanGiaiCamera3: enteredValue2,
+                                DoPhanGiaiCamera4: enteredValue3,
+                                DoPhanGiaiCamera5: enteredValue4,
+                                TrangThai: trangThaiValue
+                            };
+                            $.ajax({
+                                url: '/admin/thuoctinhsanpham/EditCameraSau',
+                                type: 'POST',
+                                data: JSON.stringify(data),
+                                contentType: 'application/json',
+                                success: function (result) {
+                                    if (result) {
+                                        DrawCameraSau();
+                                        Swal.fire(
+                                            'Thông báo!',
+                                            'Cập nhật thành công!',
+                                            'success'
+                                        );
+                                    } else {
+                                        Swal.fire(
+                                            'Thông báo',
+                                            'Cập nhật thất bại!',
+                                            'info'
+                                        );
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log(xhr.responseText);
+                                    console.log(status);
+                                    console.log(error);
+                                    console.log(xhr);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        'Vui lòng nhập giá trị.',
+                        'error'
+                    );
+                }
+            }
+        });
+    }
+
+
+    function ThemCameraSau() {
+        Swal.fire({
+            title: 'Thêm Camera Sau Mới',
+            html:
+                '<input id="doPhanGiaiCamera1" class="swal2-input" placeholder="Độ phân giải camera 1">' +
+                '<input id="doPhanGiaiCamera2" class="swal2-input" placeholder="Độ phân giải camera 2">' +
+                '<input id="doPhanGiaiCamera3" class="swal2-input" placeholder="Độ phân giải camera 3">' +
+                '<input id="doPhanGiaiCamera4" class="swal2-input" placeholder="Độ phân giải camera 4">' +
+                '<input id="doPhanGiaiCamera5" class="swal2-input" placeholder="Độ phân giải camera 5">' +
+                
+                '<div class="form-group">' +
+                '    <label for="trangThai">Trạng thái:</label>' +
+                '    <select class="form-control" id="trangThai">' +
+                '        <option value="0">Hoạt động</option>' +
+                '        <option value="1">Không hoạt động</option>' +
+                '    </select>' +
+                '</div>',
+            showCancelButton: true,
+            confirmButtonText: 'Thêm',
+            cancelButtonText: 'Hủy',
+            preConfirm: () => {
+                const doPhanGiaiCamera1 = document.getElementById('doPhanGiaiCamera1').value;
+                const doPhanGiaiCamera2 = document.getElementById('doPhanGiaiCamera2').value;
+                const doPhanGiaiCamera3 = document.getElementById('doPhanGiaiCamera3').value;
+                const doPhanGiaiCamera4 = document.getElementById('doPhanGiaiCamera4').value;
+                const doPhanGiaiCamera5 = document.getElementById('doPhanGiaiCamera5').value;
+                
+                const trangThai = document.getElementById('trangThai').value;
+                return { doPhanGiaiCamera1: doPhanGiaiCamera1, doPhanGiaiCamera2: doPhanGiaiCamera2, doPhanGiaiCamera3: doPhanGiaiCamera3, doPhanGiaiCamera4: doPhanGiaiCamera4, doPhanGiaiCamera5: doPhanGiaiCamera5, trangThai: parseInt(trangThai) };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const data = result.value;
+                if (data.doPhanGiaiCamera1 !== '' && data.trangThai !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm Camera Sau mới vào cơ sở dữ liệu
+                    $.ajax({
+                        url: '/admin/thuoctinhsanpham/CreateCameraSau',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result) {
+                                DrawCameraSau();
+                                Swal.fire(
+                                    'Thông báo!',
+                                    'Thêm Camera Sau mới thành công!',
+                                    'success'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Thêm Camera Sau mới thất bại hoặc độ phân giải camera đã tồn tại.',
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            if (xhr.status === 400) {
+                                Swal.fire(
+                                    'Thông báo',
+                                    'Độ phân giải camera đã tồn tại.',
+                                    'error'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Đã xảy ra lỗi khi thêm Camera Sau mới!',
+                                    'error'
+                                );
+                            }
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        'Vui lòng nhập đầy đủ thông tin.',
+                        'error'
+                    );
+                }
+            }
+        });
+    }
+
+</script>
+<script>
+    $('#data-table').Datatable();
+</script>
+<script src="~/Admin/vendors/datatables/jquery.dataTables.min.js" defer></script>
+<script src="~/Admin/vendors/datatables/dataTables.bootstrap.min.js" defer></script>
+<script src="~/Admin/js/pages/datatables.js" defer></script>

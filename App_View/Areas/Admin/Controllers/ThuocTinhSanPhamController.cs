@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App_Data.ViewModels.PinDTO;
 using App_Data.ViewModels.TheSimDTO;
+using App_Data.ViewModels.CameraSauDTO;
 using App_Data.Models;
 
 namespace App_View.Areas.Admin.Controllers
@@ -87,6 +88,28 @@ namespace App_View.Areas.Admin.Controllers
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhTheSimPartialView", lstTheSim);
+        }
+        public IActionResult LoadPartialViewDanhSachCameraSau()
+        {
+            var lstCameraSau = _context
+                .CameraSaus
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdCameraSau,
+                    Ma = it.MaCameraSau,
+                    DoPhanGiaiCamera1 = it.DoPhanGiaiCamera1,
+                    DoPhanGiaiCamera2 = it.DoPhanGiaiCamera2,
+                    DoPhanGiaiCamera3 = it.DoPhanGiaiCamera3,
+                    DoPhanGiaiCamera4 = it.DoPhanGiaiCamera4,
+                    DoPhanGiaiCamera5 = it.DoPhanGiaiCamera5,
+                    SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdCameraSau == it.IdCameraSau).Count(),
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhCameraSauPartialView", lstCameraSau);
         }
         public IActionResult LoadPartialViewDanhSachTheNho()
         {
@@ -349,6 +372,72 @@ namespace App_View.Areas.Admin.Controllers
                 }
 
                 var response = await _httpClient.PostAsJsonAsync("/api/TheSim/Create-TheSim", theSimDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
+        public async Task<IActionResult> DeleteCameraSau(string idCameraSau)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/CameraSau/{idCameraSau}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditCameraSau([FromBody] CameraSauDTO cameraSauDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/CameraSau", cameraSauDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        private async Task<bool> CheckCameraSauExists(string doPhanGiaiCamera1, string doPhanGiaiCamera2, string doPhanGiaiCamera3, string doPhanGiaiCamera4, string doPhanGiaiCamera5)
+        {
+            try
+            {
+                var existingCameraSau = await _context.CameraSaus.AnyAsync(r => r.DoPhanGiaiCamera1 == doPhanGiaiCamera1 && r.DoPhanGiaiCamera2 == doPhanGiaiCamera2 && r.DoPhanGiaiCamera3 == doPhanGiaiCamera3 && r.DoPhanGiaiCamera4 == doPhanGiaiCamera4 && r.DoPhanGiaiCamera5 == doPhanGiaiCamera5);
+                return existingCameraSau;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCameraSau([FromBody] CameraSauDTO cameraSauDTO)
+        {
+            try
+            {
+                var checkCameraSau = new CameraSau
+                {
+                    DoPhanGiaiCamera1 = cameraSauDTO.DoPhanGiaiCamera1,
+                    DoPhanGiaiCamera2 = cameraSauDTO.DoPhanGiaiCamera2,
+                    DoPhanGiaiCamera3 = cameraSauDTO.DoPhanGiaiCamera3,
+                    DoPhanGiaiCamera4 = cameraSauDTO.DoPhanGiaiCamera4,
+                    DoPhanGiaiCamera5 = cameraSauDTO.DoPhanGiaiCamera5
+                    
+                };
+                var cameraSauExists = await CheckCameraSauExists(checkCameraSau.DoPhanGiaiCamera1, checkCameraSau.DoPhanGiaiCamera2, checkCameraSau.DoPhanGiaiCamera3, checkCameraSau.DoPhanGiaiCamera4, checkCameraSau.DoPhanGiaiCamera5);
+
+                if (cameraSauExists)
+                {
+                    return BadRequest("Độ phân giải camera đã tồn tại.");
+                }
+
+                var response = await _httpClient.PostAsJsonAsync("/api/CameraSau/Create-CameraSau", cameraSauDTO);
 
                 if (response.IsSuccessStatusCode)
                 {

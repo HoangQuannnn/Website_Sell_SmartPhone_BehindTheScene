@@ -682,6 +682,24 @@ namespace App_Api.Controllers
         public List<Hang>? GetListModelHang()
         {
             return _hangs.GetAll().ToList();
+        }  
+        
+        [HttpGet("Get-List-TheSim")]
+        public List<TheSim>? GetListModelTheSim()
+        {
+            return _theSimRes.GetAll().ToList();
+        } 
+        
+        [HttpGet("Get-List-CameraTruoc")]
+        public List<CameraTruoc>? GetListModelCameraTruoc()
+        {
+            return _cameraTruocRes.GetAll().ToList();
+        }
+        
+        [HttpGet("Get-List-CameraSau")]
+        public List<CameraSau>? GetListModelCameraSau()
+        {
+            return _cameraSauRes.GetAll().ToList();
         }
         #endregion
 

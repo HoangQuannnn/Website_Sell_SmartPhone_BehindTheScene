@@ -50,6 +50,9 @@ namespace App_Data.ViewModels.SanPhamChiTietDTO
         public string? IdManHinh { get; set; }
         public string? IdTheNho { get; set; }
         public string? IdPin { get; set; }
+        public string? IdTheSim { get; set; }
+        public string? IdCameraTruoc { get; set; }
+        public string? IdCameraSau { get; set; }
         public List<string>? DanhSachAnh { get; set; }
     }
 }

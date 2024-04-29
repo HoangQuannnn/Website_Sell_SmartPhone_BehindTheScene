@@ -677,19 +677,19 @@ namespace App_View.Services
             return (await _httpClient.GetFromJsonAsync<List<TheNho>?>("/api/SanPhamChiTiet/Get-List-TheNho"))!;
         }
 
-        public Task<List<TheSim>> GetListModelTheSimAsync()
+        public async Task<List<TheSim>> GetListModelTheSimAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<TheSim>?>("/api/SanPhamChiTiet/Get-List-TheSim"))!;
         }
 
-        public Task<List<CameraTruoc>> GetListModelCameraTruocAsync()
+        public async Task<List<CameraTruoc>> GetListModelCameraTruocAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<CameraTruoc>?>("/api/SanPhamChiTiet/Get-List-CameraTruoc"))!;
         }
 
-        public Task<List<CameraSau>> GetListModelCameraSauAsync()
+        public async Task<List<CameraSau>> GetListModelCameraSauAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<CameraSau>?>("/api/SanPhamChiTiet/Get-List-CameraSau"))!;
         }
 
         public async Task<List<ManHinh>> GetListModelManHinhAsync()

@@ -906,17 +906,101 @@ namespace App_View.Areas.Admin.Controllers
         // GET: Admin/SanPhamChiTiet/ManageSanPham
         public async Task<IActionResult> ManageSanPham()
         {
+            var simList = await _SanPhamChiTietservice.GetListModelTheSimAsync();
+            var selectListItems = new List<SelectListItem>();
+
+            foreach (var item in simList)
+            {
+                string displayText = !string.IsNullOrEmpty(item.LoaiTheSim2) ? $"{item.LoaiTheSim1} & {item.LoaiTheSim2}" : item.LoaiTheSim1;
+
+                selectListItems.Add(new SelectListItem
+                {
+                    Value = item.IdTheSim.ToString(),
+                    Text = displayText
+                });
+            }
+
+            var manHinhList = await _SanPhamChiTietservice.GetListModelManHinhAsync();
+            var combinedManHinhList = manHinhList.Select(item => new {
+                IdManHinh = item.IdManHinh,
+                DisplayValue = $"{item.LoaiManHinh} - {item.KichThuoc}\" "
+            }).ToList();
+
+            var cameraTruocList = await _SanPhamChiTietservice.GetListModelCameraTruocAsync();
+            var combinedCameraTruocList = cameraTruocList.Select(item => new {
+                IdCameraTruoc = item.IdCameraTruoc,
+                DisplayValue = GetCombinedResolution1(item)
+            }).ToList();
+
+            var cameraSauList = await _SanPhamChiTietservice.GetListModelCameraSauAsync();
+            var combinedCameraSauList = cameraSauList.Select(item => new {
+                IdCameraSau = item.IdCameraSau,
+                DisplayValue = GetCombinedResolution(item)
+            }).ToList();
+
+            // Set các SelectList vào ViewData
+            ViewData["IdManHinh"] = new SelectList(combinedManHinhList, "IdManHinh", "DisplayValue");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
             ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
-            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "DungLuong");
             ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
             ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
-            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
+            ViewData["IdTheSim"] = new SelectList(selectListItems, "Value", "Text");
+            ViewData["IdCameraTruoc"] = new SelectList(combinedCameraTruocList, "IdCameraTruoc", "DisplayValue");
+            ViewData["IdCameraSau"] = new SelectList(combinedCameraSauList, "IdCameraSau", "DisplayValue");
+
             return View();
+        }
+
+        // Phương thức để kết hợp độ phân giải của camera
+        private string GetCombinedResolution(CameraSau item)
+        {
+            // Kiểm tra và kết hợp các giá trị độ phân giải
+            List<string> resolutions = new List<string>();
+            if (!string.IsNullOrEmpty(item.DoPhanGiaiCamera1))
+            {
+                resolutions.Add(item.DoPhanGiaiCamera1);
+            }
+            if (!string.IsNullOrEmpty(item.DoPhanGiaiCamera2))
+            {
+                resolutions.Add(item.DoPhanGiaiCamera2);
+            }
+            if (!string.IsNullOrEmpty(item.DoPhanGiaiCamera3))
+            {
+                resolutions.Add(item.DoPhanGiaiCamera3);
+            }
+            if (!string.IsNullOrEmpty(item.DoPhanGiaiCamera4))
+            {
+                resolutions.Add(item.DoPhanGiaiCamera4);
+            }
+            if (!string.IsNullOrEmpty(item.DoPhanGiaiCamera5))
+            {
+                resolutions.Add(item.DoPhanGiaiCamera5);
+            }
+
+            // Trả về chuỗi kết hợp
+            return string.Join(" & ", resolutions);
+        } 
+        
+        private string GetCombinedResolution1 (CameraTruoc item)
+        {
+            // Kiểm tra và kết hợp các giá trị độ phân giải
+            List<string> resolutions = new List<string>();
+            if (!string.IsNullOrEmpty(item.DoPhanGiaiCamera1))
+            {
+                resolutions.Add(item.DoPhanGiaiCamera1);
+            }
+            if (!string.IsNullOrEmpty(item.DoPhanGiaiCamera2))
+            {
+                resolutions.Add(item.DoPhanGiaiCamera2);
+            }
+
+            // Trả về chuỗi kết hợp
+            return string.Join(" & ", resolutions);
         }
 
         public async Task<IActionResult> LoadPartialView(string idSanPhamChiTiet)

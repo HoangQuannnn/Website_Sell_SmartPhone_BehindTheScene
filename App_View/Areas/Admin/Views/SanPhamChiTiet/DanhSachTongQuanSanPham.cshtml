@@ -230,15 +230,6 @@
                                 }
                             </select>
                         </div>
-                       @*  <div class="m-b-10 ml-1">
-                            <select class="select2_active" style="min-width: 180px;" id="filterCamera">
-                                <option value="" selected="">Camera</option>
-                                @foreach (var item in (SelectList)ViewData["IdCamera"]!)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                        </div>
                         <div class="m-b-10 ml-1">
                             <select class="select2_active" style="min-width: 180px;" id="filterTheSim">
                                 <option value="" selected="">Thẻ Sim</option>
@@ -247,7 +238,27 @@
                                     <option value="@item.Value">@item.Text</option>
                                 }
                             </select>
-                        </div> *@
+                        </div>
+                        <div class="m-b-10 ml-1">
+                            <select class="select2_active" style="min-width: 180px;" id="filterCameraTruoc">
+                                <option value="" selected="">Camera Trước</option>
+                                @foreach (var item in (SelectList)ViewData["IdCameraTruoc"]!)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>  
+                        
+                        <div class="m-b-10 ml-1">
+                            <select class="select2_active" style="min-width: 180px;" id="filterCameraSau">
+                                <option value="" selected="">Camera Sau</option>
+                                @foreach (var item in (SelectList)ViewData["IdCameraSau"]!)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                      
                         <div class="m-b-10 ml-1">
                             <button class="btn btn-kio" onclick="window.location.href='/Admin/SanPhamChiTiet/TongQuanSanPham'">
                                 <i class="anticon anticon-delete m-r-5"></i>
@@ -268,7 +279,8 @@
 <script>
     var soLuongUpdate;
     var idSanPham;
-    var idCamera;
+    var idCameraTruoc;
+    var idCameraSau;
     var idChip;
     var idCongSac;
     var idManHinh;
@@ -298,7 +310,8 @@
                     SearchValue: e.search.value,
                     IdSanPham: idSanPham,
                     IdHang: idHang,
-                    IdCamera: idCamera,
+                    IdCameraTruoc: idCameraTruoc,
+                    IdCameraSau: idCameraSau,
                     IdChip: idChip,
                     IdCongSac: idCongSac,
                     IdManHinh: idManHinh,
@@ -356,6 +369,21 @@
             data: 'TheNho',
             title: 'Thẻ nhớ',
             orderable: false
+        }, 
+        {
+            data: 'TheSim',
+            title: 'Thẻ sim',
+            orderable: false
+        }, 
+        {
+            data: 'CameraTruoc',
+            title: 'Camera Trước',
+            orderable: false
+        },  
+        {
+            data: 'CameraSau',
+            title: 'Camera Sau',
+            orderable: false
         },
         {
             data: 'SoMau',
@@ -393,7 +421,7 @@
                     "sumGuid": data.SumGuild
                 },
                 success: function (result) {
-                            $('#ModalLabelDanhSach').text(`${data.Hang.toUpperCase()} - ${data.SanPham.toUpperCase()} - ${data.Chip.toUpperCase()} - ${data.CongSac.toUpperCase()} - ${data.ManHinh.toUpperCase()} - ${data.Pin.toUpperCase()} - ${data.TheNho.toUpperCase()}`);
+                            $('#ModalLabelDanhSach').text(`${data.Hang.toUpperCase()} - ${data.SanPham.toUpperCase()} - ${data.Chip.toUpperCase()} - ${data.CongSac.toUpperCase()} - ${data.ManHinh.toUpperCase()} - ${data.Pin.toUpperCase()} - ${data.TheNho.toUpperCase()} -  ${data.TheSim.toUpperCase()}  -  ${data.CameraTruoc.toUpperCase()}  -  ${data.CameraSau.toUpperCase()}`);
                     $('#modal-dssanpham').empty().html(result);
                     $('#exampleModal').modal('show');
                 },
@@ -452,6 +480,16 @@
         
         $('#filterTheSim').on('change', function () {
             idTheSim = $(this).val();
+            tableDSTongQuan.draw();
+        }); 
+        
+        $('#filterCameraTruoc').on('change', function () {
+            idCameraTruoc = $(this).val();
+            tableDSTongQuan.draw();
+        }); 
+        
+        $('#filterCameraSau').on('change', function () {
+            idCameraSau = $(this).val();
             tableDSTongQuan.draw();
         });
     }

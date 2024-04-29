@@ -67,16 +67,52 @@ namespace App_View.Areas.Admin.Controllers
         // GET: Admin/SanPhamChiTiet/DanhSachSanPham
         public async Task<IActionResult> DanhSachSanPham()
         {
+            var simList = await _SanPhamChiTietservice.GetListModelTheSimAsync();
+            var selectListItems = new List<SelectListItem>();
+
+            foreach (var item in simList)
+            {
+                string displayText = !string.IsNullOrEmpty(item.LoaiTheSim2) ? $"{item.LoaiTheSim1} & {item.LoaiTheSim2}" : item.LoaiTheSim1;
+
+                selectListItems.Add(new SelectListItem
+                {
+                    Value = item.IdTheSim.ToString(),
+                    Text = displayText
+                });
+            }
+
+            var manHinhList = await _SanPhamChiTietservice.GetListModelManHinhAsync();
+            var combinedManHinhList = manHinhList.Select(item => new {
+                IdManHinh = item.IdManHinh,
+                DisplayValue = $"{item.LoaiManHinh} - {item.KichThuoc}\" "
+            }).ToList();
+
+            var cameraTruocList = await _SanPhamChiTietservice.GetListModelCameraTruocAsync();
+            var combinedCameraTruocList = cameraTruocList.Select(item => new {
+                IdCameraTruoc = item.IdCameraTruoc,
+                DisplayValue = GetCombinedResolution1(item)
+            }).ToList();
+
+            var cameraSauList = await _SanPhamChiTietservice.GetListModelCameraSauAsync();
+            var combinedCameraSauList = cameraSauList.Select(item => new {
+                IdCameraSau = item.IdCameraSau,
+                DisplayValue = GetCombinedResolution(item)
+            }).ToList();
+
+            // Set các SelectList vào ViewData
+            ViewData["IdManHinh"] = new SelectList(combinedManHinhList, "IdManHinh", "DisplayValue");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
             ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
-            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "DungLuong");
             ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
             ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
-            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
+            ViewData["IdTheSim"] = new SelectList(selectListItems, "Value", "Text");
+            ViewData["IdCameraTruoc"] = new SelectList(combinedCameraTruocList, "IdCameraTruoc", "DisplayValue");
+            ViewData["IdCameraSau"] = new SelectList(combinedCameraSauList, "IdCameraSau", "DisplayValue");
             return View();
         }
 
@@ -758,16 +794,52 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetPartialViewListUpdate([FromBody] ListGuildDTO listGuildDTO)
         {
+            var simList = await _SanPhamChiTietservice.GetListModelTheSimAsync();
+            var selectListItems = new List<SelectListItem>();
+
+            foreach (var item in simList)
+            {
+                string displayText = !string.IsNullOrEmpty(item.LoaiTheSim2) ? $"{item.LoaiTheSim1} & {item.LoaiTheSim2}" : item.LoaiTheSim1;
+
+                selectListItems.Add(new SelectListItem
+                {
+                    Value = item.IdTheSim.ToString(),
+                    Text = displayText
+                });
+            }
+
+            var manHinhList = await _SanPhamChiTietservice.GetListModelManHinhAsync();
+            var combinedManHinhList = manHinhList.Select(item => new {
+                IdManHinh = item.IdManHinh,
+                DisplayValue = $"{item.LoaiManHinh} - {item.KichThuoc}\" "
+            }).ToList();
+
+            var cameraTruocList = await _SanPhamChiTietservice.GetListModelCameraTruocAsync();
+            var combinedCameraTruocList = cameraTruocList.Select(item => new {
+                IdCameraTruoc = item.IdCameraTruoc,
+                DisplayValue = GetCombinedResolution1(item)
+            }).ToList();
+
+            var cameraSauList = await _SanPhamChiTietservice.GetListModelCameraSauAsync();
+            var combinedCameraSauList = cameraSauList.Select(item => new {
+                IdCameraSau = item.IdCameraSau,
+                DisplayValue = GetCombinedResolution(item)
+            }).ToList();
+
+            // Set các SelectList vào ViewData
+            ViewData["IdManHinh"] = new SelectList(combinedManHinhList, "IdManHinh", "DisplayValue");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
             ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
-            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "DungLuong");
             ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
             ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
-            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
+            ViewData["IdTheSim"] = new SelectList(selectListItems, "Value", "Text");
+            ViewData["IdCameraTruoc"] = new SelectList(combinedCameraTruocList, "IdCameraTruoc", "DisplayValue");
+            ViewData["IdCameraSau"] = new SelectList(combinedCameraSauList, "IdCameraSau", "DisplayValue");
             var model = await _SanPhamChiTietservice.GetListSanPhamChiTietDTOAsync(listGuildDTO);
             return PartialView("_DanhSachSanPhamUpdate", model);
         }
@@ -775,16 +847,52 @@ namespace App_View.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPartialViewSanPhamCopy(string IdSanPhamChiTiet)
         {
+            var simList = await _SanPhamChiTietservice.GetListModelTheSimAsync();
+            var selectListItems = new List<SelectListItem>();
+
+            foreach (var item in simList)
+            {
+                string displayText = !string.IsNullOrEmpty(item.LoaiTheSim2) ? $"{item.LoaiTheSim1} & {item.LoaiTheSim2}" : item.LoaiTheSim1;
+
+                selectListItems.Add(new SelectListItem
+                {
+                    Value = item.IdTheSim.ToString(),
+                    Text = displayText
+                });
+            }
+
+            var manHinhList = await _SanPhamChiTietservice.GetListModelManHinhAsync();
+            var combinedManHinhList = manHinhList.Select(item => new {
+                IdManHinh = item.IdManHinh,
+                DisplayValue = $"{item.LoaiManHinh} - {item.KichThuoc}\" "
+            }).ToList();
+
+            var cameraTruocList = await _SanPhamChiTietservice.GetListModelCameraTruocAsync();
+            var combinedCameraTruocList = cameraTruocList.Select(item => new {
+                IdCameraTruoc = item.IdCameraTruoc,
+                DisplayValue = GetCombinedResolution1(item)
+            }).ToList();
+
+            var cameraSauList = await _SanPhamChiTietservice.GetListModelCameraSauAsync();
+            var combinedCameraSauList = cameraSauList.Select(item => new {
+                IdCameraSau = item.IdCameraSau,
+                DisplayValue = GetCombinedResolution(item)
+            }).ToList();
+
+            // Set các SelectList vào ViewData
+            ViewData["IdManHinh"] = new SelectList(combinedManHinhList, "IdManHinh", "DisplayValue");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
             ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
-            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "DungLuong");
             ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
             ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
-            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
+            ViewData["IdTheSim"] = new SelectList(selectListItems, "Value", "Text");
+            ViewData["IdCameraTruoc"] = new SelectList(combinedCameraTruocList, "IdCameraTruoc", "DisplayValue");
+            ViewData["IdCameraSau"] = new SelectList(combinedCameraSauList, "IdCameraSau", "DisplayValue");
 
             var model = (await _SanPhamChiTietservice
                 .GetListSanPhamChiTietDTOAsync(new ListGuildDTO()
@@ -1119,16 +1227,52 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<IActionResult> DanhSachTongQuanSanPham()
         {
+            var simList = await _SanPhamChiTietservice.GetListModelTheSimAsync();
+            var selectListItems = new List<SelectListItem>();
+
+            foreach (var item in simList)
+            {
+                string displayText = !string.IsNullOrEmpty(item.LoaiTheSim2) ? $"{item.LoaiTheSim1} & {item.LoaiTheSim2}" : item.LoaiTheSim1;
+
+                selectListItems.Add(new SelectListItem
+                {
+                    Value = item.IdTheSim.ToString(),
+                    Text = displayText
+                });
+            }
+
+            var manHinhList = await _SanPhamChiTietservice.GetListModelManHinhAsync();
+            var combinedManHinhList = manHinhList.Select(item => new {
+                IdManHinh = item.IdManHinh,
+                DisplayValue = $"{item.LoaiManHinh} - {item.KichThuoc}\" "
+            }).ToList();
+
+            var cameraTruocList = await _SanPhamChiTietservice.GetListModelCameraTruocAsync();
+            var combinedCameraTruocList = cameraTruocList.Select(item => new {
+                IdCameraTruoc = item.IdCameraTruoc,
+                DisplayValue = GetCombinedResolution1(item)
+            }).ToList();
+
+            var cameraSauList = await _SanPhamChiTietservice.GetListModelCameraSauAsync();
+            var combinedCameraSauList = cameraSauList.Select(item => new {
+                IdCameraSau = item.IdCameraSau,
+                DisplayValue = GetCombinedResolution(item)
+            }).ToList();
+
+            // Set các SelectList vào ViewData
+            ViewData["IdManHinh"] = new SelectList(combinedManHinhList, "IdManHinh", "DisplayValue");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
             ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
-            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "DungLuong");
             ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
             ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
-            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
+            ViewData["IdTheSim"] = new SelectList(selectListItems, "Value", "Text");
+            ViewData["IdCameraTruoc"] = new SelectList(combinedCameraTruocList, "IdCameraTruoc", "DisplayValue");
+            ViewData["IdCameraSau"] = new SelectList(combinedCameraSauList, "IdCameraSau", "DisplayValue");
             return PartialView();
         }
 
@@ -1195,16 +1339,52 @@ namespace App_View.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> LoadPartialViewUpdate(string idSanPhamChiTiet)
         {
+            var simList = await _SanPhamChiTietservice.GetListModelTheSimAsync();
+            var selectListItems = new List<SelectListItem>();
+
+            foreach (var item in simList)
+            {
+                string displayText = !string.IsNullOrEmpty(item.LoaiTheSim2) ? $"{item.LoaiTheSim1} & {item.LoaiTheSim2}" : item.LoaiTheSim1;
+
+                selectListItems.Add(new SelectListItem
+                {
+                    Value = item.IdTheSim.ToString(),
+                    Text = displayText
+                });
+            }
+
+            var manHinhList = await _SanPhamChiTietservice.GetListModelManHinhAsync();
+            var combinedManHinhList = manHinhList.Select(item => new {
+                IdManHinh = item.IdManHinh,
+                DisplayValue = $"{item.LoaiManHinh} - {item.KichThuoc}\" "
+            }).ToList();
+
+            var cameraTruocList = await _SanPhamChiTietservice.GetListModelCameraTruocAsync();
+            var combinedCameraTruocList = cameraTruocList.Select(item => new {
+                IdCameraTruoc = item.IdCameraTruoc,
+                DisplayValue = GetCombinedResolution1(item)
+            }).ToList();
+
+            var cameraSauList = await _SanPhamChiTietservice.GetListModelCameraSauAsync();
+            var combinedCameraSauList = cameraSauList.Select(item => new {
+                IdCameraSau = item.IdCameraSau,
+                DisplayValue = GetCombinedResolution(item)
+            }).ToList();
+
+            // Set các SelectList vào ViewData
+            ViewData["IdManHinh"] = new SelectList(combinedManHinhList, "IdManHinh", "DisplayValue");
             ViewData["IdRam"] = new SelectList(await _SanPhamChiTietservice.GetListModelRamAsync(), "IdRam", "DungLuong");
             ViewData["IdRom"] = new SelectList(await _SanPhamChiTietservice.GetListModelRomAsync(), "IdRom", "DungLuong");
             ViewData["IdMauSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelMauSacAsync(), "IdMauSac", "TenMauSac");
             ViewData["IdSanPham"] = new SelectList(await _SanPhamChiTietservice.GetListModelSanPhamAsync(), "IdSanPham", "TenSanPham");
             ViewData["IdChip"] = new SelectList(await _SanPhamChiTietservice.GetListModelChipAsync(), "IdChip", "TenChip");
             ViewData["IdHang"] = new SelectList(await _SanPhamChiTietservice.GetListModelHangAsync(), "IdHang", "TenHang");
-            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "LoaiPin");
+            ViewData["IdPin"] = new SelectList(await _SanPhamChiTietservice.GetListModelPinAsync(), "IdPin", "DungLuong");
             ViewData["IdTheNho"] = new SelectList(await _SanPhamChiTietservice.GetListModelTheNhoAsync(), "IdTheNho", "LoaiTheNho");
             ViewData["IdCongSac"] = new SelectList(await _SanPhamChiTietservice.GetListModelCongSacAsync(), "IdCongSac", "LoaiCongSac");
-            ViewData["IdManHinh"] = new SelectList(await _SanPhamChiTietservice.GetListModelManHinhAsync(), "IdManHinh", "LoaiManHinh");
+            ViewData["IdTheSim"] = new SelectList(selectListItems, "Value", "Text");
+            ViewData["IdCameraTruoc"] = new SelectList(combinedCameraTruocList, "IdCameraTruoc", "DisplayValue");
+            ViewData["IdCameraSau"] = new SelectList(combinedCameraSauList, "IdCameraSau", "DisplayValue");
             var model = await _SanPhamChiTietservice.GetListSanPhamChiTietDTOAsync(new ListGuildDTO()
             {
                 listGuild = new List<string>() { idSanPhamChiTiet }

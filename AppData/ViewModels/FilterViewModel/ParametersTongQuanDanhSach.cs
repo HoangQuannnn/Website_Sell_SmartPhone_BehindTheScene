@@ -19,5 +19,8 @@ namespace App_Data.ViewModels.FilterViewModel
         public string? IdCongSac { get; set; }
         public string? IdPin { get; set; }
         public string? IdTheNho { get; set; }
+        public string? IdTheSim { get; set; }
+        public string? IdCameraTruoc { get; set; }
+        public string? IdCameraSau { get; set; }
     }
 }

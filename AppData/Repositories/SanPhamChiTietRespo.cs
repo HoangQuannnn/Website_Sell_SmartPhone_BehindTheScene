@@ -687,7 +687,7 @@ namespace App_Data.Repositories
                 Include(x => x.TheNho).
                 Include(x => x.Chip).
                 Include(x => x.Ram).
-                Include(x => x.Rom).
+                Include(x => x.Rom).Include(x => x.TheSim).Include(x => x.CameraSau).Include(x => x.CameraTruoc).
                 Include(x => x.MauSac)
                 .FirstOrDefaultAsync(x => x.IdChiTietSp == id);
             return _mapper.Map<SanPhamChiTietViewModel>(sanPhamChiTiet);

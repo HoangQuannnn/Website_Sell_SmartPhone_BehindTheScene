@@ -215,14 +215,14 @@ namespace App_View.Services
             }
         }
 
-        public async Task<ChiTietCameraDTO?> CreateTenKieuDeGiayAynsc(ChiTietCameraDTO ChiTietCamera)
+        public async Task<CameraSauDTO?> CreateTenKieuDeGiayAynsc(CameraSauDTO cameraSauDTO)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-ChiTietCamera", ChiTietCamera);
+            var response = await _httpClient.PostAsJsonAsync("/api/SanPhamChiTiet/Create-CameraSau", cameraSauDTO);
             try
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadAsAsync<ChiTietCameraDTO>();
+                    return await response.Content.ReadAsAsync<CameraSauDTO>();
                 }
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 throw new Exception("Not IsSuccessStatusCode");
@@ -657,10 +657,10 @@ namespace App_View.Services
             return (await _httpClient.GetFromJsonAsync<List<CongSac>?>("/api/SanPhamChiTiet/Get-List-CongSac"))!;
         }
 
-        public Task<List<ChiTietCamera>> GetListModelChiTietCameraAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<List<ChiTietCamera>> GetListModelChiTietCameraAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task<List<Chip>> GetListModelChipAsync()
         {
@@ -677,19 +677,19 @@ namespace App_View.Services
             return (await _httpClient.GetFromJsonAsync<List<TheNho>?>("/api/SanPhamChiTiet/Get-List-TheNho"))!;
         }
 
-        public Task<List<TheSim>> GetListModelTheSimAsync()
+        public async Task<List<TheSim>> GetListModelTheSimAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<TheSim>?>("/api/SanPhamChiTiet/Get-List-TheSim"))!;
         }
 
-        public Task<List<CameraTruoc>> GetListModelCameraTruocAsync()
+        public async Task<List<CameraTruoc>> GetListModelCameraTruocAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<CameraTruoc>?>("/api/SanPhamChiTiet/Get-List-CameraTruoc"))!;
         }
 
-        public Task<List<CameraSau>> GetListModelCameraSauAsync()
+        public async Task<List<CameraSau>> GetListModelCameraSauAsync()
         {
-            throw new NotImplementedException();
+            return (await _httpClient.GetFromJsonAsync<List<CameraSau>?>("/api/SanPhamChiTiet/Get-List-CameraSau"))!;
         }
 
         public async Task<List<ManHinh>> GetListModelManHinhAsync()
@@ -702,10 +702,10 @@ namespace App_View.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task<PinDTO?> CreateTenPinAynsc(PinDTO pinDTO)
         {

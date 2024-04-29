@@ -58,8 +58,8 @@ namespace App_Api.Controllers
             TheSim thesim = new TheSim();
             thesim.IdTheSim = Guid.NewGuid().ToString();
             thesim.MaTheSim = MaTS;
-            thesim.Loaithesim = theSimDTO.Loaithesim;
-            thesim.SoKhaySim = theSimDTO.SoKhaySim;
+            thesim.LoaiTheSim1 = theSimDTO.Loaithesim1;
+            thesim.LoaiTheSim2 = theSimDTO.Loaithesim2;
             thesim.TrangThai = theSimDTO.TrangThai;
             return repos.AddItem(thesim);
         }
@@ -68,8 +68,8 @@ namespace App_Api.Controllers
         public bool Edit(TheSimDTO theSimDTO)
         {
             var thesim = repos.GetAll().First(p => p.IdTheSim == theSimDTO.IdTheSim);
-            thesim.Loaithesim = theSimDTO.Loaithesim;
-            thesim.SoKhaySim = theSimDTO.SoKhaySim;
+            thesim.LoaiTheSim1 = theSimDTO.Loaithesim1;
+            thesim.LoaiTheSim2 = theSimDTO.Loaithesim2;
             thesim.TrangThai = theSimDTO.TrangThai;
             return repos.EditItem(thesim);
         }

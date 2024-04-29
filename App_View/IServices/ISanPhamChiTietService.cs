@@ -69,7 +69,7 @@ namespace App_View.IServices
         Task UpDatSoLuongAynsc(SanPhamSoLuongDTO sanPhamSoLuongDTO);
         #region GetListModelVariants
         Task<List<CongSac>> GetListModelCongSacAsync();
-        Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync();
+        //Task<List<ChiTietCamera>> GetListChiTietCamerasModelAsync();
         Task<List<MauSac>> GetListModelMauSacAsync();
         Task<List<SanPham>> GetListModelSanPhamAsync();
         Task<List<Chip>> GetListModelChipAsync();

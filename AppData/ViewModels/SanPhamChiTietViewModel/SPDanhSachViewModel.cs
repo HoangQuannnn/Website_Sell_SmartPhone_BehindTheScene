@@ -16,6 +16,9 @@ namespace App_Data.ViewModels.SanPhamChiTietViewModel
         public string? CongSac { get; set; }
         public string? Pin { get; set; }
         public string? TheNho { get; set; }
+        public string? TheSim { get; set; }
+        public string? CameraTruoc { get; set; }
+        public string? CameraSau { get; set; }
         public int SoMau { get; set; }
         public int SoRam { get; set; }
         public int SoRom { get; set; }

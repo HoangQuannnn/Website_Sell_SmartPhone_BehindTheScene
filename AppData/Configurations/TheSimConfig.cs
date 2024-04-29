@@ -15,8 +15,6 @@ namespace App_Data.Configurations
         {
             builder.ToTable("TheSim");
             builder.HasKey(x=>x.IdTheSim);
-            builder.Property(x=>x.Loaithesim).HasColumnType("varchar(10)");
-            builder.Property(x => x.SoKhaySim).HasColumnType("int");
             builder.Property(x=>x.TrangThai).HasColumnType("int");
 
         }

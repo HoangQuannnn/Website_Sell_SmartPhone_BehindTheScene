@@ -15,7 +15,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App_Data.ViewModels.PinDTO;
 using App_Data.ViewModels.TheSimDTO;
+using App_Data.ViewModels.CameraSauDTO;
 using App_Data.Models;
+using App_Data.ViewModels.CameraTruocDTO;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -66,6 +68,69 @@ namespace App_View.Areas.Admin.Controllers
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhHangPartialView", lstHang);
+        }
+
+
+        public IActionResult LoadPartialViewDanhSachTheSim()
+        {
+            var lstTheSim = _context
+                .TheSims
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdTheSim,
+                    Ma = it.MaTheSim,
+                    Ten = it.LoaiTheSim1,
+                    LoaiTheSim = it.LoaiTheSim2,
+                    SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdTheSim == it.IdTheSim).Count(),
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhTheSimPartialView", lstTheSim);
+        }
+        public IActionResult LoadPartialViewDanhSachCameraSau()
+        {
+            var lstCameraSau = _context
+                .CameraSaus
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdCameraSau,
+                    Ma = it.MaCameraSau,
+                    DoPhanGiaiCamera1 = it.DoPhanGiaiCamera1,
+                    DoPhanGiaiCamera2 = it.DoPhanGiaiCamera2,
+                    DoPhanGiaiCamera3 = it.DoPhanGiaiCamera3,
+                    DoPhanGiaiCamera4 = it.DoPhanGiaiCamera4,
+                    DoPhanGiaiCamera5 = it.DoPhanGiaiCamera5,
+                    SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdCameraSau == it.IdCameraSau).Count(),
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhCameraSauPartialView", lstCameraSau);
+        }
+        public IActionResult LoadPartialViewDanhSachCameraTruoc()
+        {
+            var lstCameraTruoc = _context
+                .CameraTruocs
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdCameraTruoc,
+                    Ma = it.MaCameraTruoc,
+                    DoPhanGiaiCamera1 = it.DoPhanGiaiCamera1,
+                    DoPhanGiaiCamera2 = it.DoPhanGiaiCamera2,
+                    
+                    SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdCameraTruoc == it.IdCameraTruoc).Count(),
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhCameraTruocPartialView", lstCameraTruoc);
         }
         public IActionResult LoadPartialViewDanhSachTheNho()
         {
@@ -127,42 +192,7 @@ namespace App_View.Areas.Admin.Controllers
 
             return PartialView("_DanhSachThuocTinhChipPartialView", lstChip);
         }
-        public IActionResult LoadPartialViewDanhSachCamera()
-        {
-            var lstCamera = _context
-                .Cameras
-                .AsNoTracking()
-                .Select(it => new ThuocTinhViewModel()
-                {
-                    Id = it.IdCamera,
-                    Ma = it.MaCamera,
-                    Ten = it.DoPhanGiai,
-                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
-                })
-                .AsEnumerable()
-                .ToList();
-
-            return PartialView("_DanhSachThuocTinhCameraPartialView", lstCamera);
-        }
-
-        public IActionResult LoadPartialViewDanhSachTheSim()
-        {
-            var lstTheSim = _context
-                .TheSims
-                .AsNoTracking()
-                .Select(it => new ThuocTinhViewModel()
-                {
-                    Id = it.IdTheSim,
-                    Ma = it.MaTheSim,
-                    Ten = it.Loaithesim,
-                    SoKhaySim = it.SoKhaySim,
-                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
-                })
-                .AsEnumerable()
-                .ToList();
-
-            return PartialView("_DanhSachThuocTinhTheSimPartialView", lstTheSim);
-        }
+       
 
         public IActionResult LoadPartialViewDanhSachCongSac()
         {
@@ -294,10 +324,205 @@ namespace App_View.Areas.Admin.Controllers
 
                 if (ramExists)
                 {
-                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                    return BadRequest("Tên Sản phẩm đã tồn tại.");
                 }
 
                 var response = await _httpClient.PostAsJsonAsync("/api/SanPham", createSanPhamDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
+
+
+        public async Task<IActionResult> DeleteTheSim(string idTheSim)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/TheSim/{idTheSim}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTheSim([FromBody] TheSimDTO theSimDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/TheSim", theSimDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        private async Task<bool> CheckTheSimExists(string loaiTheSim, string loaiTheSim2)
+        {
+            try
+            {
+                var existingTheSim = await _context.TheSims.AnyAsync(r => r.LoaiTheSim1 == loaiTheSim && r.LoaiTheSim2 == loaiTheSim2);
+                return existingTheSim;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTheSim([FromBody] TheSimDTO theSimDTO)
+        {
+            try
+            {
+                var checkTheSim = new TheSim
+                {
+                    LoaiTheSim1 = theSimDTO.Loaithesim1,
+                    LoaiTheSim2 = theSimDTO.Loaithesim2
+                };
+                var ramExists = await CheckTheSimExists(checkTheSim.LoaiTheSim1, checkTheSim.LoaiTheSim2);
+
+                if (ramExists)
+                {
+                    return BadRequest("Loại thẻ sim đã tồn tại.");
+                }
+
+                var response = await _httpClient.PostAsJsonAsync("/api/TheSim/Create-TheSim", theSimDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
+        public async Task<IActionResult> DeleteCameraSau(string idCameraSau)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/CameraSau/{idCameraSau}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditCameraSau([FromBody] CameraSauDTO cameraSauDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/CameraSau", cameraSauDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        private async Task<bool> CheckCameraSauExists(string doPhanGiaiCamera1, string doPhanGiaiCamera2, string doPhanGiaiCamera3, string doPhanGiaiCamera4, string doPhanGiaiCamera5)
+        {
+            try
+            {
+                var existingCameraSau = await _context.CameraSaus.AnyAsync(r => r.DoPhanGiaiCamera1 == doPhanGiaiCamera1 && r.DoPhanGiaiCamera2 == doPhanGiaiCamera2 && r.DoPhanGiaiCamera3 == doPhanGiaiCamera3 && r.DoPhanGiaiCamera4 == doPhanGiaiCamera4 && r.DoPhanGiaiCamera5 == doPhanGiaiCamera5);
+                return existingCameraSau;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCameraSau([FromBody] CameraSauDTO cameraSauDTO)
+        {
+            try
+            {
+                var checkCameraSau = new CameraSau
+                {
+                    DoPhanGiaiCamera1 = cameraSauDTO.DoPhanGiaiCamera1,
+                    DoPhanGiaiCamera2 = cameraSauDTO.DoPhanGiaiCamera2,
+                    DoPhanGiaiCamera3 = cameraSauDTO.DoPhanGiaiCamera3,
+                    DoPhanGiaiCamera4 = cameraSauDTO.DoPhanGiaiCamera4,
+                    DoPhanGiaiCamera5 = cameraSauDTO.DoPhanGiaiCamera5
+                    
+                };
+                var cameraSauExists = await CheckCameraSauExists(checkCameraSau.DoPhanGiaiCamera1, checkCameraSau.DoPhanGiaiCamera2, checkCameraSau.DoPhanGiaiCamera3, checkCameraSau.DoPhanGiaiCamera4, checkCameraSau.DoPhanGiaiCamera5);
+
+                if (cameraSauExists)
+                {
+                    return BadRequest("Độ phân giải camera đã tồn tại.");
+                }
+
+                var response = await _httpClient.PostAsJsonAsync("/api/CameraSau/Create-CameraSau", cameraSauDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
+        public async Task<IActionResult> DeleteCameraTruoc(string idCameraTruoc)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/CameraTruoc/{idCameraTruoc}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditCameraTruoc([FromBody] CameraTruocDTO cameraTruocDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/CameraTruoc", cameraTruocDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        private async Task<bool> CheckCameraTruocExists(string doPhanGiaiCamera1, string doPhanGiaiCamera2)
+        {
+            try
+            {
+                var existingCameraTruoc = await _context.CameraTruocs.AnyAsync(r => r.DoPhanGiaiCamera1 == doPhanGiaiCamera1 && r.DoPhanGiaiCamera2 == doPhanGiaiCamera2 );
+                return existingCameraTruoc;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCameraTruoc([FromBody] CameraTruocDTO cameraTruocDTO)
+        {
+            try
+            {
+                var checkCameraTruoc = new CameraTruoc
+                {
+                    DoPhanGiaiCamera1 = cameraTruocDTO.DoPhanGiaiCamera1,
+                    DoPhanGiaiCamera2 = cameraTruocDTO.DoPhanGiaiCamera2
+                    
+
+                };
+                var cameraTruocExists = await CheckCameraTruocExists(checkCameraTruoc.DoPhanGiaiCamera1, checkCameraTruoc.DoPhanGiaiCamera2);
+
+                if (cameraTruocExists)
+                {
+                    return BadRequest("Độ phân giải camera đã tồn tại.");
+                }
+
+                var response = await _httpClient.PostAsJsonAsync("/api/CameraTruoc/Create-CameraTruoc", cameraTruocDTO);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -345,7 +570,7 @@ namespace App_View.Areas.Admin.Controllers
 
                 if (ramExists)
                 {
-                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                    return BadRequest("Hãng đã tồn tại.");
                 }
 
                 var response = await _httpClient.PostAsJsonAsync("/api/Hang", createHangDTO);
@@ -459,7 +684,7 @@ namespace App_View.Areas.Admin.Controllers
 
                 if (ramExists)
                 {
-                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                    return BadRequest("Dung lượng ROM đã tồn tại.");
                 }
 
                 var response = await _httpClient.PostAsJsonAsync("api/Rom", createRomDTO);
@@ -496,6 +721,7 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(false);
         }
 
+
         public async Task<IActionResult> DeleteCongSac(string idCongSac)
         {
             var response = await _httpClient.DeleteAsync($"/api/CongSac/{idCongSac}");
@@ -528,7 +754,7 @@ namespace App_View.Areas.Admin.Controllers
 
             if (ramExists)
             {
-                return BadRequest("Dung lượng RAM đã tồn tại.");
+                return BadRequest("Loại cổng sạc đã tồn tại.");
             }
             var response = await _httpClient.PostAsJsonAsync($"/api/CongSac", congSacDTO);
             if (response.IsSuccessStatusCode)
@@ -580,75 +806,10 @@ namespace App_View.Areas.Admin.Controllers
 
             if (ramExists)
             {
-                return BadRequest("Dung lượng RAM đã tồn tại.");
+                return BadRequest("Chip đã tồn tại.");
             }
 
             var response = await _httpClient.PostAsJsonAsync($"/api/Chip", chipDTO);
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok(await response.Content.ReadAsAsync<bool>());
-            }
-            return Ok(false);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditChip([FromBody] ChipDTO chipDTO)
-        {
-            var response = await _httpClient.PutAsJsonAsync("/api/Chip", chipDTO);
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok(await response.Content.ReadAsAsync<bool>());
-            }
-            return Ok(false);
-        }
-        private async Task<bool> CheckTheSimExists(string loaiTheSim)
-        {
-            try
-            {
-                var existingTheSim = await _context.TheSims.AnyAsync(r => r.Loaithesim == loaiTheSim);
-                return existingTheSim;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        public async Task<IActionResult> CreateTheSim([FromBody] TheSimDTO theSimDTO)
-        {
-            var checkTheSim = new TheSim
-            {
-                Loaithesim = theSimDTO.Loaithesim
-            };
-            var ramExists = await CheckTheSimExists(checkTheSim.Loaithesim);
-
-            if (ramExists)
-            {
-                return BadRequest("Dung lượng RAM đã tồn tại.");
-            }
-
-            var response = await _httpClient.PostAsJsonAsync($"/api/TheSim/Create-TheSim", theSimDTO);
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok(await response.Content.ReadAsAsync<bool>());
-            }
-            return Ok(false);
-        }
-
-        public async Task<IActionResult> DeleteTheSim(string idTheSim)
-        {
-            var response = await _httpClient.DeleteAsync($"/api/TheSim/{idTheSim}");
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok(await response.Content.ReadAsAsync<bool>());
-            }
-            return Ok(false);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditTheSim([FromBody] TheSimDTO chipDTO)
-        {
-            var response = await _httpClient.PutAsJsonAsync("/api/TheSim", chipDTO);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(await response.Content.ReadAsAsync<bool>());
@@ -679,7 +840,7 @@ namespace App_View.Areas.Admin.Controllers
 
             if (ramExists)
             {
-                return BadRequest("Dung lượng RAM đã tồn tại.");
+                return BadRequest("Màu sắc đã tồn tại.");
             }
 
 
@@ -745,7 +906,7 @@ namespace App_View.Areas.Admin.Controllers
 
                 if (ramExists)
                 {
-                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                    return BadRequest("Loại màn hình đã tồn tại.");
                 }
 
                 var response = await _httpClient.PostAsJsonAsync($"/api/ManHinh", manHinhDTO);
@@ -805,7 +966,7 @@ namespace App_View.Areas.Admin.Controllers
 
                 if (ramExists)
                 {
-                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                    return BadRequest("Loại thẻ nhớ đã tồn tại.");
                 }
 
                 var response = await _httpClient.PostAsJsonAsync($"/api/TheNho", theNhoDTO);
@@ -820,7 +981,7 @@ namespace App_View.Areas.Admin.Controllers
                 return Ok(false);
             }
 
-            
+
         }
         [HttpPost]
         public async Task<IActionResult> EditTheNho([FromBody] TheNhoDTO TheNhoDTO)
@@ -833,69 +994,7 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(false);
         }
 
-        public async Task<IActionResult> DeleteCamera(string idCamera)
-        {
-            var response = await _httpClient.DeleteAsync($"/api/Camera/{idCamera}");
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok(await response.Content.ReadAsAsync<bool>());
-            }
-            return Ok(false);
-        }
-        private async Task<bool> CheckCameraExists(string dophangiai)
-        {
-            try
-            {
-                var existingCamera = await _context.Cameras.AnyAsync(r => r.DoPhanGiai == dophangiai);
-                return existingCamera;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        public async Task<IActionResult> CreateCamera([FromBody] CameraDTO CameraDTO)
-        {
-
-            try
-            {
-                var checkCamera = new Camera
-                {
-                    DoPhanGiai = CameraDTO.DoPhanGiai
-                };
-                var ramExists = await CheckCameraExists(checkCamera.DoPhanGiai);
-
-                if (ramExists)
-                {
-                    return BadRequest("Dung lượng RAM đã tồn tại.");
-                }
-
-
-                var response = await _httpClient.PostAsJsonAsync($"/api/Camera/Create-Camera", CameraDTO);
-                if (response.IsSuccessStatusCode)
-                {
-                    return Ok(await response.Content.ReadAsAsync<bool>());
-                }
-                return Ok(false);
-            }
-            catch (Exception ex)
-            {
-                return Ok(false);
-            }
-
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditCamera([FromBody] CameraDTO CameraDTO)
-        {
-            var response = await _httpClient.PutAsJsonAsync("/api/Camera", CameraDTO);
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok(await response.Content.ReadAsAsync<bool>());
-            }
-            return Ok(false);
-        }
+        
         //Pin
         public IActionResult LoadPartialViewDanhSachPin()
         {
@@ -951,7 +1050,7 @@ namespace App_View.Areas.Admin.Controllers
 
                 if (ramExists)
                 {
-                    return BadRequest("Dung lượng RAM đã tồn tại.");
+                    return BadRequest("Loại Pin đã tồn tại.");
                 }
 
                 var response = await _httpClient.PostAsJsonAsync("/api/Pin", createPinDTO);

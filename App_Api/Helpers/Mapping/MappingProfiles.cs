@@ -34,6 +34,9 @@ using App_Data.ViewModels.PinDTO;
 using App_Data.ViewModels.ChipDTO;
 using App_Data.ViewModels.TheNhoDTO;
 using App_Data.ViewModels.ChiTietCameraDTO;
+using App_Data.ViewModels.TheSimDTO;
+using App_Data.ViewModels.CameraSauDTO;
+using App_Data.ViewModels.CameraTruocDTO;
 
 namespace App_Api.Helpers.Mapping
 {
@@ -148,7 +151,7 @@ namespace App_Api.Helpers.Mapping
                     )
                 .ForMember(
                         dest => dest.TheNho,
-                        opt => opt.MapFrom(src => $"{src.TheNho.LoaiTheNho} {src.TheNho.DungLuong}")
+                        opt => opt.MapFrom(src => $"{src.TheNho.LoaiTheNho}")
                     )
                 .ForMember(
                         dest => dest.Ram,
@@ -168,7 +171,7 @@ namespace App_Api.Helpers.Mapping
                     )
                 .ForMember(
                         dest => dest.ManHinh,
-                        opt => opt.MapFrom(src => $"{src.ManHinh.LoaiManHinh} {src.ManHinh.KichThuoc} {src.ManHinh.TanSoQuet} ")
+                        opt => opt.MapFrom(src => $"{src.ManHinh.LoaiManHinh}")
                     )
                 .ForMember(
                         dest => dest.Chip,
@@ -290,13 +293,28 @@ namespace App_Api.Helpers.Mapping
                         dest => dest.CongSac,
                         opt => opt.MapFrom(src => src.CongSac.LoaiCongSac)
                     )
-                .ForMember(
-                        dest => dest.ManHinh,
-                        opt => opt.MapFrom(src => $"{src.ManHinh.LoaiManHinh} {src.ManHinh.KichThuoc} {src.ManHinh.TanSoQuet} ")
-                    )
+               .ForMember(
+                    dest => dest.ManHinh,
+                    opt => opt.MapFrom(src => $"{src.ManHinh.LoaiManHinh} {src.ManHinh.KichThuoc}\"")
+                )
                  .ForMember(
                         dest => dest.TheNho,
                         opt => opt.MapFrom(src => $"{src.TheNho.LoaiTheNho} {src.TheNho.DungLuong}")
+                    ) 
+                 
+                 .ForMember(
+                        dest => dest.TheSim,
+                        opt => opt.MapFrom(src => $"{src.TheSim.LoaiTheSim1}")
+                    )
+                 
+                 .ForMember(
+                        dest => dest.CameraTruoc,
+                        opt => opt.MapFrom(src => $"{src.CameraTruoc.DoPhanGiaiCamera1}")
+                    )
+                 
+                 .ForMember(
+                        dest => dest.CameraSau,
+                        opt => opt.MapFrom(src => $"{src.CameraSau.DoPhanGiaiCamera1}")
                     )
                 .ForMember(
                         dest => dest.Chip,
@@ -521,6 +539,9 @@ namespace App_Api.Helpers.Mapping
             CreateMap<HangDTO, Hang>();
             CreateMap<RamDTO, Ram>();
             CreateMap<RomDTO, Rom>();
+            CreateMap<TheSimDTO, TheSim>();
+            CreateMap<CameraSauDTO, CameraSau>();
+            CreateMap<CameraTruocDTO, CameraTruoc>();
             CreateMap<ManHinhDTO, ManHinh>();
             CreateMap<CongSacDTO, CongSac>();
             CreateMap<PinDTO, Pin>();
@@ -536,16 +557,16 @@ namespace App_Api.Helpers.Mapping
                         opt => opt.MapFrom(src => src.SanPhamChiTiet.SanPham.TenSanPham)
                 )
                 .ReverseMap();
-            CreateMap<ChiTietCamera, ChiTietCameraDTO>()
-                .ForMember(
-                        dest => dest.Camera,
-                        opt => opt.MapFrom(src => src.Camera.DoPhanGiai)
-                )
-                .ForMember(
-                        dest => dest.SanPhamChiTiet,
-                        opt => opt.MapFrom(src => src.SanPhamChiTiet.SanPham.TenSanPham)
-                )
-                .ReverseMap();
+            //CreateMap<ChiTietCamera, ChiTietCameraDTO>()
+            //    .ForMember(
+            //            dest => dest.Camera,
+            //            opt => opt.MapFrom(src => src.Camera.DoPhanGiai)
+            //    )
+            //    .ForMember(
+            //            dest => dest.SanPhamChiTiet,
+            //            opt => opt.MapFrom(src => src.SanPhamChiTiet.SanPham.TenSanPham)
+            //    )
+            //    .ReverseMap();
             CreateMap<SanPhamYeuThichDTO, SanPhamYeuThich>();
             CreateMap<SanPhamYeuThich, SanPhamYeuThichViewModel>()
                 .ForMember(

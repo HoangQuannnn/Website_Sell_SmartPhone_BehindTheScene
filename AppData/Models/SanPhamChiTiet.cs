@@ -33,6 +33,9 @@ namespace App_Data.Models
         public string IdManHinh { get; set; }
         public string IdTheNho { get; set; }
         public string IdPin { get; set; }
+        public string IdCameraSau { get; set; }
+        public string IdCameraTruoc { get; set; }
+        public string IdTheSim { get; set; }
         public virtual Hang Hang { get; set; }
         public virtual Ram Ram { get; set; }
         public virtual Rom Rom { get; set; }
@@ -43,15 +46,14 @@ namespace App_Data.Models
         public virtual Pin Pin { get; set; }
         public virtual SanPham SanPham { get; set; }
         public virtual MauSac MauSac { get; set; }
+        public virtual CameraSau CameraSau { get; set; }
+        public virtual CameraTruoc CameraTruoc { get; set; }
+        public virtual TheSim TheSim { get; set; }
         public virtual IEnumerable<Anh> Anh { get; set; }
         public virtual IEnumerable<HoaDonChiTiet> HoaDonChiTiet { get; set; }
         public virtual IEnumerable<SanPhamYeuThich> SanPhamYeuThichs { get; set; }
         public virtual IEnumerable<GioHangChiTiet> GioHangChiTiet { get; set; }
         public virtual IEnumerable<KhuyenMaiChiTiet> KhuyenMaiChiTiet { get; set; }
-        public virtual IEnumerable<ChiTietCamera> ChiTietCameras { get; set; }
-        public virtual IEnumerable<TheSimDienThoai> TheSimDienThoais { get; set; }
-        public virtual IEnumerable<CameraSau> CameraSaus { get; set; }
-        public virtual IEnumerable<CameraTruoc> CameraTruocs { get; set; }
         public virtual IEnumerable<Imei> Imeis { get; set; }
         public virtual List<DanhGia> DanhGias { get; set; }
     }

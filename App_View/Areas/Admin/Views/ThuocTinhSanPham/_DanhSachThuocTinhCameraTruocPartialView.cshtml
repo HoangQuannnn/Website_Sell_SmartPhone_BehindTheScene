@@ -20,8 +20,8 @@
 </style>
 <div style="padding: 20px;">
     <div class="text-right mb-3">
-        <button type="button" class="btn btn-success" onclick="ThemCamera()">
-            <i class="fas fa-plus"></i> Thêm Camera
+        <button type="button" class="btn btn-success" onclick="ThemCameraTruoc()">
+            <i class="fas fa-plus"></i> Thêm Camera Trước
         </button>
     </div>
     <table id="data-table" class="table table-bordered table-hover">
@@ -29,7 +29,9 @@
             <tr>
                 <th class="text-center">STT</th>
                 <th class="text-center">Mã</th>
-                <th class="text-center">Độ Phân Giải</th>
+                <th class="text-center">Độ phân giải camera 1</th>
+                <th class="text-center">Độ phân giải camera 2</th>
+                
                 <th class="text-center">Trạng thái</th>
                 <th class="text-center">###</th>
             </tr>
@@ -43,14 +45,16 @@
                 <tr>
                     <td class="text-center">@(STT++)</td>
                     <td class="text-center">@item.Ma!.ToUpper()</td>
-                    <td class="text-center">@item.Ten!.ToUpper()</td>
+                    <td class="text-center">@item.DoPhanGiaiCamera1!.ToUpper()</td>
+                    <td class="text-center">@item.DoPhanGiaiCamera2!.ToUpper()</td>
+                   
                     <td class="text-center">@item.TrangThai</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))', '@item.SoBienTheDangDung')">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera1))', '@item.DoPhanGiaiCamera2')">
                                 <i class="far fa-edit"></i>
                             </button>
-                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.Ten))','@item.SoBienTheDangDung')">
+                            <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera1))', '@item.DoPhanGiaiCamera2', '@item.SoBienTheDangDung', '@item.TrangThai')">
                                 <i class="anticon anticon-delete"></i>
                             </button>
                         </div>
@@ -62,9 +66,9 @@
 </div>
 
 <script>
-    function DrawCamera() {
+    function DrawCameraTruoc() {
         $.ajax({
-            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachCamera',
+            url: '/admin/thuoctinhsanpham/LoadPartialViewDanhSachCameraTruoc',
             type: 'GET',
             success: function (result) {
                 content.empty().append(result);
@@ -78,18 +82,11 @@
         });
     }
     $('#data-table').Datatable();
-    function Delete(id, name, soBienTheDangDung) {
-        if (soBienTheDangDung > 0) {
-            Swal.fire({
-                title: 'Xóa thất bại',
-                text: `"${name}" đang được dùng cho ${soBienTheDangDung} biến thể.`,
-                icon: 'info',
-                confirmButtonText: 'OK'
-            });
-        } else {
+    function Delete(id) {
+        {
             Swal.fire({
                 title: 'Xác nhận',
-                text: `Bạn có chắc chắn muốn xóa Camera "${name}" không?`,
+                text: `Bạn có chắc chắn muốn xóa Camera Trước không?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'OK',
@@ -98,15 +95,15 @@
                 if (result.isConfirmed) {
 
                     var data = {
-                        idCamera: id,
+                        idCameraTruoc: id,
                     };
                     $.ajax({
-                        url: '/admin/thuoctinhsanpham/DeleteCamera',
+                        url: '/admin/thuoctinhsanpham/DeleteCameraTruoc',
                         type: 'GET',
                         data: data,
                         success: function (result) {
                             if (result) {
-                                DrawCamera();
+                                DrawCameraTruoc();
                                 Swal.fire(
                                     'Thông báo',
                                     'Đã xóa thành công',
@@ -127,11 +124,14 @@
         }
     }
 
-    function Edit(id, name, soBienTheDangDung, trangThai) {
+    function Edit(id, doPhanGiaiCamera1, doPhanGiaiCamera2, doPhanGiaiCamera3, doPhanGiaiCamera4, doPhanGiaiCamera5, soBienTheDangDung, trangThai) {
         Swal.fire({
-            title: 'Chỉnh sửa Camera',
+            title: 'Chỉnh sửa Camera Trước',
             html:
-                '<input id="doPhanGiai" class="swal2-input" value="' + name + '" placeholder="Độ Phân Giải Camera">' +
+                '<input id="doPhanGiaiCamera1" class="swal2-input" value="' + doPhanGiaiCamera1 + '" placeholder="Độ phân giải camera 1">' +
+                '<input id="doPhanGiaiCamera2" class="swal2-input" value="' + doPhanGiaiCamera2 + '" placeholder="Độ phân giải camera 2">' +
+                
+
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
@@ -144,12 +144,14 @@
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                const enteredValue = document.getElementById('doPhanGiai').value;
+                const enteredValue = document.getElementById('doPhanGiaiCamera1').value;
+                const enteredValue1 = document.getElementById('doPhanGiaiCamera2').value;
+                
                 const trangThaiValue = parseInt(document.getElementById('trangThai').value);
                 if (enteredValue !== '') {
                     Swal.fire({
                         title: 'Xác nhận',
-                        text: `Bạn có chắc chắn muốn thay đổi Camera, việc thay đổi Camera sẽ làm cho Camera của ${soBienTheDangDung} biến thể thay đổi theo?`,
+                        text: `Bạn có chắc chắn muốn thay đổi camera sau, việc thay đổi camera sau sẽ làm cho camera sau của ${soBienTheDangDung} biến thể thay đổi theo?`,
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'OK',
@@ -157,18 +159,20 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             var data = {
-                                IdCamera: id,
-                                DoPhanGiai: enteredValue,
+                                IdCameraTruoc: id,
+                                DoPhanGiaiCamera1: enteredValue,
+                                DoPhanGiaiCamera2: enteredValue1,
+                                
                                 TrangThai: trangThaiValue
                             };
                             $.ajax({
-                                url: '/admin/thuoctinhsanpham/EditCamera',
+                                url: '/admin/thuoctinhsanpham/EditCameraTruoc',
                                 type: 'POST',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
                                 success: function (result) {
                                     if (result) {
-                                        DrawCamera();
+                                        DrawCameraTruoc();
                                         Swal.fire(
                                             'Thông báo!',
                                             'Cập nhật thành công!',
@@ -203,11 +207,14 @@
     }
 
 
-    function ThemCamera() {
+    function ThemCameraTruoc() {
         Swal.fire({
-            title: 'Thêm Camera mới',
+            title: 'Thêm Camera Trước Mới',
             html:
-                '<input id="doPhanGiai" class="swal2-input" placeholder="Độ Phân Giải Camera">' +
+                '<input id="doPhanGiaiCamera1" class="swal2-input" placeholder="Độ phân giải camera 1">' +
+                '<input id="doPhanGiaiCamera2" class="swal2-input" placeholder="Độ phân giải camera 2">' +
+                
+
                 '<div class="form-group">' +
                 '    <label for="trangThai">Trạng thái:</label>' +
                 '    <select class="form-control" id="trangThai">' +
@@ -219,31 +226,35 @@
             confirmButtonText: 'Thêm',
             cancelButtonText: 'Hủy',
             preConfirm: () => {
-                const doPhanGiai = document.getElementById('doPhanGiai').value;
+                const doPhanGiaiCamera1 = document.getElementById('doPhanGiaiCamera1').value;
+                const doPhanGiaiCamera2 = document.getElementById('doPhanGiaiCamera2').value;
+                
+
                 const trangThai = document.getElementById('trangThai').value;
-                return { doPhanGiai: doPhanGiai, trangThai: parseInt(trangThai) }; // Chuyển đổi giá trị sang kiểu số nguyên
+                return { doPhanGiaiCamera1: doPhanGiaiCamera1, doPhanGiaiCamera2: doPhanGiaiCamera2, trangThai: parseInt(trangThai) };
             }
         }).then((result) => {
             if (result.isConfirmed) {
                 const data = result.value;
-                if (data.doPhanGiai !== '' && data.trangThai !== '') {
+                if (data.doPhanGiaiCamera1 !== '' && data.trangThai !== '') {
+                    // Gửi dữ liệu thông qua AJAX để thêm Camera Trước mới vào cơ sở dữ liệu
                     $.ajax({
-                        url: '/admin/thuoctinhsanpham/CreateCamera',
+                        url: '/admin/thuoctinhsanpham/CreateCameraTruoc',
                         type: 'POST',
                         data: JSON.stringify(data),
                         contentType: 'application/json',
                         success: function (result) {
                             if (result) {
-                                DrawCamera();
+                                DrawCameraTruoc();
                                 Swal.fire(
                                     'Thông báo!',
-                                    'Thêm Camera mới thành công!',
+                                    'Thêm Camera Trước mới thành công!',
                                     'success'
                                 );
                             } else {
                                 Swal.fire(
                                     'Thông báo',
-                                    'Độ phân giải camera đã tồn tại.',
+                                    'Thêm Camera Trước mới thất bại hoặc độ phân giải camera đã tồn tại.',
                                     'error'
                                 );
                             }
@@ -258,7 +269,7 @@
                             } else {
                                 Swal.fire(
                                     'Lỗi!',
-                                    'Đã xảy ra lỗi khi thêm camera mới!',
+                                    'Đã xảy ra lỗi khi thêm Camera Trước mới!',
                                     'error'
                                 );
                             }
@@ -268,6 +279,7 @@
                             console.log(xhr);
                         }
                     });
+
                 } else {
                     Swal.fire(
                         'Lỗi!',
@@ -278,7 +290,6 @@
             }
         });
     }
-
 
 </script>
 <script>

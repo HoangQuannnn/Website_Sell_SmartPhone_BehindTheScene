@@ -2,6 +2,8 @@
 using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
+using App_Data.ViewModels.CameraTruocDTO;
+
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,38 +17,39 @@ namespace App_Api.Controllers
     public class CameraTruocController : ControllerBase
     {
         private readonly IAllRepo<CameraTruoc> repos;
+
         AppDbContext context = new AppDbContext();
         DbSet<CameraTruoc> CameraTruocs;
-        private readonly IMapper _mapper;
-        public CameraTruocController(IMapper mapper)
+
+
+        public CameraTruocController()
         {
             CameraTruocs = context.CameraTruocs;
             AllRepo<CameraTruoc> all = new AllRepo<CameraTruoc>(context, CameraTruocs);
             repos = all;
-            _mapper = mapper;
+
         }
         // GET: api/<CameraTruocController>
         [HttpGet]
-        public async Task<IEnumerable<CameraTruoc>> GetAllCameraTruoc()
+        public IEnumerable<CameraTruoc> GetAllCameraTruoc()
         {
-            var allCameraTruoc = (await CameraTruocs.Include(c => c.SanPhamChiTiet).ThenInclude(c => c.SanPham).ToListAsync()).ToList();
-            var allCameraTruoc1 = _mapper.Map<List<CameraTruoc>>(allCameraTruoc);
-            return allCameraTruoc1;
+
+            return repos.GetAll();
         }
 
-        // GET api/<CameraTruocController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        //GET api/<CameraTruocController>/5
+        [HttpGet("{id}")]
+        public CameraTruoc GetCameraTruocById(string id)
+        {
+            return repos.GetAll().FirstOrDefault(c => c.IdCameraTruoc == id);
+        }
 
         // POST api/<CameraTruocController>
-        [HttpPost]
-        public bool CreateCameraTruoc(string loaiCamera, string ma, string doPhanGiai, int trangThai)
+        [HttpPost("Create-CameraTruoc")]
+        public bool CreateCameraTruoc(CameraTruocDTO cameraTruocDTO)
         {
             string MaTS;
-            if (repos.GetAll().Count() == null)
+            if (repos.GetAll().Count() == 0)
             {
                 MaTS = "CT1";
             }
@@ -54,33 +57,34 @@ namespace App_Api.Controllers
             {
                 MaTS = "CT" + (repos.GetAll().Count() + 1);
             }
-            CameraTruoc b = new CameraTruoc();
-            b.IdCameraTruoc = Guid.NewGuid().ToString();
-            b.MaCameraTruoc = ma;
-            b.DoPhanGiai = doPhanGiai;
-            b.LoaiCamera = loaiCamera;
-            b.TrangThai = trangThai;
-            return repos.AddItem(b);
+            CameraTruoc cameraTruoc = new CameraTruoc();
+            cameraTruoc.IdCameraTruoc = Guid.NewGuid().ToString();
+            cameraTruoc.MaCameraTruoc = MaTS;
+            cameraTruoc.DoPhanGiaiCamera1 = cameraTruocDTO.DoPhanGiaiCamera1;
+            cameraTruoc.DoPhanGiaiCamera2 = cameraTruocDTO.DoPhanGiaiCamera2;
+            
+            cameraTruoc.TrangThai = cameraTruocDTO.TrangThai;
+            return repos.AddItem(cameraTruoc);
         }
 
         // PUT api/<CameraTruocController>/5
-        [HttpPut("{id}")]
-        public bool EditCameraTruoc(string id, string loaiCamera, string ma, string doPhanGiai, int trangThai)
+        [HttpPut]
+        public bool EditCameraTruoc(CameraTruocDTO cameraTruocDTO)
         {
-            var b = repos.GetAll().First(p => p.IdCameraTruoc == id);
-            b.MaCameraTruoc = ma;
-            b.DoPhanGiai = doPhanGiai;
-            b.LoaiCamera = loaiCamera;
-            b.TrangThai = trangThai;
-            return repos.EditItem(b);
+            var cameraTruoc = repos.GetAll().First(p => p.IdCameraTruoc == cameraTruocDTO.IdCameraTruoc);
+            cameraTruoc.DoPhanGiaiCamera1 = cameraTruocDTO.DoPhanGiaiCamera1;
+            cameraTruoc.DoPhanGiaiCamera2 = cameraTruocDTO.DoPhanGiaiCamera2;
+            
+            cameraTruoc.TrangThai = cameraTruocDTO.TrangThai;
+            return repos.EditItem(cameraTruoc);
         }
 
         // DELETE api/<CameraTruocController>/5
         [HttpDelete("{id}")]
         public bool DeleteCameraTruoc(string id)
         {
-            var cameraTruoc = repos.GetAll().First(p => p.IdCameraTruoc == id);
-            return repos.RemoveItem(cameraTruoc);
+            var cameraTruoc = repos.GetAll().FirstOrDefault(p => p.IdCameraTruoc == id);
+            return cameraTruoc != null && repos.RemoveItem(cameraTruoc);
         }
     }
 }

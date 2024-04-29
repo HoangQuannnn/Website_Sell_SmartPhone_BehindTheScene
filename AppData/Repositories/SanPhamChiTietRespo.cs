@@ -1,6 +1,6 @@
 ﻿using App_Data.DbContext;
 using App_Data.IRepositories;
-using App_Data.Migrations;
+//using App_Data.Migrations;
 using App_Data.Models;
 using App_Data.ViewModels.FilterViewModel;
 using App_Data.ViewModels.SanPhamChiTietDTO;
@@ -89,6 +89,9 @@ namespace App_Data.Repositories
                  .Include(x => x.Chip)
                  .Include(x => x.CongSac)
                  .Include(x => x.TheNho)
+                 .Include(x => x.TheSim)
+                 .Include(x => x.CameraTruoc)
+                 .Include(x => x.CameraSau)
                  .ToListAsync();
             return _mapper.Map<List<SanPhamChiTietDTO>>(lstSanPhamChiTiet);
         }
@@ -1218,6 +1221,21 @@ namespace App_Data.Repositories
             if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdTheNho))
             {
                 query = query.Where(it => it.IdTheNho == parametersTongQuanDanhSach.IdTheNho);
+            } 
+            
+            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdTheSim))
+            {
+                query = query.Where(it => it.IdTheSim == parametersTongQuanDanhSach.IdTheSim);
+            }
+            
+            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdCameraTruoc))
+            {
+                query = query.Where(it => it.IdCameraTruoc == parametersTongQuanDanhSach.IdCameraTruoc);
+            } 
+            
+            if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdCameraSau))
+            {
+                query = query.Where(it => it.IdCameraSau == parametersTongQuanDanhSach.IdCameraSau);
             }
 
             var result = query
@@ -1227,7 +1245,10 @@ namespace App_Data.Repositories
                 .Include(sp => sp.ManHinh)
                 .Include(sp => sp.CongSac)
                 .Include(sp => sp.TheNho)
-                .Include(sp => sp.Pin);
+                .Include(sp => sp.Pin)
+                .Include(sp => sp.TheSim)
+                .Include(sp => sp.CameraTruoc)
+                .Include(sp => sp.CameraSau);
 
             var viewModelResult = result
                 .GroupBy(gr => new
@@ -1239,17 +1260,23 @@ namespace App_Data.Repositories
                     gr.IdCongSac,
                     gr.IdPin,
                     gr.IdTheNho,
+                    gr.IdTheSim,
+                    gr.IdCameraTruoc,
+                    gr.IdCameraSau,
                 })
                 .Select(gr => new SPDanhSachViewModel
                 {
                     SumGuild = $"{gr.Key.IdSanPham}/{gr.Key.IdHang}/{gr.Key.IdChip}/{gr.Key.IdManHinh}/{gr.Key.IdCongSac}/{gr.Key.IdPin}/{gr.Key.IdTheNho}",
                     SanPham = gr.First().SanPham.TenSanPham,
                     Chip = gr.First().Chip.TenChip,
-                    ManHinh = gr.First().ManHinh.LoaiManHinh,
+                    ManHinh = gr.First().ManHinh.LoaiManHinh + " " + gr.First().ManHinh.KichThuoc + "\"",
                     CongSac = gr.First().CongSac.LoaiCongSac,
                     Hang = gr.First().Hang.TenHang,
                     Pin = gr.First().Pin.DungLuong,
                     TheNho = gr.First().TheNho.LoaiTheNho,
+                    TheSim = gr.First().TheSim.LoaiTheSim1 + (string.IsNullOrEmpty(gr.First().TheSim.LoaiTheSim2) ? "" : " & " + gr.First().TheSim.LoaiTheSim2),
+                    CameraTruoc = gr.First().CameraTruoc.DoPhanGiaiCamera1 + (string.IsNullOrEmpty(gr.First().CameraTruoc.DoPhanGiaiCamera2) ? "" : " & " + gr.First().CameraTruoc.DoPhanGiaiCamera2),
+                    CameraSau = gr.First().CameraSau.DoPhanGiaiCamera1 + (string.IsNullOrEmpty(gr.First().CameraSau.DoPhanGiaiCamera2) ? "" : " & " + gr.First().CameraSau.DoPhanGiaiCamera2) + (string.IsNullOrEmpty(gr.First().CameraSau.DoPhanGiaiCamera3) ? "" : " & " + gr.First().CameraSau.DoPhanGiaiCamera3) + (string.IsNullOrEmpty(gr.First().CameraSau.DoPhanGiaiCamera4) ? "" : "  & " + gr.First().CameraSau.DoPhanGiaiCamera4) + (string.IsNullOrEmpty(gr.First().CameraSau.DoPhanGiaiCamera5) ? "" : "  & " + gr.First().CameraSau.DoPhanGiaiCamera5),
                     SoMau = gr.Select(it => it.IdMauSac).Distinct().Count(),
                     SoRam = gr.Select(it => it.IdRam).Distinct().Count(),
                     SoRom = gr.Select(it => it.IdRom).Distinct().Count(),
@@ -1268,6 +1295,9 @@ namespace App_Data.Repositories
                         x.CongSac!.ToLower().Contains(searchValueLower) ||
                         x.Pin!.ToLower().Contains(searchValueLower) ||
                         x.TheNho!.ToLower().Contains(searchValueLower) ||
+                        x.TheSim!.ToLower().Contains(searchValueLower) ||
+                        x.CameraTruoc!.ToLower().Contains(searchValueLower) ||
+                        x.CameraSau!.ToLower().Contains(searchValueLower) ||
                         x.ManHinh!.ToLower().Contains(searchValueLower));
             }
 

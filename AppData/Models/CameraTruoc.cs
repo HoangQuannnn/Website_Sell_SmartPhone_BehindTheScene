@@ -12,11 +12,9 @@ namespace App_Data.Models
         [Key]
         public string? IdCameraTruoc { get; set; }
         public string? MaCameraTruoc { get; set; }
-        public string? DoPhanGiai { get; set; }
-        public string? LoaiCamera { get; set; }
+        public string? DoPhanGiaiCamera1 { get; set; }
+        public string? DoPhanGiaiCamera2 { get; set; }
         public int? TrangThai { get; set; }
-        public string? IdSanPhamChiTiet { get; set; }
-
-        public virtual SanPhamChiTiet SanPhamChiTiet { get; set; }
+        public virtual List<SanPhamChiTiet>? SanPhamChiTiets { get; set; }
     }
 }

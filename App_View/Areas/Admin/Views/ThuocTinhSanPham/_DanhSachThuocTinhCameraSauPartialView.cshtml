@@ -55,7 +55,7 @@
                     <td class="text-center">@item.TrangThai</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera1))', '@item.DoPhanGiaiCamera2', '@item.DoPhanGiaiCamera3', '@item.DoPhanGiaiCamera4', '@item.DoPhanGiaiCamera5')">
+                            <button type="button" class="btn btn-kio" onclick="Edit('@item.Id', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera1))', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera2))', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera3))', '@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera4))','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera5))')">
                                 <i class="far fa-edit"></i>
                             </button>
                             <button type="button" class="btn" style="background: red; color: #fff" onclick="Delete('@item.Id','@Html.Raw(HttpUtility.JavaScriptStringEncode(item.DoPhanGiaiCamera1))', '@item.DoPhanGiaiCamera2', '@item.DoPhanGiaiCamera3', '@item.DoPhanGiaiCamera4', '@item.DoPhanGiaiCamera5', '@item.SoBienTheDangDung', '@item.TrangThai')">
@@ -167,7 +167,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             var data = {
-                                IdTheSim: id,
+                                IdCameraSau: id,
                                 DoPhanGiaiCamera1: enteredValue,
                                 DoPhanGiaiCamera2: enteredValue1,
                                 DoPhanGiaiCamera3: enteredValue2,

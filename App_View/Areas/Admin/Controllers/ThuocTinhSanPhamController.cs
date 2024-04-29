@@ -17,6 +17,7 @@ using App_Data.ViewModels.PinDTO;
 using App_Data.ViewModels.TheSimDTO;
 using App_Data.ViewModels.CameraSauDTO;
 using App_Data.Models;
+using App_Data.ViewModels.CameraTruocDTO;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -110,6 +111,26 @@ namespace App_View.Areas.Admin.Controllers
                 .ToList();
 
             return PartialView("_DanhSachThuocTinhCameraSauPartialView", lstCameraSau);
+        }
+        public IActionResult LoadPartialViewDanhSachCameraTruoc()
+        {
+            var lstCameraTruoc = _context
+                .CameraTruocs
+                .AsNoTracking()
+                .Select(it => new ThuocTinhViewModel()
+                {
+                    Id = it.IdCameraTruoc,
+                    Ma = it.MaCameraTruoc,
+                    DoPhanGiaiCamera1 = it.DoPhanGiaiCamera1,
+                    DoPhanGiaiCamera2 = it.DoPhanGiaiCamera2,
+                    
+                    SoBienTheDangDung = _context.SanPhamChiTiets.Where(sp => sp.IdCameraTruoc == it.IdCameraTruoc).Count(),
+                    TrangThai = it.TrangThai == 0 ? "Hoạt động" : "Không hoạt động"
+                })
+                .AsEnumerable()
+                .ToList();
+
+            return PartialView("_DanhSachThuocTinhCameraTruocPartialView", lstCameraTruoc);
         }
         public IActionResult LoadPartialViewDanhSachTheNho()
         {
@@ -438,6 +459,70 @@ namespace App_View.Areas.Admin.Controllers
                 }
 
                 var response = await _httpClient.PostAsJsonAsync("/api/CameraSau/Create-CameraSau", cameraSauDTO);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Ok(await response.Content.ReadAsAsync<bool>());
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
+        }
+        public async Task<IActionResult> DeleteCameraTruoc(string idCameraTruoc)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/CameraTruoc/{idCameraTruoc}");
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditCameraTruoc([FromBody] CameraTruocDTO cameraTruocDTO)
+        {
+            var response = await _httpClient.PutAsJsonAsync("/api/CameraTruoc", cameraTruocDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(await response.Content.ReadAsAsync<bool>());
+            }
+            return Ok(false);
+        }
+        private async Task<bool> CheckCameraTruocExists(string doPhanGiaiCamera1, string doPhanGiaiCamera2)
+        {
+            try
+            {
+                var existingCameraTruoc = await _context.CameraTruocs.AnyAsync(r => r.DoPhanGiaiCamera1 == doPhanGiaiCamera1 && r.DoPhanGiaiCamera2 == doPhanGiaiCamera2 );
+                return existingCameraTruoc;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCameraTruoc([FromBody] CameraTruocDTO cameraTruocDTO)
+        {
+            try
+            {
+                var checkCameraTruoc = new CameraTruoc
+                {
+                    DoPhanGiaiCamera1 = cameraTruocDTO.DoPhanGiaiCamera1,
+                    DoPhanGiaiCamera2 = cameraTruocDTO.DoPhanGiaiCamera2
+                    
+
+                };
+                var cameraTruocExists = await CheckCameraTruocExists(checkCameraTruoc.DoPhanGiaiCamera1, checkCameraTruoc.DoPhanGiaiCamera2);
+
+                if (cameraTruocExists)
+                {
+                    return BadRequest("Độ phân giải camera đã tồn tại.");
+                }
+
+                var response = await _httpClient.PostAsJsonAsync("/api/CameraTruoc/Create-CameraTruoc", cameraTruocDTO);
 
                 if (response.IsSuccessStatusCode)
                 {

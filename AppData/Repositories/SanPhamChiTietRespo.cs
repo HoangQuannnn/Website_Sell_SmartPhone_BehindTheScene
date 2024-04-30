@@ -129,7 +129,7 @@ namespace App_Data.Repositories
                       .Where(sp => sp.TrangThai == (int)TrangThaiCoBan.HoatDong && sp.NoiBat == true)
                      .Include(x => x.Anh)
                      .Include(x => x.SanPham)
-                     
+
                      .Include(x => x.Hang)
                      .Include(x => x.Pin)
                      .Include(x => x.ManHinh)
@@ -142,9 +142,9 @@ namespace App_Data.Repositories
                     .GroupBy(gr =>
                         new
                         {
-                           
+
                             gr.IdSanPham,
-                            
+
                             gr.IdHang,
                             gr.IdManHinh,
                             gr.IdPin,
@@ -162,7 +162,7 @@ namespace App_Data.Repositories
                     .Where(sp => EF.Functions.DateDiffDay(sp.NgayTao, dateTimeNow) < 7 && sp.TrangThai == (int)TrangThaiCoBan.HoatDong)
                      .Include(x => x.Anh)
                      .Include(x => x.SanPham)
-                     
+
                      .Include(x => x.Hang)
                      .Include(x => x.Pin)
                      .Include(x => x.ManHinh)
@@ -175,9 +175,9 @@ namespace App_Data.Repositories
                     .GroupBy(gr =>
                         new
                         {
-                            
+
                             gr.IdSanPham,
-                            
+
                             gr.IdHang,
                             gr.IdManHinh,
                             gr.IdPin,
@@ -195,7 +195,7 @@ namespace App_Data.Repositories
                    .Where(sp => sp.SoLuongDaBan > 0 && sp.TrangThai == (int)TrangThaiCoBan.HoatDong)
                     .Include(x => x.Anh)
                      .Include(x => x.SanPham)
-                     
+
                      .Include(x => x.Hang)
                      .Include(x => x.Pin)
                      .Include(x => x.ManHinh)
@@ -208,9 +208,9 @@ namespace App_Data.Repositories
                    .GroupBy(gr =>
                        new
                        {
-                           
+
                            gr.IdSanPham,
-                           
+
                            gr.IdHang,
                            gr.IdManHinh,
                            gr.IdPin,
@@ -231,7 +231,7 @@ namespace App_Data.Repositories
                    .Where(sp => sp.TrangThai == (int)TrangThaiCoBan.HoatDong && lstIDSPDanhGia.Contains(sp.IdChiTietSp))
                     .Include(x => x.Anh)
                      .Include(x => x.SanPham)
-                     
+
                      .Include(x => x.Hang)
                      .Include(x => x.Pin)
                      .Include(x => x.ManHinh)
@@ -245,9 +245,9 @@ namespace App_Data.Repositories
                    .GroupBy(gr =>
                        new
                        {
-                          
+
                            gr.IdSanPham,
-                           
+
                            gr.IdHang,
                            gr.IdManHinh,
                            gr.IdPin,
@@ -593,7 +593,7 @@ namespace App_Data.Repositories
             var lstRam = lstBienThe
                 .GroupBy(sp => sp.Ram.DungLuong)
                 .OrderBy(item => item.Key)
-                .Select(group => group.First()); 
+                .Select(group => group.First());
             var lstRom = lstBienThe
                 .GroupBy(sp => sp.Rom.DungLuong)
                 .OrderBy(item => item.Key)
@@ -687,7 +687,7 @@ namespace App_Data.Repositories
                 Include(x => x.TheNho).
                 Include(x => x.Chip).
                 Include(x => x.Ram).
-                Include(x => x.Rom).
+                Include(x => x.Rom).Include(x => x.TheSim).Include(x => x.CameraSau).Include(x => x.CameraTruoc).
                 Include(x => x.MauSac)
                 .FirstOrDefaultAsync(x => x.IdChiTietSp == id);
             return _mapper.Map<SanPhamChiTietViewModel>(sanPhamChiTiet);
@@ -785,6 +785,9 @@ namespace App_Data.Repositories
                 Include(x => x.CongSac).
                 Include(x => x.Pin).
                 Include(x => x.TheNho).
+                Include(x => x.TheSim).
+                Include(x => x.CameraTruoc).
+                Include(x => x.CameraSau).
                 Include(x => x.Chip).
                 Include(x => x.Ram).
                 Include(x => x.Rom).
@@ -836,7 +839,7 @@ namespace App_Data.Repositories
                     };
                     await _context.Pins.AddAsync(pin);
                 }
-                
+
                 var chipLower = bienTheDTO.Chip!.Trim().ToLower();
                 var chip = await _context.Chips.FirstOrDefaultAsync(cl => cl.TenChip!.Trim().ToLower() == chipLower);
                 if (chip == null)
@@ -864,6 +867,51 @@ namespace App_Data.Repositories
                     };
                     await _context.TheNhos.AddAsync(theNho);
                 }
+
+                var theSimLower = bienTheDTO.TheSim!.Trim().ToLower();
+                var theSim = await _context.TheSims.FirstOrDefaultAsync(cl => cl.LoaiTheSim1!.Trim().ToLower() == theSimLower);
+                if (theSim == null)
+                {
+                    theSim = new TheSim()
+                    {
+                        IdTheSim = Guid.NewGuid().ToString(),
+                        MaTheSim = !_context.TheSims.Any() ? "TS1" : "TS" + (_context.TheSims.Count() + 1),
+                        LoaiTheSim1 = bienTheDTO.TheSim.Trim(),
+                        TrangThai = 0
+                    };
+                    await _context.TheSims.AddAsync(theSim);
+                }
+
+                var cameraTruocLower = bienTheDTO.CameraTruoc!.Trim().ToLower();
+                var cameraTruoc = await _context.CameraTruocs.FirstOrDefaultAsync(cl => cl.DoPhanGiaiCamera1!.Trim().ToLower() == cameraTruocLower);
+                if (cameraTruoc == null)
+                {
+                    cameraTruoc = new CameraTruoc()
+                    {
+                        IdCameraTruoc = Guid.NewGuid().ToString(),
+                        MaCameraTruoc = !_context.CameraTruocs.Any() ? "CAMT1" : "CAMT" + (_context.CameraTruocs.Count() + 1),
+                        DoPhanGiaiCamera1 = bienTheDTO.CameraTruoc.Trim(),
+                        TrangThai = 0
+                    };
+                    await _context.CameraTruocs.AddAsync(cameraTruoc);
+                }
+
+
+                var cameraSauLower = bienTheDTO.CameraSau!.Trim().ToLower();
+                var cameraSau = await _context.CameraSaus.FirstOrDefaultAsync(cl => cl.DoPhanGiaiCamera1!.Trim().ToLower() == cameraSauLower);
+                if (cameraSau == null)
+                {
+                    cameraSau = new CameraSau()
+                    {
+                        IdCameraSau = Guid.NewGuid().ToString(),
+                        MaCameraSau = !_context.CameraSaus.Any() ? "CAMS1" : "CAMS" + (_context.CameraSaus.Count() + 1),
+                        DoPhanGiaiCamera1 = bienTheDTO.CameraSau.Trim(),
+                        TrangThai = 0
+                    };
+                    await _context.CameraSaus.AddAsync(cameraSau);
+                }
+
+
 
                 var sanSanPhamLower = bienTheDTO.SanPham!.Trim().ToLower();
                 var sanPham = await _context.SanPhams.FirstOrDefaultAsync(cl => cl.TenSanPham!.Trim().ToLower() == sanSanPhamLower);
@@ -1221,18 +1269,18 @@ namespace App_Data.Repositories
             if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdTheNho))
             {
                 query = query.Where(it => it.IdTheNho == parametersTongQuanDanhSach.IdTheNho);
-            } 
-            
+            }
+
             if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdTheSim))
             {
                 query = query.Where(it => it.IdTheSim == parametersTongQuanDanhSach.IdTheSim);
             }
-            
+
             if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdCameraTruoc))
             {
                 query = query.Where(it => it.IdCameraTruoc == parametersTongQuanDanhSach.IdCameraTruoc);
-            } 
-            
+            }
+
             if (!string.IsNullOrEmpty(parametersTongQuanDanhSach.IdCameraSau))
             {
                 query = query.Where(it => it.IdCameraSau == parametersTongQuanDanhSach.IdCameraSau);
@@ -1312,6 +1360,6 @@ namespace App_Data.Repositories
             }
         }
 
-        
+
     }
 }

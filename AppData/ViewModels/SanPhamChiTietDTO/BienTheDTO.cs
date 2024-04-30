@@ -14,6 +14,9 @@ namespace App_Data.ViewModels.SanPhamChiTietDTO
         public string? Chip { get; set; }
         public string? ManHinh { get; set; }
         public string? TheNho { get; set; }
+        public string? TheSim { get; set; }
+        public string? CameraTruoc { get; set; }
+        public string? CameraSau { get; set; }
         public string? Pin { get; set; }
         public string? Hang { get; set; }
         public string? Ram { get; set; }

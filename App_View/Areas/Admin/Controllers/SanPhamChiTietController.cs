@@ -157,6 +157,9 @@ namespace App_View.Areas.Admin.Controllers
             public string? ManHinh { get; set; }
             public string? Pin { get; set; }
             public string? TheNho { get; set; }
+            public string? TheSim { get; set; }
+            public string? CameraTruoc { get; set; }
+            public string? CameraSau { get; set; }
             public string? MauSac { get; set; }
             public string? Ram { get; set; }
             public string? Rom { get; set; }
@@ -186,6 +189,9 @@ namespace App_View.Areas.Admin.Controllers
             var manHinh = "";
             var pin = "";
             var theNho = "";
+            var theSim = "";
+            var cameraTruoc = "";
+            var cameraSau = "";
             var mauSac = "";
             var ram = "";
             var rom = "";
@@ -239,17 +245,20 @@ namespace App_View.Areas.Admin.Controllers
                             manHinh = worksheet.Cells[row, 5].Text;
                             pin = worksheet.Cells[row, 6].Text;
                             theNho = worksheet.Cells[row, 7].Text;
-                            mauSac = worksheet.Cells[row, 8].Text;
-                            ram = worksheet.Cells[row, 9].Text;
-                            rom = worksheet.Cells[row, 10].Text;
-                            giaNhap = worksheet.Cells[row, 11].Text.Replace(",", "").Replace("₫", "");
-                            giaBan = worksheet.Cells[row, 12].Text.Replace(",", "").Replace("₫", "");
-                            soLuong = worksheet.Cells[row, 13].Text;
-                            khoiLuong = worksheet.Cells[row, 14].Text;
-                            noiBat = worksheet.Cells[row, 15].Text;
-                            trangThaiSale = worksheet.Cells[row, 16].Text;
-                            moTa = worksheet.Cells[row, 17].Text;
-                            listTenAnh = !string.IsNullOrWhiteSpace(worksheet.Cells[row, 18].Text) ? worksheet.Cells[row, 18].Text.Split(',').ToList() : new List<string>();
+                            theSim = worksheet.Cells[row, 8].Text;
+                            cameraTruoc = worksheet.Cells[row, 9].Text;
+                            cameraSau = worksheet.Cells[row, 10].Text;
+                            mauSac = worksheet.Cells[row, 11].Text;
+                            ram = worksheet.Cells[row, 12].Text;
+                            rom = worksheet.Cells[row, 13].Text;
+                            giaNhap = worksheet.Cells[row, 14].Text.Replace(",", "").Replace("₫", "");
+                            giaBan = worksheet.Cells[row, 15].Text.Replace(",", "").Replace("₫", "");
+                            soLuong = worksheet.Cells[row, 16].Text;
+                            khoiLuong = worksheet.Cells[row, 17].Text;
+                            noiBat = worksheet.Cells[row, 18].Text;
+                            trangThaiSale = worksheet.Cells[row, 19].Text;
+                            moTa = worksheet.Cells[row, 20].Text;
+                            listTenAnh = !string.IsNullOrWhiteSpace(worksheet.Cells[row, 21].Text) ? worksheet.Cells[row, 21].Text.Split(',').ToList() : new List<string>();
                             Console.WriteLine(sanpham + "-" + mauSac + "-" + ram + "-" + rom);
                             Console.WriteLine();
 
@@ -261,6 +270,9 @@ namespace App_View.Areas.Admin.Controllers
                                 !string.IsNullOrEmpty(manHinh) &&
                                 !string.IsNullOrEmpty(pin) &&
                                 !string.IsNullOrEmpty(theNho) &&
+                                !string.IsNullOrEmpty(theSim) &&
+                                !string.IsNullOrEmpty(cameraTruoc) &&
+                                !string.IsNullOrEmpty(cameraSau) &&
                                 !string.IsNullOrEmpty(mauSac) &&
                                 mauSac.Length > 2 &&
                                 !string.IsNullOrEmpty(ram) &&
@@ -283,6 +295,9 @@ namespace App_View.Areas.Admin.Controllers
                                     MauSac = mauSac,
                                     SanPham = sanpham,
                                     TheNho = theNho,
+                                    TheSim = theSim,
+                                    CameraTruoc = cameraTruoc,
+                                    CameraSau = cameraSau,
                                     Hang = hang,
                                     Ram = ram,
                                     Rom = rom
@@ -300,6 +315,9 @@ namespace App_View.Areas.Admin.Controllers
                                         ManHinh = manHinh,
                                         Pin = pin,
                                         TheNho = theNho,
+                                        TheSim = theSim,
+                                        CameraTruoc = cameraTruoc,
+                                        CameraSau = cameraSau,
                                         MauSac = mauSac,
                                         Ram = ram,
                                         Rom = rom,
@@ -375,6 +393,9 @@ namespace App_View.Areas.Admin.Controllers
                                                 ManHinh = manHinh,
                                                 Pin = pin,
                                                 TheNho = theNho,
+                                                TheSim = theSim,
+                                                CameraTruoc = cameraTruoc,
+                                                CameraSau = cameraSau,
                                                 MauSac = mauSac,
                                                 Ram = ram,
                                                 Rom = rom,
@@ -405,6 +426,9 @@ namespace App_View.Areas.Admin.Controllers
                                             ManHinh = manHinh,
                                             Pin = pin,
                                             TheNho = theNho,
+                                            TheSim = theSim,
+                                            CameraTruoc = cameraTruoc,
+                                            CameraSau = cameraSau,
                                             MauSac = mauSac,
                                             Ram = ram,
                                             Rom = rom,
@@ -435,6 +459,9 @@ namespace App_View.Areas.Admin.Controllers
                                     ManHinh = manHinh,
                                     Pin = pin,
                                     TheNho = theNho,
+                                    TheSim = theSim,
+                                    CameraTruoc = cameraTruoc,
+                                    CameraSau = cameraSau,
                                     MauSac = mauSac,
                                     Ram = ram,
                                     Rom = rom,
@@ -467,6 +494,9 @@ namespace App_View.Areas.Admin.Controllers
                         ManHinh = manHinh,
                         Pin = pin,
                         TheNho = theNho,
+                        TheSim = theSim,
+                        CameraTruoc = cameraTruoc,
+                        CameraSau = cameraSau,
                         MauSac = mauSac,
                         Ram = ram,
                         Rom = rom,
@@ -503,18 +533,21 @@ namespace App_View.Areas.Admin.Controllers
                     errorWorksheet.Cells[1, 5].Value = "Màn hình*";
                     errorWorksheet.Cells[1, 6].Value = "Pin*";
                     errorWorksheet.Cells[1, 7].Value = "Thẻ nhớ*";
-                    errorWorksheet.Cells[1, 8].Value = "Màu sắc*";
-                    errorWorksheet.Cells[1, 9].Value = "Ram*";
-                    errorWorksheet.Cells[1, 10].Value = "Rom*";
-                    errorWorksheet.Cells[1, 11].Value = "Giá nhập*";
-                    errorWorksheet.Cells[1, 12].Value = "Giá bán*";
-                    errorWorksheet.Cells[1, 13].Value = "Số lượng*";
-                    errorWorksheet.Cells[1, 14].Value = "Khối lượng*";
-                    errorWorksheet.Cells[1, 15].Value = "Nổi bật*";
-                    errorWorksheet.Cells[1, 16].Value = "Được áp dụng khuyển mại*";
-                    errorWorksheet.Cells[1, 17].Value = "Mô tả";
-                    errorWorksheet.Cells[1, 18].Value = "Ảnh*";
-                    errorWorksheet.Cells[1, 19].Value = "Mô tả lỗi";
+                    errorWorksheet.Cells[1, 8].Value = "Thẻ Sim*";
+                    errorWorksheet.Cells[1, 9].Value = "Camera Trước*";
+                    errorWorksheet.Cells[1, 10].Value = "Camera Sau*";
+                    errorWorksheet.Cells[1, 11].Value = "Màu sắc*";
+                    errorWorksheet.Cells[1, 12].Value = "Ram*";
+                    errorWorksheet.Cells[1, 13].Value = "Rom*";
+                    errorWorksheet.Cells[1, 14].Value = "Giá nhập*";
+                    errorWorksheet.Cells[1, 15].Value = "Giá bán*";
+                    errorWorksheet.Cells[1, 16].Value = "Số lượng*";
+                    errorWorksheet.Cells[1, 17].Value = "Khối lượng*";
+                    errorWorksheet.Cells[1, 18].Value = "Nổi bật*";
+                    errorWorksheet.Cells[1, 19].Value = "Được áp dụng khuyển mại*";
+                    errorWorksheet.Cells[1, 20].Value = "Mô tả";
+                    errorWorksheet.Cells[1, 21].Value = "Ảnh*";
+                    errorWorksheet.Cells[1, 22].Value = "Mô tả lỗi";
 
                     for (int i = 0; i < errorRows.Count; i++)
                     {
@@ -527,18 +560,21 @@ namespace App_View.Areas.Admin.Controllers
                         errorWorksheet.Cells[i + 2, 5].Value = errorRow.ManHinh;
                         errorWorksheet.Cells[i + 2, 6].Value = errorRow.Pin;
                         errorWorksheet.Cells[i + 2, 7].Value = errorRow.TheNho;
-                        errorWorksheet.Cells[i + 2, 8].Value = errorRow.MauSac;
-                        errorWorksheet.Cells[i + 2, 9].Value = errorRow.Ram;
-                        errorWorksheet.Cells[i + 2, 10].Value = errorRow.Rom;
-                        errorWorksheet.Cells[i + 2, 11].Value = errorRow.GiaNhap;
-                        errorWorksheet.Cells[i + 2, 12].Value = errorRow.GiaBan;
-                        errorWorksheet.Cells[i + 2, 13].Value = errorRow.SoLuong;
-                        errorWorksheet.Cells[i + 2, 14].Value = errorRow.KhoiLuong;
-                        errorWorksheet.Cells[i + 2, 15].Value = errorRow.NoiBat;
-                        errorWorksheet.Cells[i + 2, 16].Value = errorRow.TrangThaiSale;
-                        errorWorksheet.Cells[i + 2, 17].Value = errorRow.MoTa;
-                        errorWorksheet.Cells[i + 2, 18].Value = errorRow.ListTenAnh;
-                        errorWorksheet.Cells[i + 2, 19].Value = errorRow.ErrorMessage;
+                        errorWorksheet.Cells[i + 2, 8].Value = errorRow.TheSim;
+                        errorWorksheet.Cells[i + 2, 9].Value = errorRow.CameraTruoc;
+                        errorWorksheet.Cells[i + 2, 10].Value = errorRow.CameraSau;
+                        errorWorksheet.Cells[i + 2, 11].Value = errorRow.MauSac;
+                        errorWorksheet.Cells[i + 2, 12].Value = errorRow.Ram;
+                        errorWorksheet.Cells[i + 2, 13].Value = errorRow.Rom;
+                        errorWorksheet.Cells[i + 2, 14].Value = errorRow.GiaNhap;
+                        errorWorksheet.Cells[i + 2, 15].Value = errorRow.GiaBan;
+                        errorWorksheet.Cells[i + 2, 16].Value = errorRow.SoLuong;
+                        errorWorksheet.Cells[i + 2, 17].Value = errorRow.KhoiLuong;
+                        errorWorksheet.Cells[i + 2, 18].Value = errorRow.NoiBat;
+                        errorWorksheet.Cells[i + 2, 19].Value = errorRow.TrangThaiSale;
+                        errorWorksheet.Cells[i + 2, 20].Value = errorRow.MoTa;
+                        errorWorksheet.Cells[i + 2, 21].Value = errorRow.ListTenAnh;
+                        errorWorksheet.Cells[i + 2, 22].Value = errorRow.ErrorMessage;
                     }
 
                     var errorBytes = errorPackage.GetAsByteArray();
@@ -672,19 +708,22 @@ namespace App_View.Areas.Admin.Controllers
                 worksheet.Cells[1, 6].Value = "Màn hình";
                 worksheet.Cells[1, 7].Value = "Pin";
                 worksheet.Cells[1, 8].Value = "Thẻ nhớ";
-                worksheet.Cells[1, 9].Value = "Màu sắc";
-                worksheet.Cells[1, 10].Value = "Ram";
-                worksheet.Cells[1, 11].Value = "Rom";
-                worksheet.Cells[1, 12].Value = "Giá nhập";
-                worksheet.Cells[1, 13].Value = "Giá bán";
-                worksheet.Cells[1, 14].Value = "Được áp dụng khuyến mại(True/False)";
-                worksheet.Cells[1, 15].Value = "Hiển thị ở danh sách nổi bật(True/False)";
-                worksheet.Cells[1, 16].Value = "Số lượng";
-                worksheet.Cells[1, 17].Value = "Số lượng đã bán";
-                worksheet.Cells[1, 18].Value = "Khối lượng(g)";
-                worksheet.Cells[1, 19].Value = "Ngày tạo";
-                worksheet.Cells[1, 20].Value = "Mô tả";
-                worksheet.Cells[1, 21].Value = "Danh sách ảnh";
+                worksheet.Cells[1, 9].Value = "Thẻ sim";
+                worksheet.Cells[1, 10].Value = "Camera Trước";
+                worksheet.Cells[1, 11].Value = "Camera Sau";
+                worksheet.Cells[1, 12].Value = "Màu sắc";
+                worksheet.Cells[1, 13].Value = "Ram";
+                worksheet.Cells[1, 14].Value = "Rom";
+                worksheet.Cells[1, 15].Value = "Giá nhập";
+                worksheet.Cells[1, 16].Value = "Giá bán";
+                worksheet.Cells[1, 17].Value = "Được áp dụng khuyến mại(True/False)";
+                worksheet.Cells[1, 18].Value = "Hiển thị ở danh sách nổi bật(True/False)";
+                worksheet.Cells[1, 19].Value = "Số lượng";
+                worksheet.Cells[1, 20].Value = "Số lượng đã bán";
+                worksheet.Cells[1, 21].Value = "Khối lượng(g)";
+                worksheet.Cells[1, 22].Value = "Ngày tạo";
+                worksheet.Cells[1, 23].Value = "Mô tả";
+                worksheet.Cells[1, 24].Value = "Danh sách ảnh";
 
                 for (int i = 0; i < lstProduct.Count(); i++)
                 {
@@ -696,19 +735,22 @@ namespace App_View.Areas.Admin.Controllers
                     worksheet.Cells[i + 2, 6].Value = lstProduct[i].ManHinh;
                     worksheet.Cells[i + 2, 7].Value = lstProduct[i].Pin;
                     worksheet.Cells[i + 2, 8].Value = lstProduct[i].TheNho;
-                    worksheet.Cells[i + 2, 9].Value = lstProduct[i].MauSac;
-                    worksheet.Cells[i + 2, 10].Value = lstProduct[i].Ram;
-                    worksheet.Cells[i + 2, 11].Value = lstProduct[i].Rom;
-                    worksheet.Cells[i + 2, 12].Value = lstProduct[i].GiaNhap;
-                    worksheet.Cells[i + 2, 13].Value = lstProduct[i].GiaBan;
-                    worksheet.Cells[i + 2, 14].Value = lstProduct[i].TrangThaiKhuyenMai;
-                    worksheet.Cells[i + 2, 15].Value = lstProduct[i].NoiBat;
-                    worksheet.Cells[i + 2, 16].Value = lstProduct[i].SoLuongTon;
-                    worksheet.Cells[i + 2, 17].Value = lstProduct[i].SoLuongDaBan;
-                    worksheet.Cells[i + 2, 18].Value = lstProduct[i].KhoiLuong;
-                    worksheet.Cells[i + 2, 19].Value = lstProduct[i].NgayTao;
-                    worksheet.Cells[i + 2, 20].Value = lstProduct[i].MoTa;
-                    worksheet.Cells[i + 2, 21].Value = lstProduct[i].DanhSachAnh;
+                    worksheet.Cells[i + 2, 9].Value = lstProduct[i].TheSim;
+                    worksheet.Cells[i + 2, 10].Value = lstProduct[i].CameraTruoc;
+                    worksheet.Cells[i + 2, 11].Value = lstProduct[i].CameraSau;
+                    worksheet.Cells[i + 2, 12].Value = lstProduct[i].MauSac;
+                    worksheet.Cells[i + 2, 13].Value = lstProduct[i].Ram;
+                    worksheet.Cells[i + 2, 14].Value = lstProduct[i].Rom;
+                    worksheet.Cells[i + 2, 15].Value = lstProduct[i].GiaNhap;
+                    worksheet.Cells[i + 2, 16].Value = lstProduct[i].GiaBan;
+                    worksheet.Cells[i + 2, 17].Value = lstProduct[i].TrangThaiKhuyenMai;
+                    worksheet.Cells[i + 2, 18].Value = lstProduct[i].NoiBat;
+                    worksheet.Cells[i + 2, 19].Value = lstProduct[i].SoLuongTon;
+                    worksheet.Cells[i + 2, 20].Value = lstProduct[i].SoLuongDaBan;
+                    worksheet.Cells[i + 2, 21].Value = lstProduct[i].KhoiLuong;
+                    worksheet.Cells[i + 2, 22].Value = lstProduct[i].NgayTao;
+                    worksheet.Cells[i + 2, 23].Value = lstProduct[i].MoTa;
+                    worksheet.Cells[i + 2, 24].Value = lstProduct[i].DanhSachAnh;
                 }
 
                 byte[] excelBytes = package.GetAsByteArray();
@@ -742,19 +784,22 @@ namespace App_View.Areas.Admin.Controllers
                 worksheet.Cells[1, 6].Value = "Màn hình";
                 worksheet.Cells[1, 7].Value = "Pin";
                 worksheet.Cells[1, 8].Value = "Thẻ nhớ";
-                worksheet.Cells[1, 9].Value = "Màu sắc";
-                worksheet.Cells[1, 10].Value = "Ram";
-                worksheet.Cells[1, 11].Value = "Rom";
-                worksheet.Cells[1, 12].Value = "Giá nhập";
-                worksheet.Cells[1, 13].Value = "Giá bán";
-                worksheet.Cells[1, 14].Value = "Được áp dụng khuyến mại(True/False)";
-                worksheet.Cells[1, 15].Value = "Hiển thị ở danh sách nổi bật(True/False)";
-                worksheet.Cells[1, 16].Value = "Số lượng";
-                worksheet.Cells[1, 17].Value = "Số lượng đã bán";
-                worksheet.Cells[1, 18].Value = "Khối lượng(g)";
-                worksheet.Cells[1, 19].Value = "Ngày tạo";
-                worksheet.Cells[1, 20].Value = "Mô tả";
-                worksheet.Cells[1, 21].Value = "Danh sách ảnh";
+                worksheet.Cells[1, 9].Value = "Thẻ sim";
+                worksheet.Cells[1, 10].Value = "Camera Trước";
+                worksheet.Cells[1, 11].Value = "Camera Sau";
+                worksheet.Cells[1, 12].Value = "Màu sắc";
+                worksheet.Cells[1, 13].Value = "Ram";
+                worksheet.Cells[1, 14].Value = "Rom";
+                worksheet.Cells[1, 15].Value = "Giá nhập";
+                worksheet.Cells[1, 16].Value = "Giá bán";
+                worksheet.Cells[1, 17].Value = "Được áp dụng khuyến mại(True/False)";
+                worksheet.Cells[1, 18].Value = "Hiển thị ở danh sách nổi bật(True/False)";
+                worksheet.Cells[1, 19].Value = "Số lượng";
+                worksheet.Cells[1, 20].Value = "Số lượng đã bán";
+                worksheet.Cells[1, 21].Value = "Khối lượng(g)";
+                worksheet.Cells[1, 22].Value = "Ngày tạo";
+                worksheet.Cells[1, 23].Value = "Mô tả";
+                worksheet.Cells[1, 24].Value = "Danh sách ảnh";
 
                 for (int i = 0; i < lstProduct.Count(); i++)
                 {
@@ -766,19 +811,22 @@ namespace App_View.Areas.Admin.Controllers
                     worksheet.Cells[i + 2, 6].Value = lstProduct[i].ManHinh;
                     worksheet.Cells[i + 2, 7].Value = lstProduct[i].Pin;
                     worksheet.Cells[i + 2, 8].Value = lstProduct[i].TheNho;
-                    worksheet.Cells[i + 2, 9].Value = lstProduct[i].MauSac;
-                    worksheet.Cells[i + 2, 10].Value = lstProduct[i].Ram;
-                    worksheet.Cells[i + 2, 11].Value = lstProduct[i].Rom;
-                    worksheet.Cells[i + 2, 12].Value = lstProduct[i].GiaNhap;
-                    worksheet.Cells[i + 2, 13].Value = lstProduct[i].GiaBan;
-                    worksheet.Cells[i + 2, 14].Value = lstProduct[i].TrangThaiKhuyenMai;
-                    worksheet.Cells[i + 2, 15].Value = lstProduct[i].NoiBat;
-                    worksheet.Cells[i + 2, 16].Value = lstProduct[i].SoLuongTon;
-                    worksheet.Cells[i + 2, 17].Value = lstProduct[i].SoLuongDaBan;
-                    worksheet.Cells[i + 2, 18].Value = lstProduct[i].KhoiLuong;
-                    worksheet.Cells[i + 2, 19].Value = lstProduct[i].NgayTao;
-                    worksheet.Cells[i + 2, 20].Value = lstProduct[i].MoTa;
-                    worksheet.Cells[i + 2, 21].Value = lstProduct[i].DanhSachAnh;
+                    worksheet.Cells[i + 2, 9].Value = lstProduct[i].TheSim;
+                    worksheet.Cells[i + 2, 10].Value = lstProduct[i].CameraTruoc;
+                    worksheet.Cells[i + 2, 11].Value = lstProduct[i].CameraSau;
+                    worksheet.Cells[i + 2, 12].Value = lstProduct[i].MauSac;
+                    worksheet.Cells[i + 2, 13].Value = lstProduct[i].Ram;
+                    worksheet.Cells[i + 2, 14].Value = lstProduct[i].Rom;
+                    worksheet.Cells[i + 2, 15].Value = lstProduct[i].GiaNhap;
+                    worksheet.Cells[i + 2, 16].Value = lstProduct[i].GiaBan;
+                    worksheet.Cells[i + 2, 17].Value = lstProduct[i].TrangThaiKhuyenMai;
+                    worksheet.Cells[i + 2, 18].Value = lstProduct[i].NoiBat;
+                    worksheet.Cells[i + 2, 19].Value = lstProduct[i].SoLuongTon;
+                    worksheet.Cells[i + 2, 20].Value = lstProduct[i].SoLuongDaBan;
+                    worksheet.Cells[i + 2, 21].Value = lstProduct[i].KhoiLuong;
+                    worksheet.Cells[i + 2, 22].Value = lstProduct[i].NgayTao;
+                    worksheet.Cells[i + 2, 23].Value = lstProduct[i].MoTa;
+                    worksheet.Cells[i + 2, 24].Value = lstProduct[i].DanhSachAnh;
                 }
 
                 byte[] excelBytes = package.GetAsByteArray();

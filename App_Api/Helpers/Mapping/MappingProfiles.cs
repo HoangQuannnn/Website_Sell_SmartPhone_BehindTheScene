@@ -163,6 +163,10 @@ namespace App_Api.Helpers.Mapping
                         dest => dest.SanPham,
                         opt => opt.MapFrom(src => src.SanPham.TenSanPham)
                 )
+                  .ForMember(
+                    dest => dest.KhoiLuong,
+                    opt => opt.MapFrom(src => src.KhoiLuong)
+                )
                 .ForMember(
                         dest => dest.Hang,
                         opt => opt.MapFrom(src => src.Hang.TenHang)
@@ -171,6 +175,27 @@ namespace App_Api.Helpers.Mapping
                         dest => dest.TheNho,
                         opt => opt.MapFrom(src => $"{src.TheNho.LoaiTheNho}")
                     )
+                  .ForMember(
+    dest => dest.TheSim,
+    opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.TheSim.LoaiTheSim2) ? $"{src.TheSim.LoaiTheSim1} - {src.TheSim.LoaiTheSim2}" : src.TheSim.LoaiTheSim1)
+)
+
+
+.ForMember(
+    dest => dest.CameraTruoc,
+    opt => opt.MapFrom(src =>
+        !string.IsNullOrEmpty(src.CameraTruoc.DoPhanGiaiCamera2) ?
+        $"{src.CameraTruoc.DoPhanGiaiCamera1} - {src.CameraTruoc.DoPhanGiaiCamera2}" :
+        src.CameraTruoc.DoPhanGiaiCamera1
+    )
+)
+
+
+
+.ForMember(
+    dest => dest.CameraSau,
+    opt => opt.MapFrom(src => GetCameraSauResolution(src))
+)
                 .ForMember(
                         dest => dest.Ram,
                         opt => opt.MapFrom(src => src.Ram.DungLuong)

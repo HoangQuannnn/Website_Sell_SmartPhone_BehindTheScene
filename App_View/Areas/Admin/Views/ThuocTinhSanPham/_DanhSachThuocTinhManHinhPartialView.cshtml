@@ -128,7 +128,7 @@
 
     function Edit(id, kichThuoc, loaiManHinh, tanSoQuet, soBienTheDangDung, trangThai) {
         Swal.fire({
-            title: 'Chỉnh sửa TheSim',
+            title: 'Chỉnh sửa Màn Hình',
             html:
                 '<input id="loaiManHinh" class="swal2-input" value="' + loaiManHinh + '" placeholder="Loại màn hình">' +
                 '<input id="kichThuoc" class="swal2-input" value="' + kichThuoc + '" placeholder="Kích thước">' +
@@ -164,8 +164,8 @@
                             var data = {
                                 IdManHinh: id,
                                 LoaiManHinh: enteredValue,
-                                tanSoQuet: enteredValue1,
-                                kichThuoc: enteredValue2,
+                                KichThuoc: enteredValue1,
+                                TanSoQuet: enteredValue2,
                                 TrangThai: trangThaiValue
                             };
                             $.ajax({

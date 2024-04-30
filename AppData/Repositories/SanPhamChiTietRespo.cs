@@ -877,6 +877,7 @@ namespace App_Data.Repositories
                         IdTheSim = Guid.NewGuid().ToString(),
                         MaTheSim = !_context.TheSims.Any() ? "TS1" : "TS" + (_context.TheSims.Count() + 1),
                         LoaiTheSim1 = bienTheDTO.TheSim.Trim(),
+                        LoaiTheSim2 = "",
                         TrangThai = 0
                     };
                     await _context.TheSims.AddAsync(theSim);
@@ -891,6 +892,7 @@ namespace App_Data.Repositories
                         IdCameraTruoc = Guid.NewGuid().ToString(),
                         MaCameraTruoc = !_context.CameraTruocs.Any() ? "CAMT1" : "CAMT" + (_context.CameraTruocs.Count() + 1),
                         DoPhanGiaiCamera1 = bienTheDTO.CameraTruoc.Trim(),
+                        DoPhanGiaiCamera2 = "",
                         TrangThai = 0
                     };
                     await _context.CameraTruocs.AddAsync(cameraTruoc);
@@ -906,6 +908,10 @@ namespace App_Data.Repositories
                         IdCameraSau = Guid.NewGuid().ToString(),
                         MaCameraSau = !_context.CameraSaus.Any() ? "CAMS1" : "CAMS" + (_context.CameraSaus.Count() + 1),
                         DoPhanGiaiCamera1 = bienTheDTO.CameraSau.Trim(),
+                        DoPhanGiaiCamera2 = "",
+                        DoPhanGiaiCamera3 = "",
+                        DoPhanGiaiCamera4 = "",
+                        DoPhanGiaiCamera5 = "",
                         TrangThai = 0
                     };
                     await _context.CameraSaus.AddAsync(cameraSau);
@@ -998,6 +1004,9 @@ namespace App_Data.Repositories
                     IdChip = chip.IdChip,
                     IdCongSac = congSac.IdCongSac,
                     IdTheNho = theNho.IdTheNho,
+                    IdTheSim = theSim.IdTheSim,
+                    IdCameraTruoc = cameraTruoc.IdCameraTruoc,
+                    IdCameraSau = cameraSau.IdCameraSau,
                     IdHang = hang.IdHang,
                     IdRom = rom.IdRom,
                     IdRam = ram.IdRam

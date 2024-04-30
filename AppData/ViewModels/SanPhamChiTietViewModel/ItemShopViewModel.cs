@@ -17,6 +17,9 @@ namespace App_Data.ViewModels.SanPhamChiTietViewModel
         public string? RamRom { get; set; }
         public string? Ram { get; set; }
         public string? Rom { get; set; }
+        public string? CameraSau { get; set; }
+        public string? CameraTruoc { get; set; }
+        public string? TheSim { get; set; }
         public string? ManHinh { get; set; }
         public string? CongSac { get; set; }
         public string? Chip { get; set; }

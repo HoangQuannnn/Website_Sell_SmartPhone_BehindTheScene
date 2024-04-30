@@ -176,26 +176,25 @@ namespace App_Api.Helpers.Mapping
                         opt => opt.MapFrom(src => $"{src.TheNho.LoaiTheNho}")
                     )
                   .ForMember(
-    dest => dest.TheSim,
-    opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.TheSim.LoaiTheSim2) ? $"{src.TheSim.LoaiTheSim1} - {src.TheSim.LoaiTheSim2}" : src.TheSim.LoaiTheSim1)
-)
+                        dest => dest.TheSim,
+                        opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.TheSim.LoaiTheSim2) ? $"{src.TheSim.LoaiTheSim1} - {src.TheSim.LoaiTheSim2}" : src.TheSim.LoaiTheSim1)
+                    )
 
 
-.ForMember(
-    dest => dest.CameraTruoc,
-    opt => opt.MapFrom(src =>
-        !string.IsNullOrEmpty(src.CameraTruoc.DoPhanGiaiCamera2) ?
-        $"{src.CameraTruoc.DoPhanGiaiCamera1} - {src.CameraTruoc.DoPhanGiaiCamera2}" :
-        src.CameraTruoc.DoPhanGiaiCamera1
-    )
-)
+                .ForMember(
+                        dest => dest.CameraTruoc,
+                        opt => opt.MapFrom(src =>!string.IsNullOrEmpty(src.CameraTruoc.DoPhanGiaiCamera2) ?
+                            $"{src.CameraTruoc.DoPhanGiaiCamera1} - {src.CameraTruoc.DoPhanGiaiCamera2}" :
+                            src.CameraTruoc.DoPhanGiaiCamera1
+                            )
+                    )
 
 
 
-.ForMember(
-    dest => dest.CameraSau,
-    opt => opt.MapFrom(src => GetCameraSauResolution(src))
-)
+                .ForMember(
+                        dest => dest.CameraSau,
+                        opt => opt.MapFrom(src => GetCameraSauResolution(src))
+                    )
                 .ForMember(
                         dest => dest.Ram,
                         opt => opt.MapFrom(src => src.Ram.DungLuong)
@@ -420,6 +419,20 @@ namespace App_Api.Helpers.Mapping
                         opt => opt.MapFrom(src => "Sản phẩm chính hãng")
                     )
                 .ForMember(
+                        dest => dest.TheSim,
+                        opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.TheSim.LoaiTheSim2) ? $"{src.TheSim.LoaiTheSim1} - {src.TheSim.LoaiTheSim2}" : src.TheSim.LoaiTheSim1)
+                    )
+                .ForMember(
+                        dest => dest.CameraTruoc,
+                        opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.CameraTruoc.DoPhanGiaiCamera2) ?
+                            $"{src.CameraTruoc.DoPhanGiaiCamera1} - {src.CameraTruoc.DoPhanGiaiCamera2}" :
+                            src.CameraTruoc.DoPhanGiaiCamera1)
+                    )
+                .ForMember(
+                        dest => dest.CameraSau,
+                        opt => opt.MapFrom(src => GetCameraSauResolution(src))
+                    )
+                .ForMember(
                         dest => dest.Ram,
                         opt => opt.MapFrom(src => src.Ram.DungLuong)
                     )
@@ -544,6 +557,20 @@ namespace App_Api.Helpers.Mapping
                  .ForMember(
                         dest => dest.DanhSachAnh,
                         opt => opt.MapFrom(src => src.Anh.Where(x => x.TrangThai == 0).OrderBy(x => x.NgayTao).Select(a => a.Url).ToList())
+                    )
+                 .ForMember(
+                        dest => dest.TheSim,
+                        opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.TheSim.LoaiTheSim2) ? $"{src.TheSim.LoaiTheSim1} - {src.TheSim.LoaiTheSim2}" : src.TheSim.LoaiTheSim1)
+                    )
+                .ForMember(
+                        dest => dest.CameraTruoc,
+                        opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.CameraTruoc.DoPhanGiaiCamera2) ?
+                            $"{src.CameraTruoc.DoPhanGiaiCamera1} - {src.CameraTruoc.DoPhanGiaiCamera2}" :
+                            src.CameraTruoc.DoPhanGiaiCamera1)
+                    )
+                .ForMember(
+                        dest => dest.CameraSau,
+                        opt => opt.MapFrom(src => GetCameraSauResolution(src))
                     )
                  .ForMember(
                         dest => dest.MauSac,

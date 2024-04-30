@@ -522,6 +522,9 @@ namespace App_Data.Repositories
                    .Include(x => x.Ram)
                    .Include(x => x.Hang)
                    .Include(x => x.Pin)
+                   .Include(x => x.CameraSau)
+                   .Include(x => x.CameraTruoc)
+                   .Include(x => x.TheSim)
                    .Include(x => x.ManHinh)
                    .Include(x => x.Chip)
                    .Include(x => x.CongSac)
@@ -542,6 +545,9 @@ namespace App_Data.Repositories
                 sp.IdManHinh == sanPhamChiTiet.IdManHinh &&
                 sp.IdCongSac == sanPhamChiTiet.IdCongSac &&
                 sp.IdTheNho == sanPhamChiTiet.IdTheNho &&
+                sp.IdCameraSau == sanPhamChiTiet.IdCameraSau &&
+                sp.IdCameraTruoc == sanPhamChiTiet.IdCameraTruoc &&
+                sp.IdTheSim == sanPhamChiTiet.IdTheSim &&
                 sp.IdSanPham == sanPhamChiTiet.IdSanPham
                 ).ToListAsync();
             itemDetailViewModel.LstMauSac = lstBienThe.Select(x => x.MauSac.TenMauSac).Distinct().ToList()!;
@@ -573,6 +579,9 @@ namespace App_Data.Repositories
                     sp.IdCongSac == sanPhamGet.IdCongSac &&
                     sp.IdChip == sanPhamGet.IdChip &&
                     sp.IdPin == sanPhamGet.IdPin &&
+                    sp.IdCameraSau == sanPhamGet.IdCameraSau &&
+                    sp.IdCameraTruoc == sanPhamGet.IdCameraTruoc &&
+                    sp.IdTheSim == sanPhamGet.IdTheSim &&
                     sp.IdTheNho == sanPhamGet.IdTheNho &&
                     sp.IdSanPham == sanPhamGet.IdSanPham &&
                     sp.IdMauSac == idMauSac
@@ -585,6 +594,9 @@ namespace App_Data.Repositories
                 .Include(x => x.CongSac)
                 .Include(x => x.Chip)
                 .Include(x => x.Pin)
+                .Include(x => x.CameraSau)
+                .Include(x => x.CameraTruoc)
+                .Include(x => x.TheSim)
                 .Include(x => x.TheNho)
                 .Include(x => x.Anh);
 
@@ -624,6 +636,9 @@ namespace App_Data.Repositories
                 sp.IdTheNho == sanPhamGet.IdTheNho &&
                 sp.IdCongSac == sanPhamGet.IdCongSac &&
                 sp.IdSanPham == sanPhamGet.IdSanPham &&
+                sp.IdCameraSau == sanPhamGet.IdCameraSau &&
+                sp.IdCameraTruoc == sanPhamGet.IdCameraTruoc &&
+                sp.IdTheSim == sanPhamGet.IdTheSim &&
                 sp.IdChip == sanPhamGet.IdChip &&
                 sp.IdHang == sanPhamGet.IdHang &&
                 sp.IdRam == sanPhamGet.IdRam &&
@@ -634,6 +649,9 @@ namespace App_Data.Repositories
                 Include(x => x.ManHinh).
                 Include(x => x.CongSac).
                 Include(x => x.Pin).
+                Include(x => x.CameraSau).
+                Include(x => x.CameraTruoc).
+                Include(x => x.TheSim).
                 Include(x => x.TheNho).
                 Include(x => x.Chip).
                 Include(x => x.Ram).
@@ -652,6 +670,9 @@ namespace App_Data.Repositories
                 sp.IdManHinh == sanPhamGet!.IdManHinh &&
                 sp.IdMauSac == sanPhamGet.IdMauSac &&
                 sp.IdPin == sanPhamGet.IdPin &&
+                sp.IdCameraSau == sanPhamGet.IdCameraSau &&
+                sp.IdCameraTruoc == sanPhamGet.IdCameraTruoc &&
+                sp.IdTheSim == sanPhamGet.IdTheSim &&
                 sp.IdTheNho == sanPhamGet.IdTheNho &&
                 sp.IdCongSac == sanPhamGet.IdCongSac &&
                 sp.IdSanPham == sanPhamGet.IdSanPham &&
@@ -665,6 +686,9 @@ namespace App_Data.Repositories
                 Include(x => x.ManHinh).
                 Include(x => x.CongSac).
                 Include(x => x.Pin).
+                Include(x => x.CameraSau).
+                Include(x => x.CameraTruoc).
+                Include(x => x.TheSim).
                 Include(x => x.TheNho).
                 Include(x => x.Chip).
                 Include(x => x.Ram).

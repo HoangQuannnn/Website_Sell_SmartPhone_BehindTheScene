@@ -479,11 +479,15 @@
     else
     {
         saleEndDate = new DateTime(0001, 01, 01);
-
     }
+
+    string formattedDate = saleEndDate?.ToString("yyyy-MM-dd");
+
+
+
 }
 <script>
-    let launchDate = new Date("@saleEndDate").getTime();
+    let launchDate = Date.parse("@formattedDate");
     let timer = setInterval(tick, 1000);
 
     function tick() {
@@ -500,7 +504,7 @@
             if (secs < 10) { secs = "0" + secs; }
             let _days = `${days}`;
             let _hours = `${hours}`;
-            let _mins= `${mins}`;
+            let _mins = `${mins}`;
             let _secs = `${secs}`;
             document.querySelector('.countdown_Day').innerText = _days;
             document.querySelector('.countdown_Hours').innerText = _hours;
@@ -508,4 +512,9 @@
             document.querySelector('.countdown_Secs').innerText = _secs;
         }
     }
+
+    console.log("@formattedDate");
+
+
+
 </script>

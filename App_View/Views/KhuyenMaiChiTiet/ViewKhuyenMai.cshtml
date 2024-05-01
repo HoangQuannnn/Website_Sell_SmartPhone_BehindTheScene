@@ -643,10 +643,12 @@
         saleEndDate = new DateTime(0001, 01, 01);
 
     }
+    string formattedDate = saleEndDate?.ToString("yyyy-MM-dd");
+
 }
 
 <script>
-    let launchDate = new Date("@saleEndDate").getTime();
+    let launchDate = Date.parse("@formattedDate");
     let timer = setInterval(tick, 1000);
 
     function tick() {
@@ -671,6 +673,8 @@
             document.querySelector('.countdown_Secs').innerText = _secs;
         }
     }
+
+    console.log("@formattedDate");
     function createCarouselController(carouselContainer) {
         const prevButton = carouselContainer.querySelector('[data-is-carousel-nav-button="prev"]');
         const nextButton = carouselContainer.querySelector('[data-is-carousel-nav-button="next"]');

@@ -432,7 +432,7 @@ namespace App_View.Controllers
             {
                 FullName = TenNguoiNhan,
                 OrderId = MaHd,
-                OrderInfo = "Thanh toán tại Bazazai Store",
+                OrderInfo = "Thanh toán tại BehindTheScene Store",
                 Amount = tien,
             };
             SessionServices.SetIPNToSession(HttpContext.Session, "IPN", model);
@@ -455,7 +455,7 @@ namespace App_View.Controllers
             var model = new PaymentInformationModel()
             {
                 Amount = tien,
-                OrderDescription = "Thanh toán tại Bazazai Store",
+                OrderDescription = "Thanh toán tại BehindTheScene Store",
                 OrderType = "200000",
             };
             var url =  _vnPayService.CreatePaymentUrl(model, HttpContext);

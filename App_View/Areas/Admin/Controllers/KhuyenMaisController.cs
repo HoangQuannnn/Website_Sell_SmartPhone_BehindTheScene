@@ -172,10 +172,10 @@ namespace App_View.Areas.Admin.Controllers
                     using var content = new MultipartFormDataContent();
                     content.Add(new StringContent($"{khuyenMai.LoaiHinhKM}"), "LoaiHinhKM");
                     content.Add(new StringContent($"{khuyenMai.MucGiam}"), "MucGiam");
-                    content.Add(new StringContent($"{khuyenMai.NgayKetThuc?.ToString("dd/MM/yyyy hh:mm:ss tt")}"), "NgayKetThuc");
+                    content.Add(new StringContent($"{khuyenMai.NgayKetThuc?.ToString("MM/dd/yyyy hh:mm:ss tt")}"), "NgayKetThuc");
                     content.Add(new StringContent($"{khuyenMai.TenKhuyenMai}"), "TenKhuyenMai");
                     content.Add(new StringContent($"{khuyenMai.IdKhuyenMai}"), "IdKhuyenMai");
-                    content.Add(new StringContent($"{khuyenMai.NgayBatDau?.ToString("dd/MM/yyyy hh:mm:ss tt")}"), "NgayBatDau");
+                    content.Add(new StringContent($"{khuyenMai.NgayBatDau?.ToString("MM/dd/yyyy hh:mm:ss tt")}"), "NgayBatDau");
                     content.Add(new StringContent("111"), "MaKhuyenMai");
                     content.Add(new StringContent($"{khuyenMai.TrangThai}"), "TrangThai");
                     if (formFile != null && formFile.Length > 0)
@@ -321,10 +321,10 @@ namespace App_View.Areas.Admin.Controllers
                 using var content = new MultipartFormDataContent();
                 content.Add(new StringContent($"{khuyenMai.LoaiHinhKM}"), "LoaiHinhKM");
                 content.Add(new StringContent($"{khuyenMai.MucGiam}"), "MucGiam");
-                content.Add(new StringContent($"{khuyenMai.NgayKetThuc?.ToString("dd/MM/yyyy hh:mm:ss tt")}"), "NgayKetThuc");
+                content.Add(new StringContent($"{khuyenMai.NgayKetThuc?.ToString("MM/dd/yyyy hh:mm:ss tt")}"), "NgayKetThuc");
                 content.Add(new StringContent($"{khuyenMai.TenKhuyenMai}"), "TenKhuyenMai");
                 content.Add(new StringContent($"{id}"), "IdKhuyenMai");
-                content.Add(new StringContent($"{khuyenMai.NgayBatDau?.ToString("dd/MM/yyyy hh:mm:ss tt")}"), "NgayBatDau");
+                content.Add(new StringContent($"{khuyenMai.NgayBatDau?.ToString("MM/dd/yyyy hh:mm:ss tt")}"), "NgayBatDau");
                 content.Add(new StringContent("111"), "MaKhuyenMai");
                 content.Add(new StringContent($"{khuyenMai.TrangThai}"), "TrangThai");
                 if (formFile != null && formFile.Length > 0)

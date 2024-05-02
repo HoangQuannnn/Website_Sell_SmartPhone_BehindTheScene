@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /App_View/wwwroot/images/VoucherNguoiDungQRCode
 /App_View/wwwroot/AnhSanPham
+/App_View/wwwroot/AnhSale
